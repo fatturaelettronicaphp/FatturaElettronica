@@ -1,0 +1,55 @@
+{
+    "name": "weble/FatturaElettronica",
+    "description": "",
+    "keywords": [
+        "spatie",
+        "FatturaElettronica"
+    ],
+    "homepage": "https://github.com/spatie/FatturaElettronica",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniele Rosario",
+            "email": "daniele@weble.it",
+            "homepage": "https://weble.it",
+            "role": "Developer"
+        },
+        {
+            "name": "Tobia Zanarella",
+            "email": "tobia.zanarella@shellrent.com",
+            "homepage": "https://www.shellrent.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "fpdf/fpdf": "^1.81",
+        "spatie/enum": "^1.0"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.0",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Weble\\FatturaElettronica\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Weble\\FatturaElettronica\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
