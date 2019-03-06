@@ -3,12 +3,24 @@
 
 namespace Weble\FatturaElettronica\Utilities;
 
-interface Arrayable
+
+trait Arrayable
 {
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray();
+    public function toArray (): array
+    {
+        $values = [];
+
+        $properties = (new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        foreach ($properties as $property) {
+            $value = $property->getValue($this);
+
+            if ($value instanceof ArrayableInterface) {
+                $value = $value->toArray();
+            }
+
+            $values[$property->getName()] = $value;
+        }
+
+        return $values;
+    }
 }
