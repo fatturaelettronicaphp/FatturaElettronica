@@ -18,7 +18,21 @@ composer require weble/FatturaElettronica
 ## Usage
 
 ``` php
-// Some code
+$documentParser = new DigitalDocumentParser($file); // filepath to xml or p7m file
+$digitalDocument = $documentParser->parse();
+
+$customer = $digitalDocument->getCustomer();
+$supplier = $digitalDocument->getSupplier();
+$documents = $digitalDocument->getDocumentInstances();
+...
+
+$customer->getOrganization();  // Same for supplier
+$customer->getVatNumber(); // Same for supplier
+...
+
+$documents[0]->getDocumentDate();
+$documents[0]->getDocumentNumber();
+...
 ```
 
 ### Testing
