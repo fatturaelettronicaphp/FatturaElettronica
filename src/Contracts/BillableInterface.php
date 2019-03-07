@@ -25,4 +25,16 @@ interface BillableInterface
     public function getFiscalCode ();
 
     public function setFiscalCode ($fiscalCode): Billable;
+
+    public function setTitle ($title): BillableInterface;
+
+    public function setEori ($eori): BillableInterface;
+
+    public function setCountryCode ($countryCode): BillableInterface;
+
+    public function getCountryCode ();
+
+    public function getTitle ();
+
+    public function getEori ();
 }

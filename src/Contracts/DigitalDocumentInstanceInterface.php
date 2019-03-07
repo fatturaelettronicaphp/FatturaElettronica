@@ -4,6 +4,7 @@ namespace Weble\FatturaElettronica\Contracts;
 
 use DateTime;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
+use Weble\FatturaElettronica\Enums\DocumentType;
 
 interface DigitalDocumentInstanceInterface
 {
@@ -11,7 +12,7 @@ interface DigitalDocumentInstanceInterface
 
     public function setDocumentDate ($documentDate, $format = null): DigitalDocumentInstanceInterface;
 
-    public function getDocumentType (): \Weble\FatturaElettronica\Enums\DocumentType;
+    public function getDocumentType (): DocumentType;
 
     public function setDocumentType ($documentType): DigitalDocumentInstanceInterface;
 

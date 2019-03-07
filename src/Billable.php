@@ -2,6 +2,7 @@
 
 namespace Weble\FatturaElettronica;
 
+use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
@@ -10,11 +11,75 @@ class Billable implements BillableInterface, ArrayableInterface
 {
     use Arrayable;
 
-    public $name;
-    public $vatNumber;
-    public $surname;
-    public $organization;
-    public $fiscalCode;
+    protected $title;
+    protected $eori;
+    protected $name;
+    protected $surname;
+    protected $organization;
+    protected $countryCode;
+    protected $vatNumber;
+    protected $fiscalCode;
+
+    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
+    protected $address;
+
+    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
+    protected $foreignFixedAddress;
+
+    public function getAddress (): AddressInterface
+    {
+        return $this->address;
+    }
+
+    public function setAddress (AddressInterface $address): Billable
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    public function getForeignFixedAddress (): AddressInterface
+    {
+        return $this->foreignFixedAddress;
+    }
+
+    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress): Billable
+    {
+        $this->foreignFixedAddress = $foreignFixedAddress;
+        return $this;
+    }
+
+    public function getTitle ()
+    {
+        return $this->title;
+    }
+
+    public function setTitle ($title): BillableInterface
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getEori ()
+    {
+        return $this->eori;
+    }
+
+    public function setEori ($eori): BillableInterface
+    {
+        $this->eori = $eori;
+        return $this;
+    }
+
+    public function getCountryCode ()
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode ($countryCode): BillableInterface
+    {
+        $this->countryCode = $countryCode;
+        return $this;
+    }
 
     public function getName ()
     {

@@ -21,6 +21,27 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var TransmissionFormat */
     protected $transmissionFormat;
 
+    /** @var string */
+    protected $countryCode;
+
+    /** @var string */
+    protected $senderVatId;
+
+    /** @var string */
+    protected $sendingId;
+
+    /** @var string */
+    protected $customerSdiCode;
+
+    /** @var string */
+    protected $senderPhone;
+
+    /** @var string */
+    protected $senderEmail;
+
+    /** @var string */
+    protected $customerPec;
+
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances;
 
@@ -33,6 +54,83 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function getDocumentInstances (): array
     {
         return $this->documentInstances;
+    }
+
+    public function getCountryCode (): string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode (string $countryCode): DigitalDocumentInterface
+    {
+        $this->countryCode = $countryCode;
+        return $this;
+    }
+
+    public function getCustomerSdiCode (): string
+    {
+        return $this->customerSdiCode;
+    }
+
+    public function setCustomerSdiCode (string $customerSdiCode): DigitalDocumentInterface
+    {
+        $this->customerSdiCode = $customerSdiCode;
+        return $this;
+    }
+
+    public function getSenderVatId (): string
+    {
+        return $this->senderVatId;
+    }
+
+    public function setSenderVatId (string $senderVatId): DigitalDocumentInterface
+    {
+        $this->senderVatId = $senderVatId;
+        return $this;
+    }
+
+    public function getSendingId (): string
+    {
+        return $this->sendingId;
+    }
+
+    public function setSendingId (string $sendingId): DigitalDocumentInterface
+    {
+        $this->sendingId = $sendingId;
+        return $this;
+    }
+
+    public function getSenderPhone (): string
+    {
+        return $this->senderPhone;
+    }
+
+    public function setSenderPhone (string $senderPhone): DigitalDocumentInterface
+    {
+        $this->senderPhone = $senderPhone;
+        return $this;
+    }
+
+    public function getSenderEmail (): string
+    {
+        return $this->senderEmail;
+    }
+
+    public function setSenderEmail (string $senderEmail): DigitalDocumentInterface
+    {
+        $this->senderEmail = $senderEmail;
+        return $this;
+    }
+
+    public function getCustomerPec (): string
+    {
+        return $this->customerPec;
+    }
+
+    public function setCustomerPec (string $customerPec): DigitalDocumentInterface
+    {
+        $this->customerPec = $customerPec;
+        return $this;
     }
 
     public function getCustomer (): BillableInterface

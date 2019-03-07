@@ -2,6 +2,8 @@
 
 namespace Weble\FatturaElettronica\Parser;
 
+use Weble\FatturaElettronica\Address;
+use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
@@ -38,6 +40,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
      * @var string
      */
     protected $xmlFilePath;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    protected $xml;
 
     /**
      * @var \Weble\FatturaElettronica\Enums\DocumentFormat
@@ -89,15 +96,15 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $this->extractDigitalDocumentInformations($digitalDocument, $simpleXml);
 
         $digitalDocument->setCustomer(
-            $this->extractCustomerInformations($simpleXml)
+            $this->extractCustomerInformations()
         );
 
         $digitalDocument->setSupplier(
-            $this->extractSupplierInformations($simpleXml)
+            $this->extractSupplierInformations()
         );
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $edocumentBody = $this->extractRowInformations($body);
+            $edocumentBody = $this->extractRowInformationsFrom($body);
             $digitalDocument->addDigitalDocumentInstance($edocumentBody);
         }
 
@@ -133,6 +140,10 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     public function xml (): SimpleXMLElement
     {
+        if ($this->xml !== null) {
+            return $this->xml;
+        }
+
         libxml_use_internal_errors(true);
         $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
 
@@ -140,7 +151,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             throw new InvalidXmlFile();
         }
 
-        return $simpleXml;
+        $this->xml = $simpleXml;
+
+        return $this->xml;
     }
 
     public function originalFilename ()
@@ -174,137 +187,186 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    public function extractCustomerInformations (SimpleXMLElement $simpleXml): BillableInterface
+    public function extractCustomerInformations (): BillableInterface
     {
         $customer = new Customer();
 
-        /* Cliente - Nome */
-        $customerName = $simpleXml->xpath('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Nome');
-        if (!empty($customerName) and isset($customerName[0])) {
-            $customer->setName($customerName[0]->__toString());
-        }
+        $customerName = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Nome');
+        $customer->setName($customerName);
 
-        /* Cliente - Cognome */
-        $customerSurname = $simpleXml->xpath('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Cognome');
-        if (!empty($customerSurname) and isset($customerSurname[0])) {
-            $customer->setSurname($customerSurname[0]->__toString());
-        }
+        $customerSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Cognome');
+        $customer->setSurname($customerSurname);
 
-        /* Cliente - Azienda */
-        $customerOrganization = $simpleXml->xpath('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Denominazione');
-        if (!empty($customerOrganization) and isset($customerOrganization[0])) {
-            $customer->setOrganization($customerOrganization[0]->__toString());
-        }
+        $customerOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Denominazione');
+        $customer->setOrganization($customerOrganization);
 
-        /* Cliente - Codice fiscale */
-        $customerFiscalCode = $simpleXml->xpath('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/CodiceFiscale');
-        if (empty($customerFiscalCode) or !isset($customerFiscalCode[0])) {
+        $customerFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/CodiceFiscale');
+        if ($customerFiscalCode === null) {
             $customerFiscalCode = '';
-
-        } else {
-            $customerFiscalCode = $customerFiscalCode[0]->__toString();
         }
-
         $customer->setFiscalCode($customerFiscalCode);
 
-        /* Cliente - Partita iva */
-        $customerVatNumber = $simpleXml->xpath('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        if (empty($customerVatNumber) or !isset($customerVatNumber[0])) {
+        $customerVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
+        if ($customerVatNumber === null) {
             $customerVatNumber = '';
-
-        } else {
-            $customerVatNumber = $customerVatNumber[0]->__toString();
         }
-
         $customer->setVatNumber($customerVatNumber);
 
         return $customer;
     }
 
-    public function extractSupplierInformations (SimpleXMLElement $simpleXml): BillableInterface
+    public function extractSupplierInformations (): BillableInterface
     {
         $supplier = new Supplier();
 
-        /* nome emittente */
-        $documentName = $simpleXml->xpath('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Nome');
-        if (!empty($documentName) and isset($documentName[0])) {
-            $supplier->setName($documentName[0]->__toString());
+        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Nome');
+        $supplier->setName($documentName);
+
+        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Cognome');
+        $supplier->setSurname($documentSurname);
+
+        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Denominazione');
+        $supplier->setOrganization($documentOrganization);
+
+        $documentFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/CodiceFiscale');
+        $supplier->setFiscalCode($documentFiscalCode);
+
+        $documentVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice');
+        if ($documentVatNumber === null) {
+            throw new InvalidXmlFile('Vat Number is required');
         }
 
-        /* cognome emittente */
-        $documentSurname = $simpleXml->xpath('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Cognome');
-        if (!empty($documentSurname) and isset($documentSurname[0])) {
-            $supplier->setSurname($documentSurname[0]->__toString());
+        $supplier->setVatNumber($documentVatNumber);
+
+        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Sede', false);
+        if ($addressValue !== null) {
+            $addressValue = array_shift($addressValue);
         }
 
-        /* ragione sociale emittente */
-        $documentOrganization = $simpleXml->xpath('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Denominazione');
-        if (!empty($documentOrganization) and isset($documentOrganization[0])) {
-            $supplier->setOrganization($documentOrganization[0]->__toString());
+        if ($addressValue !== null) {
+            $address = $this->extractAddressInformationFrom($addressValue);
+            $supplier->setAddress($address);
         }
 
-        /* codice fiscal emittente */
-        $documentFiscalCode = $simpleXml->xpath('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/CodiceFiscale');
-        if (!empty($documentFiscalCode) and isset($documentFiscalCode[0])) {
-            $supplier->setFiscalCode($documentFiscalCode[0]->__toString());
+        $addressValue =$this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/StabileOrganizzazione', false);
+        if ($addressValue !== null) {
+            $addressValue = array_shift($addressValue);
         }
 
-        /* partita iva emittente */
-        $documentVatNumber = $simpleXml->xpath('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        if (empty($documentVatNumber) or !isset($documentVatNumber[0])) {
-            throw new InvalidXmlFile('Edocument not found vat number');
+        if ($addressValue !== null) {
+            $address = $this->extractAddressInformationFrom($addressValue);
+            $supplier->setForeignFixedAddress($address);
         }
 
-        $supplier->setVatNumber($documentVatNumber[0]->__toString());
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/AlboProfessionale');
+        $supplier->setRegister($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/ProvinciaAlbo');
+        $supplier->setRegisterState($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/NumeroIscrizioneAlbo');
+        $supplier->setRegisterNumber($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/DataIscrizioneAlbo');
+        $supplier->setRegisterDate($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RegimeFiscale');
+        $supplier->setTaxRegime($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Telefono');
+        $supplier->setPhone($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Email');
+        $supplier->setEmail($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Fax');
+        $supplier->setFax($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RiferimentoAmministrazione');
+        $supplier->setAdministrativeContact($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/Ufficio');
+        $supplier->setReaOffice($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/NumeroREA');
+        $supplier->setReaNumber($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/CapitaleSociale');
+        $supplier->setCapital($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/SocioUnico');
+        $supplier->setAssociateType($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/StatoLiquidazione');
+        $supplier->setSettlementType($value);
 
         return $supplier;
     }
 
-    protected function extractRowInformations (SimpleXMLElement $body): DigitalDocumentInstanceInterface
+    protected function extractAddressInformationFrom (SimpleXMLElement $xml): AddressInterface
     {
-        $types = $body->xpath('DatiGenerali/DatiGeneraliDocumento/TipoDocumento');
-        if (empty($types) or !isset($types[0])) {
+        $address = new Address();
+
+        $value = $this->extractValueFromXmlElement($xml, 'Indirizzo');
+        $address->setStreet($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'NumeroCivico');
+        $address->setStreetNumber($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'CAP');
+        $address->setZip($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Comune');
+        $address->setCity($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Provincia');
+        $address->setState($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Nazione');
+        $address->setCountryCode($value);
+
+        return $address;
+    }
+
+    protected function extractRowInformationsFrom (SimpleXMLElement $body): DigitalDocumentInstanceInterface
+    {
+        $types = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/TipoDocumento');
+        if ($types === null) {
             throw new InvalidXmlFile('<TipoDocumento> not found');
         }
-        $type = DocumentType::from($types[0]->__toString());
+        $type = DocumentType::from($types);
 
-        $datas = $body->xpath('DatiGenerali/DatiGeneraliDocumento/Data');
-        if (empty($datas) or !isset($datas[0])) {
+        $datas = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Data');
+        if ($datas === null) {
             throw new InvalidXmlFile('<Data> not found');
         }
-        $data = new DateTime($datas[0]->__toString());
+        $data = new DateTime($datas);
 
-        $numbers = $body->xpath('DatiGenerali/DatiGeneraliDocumento/Numero');
-        if (empty($numbers) or !isset($numbers[0])) {
+        $number = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Numero');
+        if ($number === null) {
             throw new InvalidXmlFile('<Numero> not found');
         }
-        $number = $numbers[0]->__toString();
 
-        $documentTotals = $body->xpath('DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
-        if (!empty($documentTotals) and isset($documentTotals[0])) {
-            $documentTotal = $documentTotals[0]->__toString();
+        $documentTotal = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
 
-        } else {
-            $documentTotal = null;
-        }
-
-        $totals = $body->xpath('DatiBeniServizi/DatiRiepilogo');
+        $totals = $this->extractValueFromXmlElement($body, 'DatiBeniServizi/DatiRiepilogo', false);
         $amount = 0;
         $amountTax = 0;
-        foreach ($totals as $total) {
-            $totalAmounts = $total->xpath('ImponibileImporto');
-            $totalAmountTaxs = $total->xpath('Imposta');
 
-            if (empty($totalAmounts) or !isset($totalAmounts[0])) {
+        foreach ($totals as $total) {
+            $totalAmounts = $this->extractValueFromXmlElement($total, 'ImponibileImporto');
+            $totalAmountTaxs = $this->extractValueFromXmlElement($total, 'Imposta');
+
+            if ($totalAmounts === null) {
                 throw new InvalidXmlFile('<ImponibileImporto> not found');
             }
 
-            if (empty($totalAmountTaxs) or !isset($totalAmountTaxs[0])) {
+            if ($totalAmountTaxs === null) {
                 throw new InvalidXmlFile('<Imposta> not found');
             }
 
-            $amount += $totalAmounts[0]->__toString();
-            $amountTax += $totalAmountTaxs[0]->__toString();
+            $amount += $totalAmounts;
+            $amountTax += $totalAmountTaxs;
         }
 
         $digitalDocumentInstance = new DigitalDocumentInstance();
@@ -325,12 +387,56 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
      */
     protected function extractDigitalDocumentInformations (DigitalDocumentInterface $digitalDocument, SimpleXMLElement $simpleXml): void
     {
-        /* Cliente - Formato trasmissione */
-        $transmissionFormat = $simpleXml->xpath('//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione');
-        if (empty($transmissionFormat) or !isset($transmissionFormat[0])) {
-            throw new InvalidXmlFile('Edocument transmission format not found');
+        $transmissionFormat = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione');
+        if ($transmissionFormat === null) {
+            throw new InvalidXmlFile('Transmission Format not found');
         }
 
-        $digitalDocument->setTransmissionFormat($transmissionFormat[0]->__toString());
+        $digitalDocument->setTransmissionFormat($transmissionFormat);
+
+        $countryCode = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdPaese');
+        $digitalDocument->setCountryCode($countryCode);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdCodice');
+        $digitalDocument->setSenderVatId($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ProgressivoInvio');
+        $digitalDocument->setSendingId($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/CodiceDestinatario');
+        $digitalDocument->setCustomerSdiCode($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ContattiTrasmittente/Telefono');
+        $digitalDocument->setSenderPhone($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ContattiTrasmittente/Email');
+        $digitalDocument->setSenderEmail($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/PECDestinatario');
+        $digitalDocument->setCustomerPec($code);
+    }
+
+    protected function extractValueFromXml (string $xPath, $convertToString = true)
+    {
+        return $this->extractValueFromXmlElement($this->xml(), $xPath, $convertToString);
+    }
+
+    protected function extractValueFromXmlElement (SimpleXMLElement $xml, string $xPath, $convertToString = true)
+    {
+        $value = $xml->xpath($xPath);
+
+        if (empty($value)) {
+            return null;
+        }
+
+        if (count($value) <= 0) {
+            return null;
+        }
+
+        if ($convertToString) {
+            return $value[0]->__toString();
+        }
+
+        return $value;
     }
 }

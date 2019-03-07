@@ -10,9 +10,18 @@ trait Arrayable
     {
         $values = [];
 
-        $properties = (new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $properties = (new \ReflectionClass($this))->getProperties();
         foreach ($properties as $property) {
-            $value = $property->getValue($this);
+            $name = $property->getName();
+            $value = $this->$name;
+
+            if (is_array($value)) {
+                foreach ($value as &$v) {
+                    if ($v instanceof ArrayableInterface) {
+                        $v = $v->toArray();
+                    }
+                }
+            }
 
             if ($value instanceof ArrayableInterface) {
                 $value = $value->toArray();

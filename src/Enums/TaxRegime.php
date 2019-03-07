@@ -27,5 +27,8 @@ use Spatie\Enum\Enum;
  */
 class TaxRegime extends Enum
 {
-
+    public static function default ()
+    {
+        return self::RF01();
+    }
 }
