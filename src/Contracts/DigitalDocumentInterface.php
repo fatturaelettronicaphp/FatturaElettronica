@@ -17,9 +17,9 @@ interface DigitalDocumentInterface
 
     public function setCustomer (BillableInterface $customer): DigitalDocumentInterface;
 
-    public function getSupplier (): ?BillableInterface;
+    public function getSupplier (): ?SupplierInterface;
 
-    public function setSupplier (BillableInterface $supplier): DigitalDocumentInterface;
+    public function setSupplier (SupplierInterface $supplier): DigitalDocumentInterface;
 
     public function getTransmissionFormat (): TransmissionFormat;
 

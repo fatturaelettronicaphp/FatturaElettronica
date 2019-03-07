@@ -527,8 +527,10 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             $documentGeneralData->addChild('ImportoTotaleDocumento', $importoTotaleDocumento);
         }
 
-        if (!empty($instance->getDescription())) {
-            $documentGeneralData->addChild('Causale', SimpleXmlExtended::sanitizeText($instance->getDescription()));
+        if (!empty($instance->getDescriptions())) {
+            foreach ($instance->getDescriptions() as $description) {
+                $documentGeneralData->addChild('Causale', SimpleXmlExtended::sanitizeText($description));
+            }
         }
 
         if ($instance->isArt73()) {

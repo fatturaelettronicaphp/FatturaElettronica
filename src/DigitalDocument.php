@@ -4,6 +4,7 @@ namespace Weble\FatturaElettronica;
 
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
@@ -15,7 +16,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var BillableInterface */
     protected $customer;
 
-    /** @var BillableInterface */
+    /** @var SupplierInterface */
     protected $supplier;
 
     /** @var string */
@@ -186,12 +187,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSupplier (): ?BillableInterface
+    public function getSupplier (): ?SupplierInterface
     {
         return $this->supplier;
     }
 
-    public function setSupplier (BillableInterface $supplier): DigitalDocumentInterface
+    public function setSupplier (SupplierInterface $supplier): DigitalDocumentInterface
     {
         $this->supplier = $supplier;
         return $this;

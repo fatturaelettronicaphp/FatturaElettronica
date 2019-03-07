@@ -14,9 +14,9 @@ interface DigitalDocumentInstanceInterface
 
     public function setRounding (?float $rounding): DigitalDocumentInstanceInterface;
 
-    public function getDescription (): ?string;
+    public function getDescriptions (): array ;
 
-    public function setDescription (?string $description): DigitalDocumentInstanceInterface;
+    public function addDescription (string $description): DigitalDocumentInstanceInterface;
 
     public function getDocumentDate (): ?DateTime;
 

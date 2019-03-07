@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Test Suite" tests="2" assertions="9" errors="0" failures="0" skipped="0" time="0.051905">
-    <testsuite name="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" tests="1" assertions="7" errors="0" failures="0" skipped="0" time="0.028300">
-      <testcase name="can_read_p7m_invoice" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="14" assertions="7" time="0.028300"/>
+  <testsuite name="Test Suite" tests="3" assertions="38" errors="0" failures="0" skipped="0" time="0.048122">
+    <testsuite name="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" tests="2" assertions="36" errors="0" failures="0" skipped="0" time="0.026831">
+      <testcase name="can_read_p7m_invoice" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="14" assertions="7" time="0.025951"/>
+      <testcase name="can_read_xml_invoice" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="34" assertions="29" time="0.000880"/>
     </testsuite>
-    <testsuite name="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.023605">
-      <testcase name="can_write_xml_invoice" class="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" line="15" assertions="2" time="0.023605"/>
+    <testsuite name="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" tests="1" assertions="2" errors="0" failures="0" skipped="0" time="0.021291">
+      <testcase name="can_write_xml_invoice" class="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" line="15" assertions="2" time="0.021291"/>
     </testsuite>
   </testsuite>
 </testsuites>

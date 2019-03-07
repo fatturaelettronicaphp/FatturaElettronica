@@ -2,12 +2,13 @@
 
 namespace Weble\FatturaElettronica;
 
+use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TaxRegime;
 use Weble\FatturaElettronica\Enums\AssociateType;
 use Weble\FatturaElettronica\Enums\SettlementType;
 use DateTime;
 
-class Supplier extends Billable
+class Supplier extends Billable implements SupplierInterface
 {
     /** @var string */
     protected $register;
@@ -43,7 +44,7 @@ class Supplier extends Billable
         return $this->reaOffice;
     }
 
-    public function setReaOffice ($reaOffice): Supplier
+    public function setReaOffice ($reaOffice): SupplierInterface
     {
         $this->reaOffice = $reaOffice;
         return $this;
@@ -54,7 +55,7 @@ class Supplier extends Billable
         return $this->reaNumber;
     }
 
-    public function setReaNumber ($reaNumber): Supplier
+    public function setReaNumber ($reaNumber): SupplierInterface
     {
         $this->reaNumber = $reaNumber;
         return $this;
@@ -65,7 +66,7 @@ class Supplier extends Billable
         return $this->capital;
     }
 
-    public function setCapital ($capital): Supplier
+    public function setCapital ($capital): SupplierInterface
     {
         $this->capital = $capital;
         return $this;
@@ -76,7 +77,7 @@ class Supplier extends Billable
         return $this->associateType;
     }
 
-    public function setAssociateType ($associateType): Supplier
+    public function setAssociateType ($associateType): SupplierInterface
     {
         if ($associateType === null) {
             return $this;
@@ -95,7 +96,7 @@ class Supplier extends Billable
         return $this->settlementType;
     }
 
-    public function setSettlementType ($settlementType): Supplier
+    public function setSettlementType ($settlementType): SupplierInterface
     {
         if ($settlementType === null) {
             return $this;
@@ -113,7 +114,7 @@ class Supplier extends Billable
         return $this->administrativeContact;
     }
 
-    public function setAdministrativeContact ($administrativeContact): Supplier
+    public function setAdministrativeContact ($administrativeContact): SupplierInterface
     {
         $this->administrativeContact = $administrativeContact;
         return $this;
@@ -124,7 +125,7 @@ class Supplier extends Billable
         return $this->email;
     }
 
-    public function setEmail ($email): Supplier
+    public function setEmail ($email): SupplierInterface
     {
         $this->email = $email;
         return $this;
@@ -135,7 +136,7 @@ class Supplier extends Billable
         return $this->phone;
     }
 
-    public function setPhone ($phone): Supplier
+    public function setPhone ($phone): SupplierInterface
     {
         $this->phone = $phone;
         return $this;
@@ -146,7 +147,7 @@ class Supplier extends Billable
         return $this->fax;
     }
 
-    public function setFax ($fax): Supplier
+    public function setFax ($fax): SupplierInterface
     {
         $this->fax = $fax;
         return $this;
@@ -157,7 +158,7 @@ class Supplier extends Billable
         return $this->register;
     }
 
-    public function setRegister ($register): Supplier
+    public function setRegister ($register): SupplierInterface
     {
         $this->register = $register;
         return $this;
@@ -168,7 +169,7 @@ class Supplier extends Billable
         return $this->registerState;
     }
 
-    public function setRegisterState ($registerState): Supplier
+    public function setRegisterState ($registerState): SupplierInterface
     {
         $this->registerState = $registerState;
         return $this;
@@ -179,7 +180,7 @@ class Supplier extends Billable
         return $this->registerNumber;
     }
 
-    public function setRegisterNumber ($registerNumber): Supplier
+    public function setRegisterNumber ($registerNumber): SupplierInterface
     {
         $this->registerNumber = $registerNumber;
         return $this;
@@ -190,7 +191,7 @@ class Supplier extends Billable
         return $this->registerDate;
     }
 
-    public function setRegisterDate ($registerDate, $format = null): Supplier
+    public function setRegisterDate ($registerDate, $format = null): SupplierInterface
     {
         if ($registerDate === null) {
             return $this;
@@ -213,7 +214,7 @@ class Supplier extends Billable
         return $this->taxRegime;
     }
 
-    public function setTaxRegime ($taxRegime): Supplier
+    public function setTaxRegime ($taxRegime): SupplierInterface
     {
         if (!$taxRegime instanceof TaxRegime) {
             $taxRegime = TaxRegime::from($taxRegime);

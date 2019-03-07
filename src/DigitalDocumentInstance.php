@@ -32,8 +32,8 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var float */
     protected $rounding;
 
-    /** @var string */
-    protected $description;
+    /** @var string[] */
+    protected $descriptions = [];
 
     /** @var float */
     protected $amountTax;
@@ -103,14 +103,14 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this;
     }
 
-    public function getDescription (): ?string
+    public function getDescriptions (): array
     {
-        return $this->description;
+        return $this->descriptions;
     }
 
-    public function setDescription (?string $description): DigitalDocumentInstanceInterface
+    public function addDescription (string $description): DigitalDocumentInstanceInterface
     {
-        $this->description = $description;
+        $this->descriptions[] = $description;
         return $this;
     }
 

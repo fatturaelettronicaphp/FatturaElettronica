@@ -101,7 +101,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $this->extractDigitalDocumentInformations($digitalDocument, $simpleXml);
+        $digitalDocument = $this->extractDigitalDocumentInformations($digitalDocument);
 
         $digitalDocument->setCustomer(
             $this->extractCustomerInformations()
@@ -503,9 +503,14 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             throw new InvalidXmlFile('<Numero> not found');
         }
 
+        $descriptions = (array) $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale', false);
+        foreach ($descriptions as $description) {
+            $digitalDocumentInstance->addDescription($description);
+        }
+
+
         $documentTotal = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
         $rounding = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
-        $description = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale');
         $art73 = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Art73');
 
         /**
@@ -624,17 +629,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             ->setAmountTax($amountTax)
             ->setDocumentTotal($documentTotal)
             ->setArt73($art73)
-            ->setRounding($rounding)
-            ->setDescription($description);
+            ->setRounding($rounding);
 
         return $digitalDocumentInstance;
     }
 
-    /**
-     * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $digitalDocument
-     * @param \SimpleXMLElement $simpleXml
-     */
-    protected function extractDigitalDocumentInformations (DigitalDocumentInterface $digitalDocument, SimpleXMLElement $simpleXml): void
+    protected function extractDigitalDocumentInformations (DigitalDocumentInterface $digitalDocument): DigitalDocumentInterface
     {
         $transmissionFormat = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione');
         if ($transmissionFormat === null) {
@@ -665,7 +665,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $digitalDocument->setCustomerPec($code);
 
         $code = $this->extractValueFromXml('//FatturaElettronicaHeader/SoggettoEmittente');
-        $digitalDocument->setCustomerPec($code);
+        $digitalDocument->setEmittingSubject($code);
+
+        return $digitalDocument;
     }
 
     protected function extractValueFromXml (string $xPath, $convertToString = true)
