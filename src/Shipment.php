@@ -76,8 +76,8 @@ class Shipment implements ArrayableInterface
     }
 
     /**
- * @return string
- */
+     * @return string
+     */
     public function getDescription (): ?string
     {
         return $this->description;
@@ -198,14 +198,19 @@ class Shipment implements ArrayableInterface
         return $this->pickupDate;
     }
 
-    /**
-     * @param \DateTime $pickupDate
-     *
-     * @return Shipment
-     */
-    public function setPickupDate (?\DateTime $pickupDate): Shipment
+    public function setPickupDate (?\DateTime $date, $format = null): Shipment
     {
-        $this->pickupDate = $pickupDate;
+        if ($format !== null) {
+            $this->pickupDate = DateTime::createFromFormat($format, $date);
+            return $this;
+        }
+
+        if ($date instanceof DateTime) {
+            $this->pickupDate = $date;
+            return $this;
+        }
+
+        $this->pickupDate = new DateTime($date);
         return $this;
     }
 
@@ -222,9 +227,19 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setShipmentDate (?\DateTime $shipmentDate): Shipment
+    public function setShipmentDate (?\DateTime $date, $format = null): Shipment
     {
-        $this->shipmentDate = $shipmentDate;
+        if ($format !== null) {
+            $this->shipmentDate = DateTime::createFromFormat($format, $date);
+            return $this;
+        }
+
+        if ($date instanceof DateTime) {
+            $this->shipmentDate = $date;
+            return $this;
+        }
+
+        $this->shipmentDate = new DateTime($date);
         return $this;
     }
 
@@ -241,9 +256,19 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setDeliveryDate (?\DateTime $deliveryDate): Shipment
+    public function setDeliveryDate (?\DateTime $date, $format = null): Shipment
     {
-        $this->deliveryDate = $deliveryDate;
+        if ($format !== null) {
+            $this->deliveryDate = DateTime::createFromFormat($format, $date);
+            return $this;
+        }
+
+        if ($date instanceof DateTime) {
+            $this->deliveryDate = $date;
+            return $this;
+        }
+
+        $this->deliveryDate = new DateTime($date);
         return $this;
     }
 
