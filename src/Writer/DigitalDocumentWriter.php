@@ -562,27 +562,25 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             $this->addExternalDocument($dataInvoice, $generalData->addChild('DatiFattureCollegate'));
         }
 
-        /* Dati documenti DDT
-        foreach ($instance->getDocumentDdts() as $documentDdt) {
-            if ($documentDdt->isEmpty()) {
-                continue;
-            }
+        /* Dati SAL */
+        foreach ($instance->getSals() as $sal) {
+            $generalData->addChild('DatiSAL')->addChild('RiferimentoFase', (int) $sal);
+        }
+
+        /* Dati documenti DDT */
+        /** @var \Weble\FatturaElettronica\ShippingLabel $documentDdt */
+        foreach ($instance->getShippingLabels() as $documentDdt) {
 
             $ddtData = $generalData->addChild('DatiDDT');
-
-            $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getNumeroDdt()));
-
-            $ddtData->addChild('DataDDT', $documentDdt->getDataDdtRaw());
-
-            $riferimentoLinea = $documentDdt->getRiferimentoNumeroLinea();
-            if (!is_null($riferimentoLinea) and $riferimentoLinea != '') {
+            $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
+            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format(DATE_ISO8601));
+            $riferimentoLinea = $documentDdt->getLineNumberReference();
+            if ($riferimentoLinea !== null) {
                 foreach (explode(',', $riferimentoLinea) as $riferimentoLineaPart) {
                     $ddtData->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLineaPart));
                 }
             }
         }
-
-        */
 
         return $this;
     }

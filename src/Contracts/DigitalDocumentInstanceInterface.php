@@ -3,10 +3,13 @@
 namespace Weble\FatturaElettronica\Contracts;
 
 use DateTime;
+use Weble\FatturaElettronica\DigitalDocumentInstance;
 use Weble\FatturaElettronica\Enums\DeductionType;
 use Weble\FatturaElettronica\Enums\DocumentType;
 use Weble\FatturaElettronica\Fund;
 use Weble\FatturaElettronica\RelatedDocument;
+use Weble\FatturaElettronica\Shipment;
+use Weble\FatturaElettronica\ShippingLabel;
 
 interface DigitalDocumentInstanceInterface
 {
@@ -131,5 +134,23 @@ interface DigitalDocumentInstanceInterface
     public function getSals (): array;
 
     public function hasSals(): bool;
+
+    public function getShippingLabels (): array;
+
+    public function addShippingLabel (ShippingLabel $document): DigitalDocumentInstanceInterface;
+
+    public function hasShippingLabels (): bool;
+
+    public function setMainInvoiceDate (?DateTime $mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface;
+
+    public function setShipment (?Shipment $shipment): DigitalDocumentInstanceInterface;
+
+    public function getMainInvoiceDate (): ?DateTime;
+
+    public function getMainInvoiceNumber (): ?string;
+
+    public function setMainInvoiceNumber (?string $mainInvoiceNumber): DigitalDocumentInstanceInterface;
+
+    public function getShipment (): ?Shipment;
 
 }

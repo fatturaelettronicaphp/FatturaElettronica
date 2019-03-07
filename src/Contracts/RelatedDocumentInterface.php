@@ -9,15 +9,15 @@ interface RelatedDocumentInterface
 {
     public function getLineNumberReference (): ?string;
 
-    public function setLineNumberReference (?string $lineNumberReference): RelatedDocument;
+    public function setLineNumberReference (?string $lineNumberReference);
 
     public function getDocumentNumber (): ?string;
 
-    public function setDocumentNumber (?string $documentNumber): RelatedDocument;
+    public function setDocumentNumber (?string $documentNumber);
 
     public function getDocumentDate (): ?DateTime;
 
-    public function setDocumentDate ($documentDate, $format = null): RelatedDocument;
+    public function setDocumentDate ($documentDate, $format = null);
 
     public function getLineNumber (): ?string;
 

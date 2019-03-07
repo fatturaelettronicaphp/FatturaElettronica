@@ -8,16 +8,10 @@ use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
 
 
-class RelatedDocument implements ArrayableInterface, RelatedDocumentInterface
+class RelatedDocument extends ShippingLabel implements ArrayableInterface, RelatedDocumentInterface
 {
     use Arrayable;
 
-    /** @var string */
-    protected $lineNumberReference;
-    /** @var string */
-    protected $documentNumber;
-    /** @var DateTime */
-    protected $documentDate;
     /** @var string */
     protected $lineNumber;
     /** @var string */
@@ -27,48 +21,6 @@ class RelatedDocument implements ArrayableInterface, RelatedDocumentInterface
     /** @var string */
     protected $cigCode;
 
-    public function getLineNumberReference (): ?string
-    {
-        return $this->lineNumberReference;
-    }
-
-    public function setLineNumberReference (?string $lineNumberReference): RelatedDocument
-    {
-        $this->lineNumberReference = $lineNumberReference;
-        return $this;
-    }
-
-    public function getDocumentNumber (): ?string
-    {
-        return $this->documentNumber;
-    }
-
-    public function setDocumentNumber (?string $documentNumber): RelatedDocument
-    {
-        $this->documentNumber = $documentNumber;
-        return $this;
-    }
-
-    public function getDocumentDate (): ?DateTime
-    {
-        return $this->documentDate;
-    }
-
-    public function setDocumentDate ($documentDate, $format = null): RelatedDocument
-    {
-        if ($format !== null) {
-            $this->documentDate = DateTime::createFromFormat($format, $documentDate);
-            return $this;
-        }
-
-        if ($documentDate instanceof DateTime) {
-            $this->documentDate = $documentDate;
-            return $this;
-        }
-
-        $this->documentDate = new DateTime($documentDate);
-        return $this;
-    }
 
     public function getLineNumber (): ?string
     {

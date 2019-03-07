@@ -25,6 +25,8 @@ use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
 use Weble\FatturaElettronica\Fund;
 use Weble\FatturaElettronica\RelatedDocument;
 use Weble\FatturaElettronica\Representative;
+use Weble\FatturaElettronica\Shipment;
+use Weble\FatturaElettronica\ShippingLabel;
 use Weble\FatturaElettronica\Supplier;
 use DateTime;
 use TypeError;
@@ -277,6 +279,37 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
 
         return $customer;
+    }
+
+    public function extractBillableInformationsFrom (SimpleXMLElement $xml): BillableInterface
+    {
+        $billable = new Billable();
+
+        $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
+        $billable->setTitle($title);
+
+        $customerName = $this->extractValueFromXml('Anagrafica/Nome');
+        $billable->setName($customerName);
+
+        $customerSurname = $this->extractValueFromXml('Anagrafica/Cognome');
+        $billable->setSurname($customerSurname);
+
+        $customerOrganization = $this->extractValueFromXml('Anagrafica/Denominazione');
+        $billable->setOrganization($customerOrganization);
+
+        $customerFiscalCode = $this->extractValueFromXml('CodiceFiscale');
+        $billable->setFiscalCode($customerFiscalCode);
+
+        $value = $this->extractValueFromXml('IdFiscaleIVA/IdPaese');
+        $billable->setCountryCode($value);
+
+        $customerVatNumber = $this->extractValueFromXml('IdFiscaleIVA/IdCodice');
+        if ($customerVatNumber === null) {
+            $customerVatNumber = '';
+        }
+        $billable->setVatNumber($customerVatNumber);
+
+        return $billable;
     }
 
     public function extractIntermediaryInformations ()
@@ -600,6 +633,35 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             $digitalDocumentInstance->addSal($v);
         }
 
+        /**
+         * DDT
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiDDT', false);
+        foreach ($value as $v) {
+            $instance = $this->extractShippingLabelInformationsFrom($v);
+            $digitalDocumentInstance->addShippingLabel($instance);
+        }
+
+        /**
+         * Trasporto
+         */
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiTrasporto', false);
+        if (count($value) > 0) {
+            $value = array_shift($value);
+            $instance = $this->extractShipmentInformationsFrom($value);
+            $digitalDocumentInstance->setShipment($instance);
+        }
+
+
+        /**
+         * Fattura Principale
+         */
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/NumeroFatturaPrincipale');
+        $digitalDocumentInstance->setMainInvoiceNumber($value);
+
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DataFatturaPrincipale');
+        $digitalDocumentInstance->setMainInvoiceDate($value);
+
 
         $totals = $this->extractValueFromXmlElement($body, 'DatiBeniServizi/DatiRiepilogo', false);
         $amount = 0;
@@ -632,6 +694,62 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             ->setRounding($rounding);
 
         return $digitalDocumentInstance;
+    }
+
+    protected function extractShipmentInformationsFrom(SimpleXMLElement $xml): Shipment
+    {
+        if ($xml === null) {
+            return null;
+        }
+
+        $instance = new Shipment();
+
+        $value = $this->extractValueFromXmlElement($xml, 'MezzoTrasporto');
+        $instance->setMethod($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'CausaleTrasporto');
+        $instance->setShipmentDescription($value);
+
+        $value = (int) $this->extractValueFromXmlElement($xml, 'NumeroColli');
+        $instance->setNumberOfPackages($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Descrizione');
+        $instance->setDescription($value);
+
+        $value = (int) $this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
+        $instance->setWeightUnit($value);
+
+        $value = (float) $this->extractValueFromXmlElement($xml, 'PesoLordo');
+        $instance->setWeight($value);
+
+        $value = (float) $this->extractValueFromXmlElement($xml, 'PesoNetto');
+        $instance->setNetWeight($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'DataOraRitiro');
+        $instance->setPickupDate($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'DataInizioTrasporto');
+        $instance->setShipmentDate($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'TipoResa');
+        $instance->setReturnType($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'IndirizzoResa', false);
+        if ($value !== null) {
+            $value = $this->extractAddressInformationFrom($value);
+            $instance->setReturnAddress($value);
+        }
+
+        $value = $this->extractValueFromXmlElement($xml, 'DatiAnagraficiVettore', false);
+        if ($value !== null && count($value) > 0) {
+            $value = array_shift($value);
+            if ($value !== null) {
+                $value = $this->extractBillableInformationsFrom($value);
+                $instance->setShipper($value);
+            }
+        }
+
+        return $instance;
     }
 
     protected function extractDigitalDocumentInformations (DigitalDocumentInterface $digitalDocument): DigitalDocumentInterface
@@ -734,6 +852,22 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $value = $this->extractValueFromXmlElement($order, 'CodiceCIG');
         $instance->setCigCode($value);
+
+        return $instance;
+    }
+
+    protected function extractShippingLabelInformationsFrom ($order): ShippingLabel
+    {
+        $instance = new ShippingLabel();
+
+        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
+        $instance->setLineNumberReference($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
+        $instance->setDocumentNumber($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'Data');
+        $instance->setDocumentDate($value);
 
         return $instance;
     }

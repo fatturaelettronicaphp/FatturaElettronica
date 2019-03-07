@@ -92,6 +92,18 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var int[] */
     protected $sals = [];
 
+    /** @var ShippingLabel[] */
+    protected $shippingLabels = [];
+
+    /** @var Shipment */
+    protected $shipment;
+
+    /** @var string */
+    protected $mainInvoiceNumber;
+
+    /** @var DateTime */
+    protected $mainInvoiceDate;
+
     public function getRounding (): ?float
     {
         return $this->rounding;
@@ -591,5 +603,65 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     {
         return count($this->sals) > 0;
     }
+
+    public function getShippingLabels (): array
+    {
+        return $this->shippingLabels;
+    }
+
+    public function addShippingLabel (ShippingLabel $document): DigitalDocumentInstanceInterface
+    {
+        $this->shippingLabels[] = $document;
+        return $this;
+    }
+
+    public function hasShippingLabels (): bool
+    {
+        return count($this->shippingLabels) > 0;
+    }
+
+    public function getShipment (): ?Shipment
+    {
+        return $this->shipment;
+    }
+
+    public function setShipment (?Shipment $shipment): DigitalDocumentInstanceInterface
+    {
+        $this->shipment = $shipment;
+        return $this;
+    }
+
+    public function getMainInvoiceNumber (): ?string
+    {
+        return $this->mainInvoiceNumber;
+    }
+
+    public function setMainInvoiceNumber (?string $mainInvoiceNumber): DigitalDocumentInstanceInterface
+    {
+        $this->mainInvoiceNumber = $mainInvoiceNumber;
+        return $this;
+    }
+
+    public function getMainInvoiceDate (): ?DateTime
+    {
+        return $this->mainInvoiceDate;
+    }
+
+    public function setMainInvoiceDate (?DateTime $mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface
+    {
+        if ($format !== null) {
+            $this->mainInvoiceDate = DateTime::createFromFormat($format, $mainInvoiceDate);
+            return $this;
+        }
+
+        if ($mainInvoiceDate instanceof DateTime) {
+            $this->mainInvoiceDate = $mainInvoiceDate;
+            return $this;
+        }
+
+        $this->mainInvoiceDate = new DateTime($mainInvoiceDate);
+        return $this;
+    }
+
 
 }
