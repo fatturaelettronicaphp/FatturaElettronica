@@ -326,8 +326,13 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         if ($documentVatNumber === null) {
             throw new InvalidXmlFile('Vat Number is required');
         }
-
         $supplier->setVatNumber($documentVatNumber);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdPaese');
+        if ($value === null) {
+            throw new InvalidXmlFile('IdPaese is required');
+        }
+        $supplier->setCountryCode($value);
 
         $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Sede', false);
         if ($addressValue !== null) {

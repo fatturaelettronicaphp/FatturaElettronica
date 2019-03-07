@@ -1,6 +1,6 @@
 <?php
 
-namespace Weble\FatturaElettronica\Utilities\Xml;
+namespace Weble\FatturaElettronica\Utilities;
 
 use \SimpleXMLElement;
 

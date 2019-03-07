@@ -17,7 +17,7 @@ class ParseDigitalDocumentTest extends TestCase
         $documentParser = new DigitalDocumentParser($file);
 
         $eDocument = $documentParser->parse();
-        
+
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));

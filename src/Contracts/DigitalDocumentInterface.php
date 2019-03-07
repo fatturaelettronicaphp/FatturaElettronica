@@ -25,31 +25,31 @@ interface DigitalDocumentInterface
 
     public function setTransmissionFormat ($transmissionFormat): DigitalDocumentInterface;
 
-    public function getSenderVatId (): string;
+    public function getSenderVatId ();
 
-    public function getSendingId (): string;
+    public function getSendingId ();
 
     public function setCountryCode ($countryCode): DigitalDocumentInterface;
 
     public function setSenderPhone ($senderPhone): DigitalDocumentInterface;
 
-    public function getSenderPhone (): string;
+    public function getSenderPhone ();
 
     public function setSenderEmail ($senderEmail): DigitalDocumentInterface;
 
     public function setSendingId ($sendingId): DigitalDocumentInterface;
 
-    public function getCountryCode (): string;
+    public function getCountryCode ();
 
     public function setSenderVatId ($senderVatId): DigitalDocumentInterface;
 
-    public function getSenderEmail (): string;
+    public function getSenderEmail ();
 
-    public function getCustomerPec (): string;
+    public function getCustomerPec ();
 
     public function setCustomerPec ($customerPec): DigitalDocumentInterface;
 
-    public function getCustomerSdiCode (): string;
+    public function getCustomerSdiCode ();
 
     public function setCustomerSdiCode ($sdiCode): DigitalDocumentInterface;
 }

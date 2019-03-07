@@ -38,7 +38,7 @@ class Supplier extends Billable
     /** @var SettlementType */
     protected $settlementType;
 
-    public function getReaOffice (): string
+    public function getReaOffice ()
     {
         return $this->reaOffice;
     }
@@ -49,7 +49,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getReaNumber (): string
+    public function getReaNumber ()
     {
         return $this->reaNumber;
     }
@@ -60,7 +60,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getCapital (): string
+    public function getCapital ()
     {
         return $this->capital;
     }
@@ -108,7 +108,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getAdministrativeContact (): string
+    public function getAdministrativeContact ()
     {
         return $this->administrativeContact;
     }
@@ -119,7 +119,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getEmail (): string
+    public function getEmail ()
     {
         return $this->email;
     }
@@ -130,7 +130,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getPhone (): string
+    public function getPhone ()
     {
         return $this->phone;
     }
@@ -141,7 +141,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getFax (): string
+    public function getFax ()
     {
         return $this->fax;
     }
@@ -152,7 +152,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getRegister (): string
+    public function getRegister ()
     {
         return $this->register;
     }
@@ -163,7 +163,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getRegisterState (): string
+    public function getRegisterState ()
     {
         return $this->registerState;
     }
@@ -174,7 +174,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getRegisterNumber (): string
+    public function getRegisterNumber ()
     {
         return $this->registerNumber;
     }
@@ -185,7 +185,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getRegisterDate (): DateTime
+    public function getRegisterDate ()
     {
         return $this->registerDate;
     }

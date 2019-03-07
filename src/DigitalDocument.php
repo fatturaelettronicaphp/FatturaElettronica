@@ -51,7 +51,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances;
 
-    public function getEmittingSubject (): string
+    public function getEmittingSubject ()
     {
         return $this->emittingSubject;
     }
@@ -84,7 +84,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->documentInstances;
     }
 
-    public function getCountryCode (): string
+    public function getCountryCode ()
     {
         return $this->countryCode;
     }
@@ -95,7 +95,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getCustomerSdiCode (): string
+    public function getCustomerSdiCode ()
     {
         return $this->customerSdiCode;
     }
@@ -106,7 +106,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSenderVatId (): string
+    public function getSenderVatId ()
     {
         return $this->senderVatId;
     }
@@ -117,7 +117,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSendingId (): string
+    public function getSendingId ()
     {
         return $this->sendingId;
     }
@@ -128,7 +128,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSenderPhone (): string
+    public function getSenderPhone ()
     {
         return $this->senderPhone;
     }
@@ -139,7 +139,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSenderEmail (): string
+    public function getSenderEmail ()
     {
         return $this->senderEmail;
     }
@@ -150,7 +150,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getCustomerPec (): string
+    public function getCustomerPec ()
     {
         return $this->customerPec;
     }
