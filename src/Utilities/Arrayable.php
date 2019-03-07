@@ -4,6 +4,14 @@
 namespace Weble\FatturaElettronica\Utilities;
 
 
+use DateTime;
+use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use Weble\FatturaElettronica\DigitalDocumentInstance;
+use Weble\FatturaElettronica\Enums\DeductionType;
+use Weble\FatturaElettronica\Enums\DiscountType;
+use Weble\FatturaElettronica\Enums\FundType;
+use Weble\FatturaElettronica\Enums\VatNature;
+
 trait Arrayable
 {
     public function toArray (): array

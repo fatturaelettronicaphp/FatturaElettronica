@@ -9,15 +9,21 @@ use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
+use Weble\FatturaElettronica\Contracts\DiscountInterface;
+use Weble\FatturaElettronica\Contracts\FundInterface;
+use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use Weble\FatturaElettronica\Customer;
 use Weble\FatturaElettronica\DigitalDocument;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
+use Weble\FatturaElettronica\Discount;
 use Weble\FatturaElettronica\Enums\DocumentFormat;
 use Weble\FatturaElettronica\Enums\DocumentType;
 use Weble\FatturaElettronica\Exceptions\InvalidFileNameExtension;
 use Weble\FatturaElettronica\Exceptions\InvalidP7MFile;
 use SimpleXMLElement;
 use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
+use Weble\FatturaElettronica\Fund;
+use Weble\FatturaElettronica\RelatedDocument;
 use Weble\FatturaElettronica\Representative;
 use Weble\FatturaElettronica\Supplier;
 use DateTime;
@@ -105,7 +111,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             $this->extractSupplierInformations()
         );
 
-        $intermediary = $this->extractRepresentativeInformations();
+        $representative = $this->extractRepresentativeInformations();
+        if ($representative !== null) {
+            $digitalDocument->setRepresentative($representative);
+        }
+
+        $intermediary = $this->extractIntermediaryInformations();
         if ($intermediary !== null) {
             $digitalDocument->setIntermediary($intermediary);
         }
@@ -208,10 +219,10 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $customer->setOrganization($customerOrganization);
 
         $customerFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/CodiceFiscale');
-        if ($customerFiscalCode === null) {
-            $customerFiscalCode = '';
-        }
         $customer->setFiscalCode($customerFiscalCode);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
+        $customer->setCountryCode($value);
 
         $customerVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
         if ($customerVatNumber === null) {
@@ -268,9 +279,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $customer;
     }
 
-    public function extractRepresentativeInformations ()
+    public function extractIntermediaryInformations ()
     {
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/RappresentanteFiscale', false);
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente', false);
         if ($value === null) {
             return $value;
         }
@@ -301,6 +312,44 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $intermediary->setVatNumber($value);
 
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
+        $intermediary->setCountryCode($value);
+
+        return $intermediary;
+    }
+
+    public function extractRepresentativeInformations ()
+    {
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale', false);
+        if ($value === null) {
+            return $value;
+        }
+
+        $value = array_shift($value);
+        if ($value === null) {
+            return $value;
+        }
+
+        $intermediary = new Billable();
+
+        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Nome');
+        $intermediary->setName($documentName);
+
+        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Cognome');
+        $intermediary->setSurname($documentSurname);
+
+        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Denominazione');
+        $intermediary->setOrganization($documentOrganization);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Titolo');
+        $intermediary->setTitle($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/CodiceFiscale');
+        $intermediary->setFiscalCode($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/IdFiscaleIVA/IdCodice');
+        $intermediary->setVatNumber($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/IdFiscaleIVA/IdPaese');
         $intermediary->setCountryCode($value);
 
         return $intermediary;
@@ -426,6 +475,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function extractRowInformationsFrom (SimpleXMLElement $body): DigitalDocumentInstanceInterface
     {
+        $digitalDocumentInstance = new DigitalDocumentInstance();
+
+        /**
+         * Dati Generali
+         */
         $types = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/TipoDocumento');
         if ($types === null) {
             throw new InvalidXmlFile('<TipoDocumento> not found');
@@ -438,12 +492,109 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
         $data = new DateTime($datas);
 
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Divisa');
+        if ($datas === null) {
+            throw new InvalidXmlFile('<Divisa> not found');
+        }
+        $digitalDocumentInstance->setCurrency($value);
+
         $number = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Numero');
         if ($number === null) {
             throw new InvalidXmlFile('<Numero> not found');
         }
 
         $documentTotal = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
+        $rounding = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
+        $description = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale');
+        $art73 = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Art73');
+
+        /**
+         * Ritenuta
+         */
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/TipoRitenuta');
+        $digitalDocumentInstance->setDeductionType($value);
+
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/ImportoRitenuta');
+        $digitalDocumentInstance->setDeductionAmount($value);
+
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/AliquotaRitenuta');
+        $digitalDocumentInstance->setDeductionPercentage($value);
+
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/CausalePagamento');
+        $digitalDocumentInstance->setDeductionDescription($value);
+
+        /**
+         * Bollo
+         */
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiBollo/BolloVirtuale');
+        $digitalDocumentInstance->setVirtualDuty($value);
+
+        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiBollo/ImportoBollo');
+        $digitalDocumentInstance->setVirtualDutyAmount($value);
+
+        /**
+         * Cassa
+         */
+        $funds = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiCassaPrevidenziale', false);
+
+        foreach ($funds as $fund) {
+            $fundInstance = $this->extractFundInformationsFrom($fund);
+            $digitalDocumentInstance->addFund($fundInstance);
+        }
+
+        /**
+         * Sconto
+         */
+        $discounts = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ScontoMaggiorazione', false);
+        foreach ($discounts as $discount) {
+            $discountInstance = $this->extractDiscountInformationsFrom($discount);
+            $digitalDocumentInstance->addDiscount($discountInstance);
+        }
+
+        /**
+         * Ordine di Acquisto
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiOrdineAcquisto', false);
+        foreach ($value as $v) {
+            $instance = $this->extractRelatedDocumentInformationsFrom($v);
+            $digitalDocumentInstance->addPurchaseOrder($instance);
+        }
+
+        /**
+         * Convenzioni
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiConvenzione', false);
+        foreach ($value as $v) {
+            $instance = $this->extractRelatedDocumentInformationsFrom($v);
+            $digitalDocumentInstance->addConvention($instance);
+        }
+
+        /**
+         * Ricezione
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiRicezione', false);
+        foreach ($value as $v) {
+            $instance = $this->extractRelatedDocumentInformationsFrom($v);
+            $digitalDocumentInstance->addReceipt($instance);
+        }
+
+        /**
+         * Fatture Collegate
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiFattureCollegate', false);
+        foreach ($value as $v) {
+            $instance = $this->extractRelatedDocumentInformationsFrom($v);
+            $digitalDocumentInstance->addRelatedInvoice($instance);
+        }
+
+        /**
+         * SAL
+         */
+        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiSal', false);
+        foreach ($value as $v) {
+            $digitalDocumentInstance->addSal($v);
+        }
+
 
         $totals = $this->extractValueFromXmlElement($body, 'DatiBeniServizi/DatiRiepilogo', false);
         $amount = 0;
@@ -465,14 +616,16 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             $amountTax += $totalAmountTaxs;
         }
 
-        $digitalDocumentInstance = new DigitalDocumentInstance();
         $digitalDocumentInstance
             ->setDocumentType($type)
             ->setDocumentDate($data)
             ->setDocumentNumber($number)
             ->setAmount($amount)
             ->setAmountTax($amountTax)
-            ->setDocumentTotal($documentTotal);
+            ->setDocumentTotal($documentTotal)
+            ->setArt73($art73)
+            ->setRounding($rounding)
+            ->setDescription($description);
 
         return $digitalDocumentInstance;
     }
@@ -537,5 +690,79 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
 
         return $value;
+    }
+
+    protected function extractDiscountInformationsFrom ($discount): DiscountInterface
+    {
+        $discountInstance = new Discount();
+
+        $value = $this->extractValueFromXmlElement($discount, 'Tipo');
+        $discountInstance->setType($value);
+
+        $value = $this->extractValueFromXmlElement($discount, 'Percentuale');
+        $discountInstance->setPercentage($value);
+
+        $value = $this->extractValueFromXmlElement($discount, 'Importo');
+        $discountInstance->setAmount($value);
+
+        return $discountInstance;
+    }
+
+    protected function extractRelatedDocumentInformationsFrom ($order): RelatedDocumentInterface
+    {
+        $instance = new RelatedDocument();
+
+        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
+        $instance->setLineNumberReference($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
+        $instance->setDocumentNumber($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'Data');
+        $instance->setDocumentDate($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'NumItem');
+        $instance->setLineNumber($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'CodiceCommessaConvenzione');
+        $instance->setOrderCode($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'CodiceCUP');
+        $instance->setCupCode($value);
+
+        $value = $this->extractValueFromXmlElement($order, 'CodiceCIG');
+        $instance->setCigCode($value);
+
+        return $instance;
+    }
+
+    protected function extractFundInformationsFrom ($fund): FundInterface
+    {
+        $fundInstance = new Fund();
+        $value = $this->extractValueFromXmlElement($fund, 'TipoCassa');
+        $fundInstance->setType($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'AlCassa');
+        $fundInstance->setPercentage($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'ImportoContributoCassa');
+        $fundInstance->setAmount($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'ImponibileCassa');
+        $fundInstance->setSubtotal($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'AliquotaIVA');
+        $fundInstance->setTaxPercentage($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'Ritenuta');
+        $fundInstance->setDeduction($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'Natura');
+        $fundInstance->setVatNature($value);
+
+        $value = $this->extractValueFromXmlElement($fund, 'RiferimentoAmministrazione');
+        $fundInstance->setRepresentative($value);
+
+        return $fundInstance;
     }
 }

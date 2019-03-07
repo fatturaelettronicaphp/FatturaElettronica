@@ -13,11 +13,11 @@ interface DigitalDocumentInterface
 
     public function getDocumentInstances (): array;
 
-    public function getCustomer (): BillableInterface;
+    public function getCustomer (): ?BillableInterface;
 
     public function setCustomer (BillableInterface $customer): DigitalDocumentInterface;
 
-    public function getSupplier (): BillableInterface;
+    public function getSupplier (): ?BillableInterface;
 
     public function setSupplier (BillableInterface $supplier): DigitalDocumentInterface;
 
@@ -52,4 +52,16 @@ interface DigitalDocumentInterface
     public function getCustomerSdiCode ();
 
     public function setCustomerSdiCode ($sdiCode): DigitalDocumentInterface;
+
+    public function setEmittingSubject ($emittingSubject): DigitalDocumentInterface;
+
+    public function getEmittingSubject ();
+
+    public function setIntermediary (BillableInterface $intermediary): DigitalDocumentInterface;
+
+    public function getIntermediary (): ?BillableInterface;
+
+    public function setRepresentative (BillableInterface $representative): DigitalDocumentInterface;
+
+    public function getRepresentative (): ?BillableInterface;
 }

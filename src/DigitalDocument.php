@@ -22,6 +22,9 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     protected $emittingSubject;
 
     /** @var BillableInterface */
+    protected $representative;
+
+    /** @var BillableInterface */
     protected $intermediary;
 
     /** @var TransmissionFormat */
@@ -62,7 +65,18 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getIntermediary (): BillableInterface
+    public function getRepresentative (): ?BillableInterface
+    {
+        return $this->representative;
+    }
+
+    public function setRepresentative (BillableInterface $representative): DigitalDocumentInterface
+    {
+        $this->representative = $representative;
+        return $this;
+    }
+
+    public function getIntermediary (): ?BillableInterface
     {
         return $this->intermediary;
     }
@@ -161,7 +175,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getCustomer (): BillableInterface
+    public function getCustomer (): ?BillableInterface
     {
         return $this->customer;
     }
@@ -172,7 +186,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getSupplier (): BillableInterface
+    public function getSupplier (): ?BillableInterface
     {
         return $this->supplier;
     }

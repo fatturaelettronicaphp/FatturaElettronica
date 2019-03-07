@@ -26,7 +26,7 @@ class Billable implements BillableInterface, ArrayableInterface
     /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
     protected $foreignFixedAddress;
 
-    public function getAddress (): AddressInterface
+    public function getAddress (): ?AddressInterface
     {
         return $this->address;
     }
@@ -37,7 +37,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this;
     }
 
-    public function getForeignFixedAddress (): AddressInterface
+    public function getForeignFixedAddress (): ?AddressInterface
     {
         return $this->foreignFixedAddress;
     }

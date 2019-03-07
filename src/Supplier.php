@@ -71,7 +71,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getAssociateType (): AssociateType
+    public function getAssociateType (): ?AssociateType
     {
         return $this->associateType;
     }
@@ -90,7 +90,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getSettlementType (): SettlementType
+    public function getSettlementType (): ?SettlementType
     {
         return $this->settlementType;
     }
@@ -185,7 +185,7 @@ class Supplier extends Billable
         return $this;
     }
 
-    public function getRegisterDate ()
+    public function getRegisterDate (): ?DateTime
     {
         return $this->registerDate;
     }

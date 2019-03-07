@@ -9,7 +9,7 @@ class Customer extends Billable
     /** @var \Weble\FatturaElettronica\Contracts\RepresentativeInterface */
     protected $representative;
 
-    public function getRepresentative (): RepresentativeInterface
+    public function getRepresentative (): ?RepresentativeInterface
     {
         return $this->representative;
     }
