@@ -294,7 +294,7 @@ class Shipment implements ArrayableInterface
     /**
      * @return \Weble\FatturaElettronica\Contracts\AddressInterface
      */
-    public function getReturnAddress (): ?Weble\FatturaElettronica\Contracts\AddressInterface
+    public function getReturnAddress (): ?\Weble\FatturaElettronica\Contracts\AddressInterface
     {
         return $this->returnAddress;
     }
