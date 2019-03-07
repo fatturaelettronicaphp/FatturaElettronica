@@ -31,7 +31,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->address;
     }
 
-    public function setAddress (AddressInterface $address): Billable
+    public function setAddress (AddressInterface $address): BillableInterface
     {
         $this->address = $address;
         return $this;
@@ -42,7 +42,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->foreignFixedAddress;
     }
 
-    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress): Billable
+    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress): BillableInterface
     {
         $this->foreignFixedAddress = $foreignFixedAddress;
         return $this;
@@ -86,7 +86,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->name;
     }
 
-    public function setName ($name): Billable
+    public function setName ($name): BillableInterface
     {
         $this->name = $name;
         return $this;
@@ -97,7 +97,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->vatNumber;
     }
 
-    public function setVatNumber ($vatNumber): Billable
+    public function setVatNumber ($vatNumber): BillableInterface
     {
         $this->vatNumber = $vatNumber;
         return $this;
@@ -108,7 +108,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->surname;
     }
 
-    public function setSurname ($surname): Billable
+    public function setSurname ($surname): BillableInterface
     {
         $this->surname = $surname;
         return $this;
@@ -119,7 +119,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->organization;
     }
 
-    public function setOrganization ($organization): Billable
+    public function setOrganization ($organization): BillableInterface
     {
         $this->organization = $organization;
         return $this;
@@ -130,7 +130,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->fiscalCode;
     }
 
-    public function setFiscalCode ($fiscalCode): Billable
+    public function setFiscalCode ($fiscalCode): BillableInterface
     {
         $this->fiscalCode = $fiscalCode;
         return $this;

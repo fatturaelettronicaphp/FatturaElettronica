@@ -8,23 +8,23 @@ interface BillableInterface
 {
     public function getName ();
 
-    public function setName ($name): Billable;
+    public function setName ($name): BillableInterface;
 
     public function getVatNumber ();
 
-    public function setVatNumber ($vatNumber): Billable;
+    public function setVatNumber ($vatNumber): BillableInterface;
 
     public function getSurname ();
 
-    public function setSurname ($surname): Billable;
+    public function setSurname ($surname): BillableInterface;
 
     public function getOrganization ();
 
-    public function setOrganization ($organization): Billable;
+    public function setOrganization ($organization): BillableInterface;
 
     public function getFiscalCode ();
 
-    public function setFiscalCode ($fiscalCode): Billable;
+    public function setFiscalCode ($fiscalCode): BillableInterface;
 
     public function setTitle ($title): BillableInterface;
 
