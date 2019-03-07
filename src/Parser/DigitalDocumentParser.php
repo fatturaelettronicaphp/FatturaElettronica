@@ -3,6 +3,7 @@
 namespace Weble\FatturaElettronica\Parser;
 
 use Weble\FatturaElettronica\Address;
+use Weble\FatturaElettronica\Billable;
 use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
@@ -17,6 +18,7 @@ use Weble\FatturaElettronica\Exceptions\InvalidFileNameExtension;
 use Weble\FatturaElettronica\Exceptions\InvalidP7MFile;
 use SimpleXMLElement;
 use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
+use Weble\FatturaElettronica\Representative;
 use Weble\FatturaElettronica\Supplier;
 use DateTime;
 use TypeError;
@@ -102,6 +104,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $digitalDocument->setSupplier(
             $this->extractSupplierInformations()
         );
+
+        $intermediary = $this->extractRepresentativeInformations();
+        if ($intermediary !== null) {
+            $digitalDocument->setIntermediary($intermediary);
+        }
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
             $edocumentBody = $this->extractRowInformationsFrom($body);
@@ -212,7 +219,91 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
         $customer->setVatNumber($customerVatNumber);
 
+        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/Sede', false);
+        if ($addressValue !== null) {
+            $addressValue = array_shift($addressValue);
+        }
+
+        if ($addressValue !== null) {
+            $address = $this->extractAddressInformationFrom($addressValue);
+            $customer->setAddress($address);
+        }
+
+        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/StabileOrganizzazione', false);
+        if ($addressValue !== null) {
+            $addressValue = array_shift($addressValue);
+        }
+
+        if ($addressValue !== null) {
+            $address = $this->extractAddressInformationFrom($addressValue);
+            $customer->setForeignFixedAddress($address);
+        }
+
+        $representativeValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/RappresentanteFiscale', false);
+        if ($representativeValue !== null) {
+            $representativeValue = array_shift($representativeValue);
+        }
+
+        if ($representativeValue !== null) {
+            $representative = new Representative();
+
+            $value = $this->extractValueFromXmlElement($representativeValue, 'IdFiscaleIva/IdPaese');
+            $representative->setCountryCode($value);
+
+            $value = $this->extractValueFromXmlElement($representativeValue, 'IdFiscaleIva/IdCodice');
+            $representative->setVatNumber($value);
+
+            $value = $this->extractValueFromXmlElement($representativeValue, 'Denominazione');
+            $representative->setOrganization($value);
+
+            $value = $this->extractValueFromXmlElement($representativeValue, 'Nome');
+            $representative->setName($value);
+
+            $value = $this->extractValueFromXmlElement($representativeValue, 'Cognome');
+            $representative->setSurname($value);
+
+            $customer->setRepresentative($representative);
+        }
+
         return $customer;
+    }
+
+    public function extractRepresentativeInformations ()
+    {
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/RappresentanteFiscale', false);
+        if ($value === null) {
+            return $value;
+        }
+
+        $value = array_shift($value);
+        if ($value === null) {
+            return $value;
+        }
+
+        $intermediary = new Billable();
+
+        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Nome');
+        $intermediary->setName($documentName);
+
+        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Cognome');
+        $intermediary->setSurname($documentSurname);
+
+        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Denominazione');
+        $intermediary->setOrganization($documentOrganization);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Titolo');
+        $intermediary->setTitle($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/CodiceFiscale');
+        $intermediary->setFiscalCode($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
+        $intermediary->setVatNumber($value);
+
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
+        $intermediary->setCountryCode($value);
+
+        return $intermediary;
     }
 
     public function extractSupplierInformations (): BillableInterface
@@ -248,7 +339,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             $supplier->setAddress($address);
         }
 
-        $addressValue =$this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/StabileOrganizzazione', false);
+        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/StabileOrganizzazione', false);
         if ($addressValue !== null) {
             $addressValue = array_shift($addressValue);
         }
@@ -413,6 +504,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $digitalDocument->setSenderEmail($code);
 
         $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/PECDestinatario');
+        $digitalDocument->setCustomerPec($code);
+
+        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/SoggettoEmittente');
         $digitalDocument->setCustomerPec($code);
     }
 

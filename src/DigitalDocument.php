@@ -18,6 +18,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var BillableInterface */
     protected $supplier;
 
+    /** @var string */
+    protected $emittingSubject;
+
+    /** @var BillableInterface */
+    protected $intermediary;
+
     /** @var TransmissionFormat */
     protected $transmissionFormat;
 
@@ -45,6 +51,28 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances;
 
+    public function getEmittingSubject (): string
+    {
+        return $this->emittingSubject;
+    }
+
+    public function setEmittingSubject ($emittingSubject): DigitalDocumentInterface
+    {
+        $this->emittingSubject = $emittingSubject;
+        return $this;
+    }
+
+    public function getIntermediary (): BillableInterface
+    {
+        return $this->intermediary;
+    }
+
+    public function setIntermediary (BillableInterface $intermediary): DigitalDocumentInterface
+    {
+        $this->intermediary = $intermediary;
+        return $this;
+    }
+
     public function addDigitalDocumentInstance (DigitalDocumentInstance $instance): DigitalDocumentInterface
     {
         $this->documentInstances[] = $instance;
@@ -61,7 +89,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->countryCode;
     }
 
-    public function setCountryCode (string $countryCode): DigitalDocumentInterface
+    public function setCountryCode ($countryCode): DigitalDocumentInterface
     {
         $this->countryCode = $countryCode;
         return $this;
@@ -72,7 +100,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->customerSdiCode;
     }
 
-    public function setCustomerSdiCode (string $customerSdiCode): DigitalDocumentInterface
+    public function setCustomerSdiCode ($customerSdiCode): DigitalDocumentInterface
     {
         $this->customerSdiCode = $customerSdiCode;
         return $this;
@@ -83,7 +111,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderVatId;
     }
 
-    public function setSenderVatId (string $senderVatId): DigitalDocumentInterface
+    public function setSenderVatId ($senderVatId): DigitalDocumentInterface
     {
         $this->senderVatId = $senderVatId;
         return $this;
@@ -94,7 +122,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->sendingId;
     }
 
-    public function setSendingId (string $sendingId): DigitalDocumentInterface
+    public function setSendingId ($sendingId): DigitalDocumentInterface
     {
         $this->sendingId = $sendingId;
         return $this;
@@ -105,7 +133,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderPhone;
     }
 
-    public function setSenderPhone (string $senderPhone): DigitalDocumentInterface
+    public function setSenderPhone ($senderPhone): DigitalDocumentInterface
     {
         $this->senderPhone = $senderPhone;
         return $this;
@@ -116,7 +144,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderEmail;
     }
 
-    public function setSenderEmail (string $senderEmail): DigitalDocumentInterface
+    public function setSenderEmail ($senderEmail): DigitalDocumentInterface
     {
         $this->senderEmail = $senderEmail;
         return $this;
@@ -127,7 +155,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->customerPec;
     }
 
-    public function setCustomerPec (string $customerPec): DigitalDocumentInterface
+    public function setCustomerPec ($customerPec): DigitalDocumentInterface
     {
         $this->customerPec = $customerPec;
         return $this;
