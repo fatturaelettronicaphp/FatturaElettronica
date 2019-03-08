@@ -1,6 +1,6 @@
 # Fattura Elettronica
 
-[![Build Status](https://img.shields.io/travis/com/weble/fatturaelettronica/master.svg?style=flat-square)](https://travis-ci.com/weble/fatturaelettronica)
+[![Build Status](https://travis-ci.com/Weble/FatturaElettronica.svg?token=dkUekxQMLMKLsPhqsxiT&branch=master)](https://travis-ci.com/Weble/FatturaElettronica)
 
 Pacchetto per la lettura e la generazione della fattura elettronica, sia PA che B2B / B2C
 
