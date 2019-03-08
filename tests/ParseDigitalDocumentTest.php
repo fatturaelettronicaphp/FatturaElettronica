@@ -82,5 +82,17 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('123',  $firstRow->getDocumentNumber());
         $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',  $firstRow->getDescriptions()[0]);
         $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB',  $firstRow->getDescriptions()[1]);
+
+        // Righe
+        $products = $firstRow->getLines();
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(1, $firstProduct->getNumber());
+        $this->assertEquals("LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI", $firstProduct->getDescription());
+        $this->assertEquals(5, $firstProduct->getQuantity());
+        $this->assertEquals(1, $firstProduct->getUnitPrice());
+        $this->assertEquals(5, $firstProduct->getTotal());
+        $this->assertEquals(22, $firstProduct->getTaxPercentage());
     }
 }

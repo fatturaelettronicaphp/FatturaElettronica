@@ -90,6 +90,10 @@ interface DigitalDocumentInstanceInterface
 
     public function addDiscount (DiscountInterface $discount): DigitalDocumentInstanceInterface;
 
+    public function getLines (): array;
+
+    public function addLine (LineInterface $line): DigitalDocumentInstanceInterface;
+
     /**
      * @return DiscountInterface[]
      */

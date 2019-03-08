@@ -15,6 +15,7 @@ use Weble\FatturaElettronica\Enums\FundType;
 use Weble\FatturaElettronica\Enums\DiscountType;
 use Weble\FatturaElettronica\Contracts\FundInterface;
 use Weble\FatturaElettronica\Contracts\DiscountInterface;
+use Weble\FatturaElettronica\Contracts\LineInterface;
 
 class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInstanceInterface
 {
@@ -91,6 +92,9 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var int[] */
     protected $sals = [];
+
+    /** @var int[] */
+    protected $lines = [];
 
     /** @var ShippingLabel[] */
     protected $shippingLabels = [];
@@ -597,6 +601,17 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     public function getSals (): array
     {
         return $this->sals;
+    }
+
+    public function addLine (LineInterface $line): DigitalDocumentInstanceInterface
+    {
+        $this->lines[] = $line;
+        return $this;
+    }
+
+    public function getLines (): array
+    {
+        return $this->lines;
     }
 
     public function hasSals(): bool

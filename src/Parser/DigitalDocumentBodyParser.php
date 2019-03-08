@@ -12,7 +12,7 @@ use Weble\FatturaElettronica\Parser\Body\DiscountParser;
 use Weble\FatturaElettronica\Parser\Body\FundParser;
 use Weble\FatturaElettronica\Parser\Body\GeneralDataParser;
 use Weble\FatturaElettronica\Parser\Body\MainInvoiceParser;
-use Weble\FatturaElettronica\Parser\Body\ProductsParser;
+use Weble\FatturaElettronica\Parser\Body\LinesParser;
 use Weble\FatturaElettronica\Parser\Body\PurchaseOrderParser;
 use Weble\FatturaElettronica\Parser\Body\RecepitsParser;
 use Weble\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
@@ -66,7 +66,7 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 ShippingLabelsParser::class,
                 ShipmentInformationsParser::class,
                 MainInvoiceParser::class,
-                ProductsParser::class,
+                LinesParser::class,
                 SummaryParser::class,
             ])
             ->thenReturn();
