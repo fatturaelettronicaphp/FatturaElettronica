@@ -6,7 +6,21 @@ use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
 use SimpleXMLElement;
+use Weble\FatturaElettronica\Parser\Body\ConventionsParser;
+use Weble\FatturaElettronica\Parser\Body\DeductionParser;
+use Weble\FatturaElettronica\Parser\Body\DiscountParser;
+use Weble\FatturaElettronica\Parser\Body\FundParser;
 use Weble\FatturaElettronica\Parser\Body\GeneralDataParser;
+use Weble\FatturaElettronica\Parser\Body\MainInvoiceParser;
+use Weble\FatturaElettronica\Parser\Body\ProductsParser;
+use Weble\FatturaElettronica\Parser\Body\PurchaseOrderParser;
+use Weble\FatturaElettronica\Parser\Body\RecepitsParser;
+use Weble\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
+use Weble\FatturaElettronica\Parser\Body\SalParser;
+use Weble\FatturaElettronica\Parser\Body\ShipmentInformationsParser;
+use Weble\FatturaElettronica\Parser\Body\ShippingLabelsParser;
+use Weble\FatturaElettronica\Parser\Body\SummaryParser;
+use Weble\FatturaElettronica\Parser\Body\VirtualDutyParser;
 
 class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
 {
@@ -40,6 +54,20 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
             ->with($this->xml())
             ->through([
                 GeneralDataParser::class,
+                DeductionParser::class,
+                VirtualDutyParser::class,
+                FundParser::class,
+                DiscountParser::class,
+                PurchaseOrderParser::class,
+                ConventionsParser::class,
+                RecepitsParser::class,
+                RelatedInvoicesParser::class,
+                SalParser::class,
+                ShippingLabelsParser::class,
+                ShipmentInformationsParser::class,
+                MainInvoiceParser::class,
+                ProductsParser::class,
+                SummaryParser::class,
             ])
             ->thenReturn();
     }
