@@ -136,7 +136,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         try {
             $this->xmlFilePath = $this->extractP7mToXml($this->p7mFilePath);
         } catch (InvalidP7MFile $e) {
-            $p7mTmpFilePath = sys_get_temp_dir() . uniqid() . '.xml.p7m';
+            $p7mTmpFilePath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml.p7m';
             file_put_contents($p7mTmpFilePath, base64_decode(file_get_contents($this->p7mFilePath)));
 
             $this->xmlFilePath = $this->extractP7mToXml($p7mTmpFilePath);
@@ -145,7 +145,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function extractP7mToXml ($p7mFilePath): string
     {
-        $xmlPath = sys_get_temp_dir() . uniqid() . '.xml';
+        $xmlPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml';
 
         $output = [];
         $exitCode = 0;
@@ -536,7 +536,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             throw new InvalidXmlFile('<Numero> not found');
         }
 
-        $descriptions = (array) $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale', false);
+        $descriptions = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale', false);
         foreach ($descriptions as $description) {
             $digitalDocumentInstance->addDescription($description);
         }
@@ -696,7 +696,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $digitalDocumentInstance;
     }
 
-    protected function extractShipmentInformationsFrom(SimpleXMLElement $xml): Shipment
+    protected function extractShipmentInformationsFrom (SimpleXMLElement $xml): Shipment
     {
         if ($xml === null) {
             return null;
@@ -710,19 +710,19 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $value = $this->extractValueFromXmlElement($xml, 'CausaleTrasporto');
         $instance->setShipmentDescription($value);
 
-        $value = (int) $this->extractValueFromXmlElement($xml, 'NumeroColli');
+        $value = (int)$this->extractValueFromXmlElement($xml, 'NumeroColli');
         $instance->setNumberOfPackages($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Descrizione');
         $instance->setDescription($value);
 
-        $value = (int) $this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
+        $value = (int)$this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
         $instance->setWeightUnit($value);
 
-        $value = (float) $this->extractValueFromXmlElement($xml, 'PesoLordo');
+        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoLordo');
         $instance->setWeight($value);
 
-        $value = (float) $this->extractValueFromXmlElement($xml, 'PesoNetto');
+        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoNetto');
         $instance->setNetWeight($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'DataOraRitiro');

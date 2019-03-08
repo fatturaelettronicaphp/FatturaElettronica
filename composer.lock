@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "65ab3f978c1912714f0c0adac204881b",
+    "content-hash": "57e748c90e1160584d6b4553ac0db3e1",
     "packages": [
         {
             "name": "fpdf/fpdf",
@@ -1800,7 +1800,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.2",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
