@@ -7,7 +7,9 @@ use Weble\FatturaElettronica\DigitalDocumentInstance;
 
 interface DigitalDocumentParserInterface
 {
-    public function parse (DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface;
+    public function __construct (SimpleXMLElement $xml);
+
+    public function parse ();
 
     public function xml (): SimpleXMLElement;
 }

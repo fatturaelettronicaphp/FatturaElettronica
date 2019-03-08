@@ -3,7 +3,10 @@
 namespace Weble\FatturaElettronica;
 
 use Weble\FatturaElettronica\Contracts\BillableInterface;
+use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
+use Weble\FatturaElettronica\Contracts\RepresentativeInterface;
 use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Utilities\Arrayable;
@@ -22,10 +25,10 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string */
     protected $emittingSubject;
 
-    /** @var BillableInterface */
+    /** @var \Weble\FatturaElettronica\Contracts\BillablePersonInterface */
     protected $representative;
 
-    /** @var BillableInterface */
+    /** @var \Weble\FatturaElettronica\Contracts\IntermediaryInterface */
     protected $intermediary;
 
     /** @var TransmissionFormat */
@@ -66,23 +69,23 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getRepresentative (): ?BillableInterface
+    public function getRepresentative (): ?BillablePersonInterface
     {
         return $this->representative;
     }
 
-    public function setRepresentative (BillableInterface $representative): DigitalDocumentInterface
+    public function setRepresentative (?BillablePersonInterface $representative): DigitalDocumentInterface
     {
         $this->representative = $representative;
         return $this;
     }
 
-    public function getIntermediary (): ?BillableInterface
+    public function getIntermediary (): ?IntermediaryInterface
     {
         return $this->intermediary;
     }
 
-    public function setIntermediary (BillableInterface $intermediary): DigitalDocumentInterface
+    public function setIntermediary (?IntermediaryInterface $intermediary): DigitalDocumentInterface
     {
         $this->intermediary = $intermediary;
         return $this;

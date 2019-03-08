@@ -2,80 +2,26 @@
 
 namespace Weble\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
 
-class Billable implements BillableInterface, ArrayableInterface
+class Billable implements ArrayableInterface, BillableInterface
 {
     use Arrayable;
 
-    protected $title;
-    protected $eori;
     protected $name;
     protected $surname;
     protected $organization;
     protected $countryCode;
     protected $vatNumber;
-    protected $fiscalCode;
-
-    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
-    protected $address;
-
-    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
-    protected $foreignFixedAddress;
-
-    public function getAddress (): ?AddressInterface
-    {
-        return $this->address;
-    }
-
-    public function setAddress (AddressInterface $address): BillableInterface
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    public function getForeignFixedAddress (): ?AddressInterface
-    {
-        return $this->foreignFixedAddress;
-    }
-
-    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress): BillableInterface
-    {
-        $this->foreignFixedAddress = $foreignFixedAddress;
-        return $this;
-    }
-
-    public function getTitle ()
-    {
-        return $this->title;
-    }
-
-    public function setTitle ($title): BillableInterface
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    public function getEori ()
-    {
-        return $this->eori;
-    }
-
-    public function setEori ($eori): BillableInterface
-    {
-        $this->eori = $eori;
-        return $this;
-    }
 
     public function getCountryCode ()
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode ($countryCode): BillableInterface
+    public function setCountryCode ($countryCode): self
     {
         $this->countryCode = $countryCode;
         return $this;
@@ -86,7 +32,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->name;
     }
 
-    public function setName ($name): BillableInterface
+    public function setName ($name): self
     {
         $this->name = $name;
         return $this;
@@ -97,7 +43,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->vatNumber;
     }
 
-    public function setVatNumber ($vatNumber): BillableInterface
+    public function setVatNumber ($vatNumber): self
     {
         $this->vatNumber = $vatNumber;
         return $this;
@@ -108,7 +54,7 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->surname;
     }
 
-    public function setSurname ($surname): BillableInterface
+    public function setSurname ($surname): self
     {
         $this->surname = $surname;
         return $this;
@@ -119,20 +65,9 @@ class Billable implements BillableInterface, ArrayableInterface
         return $this->organization;
     }
 
-    public function setOrganization ($organization): BillableInterface
+    public function setOrganization ($organization): self
     {
         $this->organization = $organization;
-        return $this;
-    }
-
-    public function getFiscalCode ()
-    {
-        return $this->fiscalCode;
-    }
-
-    public function setFiscalCode ($fiscalCode): BillableInterface
-    {
-        $this->fiscalCode = $fiscalCode;
         return $this;
     }
 }

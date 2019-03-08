@@ -57,11 +57,11 @@ interface DigitalDocumentInterface
 
     public function getEmittingSubject ();
 
-    public function setIntermediary (BillableInterface $intermediary): DigitalDocumentInterface;
+    public function setIntermediary (?IntermediaryInterface $intermediary): DigitalDocumentInterface;
 
-    public function getIntermediary (): ?BillableInterface;
+    public function getIntermediary (): ?IntermediaryInterface;
 
-    public function setRepresentative (BillableInterface $representative): DigitalDocumentInterface;
+    public function setRepresentative (?BillablePersonInterface $representative): DigitalDocumentInterface;
 
-    public function getRepresentative (): ?BillableInterface;
+    public function getRepresentative (): ?BillablePersonInterface;
 }

@@ -4,6 +4,7 @@ namespace Weble\FatturaElettronica\Parser;
 
 use Weble\FatturaElettronica\Address;
 use Weble\FatturaElettronica\Billable;
+use Weble\FatturaElettronica\BillablePerson;
 use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
@@ -33,6 +34,8 @@ use TypeError;
 
 class DigitalDocumentParser implements DigitalDocumentParserInterface
 {
+    use XmlUtilities;
+
     /**
      * Nome del file senza estensioni
      * @var string
@@ -103,29 +106,13 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $digitalDocument = $this->extractDigitalDocumentInformations($digitalDocument);
-
-        $digitalDocument->setCustomer(
-            $this->extractCustomerInformations()
-        );
-
-        $digitalDocument->setSupplier(
-            $this->extractSupplierInformations()
-        );
-
-        $representative = $this->extractRepresentativeInformations();
-        if ($representative !== null) {
-            $digitalDocument->setRepresentative($representative);
-        }
-
-        $intermediary = $this->extractIntermediaryInformations();
-        if ($intermediary !== null) {
-            $digitalDocument->setIntermediary($intermediary);
-        }
+        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
+        $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $edocumentBody = $this->extractRowInformationsFrom($body);
-            $digitalDocument->addDigitalDocumentInstance($edocumentBody);
+            $bodyParser = new DigitalDocumentBodyParser($body);
+            $bodyInstance = $bodyParser->parse();
+            $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
 
         return $digitalDocument;
@@ -207,83 +194,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    public function extractCustomerInformations (): BillableInterface
-    {
-        $customer = new Customer();
-
-        $customerName = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Nome');
-        $customer->setName($customerName);
-
-        $customerSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Cognome');
-        $customer->setSurname($customerSurname);
-
-        $customerOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Denominazione');
-        $customer->setOrganization($customerOrganization);
-
-        $customerFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/CodiceFiscale');
-        $customer->setFiscalCode($customerFiscalCode);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-        $customer->setCountryCode($value);
-
-        $customerVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        if ($customerVatNumber === null) {
-            $customerVatNumber = '';
-        }
-        $customer->setVatNumber($customerVatNumber);
-
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/Sede', false);
-        if ($addressValue !== null) {
-            $addressValue = array_shift($addressValue);
-        }
-
-        if ($addressValue !== null) {
-            $address = $this->extractAddressInformationFrom($addressValue);
-            $customer->setAddress($address);
-        }
-
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/StabileOrganizzazione', false);
-        if ($addressValue !== null) {
-            $addressValue = array_shift($addressValue);
-        }
-
-        if ($addressValue !== null) {
-            $address = $this->extractAddressInformationFrom($addressValue);
-            $customer->setForeignFixedAddress($address);
-        }
-
-        $representativeValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/RappresentanteFiscale', false);
-        if ($representativeValue !== null) {
-            $representativeValue = array_shift($representativeValue);
-        }
-
-        if ($representativeValue !== null) {
-            $representative = new Representative();
-
-            $value = $this->extractValueFromXmlElement($representativeValue, 'IdFiscaleIva/IdPaese');
-            $representative->setCountryCode($value);
-
-            $value = $this->extractValueFromXmlElement($representativeValue, 'IdFiscaleIva/IdCodice');
-            $representative->setVatNumber($value);
-
-            $value = $this->extractValueFromXmlElement($representativeValue, 'Denominazione');
-            $representative->setOrganization($value);
-
-            $value = $this->extractValueFromXmlElement($representativeValue, 'Nome');
-            $representative->setName($value);
-
-            $value = $this->extractValueFromXmlElement($representativeValue, 'Cognome');
-            $representative->setSurname($value);
-
-            $customer->setRepresentative($representative);
-        }
-
-        return $customer;
-    }
-
     public function extractBillableInformationsFrom (SimpleXMLElement $xml): BillableInterface
     {
-        $billable = new Billable();
+        $billable = new BillablePerson();
 
         $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
         $billable->setTitle($title);
@@ -310,175 +223,6 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $billable->setVatNumber($customerVatNumber);
 
         return $billable;
-    }
-
-    public function extractIntermediaryInformations ()
-    {
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente', false);
-        if ($value === null) {
-            return $value;
-        }
-
-        $value = array_shift($value);
-        if ($value === null) {
-            return $value;
-        }
-
-        $intermediary = new Billable();
-
-        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Nome');
-        $intermediary->setName($documentName);
-
-        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Cognome');
-        $intermediary->setSurname($documentSurname);
-
-        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Denominazione');
-        $intermediary->setOrganization($documentOrganization);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Titolo');
-        $intermediary->setTitle($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/CodiceFiscale');
-        $intermediary->setFiscalCode($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        $intermediary->setVatNumber($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-        $intermediary->setCountryCode($value);
-
-        return $intermediary;
-    }
-
-    public function extractRepresentativeInformations ()
-    {
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale', false);
-        if ($value === null) {
-            return $value;
-        }
-
-        $value = array_shift($value);
-        if ($value === null) {
-            return $value;
-        }
-
-        $intermediary = new Billable();
-
-        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Nome');
-        $intermediary->setName($documentName);
-
-        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Cognome');
-        $intermediary->setSurname($documentSurname);
-
-        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Denominazione');
-        $intermediary->setOrganization($documentOrganization);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/Anagrafica/Titolo');
-        $intermediary->setTitle($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/CodiceFiscale');
-        $intermediary->setFiscalCode($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        $intermediary->setVatNumber($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-        $intermediary->setCountryCode($value);
-
-        return $intermediary;
-    }
-
-    public function extractSupplierInformations (): BillableInterface
-    {
-        $supplier = new Supplier();
-
-        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Nome');
-        $supplier->setName($documentName);
-
-        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Cognome');
-        $supplier->setSurname($documentSurname);
-
-        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Denominazione');
-        $supplier->setOrganization($documentOrganization);
-
-        $documentFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/CodiceFiscale');
-        $supplier->setFiscalCode($documentFiscalCode);
-
-        $documentVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        if ($documentVatNumber === null) {
-            throw new InvalidXmlFile('Vat Number is required');
-        }
-        $supplier->setVatNumber($documentVatNumber);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-        if ($value === null) {
-            throw new InvalidXmlFile('IdPaese is required');
-        }
-        $supplier->setCountryCode($value);
-
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Sede', false);
-        if ($addressValue !== null) {
-            $addressValue = array_shift($addressValue);
-        }
-
-        if ($addressValue !== null) {
-            $address = $this->extractAddressInformationFrom($addressValue);
-            $supplier->setAddress($address);
-        }
-
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/StabileOrganizzazione', false);
-        if ($addressValue !== null) {
-            $addressValue = array_shift($addressValue);
-        }
-
-        if ($addressValue !== null) {
-            $address = $this->extractAddressInformationFrom($addressValue);
-            $supplier->setForeignFixedAddress($address);
-        }
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/AlboProfessionale');
-        $supplier->setRegister($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/ProvinciaAlbo');
-        $supplier->setRegisterState($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/NumeroIscrizioneAlbo');
-        $supplier->setRegisterNumber($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/DataIscrizioneAlbo');
-        $supplier->setRegisterDate($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RegimeFiscale');
-        $supplier->setTaxRegime($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Telefono');
-        $supplier->setPhone($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Email');
-        $supplier->setEmail($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Fax');
-        $supplier->setFax($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RiferimentoAmministrazione');
-        $supplier->setAdministrativeContact($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/Ufficio');
-        $supplier->setReaOffice($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/NumeroREA');
-        $supplier->setReaNumber($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/CapitaleSociale');
-        $supplier->setCapital($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/SocioUnico');
-        $supplier->setAssociateType($value);
-
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/StatoLiquidazione');
-        $supplier->setSettlementType($value);
-
-        return $supplier;
     }
 
     protected function extractAddressInformationFrom (SimpleXMLElement $xml): AddressInterface
@@ -786,30 +530,6 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         $digitalDocument->setEmittingSubject($code);
 
         return $digitalDocument;
-    }
-
-    protected function extractValueFromXml (string $xPath, $convertToString = true)
-    {
-        return $this->extractValueFromXmlElement($this->xml(), $xPath, $convertToString);
-    }
-
-    protected function extractValueFromXmlElement (SimpleXMLElement $xml, string $xPath, $convertToString = true)
-    {
-        $value = $xml->xpath($xPath);
-
-        if (empty($value)) {
-            return null;
-        }
-
-        if (count($value) <= 0) {
-            return null;
-        }
-
-        if ($convertToString) {
-            return $value[0]->__toString();
-        }
-
-        return $value;
     }
 
     protected function extractDiscountInformationsFrom ($discount): DiscountInterface
