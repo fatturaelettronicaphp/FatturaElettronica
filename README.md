@@ -1,9 +1,6 @@
 # Fattura Elettronica
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/FatturaElettronica.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
-[![Build Status](https://img.shields.io/travis/spatie/FatturaElettronica/master.svg?style=flat-square)](https://travis-ci.org/spatie/:package_name)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/FatturaElettronica.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/FatturaElettronica.svg?style=flat-square)](https://packagist.org/packages/spatie/:package_name)
+[![Build Status](https://img.shields.io/travis/com/weble/fatturaelettronica/master.svg?style=flat-square)](https://travis-ci.com/weble/fatturaelettronica)
 
 Pacchetto per la lettura e la generazione della fattura elettronica, sia PA che B2B / B2C
 
