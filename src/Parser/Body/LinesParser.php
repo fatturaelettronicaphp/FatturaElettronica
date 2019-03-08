@@ -13,6 +13,7 @@ use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use Weble\FatturaElettronica\Contracts\DiscountInterface;
 use Weble\FatturaElettronica\Contracts\FundInterface;
 use Weble\FatturaElettronica\Contracts\LineInterface;
+use Weble\FatturaElettronica\Contracts\OtherDataInterface;
 use Weble\FatturaElettronica\Contracts\ProductInterface;
 use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use Weble\FatturaElettronica\Customer;
@@ -27,6 +28,7 @@ use SimpleXMLElement;
 use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
 use Weble\FatturaElettronica\Fund;
 use Weble\FatturaElettronica\Line;
+use Weble\FatturaElettronica\OtherData;
 use Weble\FatturaElettronica\Parser\XmlUtilities;
 use Weble\FatturaElettronica\Product;
 use Weble\FatturaElettronica\RelatedDocument;
@@ -88,7 +90,17 @@ class LinesParser extends AbstractBodyParser
             $instance->addProduct($value);
         }
 
+        $discounts = (array) $this->extractValueFromXmlElement($xml, 'ScontoMaggiorazione', false);
+        foreach ($discounts as $discount) {
+            $value = $this->extractDiscountInformationsFrom($discount);
+            $instance->addDiscount($value);
+        }
 
+        $datas = (array) $this->extractValueFromXmlElement($xml, 'AltriDatiGestionali', false);
+        foreach ($datas as $data) {
+            $value = $this->extractOtherDataFrom($data);
+            $instance->addOtherData($value);
+        }
 
         return $instance;
     }
@@ -102,6 +114,41 @@ class LinesParser extends AbstractBodyParser
 
         $value = $this->extractValueFromXmlElement($xml, 'CodiceValore');
         $instance->setCode($value);
+
+        return $instance;
+    }
+
+    protected function extractDiscountInformationsFrom ($xml): DiscountInterface
+    {
+        $instance = new Discount();
+
+        $value = $this->extractValueFromXmlElement($xml, 'Tipo');
+        $instance->setType($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Percentuale');
+        $instance->setPercentage((float) $value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'Importo');
+        $instance->setAmount((float) $value);
+
+        return $instance;
+    }
+
+    protected function extractOtherDataFrom ($xml): OtherDataInterface
+    {
+        $instance = new OtherData();
+
+        $value = $this->extractValueFromXmlElement($xml, 'TipoDato');
+        $instance->setType($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'RiferimentoTesto');
+        $instance->setText($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'RiferimentoNumero');
+        $instance->setNumber( $value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'RiferimentoData');
+        $instance->setDate($value);
 
         return $instance;
     }

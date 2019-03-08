@@ -2,9 +2,9 @@
 
 namespace Weble\FatturaElettronica;
 
-use phpDocumentor\Reflection\Types\Integer;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use Weble\FatturaElettronica\Contracts\TotalInterface;
 use Weble\FatturaElettronica\Enums\DocumentType;
 use Weble\FatturaElettronica\Enums\DeductionType;
 use DateTime;
@@ -35,12 +35,6 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var string[] */
     protected $descriptions = [];
-
-    /** @var float */
-    protected $amountTax;
-
-    /** @var float */
-    protected $documentTotal;
 
     /** @var DateTime */
     protected $documentDate;
@@ -107,6 +101,13 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var DateTime */
     protected $mainInvoiceDate;
+
+    /** @var Total[] */
+    protected $totals = [];
+
+    /** @var float  */
+    protected $documentTotal;
+
 
     public function getRounding (): ?float
     {
@@ -424,38 +425,6 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this;
     }
 
-    public function getAmount (): ?float
-    {
-        return $this->amount;
-    }
-
-    public function setAmount (?float $amount): DigitalDocumentInstanceInterface
-    {
-        $this->amount = $amount;
-        return $this;
-    }
-
-    public function getAmountTax (): ?float
-    {
-        return $this->amountTax;
-    }
-
-    public function setAmountTax (?float $amountTax): DigitalDocumentInstanceInterface
-    {
-        $this->amountTax = $amountTax;
-        return $this;
-    }
-
-    public function getDocumentTotal (): ?float
-    {
-        return $this->documentTotal;
-    }
-
-    public function setDocumentTotal (?float $documentTotal): DigitalDocumentInstanceInterface
-    {
-        $this->documentTotal = $documentTotal;
-        return $this;
-    }
 
     public function hasDeduction (): bool
     {
@@ -627,6 +596,49 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     public function addShippingLabel (ShippingLabel $document): DigitalDocumentInstanceInterface
     {
         $this->shippingLabels[] = $document;
+        return $this;
+    }
+
+    public function getTotals (): array
+    {
+        return $this->totals;
+    }
+
+    public function setDocumentTotal(?float $documentTotal): self
+    {
+        $this->documentTotal = $documentTotal;
+        return $this;
+    }
+
+    public function getDocumentTotal(): float
+    {
+        if ($this->documentTotal !== null) {
+            return $this->documentTotal;
+        }
+
+        $total = 0;
+        /** @var TotalInterface $t */
+        foreach ($this->getTotals() as $t) {
+            $total += $t->getTotal();
+        }
+
+        return $total;
+    }
+
+    public function getDocumenTotalTaxAmount (): ?float
+    {
+        $total = 0;
+        /** @var TotalInterface $total */
+        foreach ($this->getTotals() as $t) {
+            $total += $t->getTaxAmount();
+        }
+
+        return $total;
+    }
+
+    public function addTotal (TotalInterface $total): DigitalDocumentInstanceInterface
+    {
+        $this->totals[] = $total;
         return $this;
     }
 

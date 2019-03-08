@@ -65,17 +65,11 @@ interface DigitalDocumentInstanceInterface
 
     public function setDocumentNumber (?string $documentNumber): DigitalDocumentInstanceInterface;
 
-    public function getAmount (): ?float;
-
-    public function setAmount (?float $amount): DigitalDocumentInstanceInterface;
-
-    public function getAmountTax (): ?float;
-
-    public function setAmountTax (?float $amountTax): DigitalDocumentInstanceInterface;
+    public function setDocumentTotal (?float $documentTotal);
 
     public function getDocumentTotal (): ?float;
 
-    public function setDocumentTotal (?float $documentTotal): DigitalDocumentInstanceInterface;
+    public function getDocumenTotalTaxAmount (): ?float;
 
     public function hasDeduction (): bool;
 
@@ -157,4 +151,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getShipment (): ?Shipment;
 
+    public function getTotals (): array;
+
+    public function addTotal(TotalInterface $total);
 }
