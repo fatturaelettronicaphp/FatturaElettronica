@@ -86,7 +86,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this;
     }
 
-    protected function addTransmissionData (): DigitalDocumentWriter
+    protected function addTransmissionData (): self
     {
         $datiTrasmissione = $this->xmlHeader->addChild('DatiTrasmissione');
         $idTrasmittente = $datiTrasmissione->addChild('IdTrasmittente');
@@ -123,7 +123,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     /**
      * Aggiunge i dati del cedente/prestatore
      */
-    protected function addSupplierInformations (): DigitalDocumentWriter
+    protected function addSupplierInformations (): self
     {
         $cedentePrestatore = $this->xmlHeader->addChild('CedentePrestatore');
         $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
@@ -232,7 +232,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     /**
      * Aggiunge i dati del rappresentante fiscale
      */
-    protected function addRepresentitiveData (): DigitalDocumentWriter
+    protected function addRepresentitiveData (): self
     {
         $documentPerson = $this->document->getIntermediary();
 
@@ -281,7 +281,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this;
     }
 
-    protected function addCustomerInformations (): DigitalDocumentWriter
+    protected function addCustomerInformations (): self
     {
         $cessionarioCommittente = $this->xmlHeader->addChild('CessionarioCommittente');
         $datiAnagrafici = $cessionarioCommittente->addChild('DatiAnagrafici');
@@ -398,7 +398,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this;
     }
 
-    protected function addIntermediaryInformations (): DigitalDocumentWriter
+    protected function addIntermediaryInformations (): self
     {
         $intermediary = $this->document->getIntermediary();
 
@@ -447,7 +447,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         }
     }
 
-    protected function addEmittingSubject (): DigitalDocumentWriter
+    protected function addEmittingSubject (): self
     {
         if (!empty($this->document->getEmittingSubject())) {
             $this->xmlHeader->addChild('SoggettoEmittente', $this->document->getEmittingSubject());
@@ -564,7 +564,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
         /* Dati SAL */
         foreach ($instance->getSals() as $sal) {
-            $generalData->addChild('DatiSAL')->addChild('RiferimentoFase', (int) $sal);
+            $generalData->addChild('DatiSAL')->addChild('RiferimentoFase', (int)$sal);
         }
 
         /* Dati documenti DDT */
