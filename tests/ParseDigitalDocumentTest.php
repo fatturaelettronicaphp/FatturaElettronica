@@ -4,6 +4,8 @@
 namespace Weble\FatturaElettronica\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Weble\FatturaElettronica\Contracts\AttachmentInterface;
+use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
@@ -30,6 +32,34 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('00484960588', $eDocument->getSupplier()->getFiscalCode());
         $this->assertEquals('00905811006', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('Eni SpADivisione Refining & Marketing', $eDocument->getSupplier()->getOrganization());
+    }
+
+    /** @test */
+    public function can_read_attachments ()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
+        $documentParser = new DigitalDocumentParser($file);
+
+        $eDocument = $documentParser->parse();
+
+        $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+
+        $bodies = $eDocument->getDocumentInstances();
+        /** @var DigitalDocumentInstanceInterface $body */
+        $body = array_shift($bodies);
+
+        $attachments = $body->getAttachments();
+        /** @var AttachmentInterface $attachment */
+        $attachment = array_shift($attachments);
+
+        $this->assertEquals("000267590730122583.zip", $attachment->getName());
+        $this->assertEquals("Allegato a documento elettronico", $attachment->getDescription());
+        $this->assertNotEmpty($attachment->getAttachment());
+        $this->assertNotEmpty($attachment->getFileData());
+
+        $filePath = $attachment->writeFileToFolder();
+        $this->assertTrue(file_exists($filePath));
+        unlink($filePath);
     }
 
     /** @test */

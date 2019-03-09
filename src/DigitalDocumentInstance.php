@@ -2,6 +2,7 @@
 
 namespace Weble\FatturaElettronica;
 
+use Weble\FatturaElettronica\Contracts\AttachmentInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
 use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
@@ -11,9 +12,6 @@ use Weble\FatturaElettronica\Enums\DeductionType;
 use DateTime;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Enums\VatNature;
-use Weble\FatturaElettronica\Enums\FundType;
-use Weble\FatturaElettronica\Enums\DiscountType;
 use Weble\FatturaElettronica\Contracts\FundInterface;
 use Weble\FatturaElettronica\Contracts\DiscountInterface;
 use Weble\FatturaElettronica\Contracts\LineInterface;
@@ -115,6 +113,8 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var PaymentInfoInterface[] */
     protected $paymentInformations = [];
 
+    /** @var AttachmentInterface[] */
+    protected $attachments = [];
 
     public function getRounding (): ?float
     {
@@ -474,6 +474,22 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     public function hasPaymentInformations (): bool
     {
         return (count($this->paymentInformations) > 0);
+    }
+
+    public function getAttachments (): array
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment (AttachmentInterface $attachment): DigitalDocumentInstanceInterface
+    {
+        $this->attachments[] = $attachment;
+        return $this;
+    }
+
+    public function hasAttachments (): bool
+    {
+        return (count($this->attachments) > 0);
     }
 
     public function getTotals (): array

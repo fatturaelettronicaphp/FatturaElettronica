@@ -168,4 +168,10 @@ interface DigitalDocumentInstanceInterface
     public function addPaymentInformations (PaymentInfoInterface $paymentInfo);
 
     public function hasPaymentInformations (): bool;
+
+    public function getAttachments (): array;
+
+    public function addAttachment (AttachmentInterface $attachment);
+
+    public function hasAttachments (): bool;
 }

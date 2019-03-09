@@ -6,6 +6,7 @@ use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
 use SimpleXMLElement;
+use Weble\FatturaElettronica\Parser\Body\AttachmentParser;
 use Weble\FatturaElettronica\Parser\Body\ConventionsParser;
 use Weble\FatturaElettronica\Parser\Body\DeductionParser;
 use Weble\FatturaElettronica\Parser\Body\DiscountParser;
@@ -71,7 +72,8 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 LinesParser::class,
                 SummaryParser::class,
                 VehicleParser::class,
-                PaymentInfoParser::class
+                PaymentInfoParser::class,
+                AttachmentParser::class
             ])
             ->thenReturn();
     }
