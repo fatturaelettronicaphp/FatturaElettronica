@@ -436,10 +436,10 @@ class DigitalDocumentBodyWriter implements DigitalDocumentWriterInterface
         $documentGeneralData = $generalData->addChild('DatiGeneraliDocumento');
         $documentGeneralData->addChild('TipoDocumento', (string)$instance->getDocumentType());
         $documentGeneralData->addChild('Divisa', $instance->getCurrency());
-        $documentGeneralData->addChild('Data', $instance->getDocumentDate()->format(DATE_ISO8601));
+        $documentGeneralData->addChild('Data', $instance->getDocumentDate()->format('YYYY-MM-DD'));
         $documentGeneralData->addChild('Numero', $instance->getDocumentNumber());
 
-        if (!$instance->hasDeduction()) {
+        if ($instance->hasDeduction()) {
             $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
             $datiRitenuta->addChild('TipoRitenuta', $instance->getDeductionType());
             $datiRitenuta->addChild('ImportoRitenuta', number_format($instance->getDeductionAmount(), '2', '.', ''));
@@ -522,7 +522,7 @@ class DigitalDocumentBodyWriter implements DigitalDocumentWriterInterface
 
         /* Dati contratti */
         foreach ($instance->getConventions() as $dataContract) {
-            $this->addExternalDocument($dataContract, $generalData->addChild('DatiRicezione'));
+            $this->addExternalDocument($dataContract, $generalData->addChild('DatiConvenzione'));
         }
 
         /* Dati contratti */
@@ -570,12 +570,12 @@ class DigitalDocumentBodyWriter implements DigitalDocumentWriterInterface
         $parent->addChild('IdDocumento', SimpleXmlExtended::sanitizeText($documentData->getDocumentNumber()));
 
         if (!empty($documentData->getDocumentDate())) {
-            $parent->addChild('Data', $documentData->getDocumentDate());
+            $parent->addChild('Data', $documentData->getDocumentDate()->format('YYYY-MM-DD'));
         }
 
         $numItem = $documentData->getLineNumber();
         if ($numItem !== null) {
-            $parent->addChild('NumItem', SimpleXmlExtended::sanitizeText(getLineNumber));
+            $parent->addChild('NumItem', SimpleXmlExtended::sanitizeText($numItem));
         }
 
         $codiceCommessa = $documentData->getOrderCode();
@@ -589,7 +589,7 @@ class DigitalDocumentBodyWriter implements DigitalDocumentWriterInterface
         }
 
         $codiceCig = $documentData->getCigCode();
-        if (!$codiceCig !== null) {
+        if ($codiceCig !== null) {
             $parent->addChild('CodiceCIG', SimpleXmlExtended::sanitizeText($codiceCig));
         }
     }

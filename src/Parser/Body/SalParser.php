@@ -37,10 +37,10 @@ class SalParser extends AbstractBodyParser
 {
     protected function performParsing ()
     {
-        $value = $this->extractValueFromXml('DatiVeicoli/Data');
-        $this->digitalDocymentInstance->setVehicleRegistrationDate($value);
+        $value = (array)$this->extractValueFromXml('DatiGenerali/DatiSal', false);
+        foreach ($value as $v) {
+            $this->digitalDocymentInstance->addSal($v);
+        }
 
-        $value = $this->extractValueFromXml('DatiVeicoli/TotalePercorso');
-        $this->digitalDocymentInstance->setVehicleTotalKm($value);
     }
 }

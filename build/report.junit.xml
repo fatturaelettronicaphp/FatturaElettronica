@@ -1,22 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="Test Suite" tests="4" assertions="52" errors="1" failures="0" skipped="0" time="0.058302">
-    <testsuite name="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" tests="3" assertions="52" errors="0" failures="0" skipped="0" time="0.054509">
-      <testcase name="can_read_p7m_invoice" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="18" assertions="7" time="0.030785"/>
-      <testcase name="can_read_attachments" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="38" assertions="6" time="0.021187"/>
-      <testcase name="can_read_xml_invoice" class="Weble\FatturaElettronica\Tests\ParseDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.ParseDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/ParseDigitalDocumentTest.php" line="66" assertions="39" time="0.002537"/>
-    </testsuite>
-    <testsuite name="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" tests="1" assertions="0" errors="1" failures="0" skipped="0" time="0.003793">
-      <testcase name="can_write_xml_invoice" class="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" line="15" assertions="0" time="0.003793">
-        <error type="Weble\FatturaElettronica\Exceptions\InvalidDocument">Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest::can_write_xml_invoice
-Weble\FatturaElettronica\Exceptions\InvalidDocument: Invalid empty fiscal code for cedente prestatore
+  <testsuite name="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" tests="1" assertions="1" errors="0" failures="1" skipped="0" time="0.018477">
+    <testcase name="can_write_xml_invoice" class="Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest" classname="Weble.FatturaElettronica.Tests.WriteDigitalDocumentTest" file="/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php" line="15" assertions="1" time="0.018477">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Weble\FatturaElettronica\Tests\WriteDigitalDocumentTest::can_write_xml_invoice
+Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb04f000000004f36c019 (
+    '@attributes' =&gt; Array &amp;0 (
+        'xmlns:p' =&gt; 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2'
+        'xmlns:ds' =&gt; 'http://www.w3.org/2000/09/xmldsig#'
+        'xmlns:xsi' =&gt; 'http://www.w3.org/2001/XMLSchema-instance'
+        'xsi:schemaLocation' =&gt; 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd'
+        'versione' =&gt; 'FPR12'
+    )
+    'FatturaElettronicaHeader' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03a000000004f36c019 (
+        'DatiTrasmissione' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02c000000004f36c019 (
+            'IdTrasmittente' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb039000000004f36c019 (
+                'IdPaese' =&gt; 'IT'
+                'IdCodice' =&gt; '01234567890'
+            )
+            'ProgressivoInvio' =&gt; '00001'
+            'FormatoTrasmissione' =&gt; 'FPR12'
+            'CodiceDestinatario' =&gt; '0000000'
+            'PECDestinatario' =&gt; 'betagamma@pec.it'
+        )
+        'CedentePrestatore' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02f000000004f36c019 (
+            'DatiAnagrafici' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb020000000004f36c019 (
+                'IdFiscaleIVA' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb021000000004f36c019 (
+                    'IdPaese' =&gt; 'IT'
+                    'IdCodice' =&gt; '01234567890'
+                )
+                'Anagrafica' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb038000000004f36c019 (
+                    'Denominazione' =&gt; 'SOCIETA' ALPHA SRL'
+                )
+                'RegimeFiscale' =&gt; 'RF01'
+            )
+            'Sede' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb023000000004f36c019 (
+                'Indirizzo' =&gt; 'VIALE ROMA 543'
+                'CAP' =&gt; '07100'
+                'Comune' =&gt; 'SASSARI'
+                'Provincia' =&gt; 'SS'
+                'Nazione' =&gt; 'IT'
+            )
+        )
+        'CessionarioCommittente' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03d000000004f36c019 (
+            'DatiAnagrafici' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb024000000004f36c019 (
+                'Anagrafica' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb022000000004f36c019 (
+                    'Denominazione' =&gt; 'BETA GAMMA'
+                )
+            )
+            'Sede' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb027000000004f36c019 (
+                'Indirizzo' =&gt; 'VIA TORINO 38-B'
+                'CAP' =&gt; '00145'
+                'Comune' =&gt; 'ROMA'
+                'Provincia' =&gt; 'RM'
+                'Nazione' =&gt; 'IT'
+            )
+        )
+    )
+    'FatturazioneElettronicaBody' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02e000000004f36c019 (
+        'DatiGenerali' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb025000000004f36c019 (
+            'DatiGeneraliDocumento' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03b000000004f36c019 (
+                'TipoDocumento' =&gt; 'TD01'
+                'Divisa' =&gt; 'EUR'
+                'Data' =&gt; '2014201420142014-DecDec-ThuThu'
+                'Numero' =&gt; '123'
+                'ImportoTotaleDocumento' =&gt; '5.5'
+                'Causale' =&gt; Array &amp;1 (
+                    0 =&gt; 'LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS'
+                    1 =&gt; 'SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB'
+                )
+            )
+            'DatiOrdineAcquisto' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb026000000004f36c019 (
+                'RiferimentoNumeroLinea' =&gt; '1'
+                'IdDocumento' =&gt; '66685'
+                'Data' =&gt; '2019201920192019-MarMar-SatSat'
+                'NumItem' =&gt; '1'
+            )
+        )
+    )
+) is not instance of expected class "SimpleXMLElement".
+--- Expected
++++ Actual
+@@ @@
+-SimpleXMLElement Object &amp;0000000056edb047000000004f36c019 (
++Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb04f000000004f36c019 (
+     '@attributes' =&gt; Array &amp;0 (
++        'xmlns:p' =&gt; 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2'
++        'xmlns:ds' =&gt; 'http://www.w3.org/2000/09/xmldsig#'
++        'xmlns:xsi' =&gt; 'http://www.w3.org/2001/XMLSchema-instance'
++        'xsi:schemaLocation' =&gt; 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd'
+         'versione' =&gt; 'FPR12'
+     )
+-    'FatturaElettronicaHeader' =&gt; SimpleXMLElement Object &amp;0000000056edb007000000004f36c019 (
+-        'DatiTrasmissione' =&gt; SimpleXMLElement Object &amp;0000000056edb005000000004f36c019 (
+-            'IdTrasmittente' =&gt; SimpleXMLElement Object &amp;0000000056edb000000000004f36c019 (
++    'FatturaElettronicaHeader' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03d000000004f36c019 (
++        'DatiTrasmissione' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03b000000004f36c019 (
++            'IdTrasmittente' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb026000000004f36c019 (
+                 'IdPaese' =&gt; 'IT'
+                 'IdCodice' =&gt; '01234567890'
+             )
+@@ @@
+             'CodiceDestinatario' =&gt; '0000000'
+             'PECDestinatario' =&gt; 'betagamma@pec.it'
+         )
+-        'CedentePrestatore' =&gt; SimpleXMLElement Object &amp;0000000056edb002000000004f36c019 (
+-            'DatiAnagrafici' =&gt; SimpleXMLElement Object &amp;0000000056edb001000000004f36c019 (
+-                'IdFiscaleIVA' =&gt; SimpleXMLElement Object &amp;0000000056edb00f000000004f36c019 (
++        'CedentePrestatore' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb038000000004f36c019 (
++            'DatiAnagrafici' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb027000000004f36c019 (
++                'IdFiscaleIVA' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb025000000004f36c019 (
+                     'IdPaese' =&gt; 'IT'
+                     'IdCodice' =&gt; '01234567890'
+                 )
+-                'Anagrafica' =&gt; SimpleXMLElement Object &amp;0000000056edb00c000000004f36c019 (
++                'Anagrafica' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb022000000004f36c019 (
+                     'Denominazione' =&gt; 'SOCIETA' ALPHA SRL'
+                 )
+                 'RegimeFiscale' =&gt; 'RF01'
+             )
+-            'Sede' =&gt; SimpleXMLElement Object &amp;0000000056edb00e000000004f36c019 (
++            'Sede' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb024000000004f36c019 (
+                 'Indirizzo' =&gt; 'VIALE ROMA 543'
+                 'CAP' =&gt; '07100'
+                 'Comune' =&gt; 'SASSARI'
+@@ @@
+                 'Nazione' =&gt; 'IT'
+             )
+         )
+-        'CessionarioCommittente' =&gt; SimpleXMLElement Object &amp;0000000056edb003000000004f36c019 (
+-            'DatiAnagrafici' =&gt; SimpleXMLElement Object &amp;0000000056edb00d000000004f36c019 (
+-                'CodiceFiscale' =&gt; '09876543210'
+-                'Anagrafica' =&gt; SimpleXMLElement Object &amp;0000000056edb00b000000004f36c019 (
++        'CessionarioCommittente' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb039000000004f36c019 (
++            'DatiAnagrafici' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb023000000004f36c019 (
++                'Anagrafica' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb021000000004f36c019 (
+                     'Denominazione' =&gt; 'BETA GAMMA'
+                 )
+             )
+-            'Sede' =&gt; SimpleXMLElement Object &amp;0000000056edb00a000000004f36c019 (
++            'Sede' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb020000000004f36c019 (
+                 'Indirizzo' =&gt; 'VIA TORINO 38-B'
+                 'CAP' =&gt; '00145'
+                 'Comune' =&gt; 'ROMA'
+@@ @@
+             )
+         )
+     )
+-    'FatturaElettronicaBody' =&gt; SimpleXMLElement Object &amp;0000000056edb004000000004f36c019 (
+-        'DatiGenerali' =&gt; SimpleXMLElement Object &amp;0000000056edb008000000004f36c019 (
+-            'DatiGeneraliDocumento' =&gt; SimpleXMLElement Object &amp;0000000056edb037000000004f36c019 (
++    'FatturazioneElettronicaBody' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb03a000000004f36c019 (
++        'DatiGenerali' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02e000000004f36c019 (
++            'DatiGeneraliDocumento' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02f000000004f36c019 (
+                 'TipoDocumento' =&gt; 'TD01'
+                 'Divisa' =&gt; 'EUR'
+-                'Data' =&gt; '2014-12-18'
++                'Data' =&gt; '2014201420142014-DecDec-ThuThu'
+                 'Numero' =&gt; '123'
++                'ImportoTotaleDocumento' =&gt; '5.5'
+                 'Causale' =&gt; Array &amp;1 (
+                     0 =&gt; 'LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS'
+                     1 =&gt; 'SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB'
+                 )
+             )
+-            'DatiOrdineAcquisto' =&gt; SimpleXMLElement Object &amp;0000000056edb034000000004f36c019 (
++            'DatiOrdineAcquisto' =&gt; Weble\FatturaElettronica\Utilities\SimpleXmlExtended Object &amp;0000000056edb02c000000004f36c019 (
+                 'RiferimentoNumeroLinea' =&gt; '1'
+                 'IdDocumento' =&gt; '66685'
++                'Data' =&gt; '2019201920192019-MarMar-SatSat'
+                 'NumItem' =&gt; '1'
+-            )
+-            'DatiTrasporto' =&gt; SimpleXMLElement Object &amp;0000000056edb035000000004f36c019 (
+-                'DatiAnagraficiVettore' =&gt; SimpleXMLElement Object &amp;0000000056edb032000000004f36c019 (
+-                    'IdFiscaleIVA' =&gt; SimpleXMLElement Object &amp;0000000056edb033000000004f36c019 (
+-                        'IdPaese' =&gt; 'IT'
+-                        'IdCodice' =&gt; '24681012141'
+-                    )
+-                    'Anagrafica' =&gt; SimpleXMLElement Object &amp;0000000056edb030000000004f36c019 (
+-                        'Denominazione' =&gt; 'Trasporto spa'
+-                    )
+-                )
+-                'DataOraConsegna' =&gt; '2012-10-22T16:46:12.000+02:00'
+-            )
+-        )
+-        'DatiBeniServizi' =&gt; SimpleXMLElement Object &amp;0000000056edb009000000004f36c019 (
+-            'DettaglioLinee' =&gt; Array &amp;2 (
+-                0 =&gt; SimpleXMLElement Object &amp;0000000056edb031000000004f36c019 (
+-                    'NumeroLinea' =&gt; '1'
+-                    'Descrizione' =&gt; 'LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI'
+-                    'Quantita' =&gt; '5.00'
+-                    'PrezzoUnitario' =&gt; '1.00'
+-                    'PrezzoTotale' =&gt; '5.00'
+-                    'AliquotaIVA' =&gt; '22.00'
+-                )
+-                1 =&gt; SimpleXMLElement Object &amp;0000000056edb03e000000004f36c019 (
+-                    'NumeroLinea' =&gt; '2'
+-                    'Descrizione' =&gt; 'FORNITURE VARIE PER UFFICIO'
+-                    'Quantita' =&gt; '10.00'
+-                    'PrezzoUnitario' =&gt; '2.00'
+-                    'PrezzoTotale' =&gt; '20.00'
+-                    'AliquotaIVA' =&gt; '22.00'
+-                )
+-            )
+-            'DatiRiepilogo' =&gt; SimpleXMLElement Object &amp;0000000056edb03f000000004f36c019 (
+-                'AliquotaIVA' =&gt; '22.00'
+-                'ImponibileImporto' =&gt; '25.00'
+-                'Imposta' =&gt; '5.50'
+-                'EsigibilitaIVA' =&gt; 'D'
+-            )
+-        )
+-        'DatiPagamento' =&gt; SimpleXMLElement Object &amp;0000000056edb036000000004f36c019 (
+-            'CondizioniPagamento' =&gt; 'TP01'
+-            'DettaglioPagamento' =&gt; SimpleXMLElement Object &amp;0000000056edb03c000000004f36c019 (
+-                'ModalitaPagamento' =&gt; 'MP01'
+-                'DataScadenzaPagamento' =&gt; '2015-01-30'
+-                'ImportoPagamento' =&gt; '30.50'
+             )
+         )
+     )
+ )
 
-/Users/skullbock/Workspace/FatturaElettronica/src/Writer/DigitalDocumentHeaderWriter.php:120
-/Users/skullbock/Workspace/FatturaElettronica/src/Writer/DigitalDocumentHeaderWriter.php:52
-/Users/skullbock/Workspace/FatturaElettronica/src/Writer/DigitalDocumentWriter.php:59
-/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php:23
-</error>
-      </testcase>
-    </testsuite>
+/Users/skullbock/Workspace/FatturaElettronica/tests/WriteDigitalDocumentTest.php:27
+</failure>
+    </testcase>
   </testsuite>
 </testsuites>

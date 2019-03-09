@@ -7,6 +7,7 @@ use Weble\FatturaElettronica\Billable;
 use Weble\FatturaElettronica\BillablePerson;
 use Weble\FatturaElettronica\Contracts\AddressInterface;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
+use Weble\FatturaElettronica\Contracts\CustomerInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
@@ -81,7 +82,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
             return $this->xml;
     }
 
-    public function extractCustomerInformations (): BillableInterface
+    public function extractCustomerInformations (): CustomerInterface
     {
         $customer = new Customer();
 

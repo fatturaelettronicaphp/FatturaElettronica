@@ -116,11 +116,12 @@ class DigitalDocumentHeaderWriter implements DigitalDocumentWriterInterface
         }
 
         $codiceFiscale = $supplier->getFiscalCode();
-        if (empty($codiceFiscale)) {
-            throw new InvalidDocument('Invalid empty fiscal code for cedente prestatore');
+        $vatNumber = $supplier->getVatNumber();
+        if (empty($vatNumber) && empty($codiceFiscale)) {
+            throw new InvalidDocument('Invalid empty vat number or fiscal code for cedente prestatore');
         }
 
-        $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $supplier->getVatNumber());
+        $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 
         $idFiscaleIva = $datiAnagrafici->addChild('IdFiscaleIVA');
         $idFiscaleIva->addChild('IdPaese', $idPaese);
@@ -267,20 +268,14 @@ class DigitalDocumentHeaderWriter implements DigitalDocumentWriterInterface
 
         /** @var Customer $customer */
         $customer = $this->document->getCustomer();
+
         $idPaese = $customer->getCountryCode();
-
-        if (empty($idPaese)) {
-            throw new InvalidDocument('Invalid empty id paese for cessionario committente');
-        }
-
         $codiceFiscale = $customer->getFiscalCode();
-        if (empty($codiceFiscale) && empty($customer->getVatNumber())) {
-            throw new InvalidDocument('Invalid empty fiscal code for cessionario committente');
-        }
+        $vatNumber = $customer->getVatNumber();
 
-        $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $customer->getVatNumber());
+        $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 
-        if (!empty($fiscalData['idCodice'])) {
+        if (!empty($vatNumber)) {
             $idFiscaleIva = $datiAnagrafici->addChild('IdFiscaleIVA');
             $idFiscaleIva->addChild('IdPaese', $idPaese);
             $idFiscaleIva->addChild('IdCodice', SimpleXmlExtended::sanitizeText($fiscalData['idCodice']));

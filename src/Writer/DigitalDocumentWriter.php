@@ -49,7 +49,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
     public function write ($filePath): bool
     {
-        return true;
+        return $this->xml()->asXML($filePath);
     }
 
 
