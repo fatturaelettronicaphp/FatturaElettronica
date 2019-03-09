@@ -6,7 +6,7 @@ use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
-use Weble\FatturaElettronica\Contracts\RepresentativeInterface;
+use Weble\FatturaElettronica\Enums\EmittingSubject;
 use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Utilities\Arrayable;
@@ -63,8 +63,16 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->emittingSubject;
     }
 
-    public function setEmittingSubject ($emittingSubject): DigitalDocumentInterface
+    public function setEmittingSubject ($emittingSubject): self
     {
+        if ($emittingSubject === null) {
+            return $this;
+        }
+
+        if (!$emittingSubject instanceof EmittingSubject) {
+            $emittingSubject = EmittingSubject::from($emittingSubject);
+        }
+
         $this->emittingSubject = $emittingSubject;
         return $this;
     }
@@ -74,7 +82,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->representative;
     }
 
-    public function setRepresentative (?BillablePersonInterface $representative): DigitalDocumentInterface
+    public function setRepresentative (?BillablePersonInterface $representative): self
     {
         $this->representative = $representative;
         return $this;
@@ -85,13 +93,13 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->intermediary;
     }
 
-    public function setIntermediary (?IntermediaryInterface $intermediary): DigitalDocumentInterface
+    public function setIntermediary (?IntermediaryInterface $intermediary): self
     {
         $this->intermediary = $intermediary;
         return $this;
     }
 
-    public function addDigitalDocumentInstance (DigitalDocumentInstance $instance): DigitalDocumentInterface
+    public function addDigitalDocumentInstance (DigitalDocumentInstance $instance): self
     {
         $this->documentInstances[] = $instance;
         return $this;
@@ -107,7 +115,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->countryCode;
     }
 
-    public function setCountryCode ($countryCode): DigitalDocumentInterface
+    public function setCountryCode ($countryCode): self
     {
         $this->countryCode = $countryCode;
         return $this;
@@ -118,7 +126,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->customerSdiCode;
     }
 
-    public function setCustomerSdiCode ($customerSdiCode): DigitalDocumentInterface
+    public function setCustomerSdiCode ($customerSdiCode): self
     {
         $this->customerSdiCode = $customerSdiCode;
         return $this;
@@ -129,7 +137,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderVatId;
     }
 
-    public function setSenderVatId ($senderVatId): DigitalDocumentInterface
+    public function setSenderVatId ($senderVatId): self
     {
         $this->senderVatId = $senderVatId;
         return $this;
@@ -140,7 +148,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->sendingId;
     }
 
-    public function setSendingId ($sendingId): DigitalDocumentInterface
+    public function setSendingId ($sendingId): self
     {
         $this->sendingId = $sendingId;
         return $this;
@@ -151,7 +159,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderPhone;
     }
 
-    public function setSenderPhone ($senderPhone): DigitalDocumentInterface
+    public function setSenderPhone ($senderPhone): self
     {
         $this->senderPhone = $senderPhone;
         return $this;
@@ -162,7 +170,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->senderEmail;
     }
 
-    public function setSenderEmail ($senderEmail): DigitalDocumentInterface
+    public function setSenderEmail ($senderEmail): self
     {
         $this->senderEmail = $senderEmail;
         return $this;
@@ -173,7 +181,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->customerPec;
     }
 
-    public function setCustomerPec ($customerPec): DigitalDocumentInterface
+    public function setCustomerPec ($customerPec): self
     {
         $this->customerPec = $customerPec;
         return $this;
@@ -184,7 +192,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->customer;
     }
 
-    public function setCustomer (BillableInterface $customer): DigitalDocumentInterface
+    public function setCustomer (BillableInterface $customer): self
     {
         $this->customer = $customer;
         return $this;
@@ -195,19 +203,23 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->supplier;
     }
 
-    public function setSupplier (SupplierInterface $supplier): DigitalDocumentInterface
+    public function setSupplier (SupplierInterface $supplier): self
     {
         $this->supplier = $supplier;
         return $this;
     }
 
-    public function getTransmissionFormat (): TransmissionFormat
+    public function getTransmissionFormat (): ?TransmissionFormat
     {
         return $this->transmissionFormat;
     }
 
-    public function setTransmissionFormat ($transmissionFormat): DigitalDocumentInterface
+    public function setTransmissionFormat ($transmissionFormat): self
     {
+        if ($transmissionFormat === null) {
+            return $this;
+        }
+
         if (!$transmissionFormat instanceof TransmissionFormat) {
             $transmissionFormat = TransmissionFormat::from($transmissionFormat);
         }

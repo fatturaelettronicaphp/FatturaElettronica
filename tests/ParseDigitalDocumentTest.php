@@ -5,6 +5,8 @@ namespace Weble\FatturaElettronica\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 
@@ -94,5 +96,19 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(1, $firstProduct->getUnitPrice());
         $this->assertEquals(5, $firstProduct->getTotal());
         $this->assertEquals(22, $firstProduct->getTaxPercentage());
+
+        // Payment Info
+        $paymentInfos = $firstRow->getPaymentInformations();
+        /** @var PaymentInfoInterface $info */
+        $info = array_shift($paymentInfos);
+
+        $this->assertEquals('TP01', $info->getTerms());
+
+        $details = $info->getDetails();
+        /** @var PaymentDetailsInterface $detail */
+        $detail = array_shift($details);
+        $this->assertEquals('MP01', $detail->getMethod());
+        $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
+        $this->assertEquals(30.50, $detail->getAmount());
     }
 }

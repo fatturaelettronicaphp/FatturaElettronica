@@ -13,6 +13,7 @@ use Weble\FatturaElettronica\Parser\Body\FundParser;
 use Weble\FatturaElettronica\Parser\Body\GeneralDataParser;
 use Weble\FatturaElettronica\Parser\Body\MainInvoiceParser;
 use Weble\FatturaElettronica\Parser\Body\LinesParser;
+use Weble\FatturaElettronica\Parser\Body\PaymentInfoParser;
 use Weble\FatturaElettronica\Parser\Body\PurchaseOrderParser;
 use Weble\FatturaElettronica\Parser\Body\RecepitsParser;
 use Weble\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
@@ -20,6 +21,7 @@ use Weble\FatturaElettronica\Parser\Body\SalParser;
 use Weble\FatturaElettronica\Parser\Body\ShipmentInformationsParser;
 use Weble\FatturaElettronica\Parser\Body\ShippingLabelsParser;
 use Weble\FatturaElettronica\Parser\Body\SummaryParser;
+use Weble\FatturaElettronica\Parser\Body\VehicleParser;
 use Weble\FatturaElettronica\Parser\Body\VirtualDutyParser;
 
 class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
@@ -68,6 +70,8 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 MainInvoiceParser::class,
                 LinesParser::class,
                 SummaryParser::class,
+                VehicleParser::class,
+                PaymentInfoParser::class
             ])
             ->thenReturn();
     }

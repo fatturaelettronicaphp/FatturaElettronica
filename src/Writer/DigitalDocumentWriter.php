@@ -522,7 +522,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             }
         }
 
-        $importoTotaleDocumento = $instance->getDocumenTotalTaxAmount();
+        $importoTotaleDocumento = $instance->getDocumentTotalTaxAmount();
         if ($importoTotaleDocumento !== null) {
             $documentGeneralData->addChild('ImportoTotaleDocumento', $importoTotaleDocumento);
         }

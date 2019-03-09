@@ -3,6 +3,7 @@
 namespace Weble\FatturaElettronica;
 
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
 use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use Weble\FatturaElettronica\Contracts\TotalInterface;
 use Weble\FatturaElettronica\Enums\DocumentType;
@@ -26,9 +27,6 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var string */
     protected $documentNumber;
-
-    /** @var float */
-    protected $amount;
 
     /** @var float */
     protected $rounding;
@@ -105,8 +103,17 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var Total[] */
     protected $totals = [];
 
-    /** @var float  */
+    /** @var float */
     protected $documentTotal;
+
+    /** @var DateTime */
+    protected $vehicleRegistrationDate;
+
+    /** @var string */
+    protected $vehicleTotalKm;
+
+    /** @var PaymentInfoInterface[] */
+    protected $paymentInformations = [];
 
 
     public function getRounding (): ?float
@@ -248,152 +255,6 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         $this->virtualDutyAmount = $virtualDutyAmount;
         return $this;
     }
-
-    public function getFundType (): ?FundType
-    {
-        return $this->fundType;
-    }
-
-    public function setFundType ($fundType): DigitalDocumentInstanceInterface
-    {
-        if ($fundType === null) {
-            return $this;
-        }
-
-        if (!$fundType instanceof FundType) {
-            $fundType = FundType::from($fundType);
-        }
-
-        $this->fundType = $fundType;
-        return $this;
-    }
-
-    public function getFundPercentage (): ?float
-    {
-        return $this->fundPercentage;
-    }
-
-    public function setFundPercentage (?float $fundPercentage): DigitalDocumentInstanceInterface
-    {
-        $this->fundPercentage = $fundPercentage;
-        return $this;
-    }
-
-    public function getFundAmount (): ?float
-    {
-        return $this->fundAmount;
-    }
-
-    public function setFundAmount (?float $fundAmount): DigitalDocumentInstanceInterface
-    {
-        $this->fundAmount = $fundAmount;
-        return $this;
-    }
-
-    public function getFundSubtotal (): ?float
-    {
-        return $this->fundSubtotal;
-    }
-
-    public function setFundSubtotal (?float $fundSubtotal): DigitalDocumentInstanceInterface
-    {
-        $this->fundSubtotal = $fundSubtotal;
-        return $this;
-    }
-
-    public function getFundTaxPercentage (): ?float
-    {
-        return $this->fundTaxPercentage;
-    }
-
-    public function setFundTaxPercentage (?float $fundTaxPercentage): DigitalDocumentInstanceInterface
-    {
-        $this->fundTaxPercentage = $fundTaxPercentage;
-        return $this;
-    }
-
-    public function isFundDeduction (): ?bool
-    {
-        return $this->fundDeduction;
-    }
-
-    public function setFundDeduction (?bool $fundDeduction): DigitalDocumentInstanceInterface
-    {
-        $this->fundDeduction = $fundDeduction;
-        return $this;
-    }
-
-    public function getFundVatNature (): ?VatNature
-    {
-        return $this->fundVatNature;
-    }
-
-    public function setFundVatNature ($fundVatNature): DigitalDocumentInstanceInterface
-    {
-        if ($fundVatNature === null) {
-            return $this;
-        }
-
-        if (!$fundVatNature instanceof VatNature) {
-            $fundVatNature = VatNature::from($fundVatNature);
-        }
-
-        $this->fundVatNature = $fundVatNature;
-        return $this;
-    }
-
-    public function getFundRepresentative (): ?string
-    {
-        return $this->fundRepresentative;
-    }
-
-    public function setFundRepresentative (?string $fundRepresentative): DigitalDocumentInstanceInterface
-    {
-        $this->fundRepresentative = $fundRepresentative;
-        return $this;
-    }
-
-    public function getDiscountType (): ?DiscountType
-    {
-        return $this->discountType;
-    }
-
-    public function setDiscountType ($discountType): DigitalDocumentInstanceInterface
-    {
-        if ($discountType === null) {
-            return $this;
-        }
-
-        if (!$discountType instanceof DiscountType) {
-            $discountType = DiscountType::from($discountType);
-        }
-
-        $this->discountType = $discountType;
-        return $this;
-    }
-
-    public function getDiscountPercentage (): ?float
-    {
-        return $this->discountPercentage;
-    }
-
-    public function setDiscountPercentage (?float $discountPercentage): DigitalDocumentInstanceInterface
-    {
-        $this->discountPercentage = $discountPercentage;
-        return $this;
-    }
-
-    public function getDiscountAmount (): ?float
-    {
-        return $this->discountAmount;
-    }
-
-    public function setDiscountAmount (?float $discountAmount): DigitalDocumentInstanceInterface
-    {
-        $this->discountAmount = $discountAmount;
-        return $this;
-    }
-
 
     public function getDocumentType (): ?DocumentType
     {
@@ -583,7 +444,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->lines;
     }
 
-    public function hasSals(): bool
+    public function hasSals (): bool
     {
         return count($this->sals) > 0;
     }
@@ -599,18 +460,34 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this;
     }
 
+    public function getPaymentInformations (): array
+    {
+        return $this->paymentInformations;
+    }
+
+    public function addPaymentInformations (PaymentInfoInterface $paymentInfo): DigitalDocumentInstanceInterface
+    {
+        $this->paymentInformations[] = $paymentInfo;
+        return $this;
+    }
+
+    public function hasPaymentInformations (): bool
+    {
+        return (count($this->paymentInformations) > 0);
+    }
+
     public function getTotals (): array
     {
         return $this->totals;
     }
 
-    public function setDocumentTotal(?float $documentTotal): self
+    public function setDocumentTotal (?float $documentTotal): self
     {
         $this->documentTotal = $documentTotal;
         return $this;
     }
 
-    public function getDocumentTotal(): float
+    public function getDocumentTotal (): float
     {
         if ($this->documentTotal !== null) {
             return $this->documentTotal;
@@ -625,7 +502,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $total;
     }
 
-    public function getDocumenTotalTaxAmount (): ?float
+    public function getDocumentTotalTaxAmount (): ?float
     {
         $total = 0;
         /** @var TotalInterface $total */
@@ -674,7 +551,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->mainInvoiceDate;
     }
 
-    public function setMainInvoiceDate (?DateTime $mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface
+    public function setMainInvoiceDate ($mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface
     {
         if ($format !== null) {
             $this->mainInvoiceDate = DateTime::createFromFormat($format, $mainInvoiceDate);
@@ -690,5 +567,35 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this;
     }
 
+    public function getVehicleRegistrationDate (): ?DateTime
+    {
+        return $this->vehicleRegistrationDate;
+    }
 
+    public function setVehicleRegistrationDate ($vehicleRegistrationDate, $format = null): self
+    {
+        if ($format !== null) {
+            $this->vehicleRegistrationDate = DateTime::createFromFormat($format, $vehicleRegistrationDate);
+            return $this;
+        }
+
+        if ($vehicleRegistrationDate instanceof DateTime) {
+            $this->vehicleRegistrationDate = $vehicleRegistrationDate;
+            return $this;
+        }
+
+        $this->vehicleRegistrationDate = new DateTime($vehicleRegistrationDate);
+        return $this;
+    }
+
+    public function getVehicleTotalKm (): ?string
+    {
+        return $this->vehicleTotalKm;
+    }
+
+    public function setVehicleTotalKm (?string $vehicleTotalKm): self
+    {
+        $this->vehicleTotalKm = $vehicleTotalKm;
+        return $this;
+    }
 }

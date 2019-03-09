@@ -17,7 +17,7 @@ interface DigitalDocumentInstanceInterface
 
     public function setRounding (?float $rounding): DigitalDocumentInstanceInterface;
 
-    public function getDescriptions (): array ;
+    public function getDescriptions (): array;
 
     public function addDescription (string $description): DigitalDocumentInstanceInterface;
 
@@ -69,7 +69,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getDocumentTotal (): ?float;
 
-    public function getDocumenTotalTaxAmount (): ?float;
+    public function getDocumentTotalTaxAmount (): ?float;
 
     public function hasDeduction (): bool;
 
@@ -131,7 +131,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getSals (): array;
 
-    public function hasSals(): bool;
+    public function hasSals (): bool;
 
     public function getShippingLabels (): array;
 
@@ -153,5 +153,19 @@ interface DigitalDocumentInstanceInterface
 
     public function getTotals (): array;
 
-    public function addTotal(TotalInterface $total);
+    public function addTotal (TotalInterface $total);
+
+    public function getVehicleRegistrationDate ();
+
+    public function setVehicleRegistrationDate ($vehicleRegistrationDate, $format = null);
+
+    public function getVehicleTotalKm ();
+
+    public function setVehicleTotalKm (?string $vehicleTotalKm);
+
+    public function getPaymentInformations ();
+
+    public function addPaymentInformations (PaymentInfoInterface $paymentInfo);
+
+    public function hasPaymentInformations (): bool;
 }

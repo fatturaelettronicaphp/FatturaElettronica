@@ -33,14 +33,14 @@ use Weble\FatturaElettronica\Supplier;
 use DateTime;
 use TypeError;
 
-class SalParser extends AbstractBodyParser
+class VehicleParser extends RelatedDocumentParser
 {
     protected function performParsing ()
     {
-        $value = $this->extractValueFromXml('DatiVeicoli/Data');
-        $this->digitalDocymentInstance->setVehicleRegistrationDate($value);
-
-        $value = $this->extractValueFromXml('DatiVeicoli/TotalePercorso');
-        $this->digitalDocymentInstance->setVehicleTotalKm($value);
+        $value = (array)$this->extractValueFromXml('DatiGenerali/DatiOrdineAcquisto', false);
+        foreach ($value as $v) {
+            $instance = $this->extractRelatedDocumentInformationsFrom($v);
+            $this->digitalDocymentInstance->addPurchaseOrder($instance);
+        }
     }
 }
