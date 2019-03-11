@@ -24,6 +24,7 @@ use Weble\FatturaElettronica\Parser\Body\ShippingLabelsParser;
 use Weble\FatturaElettronica\Parser\Body\SummaryParser;
 use Weble\FatturaElettronica\Parser\Body\VehicleParser;
 use Weble\FatturaElettronica\Parser\Body\VirtualDutyParser;
+use Weble\FatturaElettronica\Utilities\Pipeline;
 
 class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
 {
@@ -50,11 +51,12 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
 
     public function parse (): DigitalDocumentInstanceInterface
     {
-        $parserPipeline = new ParserPipeline();
+        $parserPipeline = new Pipeline();
 
         return $parserPipeline
             ->send($this->digitalDocymentInstance)
             ->with($this->xml())
+            ->usingMethod('parse')
             ->through([
                 GeneralDataParser::class,
                 DeductionParser::class,

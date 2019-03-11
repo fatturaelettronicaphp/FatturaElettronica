@@ -9,7 +9,7 @@ use Weble\FatturaElettronica\Enums\TransmissionFormat;
 
 interface DigitalDocumentInterface
 {
-    public function addDigitalDocumentInstance (DigitalDocumentInstance $instance);
+    public function addDigitalDocumentInstance (DigitalDocumentInstanceInterface $instance);
 
     public function getDocumentInstances (): array;
 

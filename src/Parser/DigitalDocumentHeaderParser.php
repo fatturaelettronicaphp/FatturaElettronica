@@ -144,7 +144,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
     public function extractBillableInformationsFrom (SimpleXMLElement $xml, BillableInterface $billable = null): BillableInterface
     {
         if ($billable === null) {
-            $billable = new Billable();
+            $billable = new BillablePerson();
         }
 
         $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
@@ -186,7 +186,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
             return $value;
         }
 
-        $intermediary = new Billable();
+        $intermediary = new BillablePerson();
 
         $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente/DatiAnagrafici/Anagrafica/Nome');
         $intermediary->setName($documentName);

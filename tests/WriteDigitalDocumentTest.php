@@ -22,7 +22,13 @@ class WriteDigitalDocumentTest extends TestCase
         $writer = new DigitalDocumentWriter($eDocument);
         $xml = $writer->generate()->xml();
 
-        $this->assertTrue($writer instanceof  DigitalDocumentWriter);
+        $this->assertTrue($writer instanceof DigitalDocumentWriter);
         $this->assertTrue($xml instanceof \SimpleXMLElement);
+
+        /**
+         * This should be the final test
+         */
+        // $eDocumentGenerated = (new DigitalDocumentParser($xml))->parse();
+        // $this->assertEquals($eDocument->toArray(), $eDocumentGenerated->toArray());
     }
 }

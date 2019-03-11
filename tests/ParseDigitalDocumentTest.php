@@ -63,13 +63,36 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_xml_invoice ()
+    public function can_read_xml_invoice_file ()
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
         $documentParser = new DigitalDocumentParser($file);
 
         $eDocument = $documentParser->parse();
 
+        $this->validateDocument($eDocument);
+    }
+
+    /** @test */
+    public function can_read_xml_invoice ()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
+        $xml = simplexml_load_file($file);
+        $documentParser = new DigitalDocumentParser($xml);
+
+        $eDocument = $documentParser->parse();
+
+        $this->validateDocument($eDocument);
+    }
+
+    /**
+     * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function validateDocument (DigitalDocumentInterface $eDocument)
+    {
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         // Trasmissione
@@ -81,7 +104,7 @@ class ParseDigitalDocumentTest extends TestCase
         // Fornitore
         $this->assertEquals('IT', $eDocument->getSupplier()->getCountryCode());
         $this->assertEquals(null, $eDocument->getSupplier()->getFiscalCode());
-        $this->assertEquals('RF01', (string) $eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
         $this->assertEquals('01234567890', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('SOCIETA\' ALPHA SRL', $eDocument->getSupplier()->getOrganization());
 
@@ -108,12 +131,12 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var \Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
-        $this->assertEquals('TD01', (string) $firstRow->getDocumentType());
-        $this->assertEquals('EUR',  $firstRow->getCurrency());
-        $this->assertEquals(new \DateTime('2014-12-18'),  $firstRow->getDocumentDate());
-        $this->assertEquals('123',  $firstRow->getDocumentNumber());
-        $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',  $firstRow->getDescriptions()[0]);
-        $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB',  $firstRow->getDescriptions()[1]);
+        $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
+        $this->assertEquals('EUR', $firstRow->getCurrency());
+        $this->assertEquals(new \DateTime('2014-12-18'), $firstRow->getDocumentDate());
+        $this->assertEquals('123', $firstRow->getDocumentNumber());
+        $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS', $firstRow->getDescriptions()[0]);
+        $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB', $firstRow->getDescriptions()[1]);
 
         // Righe
         $products = $firstRow->getLines();
@@ -140,5 +163,5 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('MP01', $detail->getMethod());
         $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
-    }
+}
 }

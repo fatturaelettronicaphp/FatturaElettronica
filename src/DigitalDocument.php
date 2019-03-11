@@ -4,6 +4,7 @@ namespace Weble\FatturaElettronica;
 
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
+use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
 use Weble\FatturaElettronica\Enums\EmittingSubject;
@@ -99,7 +100,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function addDigitalDocumentInstance (DigitalDocumentInstance $instance): self
+    public function addDigitalDocumentInstance (DigitalDocumentInstanceInterface $instance): self
     {
         $this->documentInstances[] = $instance;
         return $this;

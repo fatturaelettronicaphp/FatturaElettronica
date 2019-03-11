@@ -78,24 +78,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
      */
     public function __construct ($filePath, $extension = '')
     {
-        if (!file_exists($filePath)) {
-            throw new InvalidFileNameExtension(sprintf('Fiel does not exist "%s"', $filePath));
+        if (is_object($filePath) && $filePath instanceof SimpleXMLElement) {
+            $this->createFromXml($filePath);
+            return;
         }
 
-        if (empty($extension)) {
-            $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        }
-
-        $this->extractFileNameAndType($filePath, $extension);
-
-        if ($this->fileType->equals(DocumentFormat::p7m())) {
-            $this->p7mFilePath = $this->filePath;
-            $this->extractP7m();
-        }
-
-        if ($this->fileType->equals(DocumentFormat::xml())) {
-            $this->xmlFilePath = $this->filePath;
-        }
+        $this->createFromFile($filePath, $extension);
     }
 
     public function parse (DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
@@ -116,6 +104,26 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
 
         return $digitalDocument;
+    }
+
+    public function xml (): SimpleXMLElement
+    {
+        return $this->xml;
+    }
+
+    public function originalFilename ()
+    {
+        return $this->fileName;
+    }
+
+    public function xmlFilePath ()
+    {
+        return $this->xmlFilePath;
+    }
+
+    public function p7mFilePath ()
+    {
+        return $this->p7mFilePath;
     }
 
     protected function extractP7m (): void
@@ -145,38 +153,6 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $xmlPath;
     }
 
-    public function xml (): SimpleXMLElement
-    {
-        if ($this->xml !== null) {
-            return $this->xml;
-        }
-
-        libxml_use_internal_errors(true);
-        $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
-
-        if (!$simpleXml) {
-            throw new InvalidXmlFile();
-        }
-
-        $this->xml = $simpleXml;
-
-        return $this->xml;
-    }
-
-    public function originalFilename ()
-    {
-        return $this->fileName;
-    }
-
-    public function xmlFilePath ()
-    {
-        return $this->xmlFilePath;
-    }
-
-    public function p7mFilePath ()
-    {
-        return $this->p7mFilePath;
-    }
 
     protected function extractFileNameAndType ($filePath, $extension): void
     {
@@ -194,431 +170,39 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    public function extractBillableInformationsFrom (SimpleXMLElement $xml): BillableInterface
+    protected function createFromXml (SimpleXMLElement $xml)
     {
-        $billable = new BillablePerson();
-
-        $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
-        $billable->setTitle($title);
-
-        $customerName = $this->extractValueFromXml('Anagrafica/Nome');
-        $billable->setName($customerName);
-
-        $customerSurname = $this->extractValueFromXml('Anagrafica/Cognome');
-        $billable->setSurname($customerSurname);
-
-        $customerOrganization = $this->extractValueFromXml('Anagrafica/Denominazione');
-        $billable->setOrganization($customerOrganization);
-
-        $customerFiscalCode = $this->extractValueFromXml('CodiceFiscale');
-        $billable->setFiscalCode($customerFiscalCode);
-
-        $value = $this->extractValueFromXml('IdFiscaleIVA/IdPaese');
-        $billable->setCountryCode($value);
-
-        $customerVatNumber = $this->extractValueFromXml('IdFiscaleIVA/IdCodice');
-        if ($customerVatNumber === null) {
-            $customerVatNumber = '';
-        }
-        $billable->setVatNumber($customerVatNumber);
-
-        return $billable;
+        $this->xml = $xml;
     }
 
-    protected function extractAddressInformationFrom (SimpleXMLElement $xml): AddressInterface
+    protected function createFromFile ($filePath, $extension = null)
     {
-        $address = new Address();
-
-        $value = $this->extractValueFromXmlElement($xml, 'Indirizzo');
-        $address->setStreet($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'NumeroCivico');
-        $address->setStreetNumber($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'CAP');
-        $address->setZip($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'Comune');
-        $address->setCity($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'Provincia');
-        $address->setState($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'Nazione');
-        $address->setCountryCode($value);
-
-        return $address;
-    }
-
-    protected function extractRowInformationsFrom (SimpleXMLElement $body): DigitalDocumentInstanceInterface
-    {
-        $digitalDocumentInstance = new DigitalDocumentInstance();
-
-        /**
-         * Dati Generali
-         */
-        $types = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/TipoDocumento');
-        if ($types === null) {
-            throw new InvalidXmlFile('<TipoDocumento> not found');
-        }
-        $type = DocumentType::from($types);
-
-        $datas = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Data');
-        if ($datas === null) {
-            throw new InvalidXmlFile('<Data> not found');
-        }
-        $data = new DateTime($datas);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Divisa');
-        if ($datas === null) {
-            throw new InvalidXmlFile('<Divisa> not found');
-        }
-        $digitalDocumentInstance->setCurrency($value);
-
-        $number = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Numero');
-        if ($number === null) {
-            throw new InvalidXmlFile('<Numero> not found');
+        if (!file_exists($filePath)) {
+            throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
-        $descriptions = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Causale', false);
-        foreach ($descriptions as $description) {
-            $digitalDocumentInstance->addDescription($description);
+        if (empty($extension)) {
+            $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         }
 
+        $this->extractFileNameAndType($filePath, $extension);
 
-        $documentTotal = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
-        $rounding = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
-        $art73 = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/Art73');
-
-        /**
-         * Ritenuta
-         */
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/TipoRitenuta');
-        $digitalDocumentInstance->setDeductionType($value);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/ImportoRitenuta');
-        $digitalDocumentInstance->setDeductionAmount($value);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/AliquotaRitenuta');
-        $digitalDocumentInstance->setDeductionPercentage($value);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/CausalePagamento');
-        $digitalDocumentInstance->setDeductionDescription($value);
-
-        /**
-         * Bollo
-         */
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiBollo/BolloVirtuale');
-        $digitalDocumentInstance->setVirtualDuty($value);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiBollo/ImportoBollo');
-        $digitalDocumentInstance->setVirtualDutyAmount($value);
-
-        /**
-         * Cassa
-         */
-        $funds = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/DatiCassaPrevidenziale', false);
-
-        foreach ($funds as $fund) {
-            $fundInstance = $this->extractFundInformationsFrom($fund);
-            $digitalDocumentInstance->addFund($fundInstance);
+        if ($this->fileType->equals(DocumentFormat::p7m())) {
+            $this->p7mFilePath = $this->filePath;
+            $this->extractP7m();
         }
 
-        /**
-         * Sconto
-         */
-        $discounts = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiGeneraliDocumento/ScontoMaggiorazione', false);
-        foreach ($discounts as $discount) {
-            $discountInstance = $this->extractDiscountInformationsFrom($discount);
-            $digitalDocumentInstance->addDiscount($discountInstance);
+        if ($this->fileType->equals(DocumentFormat::xml())) {
+            $this->xmlFilePath = $this->filePath;
         }
 
-        /**
-         * Ordine di Acquisto
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiOrdineAcquisto', false);
-        foreach ($value as $v) {
-            $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $digitalDocumentInstance->addPurchaseOrder($instance);
+        libxml_use_internal_errors(true);
+        $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
+
+        if (!$simpleXml) {
+            throw new InvalidXmlFile();
         }
 
-        /**
-         * Convenzioni
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiConvenzione', false);
-        foreach ($value as $v) {
-            $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $digitalDocumentInstance->addConvention($instance);
-        }
-
-        /**
-         * Ricezione
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiRicezione', false);
-        foreach ($value as $v) {
-            $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $digitalDocumentInstance->addReceipt($instance);
-        }
-
-        /**
-         * Fatture Collegate
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiFattureCollegate', false);
-        foreach ($value as $v) {
-            $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $digitalDocumentInstance->addRelatedInvoice($instance);
-        }
-
-        /**
-         * SAL
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiSal', false);
-        foreach ($value as $v) {
-            $digitalDocumentInstance->addSal($v);
-        }
-
-        /**
-         * DDT
-         */
-        $value = (array)$this->extractValueFromXmlElement($body, 'DatiGenerali/DatiDDT', false);
-        foreach ($value as $v) {
-            $instance = $this->extractShippingLabelInformationsFrom($v);
-            $digitalDocumentInstance->addShippingLabel($instance);
-        }
-
-        /**
-         * Trasporto
-         */
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DatiTrasporto', false);
-        if (count($value) > 0) {
-            $value = array_shift($value);
-            $instance = $this->extractShipmentInformationsFrom($value);
-            $digitalDocumentInstance->setShipment($instance);
-        }
-
-
-        /**
-         * Fattura Principale
-         */
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/NumeroFatturaPrincipale');
-        $digitalDocumentInstance->setMainInvoiceNumber($value);
-
-        $value = $this->extractValueFromXmlElement($body, 'DatiGenerali/DataFatturaPrincipale');
-        $digitalDocumentInstance->setMainInvoiceDate($value);
-
-
-        $totals = $this->extractValueFromXmlElement($body, 'DatiBeniServizi/DatiRiepilogo', false);
-        $amount = 0;
-        $amountTax = 0;
-
-        foreach ($totals as $total) {
-            $totalAmounts = $this->extractValueFromXmlElement($total, 'ImponibileImporto');
-            $totalAmountTaxs = $this->extractValueFromXmlElement($total, 'Imposta');
-
-            if ($totalAmounts === null) {
-                throw new InvalidXmlFile('<ImponibileImporto> not found');
-            }
-
-            if ($totalAmountTaxs === null) {
-                throw new InvalidXmlFile('<Imposta> not found');
-            }
-
-            $amount += $totalAmounts;
-            $amountTax += $totalAmountTaxs;
-        }
-
-        $digitalDocumentInstance
-            ->setDocumentType($type)
-            ->setDocumentDate($data)
-            ->setDocumentNumber($number)
-            ->setAmount($amount)
-            ->setAmountTax($amountTax)
-            ->setDocumentTotal($documentTotal)
-            ->setArt73($art73)
-            ->setRounding($rounding);
-
-        return $digitalDocumentInstance;
-    }
-
-    protected function extractShipmentInformationsFrom (SimpleXMLElement $xml): Shipment
-    {
-        if ($xml === null) {
-            return null;
-        }
-
-        $instance = new Shipment();
-
-        $value = $this->extractValueFromXmlElement($xml, 'MezzoTrasporto');
-        $instance->setMethod($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'CausaleTrasporto');
-        $instance->setShipmentDescription($value);
-
-        $value = (int)$this->extractValueFromXmlElement($xml, 'NumeroColli');
-        $instance->setNumberOfPackages($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'Descrizione');
-        $instance->setDescription($value);
-
-        $value = (int)$this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
-        $instance->setWeightUnit($value);
-
-        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoLordo');
-        $instance->setWeight($value);
-
-        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoNetto');
-        $instance->setNetWeight($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'DataOraRitiro');
-        $instance->setPickupDate($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'DataInizioTrasporto');
-        $instance->setShipmentDate($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'TipoResa');
-        $instance->setReturnType($value);
-
-        $value = $this->extractValueFromXmlElement($xml, 'IndirizzoResa', false);
-        if ($value !== null) {
-            $value = $this->extractAddressInformationFrom($value);
-            $instance->setReturnAddress($value);
-        }
-
-        $value = $this->extractValueFromXmlElement($xml, 'DatiAnagraficiVettore', false);
-        if ($value !== null && count($value) > 0) {
-            $value = array_shift($value);
-            if ($value !== null) {
-                $value = $this->extractBillableInformationsFrom($value);
-                $instance->setShipper($value);
-            }
-        }
-
-        return $instance;
-    }
-
-    protected function extractDigitalDocumentInformations (DigitalDocumentInterface $digitalDocument): DigitalDocumentInterface
-    {
-        $transmissionFormat = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione');
-        if ($transmissionFormat === null) {
-            throw new InvalidXmlFile('Transmission Format not found');
-        }
-
-        $digitalDocument->setTransmissionFormat($transmissionFormat);
-
-        $countryCode = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdPaese');
-        $digitalDocument->setCountryCode($countryCode);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdCodice');
-        $digitalDocument->setSenderVatId($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ProgressivoInvio');
-        $digitalDocument->setSendingId($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/CodiceDestinatario');
-        $digitalDocument->setCustomerSdiCode($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ContattiTrasmittente/Telefono');
-        $digitalDocument->setSenderPhone($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/ContattiTrasmittente/Email');
-        $digitalDocument->setSenderEmail($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/PECDestinatario');
-        $digitalDocument->setCustomerPec($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/SoggettoEmittente');
-        $digitalDocument->setEmittingSubject($code);
-
-        return $digitalDocument;
-    }
-
-    protected function extractDiscountInformationsFrom ($discount): DiscountInterface
-    {
-        $discountInstance = new Discount();
-
-        $value = $this->extractValueFromXmlElement($discount, 'Tipo');
-        $discountInstance->setType($value);
-
-        $value = $this->extractValueFromXmlElement($discount, 'Percentuale');
-        $discountInstance->setPercentage($value);
-
-        $value = $this->extractValueFromXmlElement($discount, 'Importo');
-        $discountInstance->setAmount($value);
-
-        return $discountInstance;
-    }
-
-    protected function extractRelatedDocumentInformationsFrom ($order): RelatedDocumentInterface
-    {
-        $instance = new RelatedDocument();
-
-        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
-        $instance->setLineNumberReference($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
-        $instance->setDocumentNumber($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'Data');
-        $instance->setDocumentDate($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'NumItem');
-        $instance->setLineNumber($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'CodiceCommessaConvenzione');
-        $instance->setOrderCode($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'CodiceCUP');
-        $instance->setCupCode($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'CodiceCIG');
-        $instance->setCigCode($value);
-
-        return $instance;
-    }
-
-    protected function extractShippingLabelInformationsFrom ($order): ShippingLabel
-    {
-        $instance = new ShippingLabel();
-
-        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
-        $instance->setLineNumberReference($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
-        $instance->setDocumentNumber($value);
-
-        $value = $this->extractValueFromXmlElement($order, 'Data');
-        $instance->setDocumentDate($value);
-
-        return $instance;
-    }
-
-    protected function extractFundInformationsFrom ($fund): FundInterface
-    {
-        $fundInstance = new Fund();
-        $value = $this->extractValueFromXmlElement($fund, 'TipoCassa');
-        $fundInstance->setType($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'AlCassa');
-        $fundInstance->setPercentage($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'ImportoContributoCassa');
-        $fundInstance->setAmount($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'ImponibileCassa');
-        $fundInstance->setSubtotal($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'AliquotaIVA');
-        $fundInstance->setTaxPercentage($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'Ritenuta');
-        $fundInstance->setDeduction($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'Natura');
-        $fundInstance->setVatNature($value);
-
-        $value = $this->extractValueFromXmlElement($fund, 'RiferimentoAmministrazione');
-        $fundInstance->setRepresentative($value);
-
-        return $fundInstance;
+        $this->xml = $simpleXml;
     }
 }
