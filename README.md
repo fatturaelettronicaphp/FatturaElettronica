@@ -16,9 +16,8 @@ composer require weble/FatturaElettronica
 
 ### Parsing
 ``` php
-// this can be an xml file, a p7m file, or an instance of SimpleXmlElement
-$documentParser = new DigitalDocumentParser($file);
-$eDocument = $documentParser->parse();
+// $xml can be an xml file, a p7m file, or an instance of SimpleXmlElement
+$eDocument = DigitalDocument::parseFrom($xml);
 
 $customer = $digitalDocument->getCustomer();
 $supplier = $digitalDocument->getSupplier();
@@ -43,10 +42,10 @@ $eDocument->setTransmissionFormat('FPR12');
 ....
 
 // This is a SimpleXmlElement
-$xml = $writer->generate()->xml();
+$xml = $eDocument->serialize();
 
 // This writes to an XML file
-$writer->generate()->write($filePath);
+$eDocument->write($filePath);
 ```
 
 ### Testing

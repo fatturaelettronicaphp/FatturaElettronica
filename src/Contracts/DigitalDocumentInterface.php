@@ -3,12 +3,21 @@
 namespace Weble\FatturaElettronica\Contracts;
 
 use DateTime;
+use SimpleXMLElement;
 use Weble\FatturaElettronica\DigitalDocument;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
+use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
+use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 interface DigitalDocumentInterface
 {
+    public static function parseFrom($xml): DigitalDocumentInterface;
+
+    public function serialize() : SimpleXMLElement;
+
+    public function write(string $filePath) : bool;
+
     public function addDigitalDocumentInstance (DigitalDocumentInstanceInterface $instance);
 
     public function getDocumentInstances (): array;

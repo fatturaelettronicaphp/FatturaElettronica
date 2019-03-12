@@ -9,6 +9,7 @@ use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
+use Weble\FatturaElettronica\DigitalDocument;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 
@@ -18,10 +19,8 @@ class ParseDigitalDocumentTest extends TestCase
     public function can_read_p7m_invoice ()
     {
         $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
-        $documentParser = new DigitalDocumentParser($file);
 
-        $eDocument = $documentParser->parse();
-
+        $eDocument = DigitalDocument::parseFrom($file);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
@@ -38,9 +37,8 @@ class ParseDigitalDocumentTest extends TestCase
     public function can_read_attachments ()
     {
         $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
-        $documentParser = new DigitalDocumentParser($file);
 
-        $eDocument = $documentParser->parse();
+        $eDocument = DigitalDocument::parseFrom($file);
 
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
@@ -66,9 +64,8 @@ class ParseDigitalDocumentTest extends TestCase
     public function can_read_xml_invoice_file ()
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
-        $documentParser = new DigitalDocumentParser($file);
 
-        $eDocument = $documentParser->parse();
+        $eDocument = DigitalDocument::parseFrom($file);
 
         $this->validateDocument($eDocument);
     }
@@ -78,9 +75,7 @@ class ParseDigitalDocumentTest extends TestCase
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
         $xml = simplexml_load_file($file);
-        $documentParser = new DigitalDocumentParser($xml);
-
-        $eDocument = $documentParser->parse();
+        $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateDocument($eDocument);
     }

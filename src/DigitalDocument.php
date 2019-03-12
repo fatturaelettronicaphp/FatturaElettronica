@@ -2,6 +2,7 @@
 
 namespace Weble\FatturaElettronica;
 
+use SimpleXMLElement;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
@@ -10,8 +11,10 @@ use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
 use Weble\FatturaElettronica\Enums\EmittingSubject;
 use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
+use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 {
@@ -58,6 +61,21 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances = [];
+
+    public static function parseFrom($xml): DigitalDocumentInterface
+    {
+        return (new DigitalDocumentParser($xml))->parse();
+    }
+
+    public function serialize() : SimpleXMLElement
+    {
+        return (new DigitalDocumentWriter($this))->generate()->xml();
+    }
+
+    public function write(string $filePath) : bool
+    {
+        return (new DigitalDocumentWriter($this))->write($filePath);
+    }
 
     public function getEmittingSubject ()
     {
