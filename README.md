@@ -14,9 +14,11 @@ composer require weble/FatturaElettronica
 
 ## Usage
 
+### Parsing
 ``` php
-$documentParser = new DigitalDocumentParser($file); // filepath to xml or p7m file
-$digitalDocument = $documentParser->parse();
+// this can be an xml file, a p7m file, or an instance of SimpleXmlElement
+$documentParser = new DigitalDocumentParser($file);
+$eDocument = $documentParser->parse();
 
 $customer = $digitalDocument->getCustomer();
 $supplier = $digitalDocument->getSupplier();
@@ -30,6 +32,21 @@ $customer->getVatNumber(); // Same for supplier
 $documents[0]->getDocumentDate();
 $documents[0]->getDocumentNumber();
 ...
+```
+
+### Writing
+``` php
+// This needs to be a DigitalDocumentInterface object
+$eDocument = new DigitalDocument();
+$eDocument->setTransmissionFormat('FPR12');
+
+....
+
+// This is a SimpleXmlElement
+$xml = $writer->generate()->xml();
+
+// This writes to an XML file
+$writer->generate()->write($filePath);
 ```
 
 ### Testing
