@@ -140,6 +140,10 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function extractP7mToXml ($p7mFilePath): string
     {
+        if (!file_exists($p7mFilePath)) {
+            throw new InvalidP7MFile('File does not exist: ' .  $p7mFilePath);
+        }
+
         $xmlPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml';
 
         $output = [];
@@ -147,7 +151,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s', $p7mFilePath, $xmlPath), $output, $exitCode);
 
         if ($exitCode !== 0) {
-            throw new InvalidP7MFile('Invalid p7m file opening for file ' . $this->p7mFilePath);
+            throw new InvalidP7MFile('Invalid p7m file opening for file ' . $p7mFilePath);
         }
 
         return $xmlPath;
