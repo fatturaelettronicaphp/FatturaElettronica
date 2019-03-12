@@ -2,7 +2,6 @@
 
 namespace Weble\FatturaElettronica\Enums;
 
-use Spatie\Enum\Enum;
 
 /**
  * @method static self empty()

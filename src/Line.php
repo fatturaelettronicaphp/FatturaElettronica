@@ -4,7 +4,7 @@ namespace Weble\FatturaElettronica;
 
 use DateTime;
 use Weble\FatturaElettronica\Contracts\LineInterface;
-use Weble\FatturaElettronica\Enums\TipoCessazionePrestazione;
+use Weble\FatturaElettronica\Enums\CancelType;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
 use Weble\FatturaElettronica\Contracts\ProductInterface;
@@ -18,7 +18,7 @@ class Line implements ArrayableInterface, LineInterface
 
     /** @var int */
     protected $number;
-    /** @var TipoCessazionePrestazione */
+    /** @var CancelType */
     protected $tipoCessazionePrestazione;
     /** @var  ProductInterface[] */
     protected $products = [];
@@ -69,7 +69,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function getTipoCessazionePrestazione (): ?TipoCessazionePrestazione
+    public function getTipoCessazionePrestazione (): ?CancelType
     {
         return $this->tipoCessazionePrestazione;
     }
@@ -81,8 +81,8 @@ class Line implements ArrayableInterface, LineInterface
             return $this;
         }
 
-        if (!$tipoCessazionePrestazione instanceof TipoCessazionePrestazione) {
-            $tipoCessazionePrestazione = TipoCessazionePrestazione::from($tipoCessazionePrestazione);
+        if (!$tipoCessazionePrestazione instanceof CancelType) {
+            $tipoCessazionePrestazione = CancelType::from($tipoCessazionePrestazione);
         }
 
         $this->tipoCessazionePrestazione = $tipoCessazionePrestazione;

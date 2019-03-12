@@ -5,6 +5,7 @@ namespace Weble\FatturaElettronica\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Enums\AssociateType;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;

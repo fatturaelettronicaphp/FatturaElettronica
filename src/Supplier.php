@@ -5,7 +5,7 @@ namespace Weble\FatturaElettronica;
 use Weble\FatturaElettronica\Contracts\SupplierInterface;
 use Weble\FatturaElettronica\Enums\TaxRegime;
 use Weble\FatturaElettronica\Enums\AssociateType;
-use Weble\FatturaElettronica\Enums\SettlementType;
+use Weble\FatturaElettronica\Enums\WoundUpType;
 use DateTime;
 
 class Supplier extends BillablePerson implements SupplierInterface
@@ -36,7 +36,7 @@ class Supplier extends BillablePerson implements SupplierInterface
     protected $capital;
     /** @var AssociateType */
     protected $associateType;
-    /** @var SettlementType */
+    /** @var WoundUpType */
     protected $settlementType;
 
     public function getReaOffice ()
@@ -91,7 +91,7 @@ class Supplier extends BillablePerson implements SupplierInterface
         return $this;
     }
 
-    public function getSettlementType (): ?SettlementType
+    public function getSettlementType (): ?WoundUpType
     {
         return $this->settlementType;
     }
@@ -102,8 +102,8 @@ class Supplier extends BillablePerson implements SupplierInterface
             return $this;
         }
 
-        if (!$settlementType instanceof SettlementType) {
-            $settlementType = SettlementType::from($settlementType);
+        if (!$settlementType instanceof WoundUpType) {
+            $settlementType = WoundUpType::from($settlementType);
         }
         $this->settlementType = $settlementType;
         return $this;

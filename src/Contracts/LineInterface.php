@@ -19,9 +19,9 @@ interface LineInterface
     public function setNumber (?int $number);
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\TipoCessazionePrestazione
+     * @return \Weble\FatturaElettronica\Enums\CancelType
      */
-    public function getTipoCessazionePrestazione (): ?\Weble\FatturaElettronica\Enums\TipoCessazionePrestazione;
+    public function getTipoCessazionePrestazione (): ?\Weble\FatturaElettronica\Enums\CancelType;
 
     public function setTipoCessazionePrestazione ($tipoCessazionePrestazione);
 

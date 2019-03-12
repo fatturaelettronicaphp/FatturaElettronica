@@ -2,8 +2,6 @@
 
 namespace Weble\FatturaElettronica\Enums;
 
-use Spatie\Enum\Enum;
-
 /**
  * @method static self FPA12()
  * @method static self FPR12()
@@ -17,5 +15,10 @@ class TransmissionFormat extends Enum
         'FPR12' => 'FPR12',
         'b2b' => 'FPR12',
         'pa' => 'FPA12',
+    ];
+
+    protected static $descriptions = [
+        'FPA12' => 'Pubblica Amministrazione (P.A.)',
+        'FPR12' => 'Privati (B2B / B2C)'
     ];
 }

@@ -4,7 +4,7 @@ namespace Weble\FatturaElettronica\Contracts;
 
 use DateTime;
 use Weble\FatturaElettronica\Enums\AssociateType;
-use Weble\FatturaElettronica\Enums\SettlementType;
+use Weble\FatturaElettronica\Enums\WoundUpType;
 use Weble\FatturaElettronica\Enums\TaxRegime;
 
 interface SupplierInterface extends BillablePersonInterface
@@ -43,7 +43,7 @@ interface SupplierInterface extends BillablePersonInterface
 
     public function getReaNumber ();
 
-    public function getSettlementType (): ?SettlementType;
+    public function getSettlementType (): ?WoundUpType;
 
     public function getRegisterDate (): ?DateTime;
 
