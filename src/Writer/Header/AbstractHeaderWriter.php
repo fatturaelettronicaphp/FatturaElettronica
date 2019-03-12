@@ -39,7 +39,7 @@ abstract class AbstractHeaderWriter extends AbstractWriter
      */
     protected function calculateFiscalData ($idPaese, $codiceFiscale, $idCodice = '')
     {
-        if ($idPaese !== 'IT') {
+        if ($idPaese !== null && $idPaese !== 'IT') {
             $idCodice = !empty($idCodice) ? $idCodice : $codiceFiscale;
             $codiceFiscale = '';
         }

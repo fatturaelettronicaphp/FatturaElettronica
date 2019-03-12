@@ -34,14 +34,14 @@ class Line implements ArrayableInterface, LineInterface
     protected $endDate;
     /** @var float */
     protected $unitPrice;
-    /** @var DiscountInterface  */
+    /** @var DiscountInterface[]  */
     protected $discounts = [];
     /** @var float */
     protected $total;
     /** @var float */
     protected $taxPercentage;
     /** @var bool */
-    protected $deduction;
+    protected $deduction = false;
     /** @var VatNature */
     protected $vatNature;
     /** @var string */
@@ -68,10 +68,8 @@ class Line implements ArrayableInterface, LineInterface
         return $this;
     }
 
-    /**
-     * @return TipoCessazionePrestazione
-     */
-    public function getTipoCessazionePrestazione (): TipoCessazionePrestazione
+
+    public function getTipoCessazionePrestazione (): ?TipoCessazionePrestazione
     {
         return $this->tipoCessazionePrestazione;
     }
@@ -170,7 +168,7 @@ class Line implements ArrayableInterface, LineInterface
     /**
      * @return \DateTime
      */
-    public function getStartDate (): \DateTime
+    public function getStartDate (): ?DateTime
     {
         return $this->startDate;
     }
@@ -178,6 +176,10 @@ class Line implements ArrayableInterface, LineInterface
 
     public function setStartDate ($startDate, $format = null): Line
     {
+        if ($startDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->startDate = DateTime::createFromFormat($format, $startDate);
             return $this;
@@ -196,13 +198,17 @@ class Line implements ArrayableInterface, LineInterface
     /**
      * @return \DateTime
      */
-    public function getEndDate (): \DateTime
+    public function getEndDate (): ?\DateTime
     {
         return $this->endDate;
     }
 
     public function setEndDate ($endDate, $format = null): Line
     {
+        if ($endDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->endDate = DateTime::createFromFormat($format, $endDate);
             return $this;
@@ -300,9 +306,9 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setDeduction (bool $deduction): Line
+    public function setDeduction ($deduction): Line
     {
-        $this->deduction = $deduction;
+        $this->deduction = (bool) $deduction;
         return $this;
     }
 

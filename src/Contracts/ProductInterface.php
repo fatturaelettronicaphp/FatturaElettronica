@@ -9,7 +9,7 @@ interface ProductInterface
     /**
      * @return string
      */
-    public function getCodeType (): string;
+    public function getCodeType (): ?string;
 
     /**
      * @param string $codeType
@@ -28,5 +28,5 @@ interface ProductInterface
      *
      * @return Product
      */
-    public function setCode (string $code);
+    public function setCode (?string $code);
 }

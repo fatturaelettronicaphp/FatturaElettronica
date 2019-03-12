@@ -27,7 +27,7 @@ class Product implements ArrayableInterface, ProductInterface
     /**
      * @return string
      */
-    public function getCodeType (): string
+    public function getCodeType (): ?string
     {
         return $this->codeType;
     }
@@ -56,7 +56,7 @@ class Product implements ArrayableInterface, ProductInterface
      *
      * @return Product
      */
-    public function setCode (string $code): Product
+    public function setCode (?string $code): Product
     {
         $this->code = $code;
         return $this;

@@ -198,8 +198,12 @@ class Shipment implements ArrayableInterface
         return $this->pickupDate;
     }
 
-    public function setPickupDate (?\DateTime $date, $format = null): Shipment
+    public function setPickupDate ($date, $format = null): self
     {
+        if ($date === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->pickupDate = DateTime::createFromFormat($format, $date);
             return $this;
@@ -222,13 +226,13 @@ class Shipment implements ArrayableInterface
         return $this->shipmentDate;
     }
 
-    /**
-     * @param \DateTime $shipmentDate
-     *
-     * @return Shipment
-     */
-    public function setShipmentDate (?\DateTime $date, $format = null): Shipment
+
+    public function setShipmentDate ($date, $format = null): self
     {
+        if ($date === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->shipmentDate = DateTime::createFromFormat($format, $date);
             return $this;
@@ -256,8 +260,12 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setDeliveryDate (?\DateTime $date, $format = null): Shipment
+    public function setDeliveryDate ($date, $format = null): self
     {
+        if ($date === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->deliveryDate = DateTime::createFromFormat($format, $date);
             return $this;

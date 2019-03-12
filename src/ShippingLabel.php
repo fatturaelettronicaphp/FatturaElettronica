@@ -46,6 +46,10 @@ class ShippingLabel implements ArrayableInterface
 
     public function setDocumentDate ($documentDate, $format = null)
     {
+        if ($documentDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->documentDate = DateTime::createFromFormat($format, $documentDate);
             return $this;

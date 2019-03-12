@@ -57,7 +57,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     protected $customerPec;
 
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
-    protected $documentInstances;
+    protected $documentInstances = [];
 
     public function getEmittingSubject ()
     {

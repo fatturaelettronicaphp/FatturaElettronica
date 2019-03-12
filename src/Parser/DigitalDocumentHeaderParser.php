@@ -27,10 +27,11 @@ use SimpleXMLElement;
 use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
 use Weble\FatturaElettronica\Fund;
 use Weble\FatturaElettronica\Parser\Header\CustomerParser;
-use Weble\FatturaElettronica\Parser\Header\GeneralDataParser;
+use Weble\FatturaElettronica\Parser\Header\EmittingSubjectParser;
 use Weble\FatturaElettronica\Parser\Header\IntermediaryParser;
 use Weble\FatturaElettronica\Parser\Header\RepresentativeParser;
 use Weble\FatturaElettronica\Parser\Header\SupplierParser;
+use Weble\FatturaElettronica\Parser\Header\TransmissionDataParser;
 use Weble\FatturaElettronica\RelatedDocument;
 use Weble\FatturaElettronica\Representative;
 use Weble\FatturaElettronica\Shipment;
@@ -65,11 +66,12 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
             ->with($this->xml())
             ->usingMethod('parse')
             ->through([
-                GeneralDataParser::class,
+                TransmissionDataParser::class,
                 CustomerParser::class,
                 SupplierParser::class,
                 RepresentativeParser::class,
-                IntermediaryParser::class
+                IntermediaryParser::class,
+                EmittingSubjectParser::class,
             ])
             ->thenReturn();
     }

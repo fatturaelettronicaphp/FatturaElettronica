@@ -15,7 +15,11 @@ use Weble\FatturaElettronica\Exceptions\InvalidDocument;
 use Weble\FatturaElettronica\Utilities\Pipeline;
 use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
 use SimpleXMLElement;
+use Weble\FatturaElettronica\Writer\Body\AttachmentWriter;
 use Weble\FatturaElettronica\Writer\Body\GeneralDataWriter;
+use Weble\FatturaElettronica\Writer\Body\PaymentsWriter;
+use Weble\FatturaElettronica\Writer\Body\ProductsWriter;
+use Weble\FatturaElettronica\Writer\Body\VehicleWriter;
 use Weble\FatturaElettronica\Writer\Header\CustomerWriter;
 use Weble\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
 use Weble\FatturaElettronica\Writer\Header\IntermediaryWriter;
@@ -66,7 +70,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
         $parserPipeline = new Pipeline();
 
-        $this->xml = $parserPipeline
+        $parserPipeline
             ->send($xmlHeader)
             ->with($this->document)
             ->usingMethod('write')
@@ -85,7 +89,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
     protected function writeBody (DigitalDocumentInstanceInterface $body): self
     {
-        $bodyXml = $this->xml->addChild('FatturazioneElettronicaBody');
+        $bodyXml = $this->xml->addChild('FatturaElettronicaBody');
 
         $parserPipeline = new Pipeline();
 
@@ -94,7 +98,11 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->with($body)
             ->usingMethod('write')
             ->through([
-                GeneralDataWriter::class
+                GeneralDataWriter::class,
+                AttachmentWriter::class,
+                PaymentsWriter::class,
+                ProductsWriter::class,
+                VehicleWriter::class
             ])
             ->thenReturn();
 

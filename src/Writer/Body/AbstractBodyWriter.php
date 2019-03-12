@@ -37,7 +37,7 @@ abstract class AbstractBodyWriter extends AbstractWriter
         $parent->addChild('IdDocumento', SimpleXmlExtended::sanitizeText($documentData->getDocumentNumber()));
 
         if (!empty($documentData->getDocumentDate())) {
-            $parent->addChild('Data', $documentData->getDocumentDate()->format('YYYY-MM-DD'));
+            $parent->addChild('Data', $documentData->getDocumentDate()->format('Y-m-d'));
         }
 
         $numItem = $documentData->getLineNumber();

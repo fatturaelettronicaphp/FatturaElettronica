@@ -123,6 +123,10 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
      */
     public function setDueDateFrom ($dueDateFrom, $format = null): self
     {
+        if ($dueDateFrom === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->dueDateFrom = DateTime::createFromFormat($format, $dueDateFrom);
             return $this;
@@ -169,6 +173,10 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
      */
     public function setDueDate ($dueDate, $format = null): self
     {
+        if ($dueDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->dueDate = DateTime::createFromFormat($format, $dueDate);
             return $this;
@@ -413,6 +421,10 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
      */
     public function setEarlyPaymentDateLimit ($earlyPaymentDateLimit, $format = null): self
     {
+        if ($earlyPaymentDateLimit === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->earlyPaymentDateLimit = DateTime::createFromFormat($format, $earlyPaymentDateLimit);
             return $this;
@@ -459,6 +471,10 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
      */
     public function setLatePaymentDateLimit ($latePaymentDateLimit, $format = null): self
     {
+        if ($latePaymentDateLimit === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->latePaymentDateLimit = DateTime::createFromFormat($format, $latePaymentDateLimit);
             return $this;

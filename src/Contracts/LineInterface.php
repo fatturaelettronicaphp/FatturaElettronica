@@ -21,14 +21,9 @@ interface LineInterface
     /**
      * @return \Weble\FatturaElettronica\Enums\TipoCessazionePrestazione
      */
-    public function getTipoCessazionePrestazione (): \Weble\FatturaElettronica\Enums\TipoCessazionePrestazione;
+    public function getTipoCessazionePrestazione (): ?\Weble\FatturaElettronica\Enums\TipoCessazionePrestazione;
 
-    /**
-     * @param \Weble\FatturaElettronica\Enums\TipoCessazionePrestazione $tipoCessazionePrestazione
-     *
-     * @return Line
-     */
-    public function setTipoCessazionePrestazione (\Weble\FatturaElettronica\Enums\TipoCessazionePrestazione $tipoCessazionePrestazione);
+    public function setTipoCessazionePrestazione ($tipoCessazionePrestazione);
 
     /**
      * @return \Weble\FatturaElettronica\Contracts\ProductInterface[]
@@ -81,7 +76,7 @@ interface LineInterface
     /**
      * @return \DateTime
      */
-    public function getStartDate (): \DateTime;
+    public function getStartDate (): ?\DateTime;
 
     /**
      * @param \DateTime $startDate
@@ -93,7 +88,7 @@ interface LineInterface
     /**
      * @return \DateTime
      */
-    public function getEndDate (): \DateTime;
+    public function getEndDate (): ?\DateTime;
 
     /**
      * @param \DateTime $endDate

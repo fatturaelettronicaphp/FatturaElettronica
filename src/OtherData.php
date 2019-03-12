@@ -99,9 +99,23 @@ class OtherData implements ArrayableInterface, OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setDate (?\DateTime $date): OtherDataInterface
+    public function setDate ($date, $format = null): OtherDataInterface
     {
-        $this->date = $date;
+        if ($date === null) {
+            return $this;
+        }
+
+        if ($format !== null) {
+            $this->date = DateTime::createFromFormat($format, $date);
+            return $this;
+        }
+
+        if ($date instanceof DateTime) {
+            $this->date = $date;
+            return $this;
+        }
+
+        $this->date = new DateTime($date);
         return $this;
     }
 

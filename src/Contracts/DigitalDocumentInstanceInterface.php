@@ -69,7 +69,9 @@ interface DigitalDocumentInstanceInterface
 
     public function getDocumentTotal (): ?float;
 
-    public function getDocumentTotalTaxAmount (): ?float;
+    public function calculateDocumentTotal (): float;
+
+    public function calculateDocumentTotalTaxAmount (): float;
 
     public function hasDeduction (): bool;
 
@@ -155,7 +157,7 @@ interface DigitalDocumentInstanceInterface
 
     public function addTotal (TotalInterface $total);
 
-    public function getVehicleRegistrationDate ();
+    public function getVehicleRegistrationDate (): ?DateTime;
 
     public function setVehicleRegistrationDate ($vehicleRegistrationDate, $format = null);
 

@@ -145,6 +145,10 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function setDocumentDate ($documentDate, $format = null): DigitalDocumentInstanceInterface
     {
+        if ($documentDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->documentDate = DateTime::createFromFormat($format, $documentDate);
             return $this;
@@ -503,22 +507,12 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this;
     }
 
-    public function getDocumentTotal (): float
+    public function getDocumentTotal (): ?float
     {
-        if ($this->documentTotal !== null) {
-            return $this->documentTotal;
-        }
-
-        $total = 0;
-        /** @var TotalInterface $t */
-        foreach ($this->getTotals() as $t) {
-            $total += $t->getTotal();
-        }
-
-        return $total;
+        return $this->documentTotal;
     }
 
-    public function getDocumentTotalTaxAmount (): ?float
+    public function calculateDocumentTotalTaxAmount (): float
     {
         $total = 0;
         /** @var TotalInterface $total */
@@ -569,6 +563,10 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function setMainInvoiceDate ($mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface
     {
+        if ($mainInvoiceDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->mainInvoiceDate = DateTime::createFromFormat($format, $mainInvoiceDate);
             return $this;
@@ -590,6 +588,10 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function setVehicleRegistrationDate ($vehicleRegistrationDate, $format = null): self
     {
+        if ($vehicleRegistrationDate === null) {
+            return $this;
+        }
+
         if ($format !== null) {
             $this->vehicleRegistrationDate = DateTime::createFromFormat($format, $vehicleRegistrationDate);
             return $this;
@@ -613,5 +615,19 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     {
         $this->vehicleTotalKm = $vehicleTotalKm;
         return $this;
+    }
+
+    /**
+     * @return float|int|null
+     */
+    public function calculateDocumentTotal (): float
+    {
+        $total = 0;
+        /** @var TotalInterface $t */
+        foreach ($this->getTotals() as $t) {
+            $total += $t->getTotal();
+        }
+
+        return $total;
     }
 }

@@ -5,7 +5,7 @@ namespace Weble\FatturaElettronica\Parser\Header;
 
 use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
 
-class GeneralDataParser extends AbstractHeaderParser
+class TransmissionDataParser extends AbstractHeaderParser
 {
     protected function performParsing ()
     {
@@ -36,9 +36,6 @@ class GeneralDataParser extends AbstractHeaderParser
 
         $code = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/PECDestinatario');
         $this->document->setCustomerPec($code);
-
-        $code = $this->extractValueFromXml('//FatturaElettronicaHeader/SoggettoEmittente');
-        $this->document->setEmittingSubject($code);
 
         return $this->document;
     }
