@@ -12,7 +12,9 @@ You can install the package via composer:
 composer require weble/FatturaElettronica
 ```
 
-[## Documentation](https://weble.github.io/FatturaElettronica/)
+## Documentation
+
+Check the [Documentation](https://weble.github.io/FatturaElettronica/)
 
 ### Testing
 
