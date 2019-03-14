@@ -12,41 +12,7 @@ You can install the package via composer:
 composer require weble/FatturaElettronica
 ```
 
-## Usage
-
-### Parsing
-``` php
-// $xml can be an xml file, a p7m file, or an instance of SimpleXmlElement
-$eDocument = DigitalDocument::parseFrom($xml);
-
-$customer = $digitalDocument->getCustomer();
-$supplier = $digitalDocument->getSupplier();
-$documents = $digitalDocument->getDocumentInstances();
-...
-
-$customer->getOrganization();  // Same for supplier
-$customer->getVatNumber(); // Same for supplier
-...
-
-$documents[0]->getDocumentDate();
-$documents[0]->getDocumentNumber();
-...
-```
-
-### Writing
-``` php
-// This needs to be a DigitalDocumentInterface object
-$eDocument = new DigitalDocument();
-$eDocument->setTransmissionFormat('FPR12');
-
-....
-
-// This is a SimpleXmlElement
-$xml = $eDocument->serialize();
-
-// This writes to an XML file
-$eDocument->write($filePath);
-```
+[## Documentation](https://weble.github.io/FatturaElettronica/)
 
 ### Testing
 
