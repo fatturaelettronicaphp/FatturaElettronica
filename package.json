@@ -1,0 +1,32 @@
+{
+  "name": "fatturaelettronica",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.com/Weble/FatturaElettronica.svg?token=dkUekxQMLMKLsPhqsxiT&branch=master)](https://travis-ci.com/Weble/FatturaElettronica)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "dependencies": {
+    "@vuepress/plugin-active-header-links": "^1.0.0-alpha.0",
+    "@vuepress/theme-default": "^1.0.0-alpha.0",
+    "webpack-dev-middleware": "^3.6.0"
+  },
+  "devDependencies": {
+    "vuepress": "^1.0.0-alpha.44"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Weble/FatturaElettronica.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Weble/FatturaElettronica/issues"
+  },
+  "homepage": "https://github.com/Weble/FatturaElettronica#readme"
+}
