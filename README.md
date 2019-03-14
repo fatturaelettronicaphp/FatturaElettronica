@@ -16,7 +16,7 @@ composer require weble/FatturaElettronica
 
 Check the [Documentation](https://weble.github.io/FatturaElettronica/)
 
-###Testing
+## Testing
 
 ``` bash
 composer test
