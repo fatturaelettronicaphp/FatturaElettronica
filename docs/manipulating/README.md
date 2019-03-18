@@ -3,42 +3,48 @@
 ## Dati Intestazione
 ``` php
 $xml = '/path/to/file.xml';
-$eDocument = DigitalDocument::parseFrom($xml);
+$eDocument = \Weble\FatturaElettronica\DigitalDocument::parseFrom($xml);
 
 /** @var \Weble\FatturaElettronica\Customer $customer **/
-$customer = $digitalDocument->getCustomer();
+$customer = $eDocument->getCustomer();
 
 /** @var \Weble\FatturaElettronica\Supplier $supplier **/
-$supplier = $digitalDocument->getSupplier();
+$supplier = $eDocument->getSupplier();
 
 /** @var \Weble\FatturaElettronica\DigitalDocument[] $documents **/
-$documents = $digitalDocument->getDocumentInstances();
+$documents = $eDocument->getDocumentInstances();
 
 $customer->getOrganization();
 $customer->getVatNumber();
 
 ```
 
-### Customer
+### Cessionario / Committente (o Cliente)
 ``` php
 $xml = '/path/to/file.xml';
-$eDocument = DigitalDocument::parseFrom($xml);
+$eDocument = \Weble\FatturaElettronica\DigitalDocument::parseFrom($xml);
 
 /** @var \Weble\FatturaElettronica\Customer $customer **/
-$customer = $digitalDocument->getCustomer();
+$customer = $eDocument->getCustomer();
 
-$customer->getOrganization();
+$customer->getName();
 $customer->getVatNumber();
-
+$customer->getSurname();
+$customer->getOrganization();
+$customer->getCountryCode();
+$customer->getFiscalCode ();
+$customer->getTitle();
+$customer->getEori();
+$customer->getRepresentative();
 ```
 
 ### Supplier
 ``` php
 $xml = '/path/to/file.xml';
-$eDocument = DigitalDocument::parseFrom($xml);
+$eDocument = \Weble\FatturaElettronica\DigitalDocument::parseFrom($xml);
 
 /** @var \Weble\FatturaElettronica\Supplier $customer **/
-$supplier = $digitalDocument->getSupplier();
+$supplier = $eDocument->getSupplier();
 
 $supplier->getOrganization();
 $supplier->getVatNumber();
@@ -48,9 +54,11 @@ $supplier->getVatNumber();
 ## Dati Documento
 ``` php
 $xml = '/path/to/file.xml';
-$eDocument = DigitalDocument::parseFrom($xml);
+$eDocument = \Weble\FatturaElettronica\DigitalDocument::parseFrom($xml);
 
-/** @var \Weble\FatturaElettronica\DigitalDocument $document **/
+$documents = $eDocument->getDocumentInstances();
+
+/** @var \Weble\FatturaElettronica\DigitalDocumentInstance $document **/
 foreach ($documents as $document) {
     $document->getDocumentDate();
     $document->getDocumentNumber();
