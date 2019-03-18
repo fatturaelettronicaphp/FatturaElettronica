@@ -27,7 +27,6 @@
         "ext-libxml": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "fpdf/fpdf": "^1.81",
         "spatie/enum": "^1.0"
     },
     "require-dev": {
