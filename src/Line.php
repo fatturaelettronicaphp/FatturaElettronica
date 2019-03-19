@@ -320,13 +320,16 @@ class Line implements ArrayableInterface, LineInterface
         return $this->vatNature;
     }
 
-    /**
-     * @param VatNature $vatNature
-     *
-     * @return Line
-     */
-    public function setVatNature (?VatNature $vatNature): Line
+    public function setVatNature ($vatNature): Line
     {
+        if ($vatNature === null) {
+            return $this;
+        }
+
+        if (!$vatNature instanceof CancelType) {
+            $vatNature = VatNature::from($vatNature);
+        }
+
         $this->vatNature = $vatNature;
         return $this;
     }

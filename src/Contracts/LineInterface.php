@@ -159,7 +159,7 @@ interface LineInterface
      *
      * @return Line
      */
-    public function setVatNature (?\Weble\FatturaElettronica\Enums\VatNature $vatNature);
+    public function setVatNature ($vatNature);
 
     /**
      * @return string

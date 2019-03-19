@@ -38,14 +38,17 @@ class ShipmentInformationsParser extends AbstractBodyParser
     protected function performParsing ()
     {
         $value = $this->extractValueFromXml('DatiGenerali/DatiTrasporto', false);
-        if (count($value) > 0) {
+        if ($value !== null && count($value) > 0) {
             $value = array_shift($value);
             $instance = $this->extractShipmentInformationsFrom($value);
-            $this->digitalDocymentInstance->setShipment($instance);
+
+            if ($instance !== null ) {
+                $this->digitalDocymentInstance->setShipment($instance);
+            }
         }
     }
 
-    protected function extractShipmentInformationsFrom (SimpleXMLElement $xml): Shipment
+    protected function extractShipmentInformationsFrom (SimpleXMLElement $xml): ?Shipment
     {
         if ($xml === null) {
             return null;

@@ -62,6 +62,7 @@ class SummaryParser extends AbstractBodyParser
 
         $taxPercentage = $this->extractValueFromXmlElement($total, 'AliquotaIVA');
         $nature = $this->extractValueFromXmlElement($total, 'Natura');
+        $type = $this->extractValueFromXmlElement($total, 'EsigibilitaIVA');
         $expenses = $this->extractValueFromXmlElement($total, 'SpeseAccessorie');
         $rounding = $this->extractValueFromXmlElement($total, 'Arrotondamento');
         $totalValue = $this->extractValueFromXmlElement($total, 'ImponibileImporto');
@@ -83,6 +84,7 @@ class SummaryParser extends AbstractBodyParser
             ->setOtherExpenses($expenses)
             ->setRounding($rounding)
             ->setTotal($totalValue)
+            ->setTaxType($type)
             ->setReference($reference);
 
         return $instance;

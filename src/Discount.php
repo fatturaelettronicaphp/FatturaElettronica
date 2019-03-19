@@ -51,7 +51,7 @@ class Discount implements ArrayableInterface, DiscountInterface
         return $this->percentage;
     }
 
-    public function sePercentage (?float $percentage): DiscountInterface
+    public function setPercentage (?float $percentage): DiscountInterface
     {
         $this->percentage = $percentage;
         return $this;

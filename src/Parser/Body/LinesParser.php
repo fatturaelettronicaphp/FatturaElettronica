@@ -84,6 +84,9 @@ class LinesParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($xml, 'AliquotaIVA');
         $instance->setTaxPercentage( $value);
 
+        $value = $this->extractValueFromXmlElement($xml, 'Natura');
+        $instance->setVatNature( $value);
+
         $products = (array) $this->extractValueFromXmlElement($xml, 'CodiceArticolo', false);
         foreach ($products as $product) {
             $value = $this->extractProductCodeInformationsFrom($product);

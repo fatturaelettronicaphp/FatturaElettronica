@@ -167,8 +167,8 @@ class Total implements ArrayableInterface, TotalInterface
             return $this;
         }
 
-        if (!$taxType instanceof VatNature) {
-            $taxType = VatNature::from($taxType);
+        if (!$taxType instanceof VatEligibility) {
+            $taxType = VatEligibility::from($taxType);
         }
 
         $this->taxType = $taxType;

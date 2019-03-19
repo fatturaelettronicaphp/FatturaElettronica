@@ -7,8 +7,10 @@ use PHPUnit\Framework\TestCase;
 use Weble\FatturaElettronica\Contracts\AttachmentInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Contracts\DiscountInterface;
 use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
+use Weble\FatturaElettronica\Contracts\TotalInterface;
 use Weble\FatturaElettronica\DigitalDocument;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
@@ -16,7 +18,7 @@ use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 class ParseDigitalDocumentTest extends TestCase
 {
     /** @test */
-    public function can_read_p7m_invoice ()
+    public function can_read_p7m_invoice()
     {
         $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
@@ -34,7 +36,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_attachments ()
+    public function can_read_attachments()
     {
         $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
@@ -61,7 +63,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_xml_invoice_file ()
+    public function can_read_xml_invoice_file()
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
 
@@ -71,7 +73,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_xml_invoice ()
+    public function can_read_xml_invoice()
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
         $xml = simplexml_load_file($file);
@@ -80,13 +82,23 @@ class ParseDigitalDocumentTest extends TestCase
         $this->validateDocument($eDocument);
     }
 
+    /** @test */
+    public function can_read_complex_xml_invoice()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT01234567899_000sq.xml';
+        $xml = simplexml_load_file($file);
+        $eDocument = DigitalDocument::parseFrom($xml);
+
+        $this->validateComplexDocument($eDocument);
+    }
+
     /**
      * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
      *
      * @return array
      * @throws \Exception
      */
-    protected function validateDocument (DigitalDocumentInterface $eDocument)
+    protected function validateDocument(DigitalDocumentInterface $eDocument)
     {
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
@@ -130,8 +142,10 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('EUR', $firstRow->getCurrency());
         $this->assertEquals(new \DateTime('2014-12-18'), $firstRow->getDocumentDate());
         $this->assertEquals('123', $firstRow->getDocumentNumber());
-        $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS', $firstRow->getDescriptions()[0]);
-        $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB', $firstRow->getDescriptions()[1]);
+        $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',
+            $firstRow->getDescriptions()[0]);
+        $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB',
+            $firstRow->getDescriptions()[1]);
 
         // Righe
         $products = $firstRow->getLines();
@@ -139,7 +153,8 @@ class ParseDigitalDocumentTest extends TestCase
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
-        $this->assertEquals("LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI", $firstProduct->getDescription());
+        $this->assertEquals("LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI",
+            $firstProduct->getDescription());
         $this->assertEquals(5, $firstProduct->getQuantity());
         $this->assertEquals(1, $firstProduct->getUnitPrice());
         $this->assertEquals(5, $firstProduct->getTotal());
@@ -158,5 +173,203 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('MP01', $detail->getMethod());
         $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
-}
+    }
+
+    /**
+     * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function validateComplexDocument(DigitalDocumentInterface $eDocument)
+    {
+        $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+
+        // Trasmissione
+        $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
+        $this->assertEquals('IT', $eDocument->getCountryCode());
+        $this->assertNull($eDocument->getCustomerPec());
+        $this->assertEquals('C3UCNRB', $eDocument->getCustomerSdiCode());
+
+        // Fornitore
+        $this->assertEquals('IT', $eDocument->getSupplier()->getCountryCode());
+        $this->assertEquals('01234567899', $eDocument->getSupplier()->getFiscalCode());
+        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('01234567899', $eDocument->getSupplier()->getVatNumber());
+        $this->assertEquals('ACME SPA', $eDocument->getSupplier()->getOrganization());
+        $this->assertEquals('RF01', (string) $eDocument->getSupplier()->getTaxRegime());
+
+        $this->assertEquals('VIA ALFREDO BIANCHI', $eDocument->getSupplier()->getAddress()->getStreet());
+        $this->assertEquals('111', $eDocument->getSupplier()->getAddress()->getStreetNumber());
+        $this->assertEquals('30010', $eDocument->getSupplier()->getAddress()->getZip());
+        $this->assertEquals('MILANO', $eDocument->getSupplier()->getAddress()->getCity());
+        $this->assertEquals('VI', $eDocument->getSupplier()->getAddress()->getState());
+        $this->assertEquals('IT', $eDocument->getSupplier()->getAddress()->getCountryCode());
+
+        // Cliente
+        $this->assertEquals('', $eDocument->getCustomer()->getVatNumber());
+        $this->assertEquals('01234567894', $eDocument->getCustomer()->getFiscalCode());
+        $this->assertEquals('Azienda della Fattura Srl', $eDocument->getCustomer()->getOrganization());
+
+        $this->assertEquals('Via Rossi', $eDocument->getCustomer()->getAddress()->getStreet());
+        $this->assertEquals('222', $eDocument->getCustomer()->getAddress()->getStreetNumber());
+        $this->assertEquals('31100', $eDocument->getCustomer()->getAddress()->getZip());
+        $this->assertEquals('MILANO', $eDocument->getCustomer()->getAddress()->getCity());
+        $this->assertEquals('VI', $eDocument->getCustomer()->getAddress()->getState());
+        $this->assertEquals('IT', $eDocument->getCustomer()->getAddress()->getCountryCode());
+
+        // Corpo
+        $rows = $eDocument->getDocumentInstances();
+
+        /** @var \Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
+        $firstRow = array_shift($rows);
+
+        $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
+        $this->assertEquals('EUR', $firstRow->getCurrency());
+        $this->assertEquals(new \DateTime('2019-03-19'), $firstRow->getDocumentDate());
+        $this->assertEquals('1', $firstRow->getDocumentNumber());
+        $this->assertEquals('Descrizione della causale del documento AAAABBBBBB 1324325y82973482 hbtg2vy14t5fy',
+            $firstRow->getDescriptions()[0]);
+
+        // Ritenuta
+        $this->assertEquals('RT02', (string)$firstRow->getDeductionType());
+        $this->assertEquals(4.41, $firstRow->getDeductionAmount());
+        $this->assertEquals(11.50, $firstRow->getDeductionPercentage());
+        $this->assertEquals('U', $firstRow->getDeductionDescription());
+
+        // Funds
+        $funds = $firstRow->getFunds();
+
+        $firstFund = array_shift($funds);
+        $this->assertEquals('TC03', (string)$firstFund->getType());
+        $this->assertEquals(4, $firstFund->getPercentage());
+        $this->assertEquals(36.88, $firstFund->getAmount());
+        $this->assertEquals(922.00, $firstFund->getSubtotal());
+        $this->assertEquals(22, $firstFund->getTaxPercentage());
+
+        $firstFund = array_shift($funds);
+        $this->assertEquals('TC22', (string)$firstFund->getType());
+        $this->assertEquals(4, $firstFund->getPercentage());
+        $this->assertEquals(38.36, $firstFund->getAmount());
+        $this->assertEquals(958.88, $firstFund->getSubtotal());
+        $this->assertEquals(22, $firstFund->getTaxPercentage());
+        $this->assertTrue($firstFund->hasDeduction());
+
+        $this->assertEquals(2486.02, $firstRow->getDocumentTotal());
+        $this->assertEquals('Descrizione della causale del documento AAAABBBBBB 1324325y82973482 hbtg2vy14t5fy', implode(" ", $firstRow->getDescriptions()));
+
+        // Righe
+        $products = $firstRow->getLines();
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(1, $firstProduct->getNumber());
+        $this->assertEquals("PRODOTTO A",
+            $firstProduct->getDescription());
+        $this->assertEquals(1, $firstProduct->getQuantity());
+        $this->assertEquals(652, $firstProduct->getUnitPrice());
+        $this->assertEquals(652, $firstProduct->getTotal());
+        $this->assertEquals(22, $firstProduct->getTaxPercentage());
+        $this->assertEquals(new \DateTime('2019-03-19'), $firstProduct->getStartDate());
+        $this->assertEquals(new \DateTime('2020-03-18'), $firstProduct->getEndDate());
+
+
+        $datas = $firstProduct->getOtherData();
+        $otherData = array_shift($datas);
+        $this->assertEquals('CASSA-PREV', (string) $otherData->getType());
+        $this->assertEquals('ENASARCO TC07',  $otherData->getText());
+        $this->assertEquals(53.79,  $otherData->getNumber());
+
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(2, $firstProduct->getNumber());
+        $this->assertEquals("Prodotto B",
+            $firstProduct->getDescription());
+        $this->assertEquals(1, $firstProduct->getQuantity());
+        $this->assertEquals(452, $firstProduct->getUnitPrice());
+        $this->assertEquals(452, $firstProduct->getTotal());
+        $this->assertEquals(0, $firstProduct->getTaxPercentage());
+        $this->assertEquals('N2', (string) $firstProduct->getVatNature());
+
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(3, $firstProduct->getNumber());
+        $this->assertEquals("Prodotto con Sconto 10%",
+            $firstProduct->getDescription());
+        $this->assertEquals(1, $firstProduct->getQuantity());
+        $this->assertEquals(300, $firstProduct->getUnitPrice());
+        $this->assertEquals(270, $firstProduct->getTotal());
+        $this->assertEquals(22, $firstProduct->getTaxPercentage());
+
+        $discounts = $firstProduct->getDiscounts();
+        /** @var DiscountInterface $discount */
+        $discount = array_shift($discounts);
+        $this->assertEquals('SC', (string) $discount->getType());
+        $this->assertEquals(10 , $discount->getPercentage());
+
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(4, $firstProduct->getNumber());
+        $this->assertEquals("Prodotto split payment 1",
+            $firstProduct->getDescription());
+        $this->assertEquals(1, $firstProduct->getQuantity());
+        $this->assertEquals(20, $firstProduct->getUnitPrice());
+        $this->assertEquals(20, $firstProduct->getTotal());
+        $this->assertEquals(22, $firstProduct->getTaxPercentage());
+
+
+        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        $firstProduct = array_shift($products);
+
+        $this->assertEquals(5, $firstProduct->getNumber());
+        $this->assertEquals("Prodotto split payment 2",
+            $firstProduct->getDescription());
+        $this->assertEquals(1, $firstProduct->getQuantity());
+        $this->assertEquals(650, $firstProduct->getUnitPrice());
+        $this->assertEquals(650, $firstProduct->getTotal());
+        $this->assertEquals(22, $firstProduct->getTaxPercentage());
+
+        $totals = $firstRow->getTotals();
+        /** @var TotalInterface $total */
+        $total = array_shift($totals);
+        $this->assertEquals(22, $total->getTaxPercentage());
+        $this->assertEquals(0, $total->getOtherExpenses());
+        $this->assertEquals(705.20, $total->getTotal());
+        $this->assertEquals(149.41, $total->getTaxAmount());
+        $this->assertEquals('I', (string) $total->getTaxType());
+
+        /** @var TotalInterface $total */
+        $total = array_shift($totals);
+        $this->assertEquals(0, $total->getTaxPercentage());
+        $this->assertEquals(0, $total->getOtherExpenses());
+        $this->assertEquals(452, $total->getTotal());
+        $this->assertEquals(0, $total->getTaxAmount());
+        $this->assertEquals('I', (string) $total->getTaxType());
+        $this->assertEquals('N2', (string) $total->getVatNature());
+        $this->assertEquals('ESCLUSI ART.3 C.4 DPR 633/72', $total->getReference());
+
+        /** @var TotalInterface $total */
+        $total = array_shift($totals);
+        $this->assertEquals(22, $total->getTaxPercentage());
+        $this->assertEquals(0, $total->getOtherExpenses());
+        $this->assertEquals(292.03, $total->getTotal());
+        $this->assertEquals(61.87, $total->getTaxAmount());
+        $this->assertEquals('D', (string) $total->getTaxType());
+
+        /** @var TotalInterface $total */
+        $total = array_shift($totals);
+        $this->assertEquals(22, $total->getTaxPercentage());
+        $this->assertEquals(0, $total->getOtherExpenses());
+        $this->assertEquals(670.00, $total->getTotal());
+        $this->assertEquals(147.40, $total->getTaxAmount());
+        $this->assertEquals('S', (string) $total->getTaxType());
+
+
+        // Payment Info
+        $paymentInfos = $firstRow->getPaymentInformations();
+        $this->assertCount(0, $paymentInfos);
+    }
 }
