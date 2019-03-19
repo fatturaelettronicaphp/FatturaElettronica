@@ -3,6 +3,7 @@
 namespace Weble\FatturaElettronica\Contracts;
 
 use DateTime;
+use Weble\FatturaElettronica\Enums\PaymentMethod;
 use Weble\FatturaElettronica\Enums\PaymentTerm;
 use Weble\FatturaElettronica\PaymentInfo;
 
@@ -22,13 +23,13 @@ interface PaymentDetailsInterface
     /**
      * @return string
      */
-    public function getMethod (): ?string;
+    public function getMethod (): ?PaymentMethod;
 
     /**
      * @param string $method
      * @return PaymentInfo
      */
-    public function setMethod (?string $method);
+    public function setMethod ($method);
 
     /**
      * @return DateTime

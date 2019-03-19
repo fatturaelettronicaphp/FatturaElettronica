@@ -3,6 +3,7 @@
 namespace Weble\FatturaElettronica;
 
 use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use Weble\FatturaElettronica\Enums\PaymentMethod;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
 use Weble\FatturaElettronica\Enums\PaymentTerm;
@@ -14,7 +15,7 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
 
     /** @var string */
     protected $payee;
-    /** @var string */
+    /** @var PaymentMethod */
     protected $method;
     /** @var DateTime */
     protected $dueDateFrom;
@@ -92,9 +93,9 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
     }
 
     /**
-     * @return string
+     * @return PaymentMethod
      */
-    public function getMethod (): ?string
+    public function getMethod (): ?PaymentMethod
     {
         return $this->method;
     }
@@ -103,8 +104,16 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
      * @param string $method
      * @return PaymentInfo
      */
-    public function setMethod (?string $method): self
+    public function setMethod ($method): self
     {
+        if ($method === null) {
+            return $this;
+        }
+
+        if (!$method instanceof PaymentMethod) {
+            $method = PaymentMethod::from($method);
+        }
+
         $this->method = $method;
         return $this;
     }
