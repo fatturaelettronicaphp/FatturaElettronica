@@ -10,6 +10,7 @@ module.exports = {
         ],
         sidebar: [
             ['/', 'Introduzione'],
+            ['/structure/', 'Struttura'],
             ['/parsing/', 'Lettura'],
             ['/writing/', 'Scrittura'],
             ['/manipulating/', 'Manipolazione'],
