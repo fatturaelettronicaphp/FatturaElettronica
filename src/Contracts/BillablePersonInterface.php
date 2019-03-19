@@ -15,4 +15,12 @@ interface BillablePersonInterface extends BillableInterface
     public function getTitle ();
 
     public function getEori ();
+
+    public function getAddress (): ?AddressInterface;
+
+    public function setAddress (AddressInterface $address);
+
+    public function getForeignFixedAddress (): ?AddressInterface;
+
+    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress);
 }
