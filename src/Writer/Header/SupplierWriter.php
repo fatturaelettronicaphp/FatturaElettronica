@@ -117,13 +117,13 @@ class SupplierWriter extends AbstractHeaderWriter
         if ($supplier->hasContacts()) {
             $contatti = $cedentePrestatore->addChild('Contatti');
 
-            if ($supplier->getPhone()) {
+            if ($supplier->getPhone() !== null) {
                 $contatti->addChild('Telefono', SimpleXmlExtended::sanitizeText($supplier->getPhone()));
             }
-            if ($supplier->getPhone()) {
+            if ($supplier->getFax() !== null) {
                 $contatti->addChild('Fax', SimpleXmlExtended::sanitizeText($supplier->getFax()));
             }
-            if ($supplier->getPhone()) {
+            if ($supplier->getEmail() !== null) {
                 $contatti->addChild('Email', SimpleXmlExtended::sanitizeText($supplier->getEmail()));
             }
         }

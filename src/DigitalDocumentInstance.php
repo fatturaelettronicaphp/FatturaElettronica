@@ -36,7 +36,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     protected $documentDate;
 
     /** @var bool */
-    protected $art73;
+    protected $art73 = false;
 
     /** @var string */
     protected $currency;

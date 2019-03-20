@@ -9,7 +9,7 @@ use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class ProductsWriter extends AbstractBodyWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         $datiBeniServizi = $this->xml->addChild('DatiBeniServizi');
 
@@ -28,7 +28,7 @@ class ProductsWriter extends AbstractBodyWriter
      * @param \SimpleXMLElement $dettaglioLinee
      * @param $otherData
      */
-    protected function addOtherData (\SimpleXMLElement $dettaglioLinee, OtherDataInterface $otherData): void
+    protected function addOtherData(\SimpleXMLElement $dettaglioLinee, OtherDataInterface $otherData): void
     {
         $altriDatiGestionali = $dettaglioLinee->addChild('AltriDatiGestionali');
         $altriDatiGestionali->addChild('TipoDato', $otherData->getType());
@@ -57,8 +57,10 @@ class ProductsWriter extends AbstractBodyWriter
      * @param \SimpleXMLElement $dettaglioLinee
      * @param \Weble\FatturaElettronica\Contracts\DiscountInterface $discount
      */
-    protected function addDiscount (\SimpleXMLElement $dettaglioLinee, \Weble\FatturaElettronica\Contracts\DiscountInterface $discount): void
-    {
+    protected function addDiscount(
+        \SimpleXMLElement $dettaglioLinee,
+        \Weble\FatturaElettronica\Contracts\DiscountInterface $discount
+    ): void {
         $scontoMaggiorazione = $dettaglioLinee->addChild('ScontoMaggiorazione');
         $scontoMaggiorazione->addChild('Tipo', (string)$discount->getType());
 
@@ -75,8 +77,10 @@ class ProductsWriter extends AbstractBodyWriter
      * @param \SimpleXMLElement $dettaglioLinee
      * @param \Weble\FatturaElettronica\Contracts\ProductInterface $product
      */
-    protected function addProduct (\SimpleXMLElement $dettaglioLinee, \Weble\FatturaElettronica\Contracts\ProductInterface $product): void
-    {
+    protected function addProduct(
+        \SimpleXMLElement $dettaglioLinee,
+        \Weble\FatturaElettronica\Contracts\ProductInterface $product
+    ): void {
         $codiceArticolo = $dettaglioLinee->addChild('CodiceArticolo');
         $codiceArticolo->addChild('CodiceTipo', $product->getCodeType());
         $codiceArticolo->addChild('CodiceValore', SimpleXmlExtended::sanitizeText($product->getCode()));
@@ -86,8 +90,10 @@ class ProductsWriter extends AbstractBodyWriter
      * @param \SimpleXMLElement $datiBeniServizi
      * @param \Weble\FatturaElettronica\Contracts\LineInterface $line
      */
-    protected function addLine (\SimpleXMLElement $datiBeniServizi, \Weble\FatturaElettronica\Contracts\LineInterface $line): void
-    {
+    protected function addLine(
+        \SimpleXMLElement $datiBeniServizi,
+        \Weble\FatturaElettronica\Contracts\LineInterface $line
+    ): void {
         $dettaglioLinee = $datiBeniServizi->addChild('DettaglioLinee');
 
         $dettaglioLinee->addChild('NumeroLinea', $line->getNumber());
@@ -111,7 +117,7 @@ class ProductsWriter extends AbstractBodyWriter
             $quantita = 1;
         }
 
-        $dettaglioLinee->addChild('Quantita', round($quantita, 2));
+        $dettaglioLinee->addChild('Quantita', number_format(round($quantita, 2), 2));
 
         if ($line->getUnit() !== null) {
             $dettaglioLinee->addChild('UnitaMisura', $line->getUnit());
@@ -135,9 +141,9 @@ class ProductsWriter extends AbstractBodyWriter
             }
         }
 
-        $dettaglioLinee->addChild('PrezzoTotale', $line->getTotal());
+        $dettaglioLinee->addChild('PrezzoTotale', number_format(round($line->getTotal(), 2), 2));
 
-        $dettaglioLinee->addChild('AliquotaIVA', $line->getTaxPercentage());
+        $dettaglioLinee->addChild('AliquotaIVA', number_format(round($line->getTaxPercentage(), 2), 2));
 
         if ($line->isDeduction()) {
             $dettaglioLinee->addChild('Ritenuta', 'SI');
@@ -165,11 +171,13 @@ class ProductsWriter extends AbstractBodyWriter
      * @param \SimpleXMLElement $datiBeniServizi
      * @param \Weble\FatturaElettronica\Contracts\TotalInterface $summary
      */
-    protected function addTotal (\SimpleXMLElement $datiBeniServizi, \Weble\FatturaElettronica\Contracts\TotalInterface $summary): void
-    {
+    protected function addTotal(
+        \SimpleXMLElement $datiBeniServizi,
+        \Weble\FatturaElettronica\Contracts\TotalInterface $summary
+    ): void {
         $datiRiepilogo = $datiBeniServizi->addChild('DatiRiepilogo');
 
-        $datiRiepilogo->addChild('AliquotaIVA', $summary->getTaxPercentage());
+        $datiRiepilogo->addChild('AliquotaIVA', number_format(round($summary->getTaxPercentage(), 2), 2));
 
         $taxType = $summary->getVatNature();
         if ($taxType !== null) {
@@ -194,8 +202,8 @@ class ProductsWriter extends AbstractBodyWriter
             $imposta = 0.00;
         }
 
-        $datiRiepilogo->addChild('ImponibileImporto', round($imponibileImporto, 2));
-        $datiRiepilogo->addChild('Imposta', round($imposta, 2));
+        $datiRiepilogo->addChild('ImponibileImporto', number_format(round($imponibileImporto, 2), 2));
+        $datiRiepilogo->addChild('Imposta', number_format(round($imposta, 2), 2));
 
         if ($summary->getTaxType() !== null) {
             $datiRiepilogo->addChild('EsigibilitaIVA', (string)$summary->getTaxType());

@@ -85,12 +85,12 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $importoTotaleDocumento = $this->body->getDocumentTotal();
         if ($importoTotaleDocumento !== null) {
-            $documentGeneralData->addChild('ImportoTotaleDocumento', $importoTotaleDocumento);
+            $documentGeneralData->addChild('ImportoTotaleDocumento', number_format(round($importoTotaleDocumento, 2), 2));
         }
 
         $value = $this->body->getRounding();
         if ($value !== null) {
-            $documentGeneralData->addChild('Arrotondamento', $value);
+            $documentGeneralData->addChild('Arrotondamento', number_format(round($value, 2), 2));
         }
 
         if (!empty($this->body->getDescriptions())) {
@@ -123,7 +123,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiBollo = $documentGeneralData->addChild('DatiBollo');
         $datiBollo->addChild('BolloVirtuale', 'SI');
-        $datiBollo->addChild('ImportoBollo', $this->body->getVirtualDutyAmount());
+        $datiBollo->addChild('ImportoBollo', number_format(round($this->body->getVirtualDutyAmount(), 2), 2));
     }
 
     /**
