@@ -165,7 +165,7 @@ interface DigitalDocumentInstanceInterface
 
     public function setVehicleTotalKm (?string $vehicleTotalKm);
 
-    public function getPaymentInformations ();
+    public function getPaymentInformations (): array;
 
     public function addPaymentInformations (PaymentInfoInterface $paymentInfo);
 

@@ -66,7 +66,7 @@ class AttachmentParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($attachment, 'DescrizioneAttachment');
         $instance->setDescription($value);
 
-        $value = $this->extractValueFromXmlElement($attachment, 'Attachment');
+        $value = (string) $this->extractValueFromXmlElement($attachment, 'Attachment');
         $instance->setAttachment($value);
         return $instance;
     }

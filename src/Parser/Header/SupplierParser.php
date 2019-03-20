@@ -74,31 +74,31 @@ class SupplierParser extends AbstractHeaderParser
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RegimeFiscale');
         $supplier->setTaxRegime($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Telefono');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Telefono');
         $supplier->setPhone($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Email');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Email');
         $supplier->setEmail($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Contatti/Fax');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Fax');
         $supplier->setFax($value);
 
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RiferimentoAmministrazione');
         $supplier->setAdministrativeContact($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/Ufficio');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/Ufficio');
         $supplier->setReaOffice($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/NumeroREA');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/NumeroREA');
         $supplier->setReaNumber($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/CapitaleSociale');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/CapitaleSociale');
         $supplier->setCapital($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/SocioUnico');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/SocioUnico');
         $supplier->setAssociateType($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IscrizioneRea/StatoLiquidazione');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/StatoLiquidazione');
         $supplier->setSettlementType($value);
 
         $this->document->setSupplier($supplier);

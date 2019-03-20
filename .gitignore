@@ -3,3 +3,5 @@ vendor
 node_modules
 /nbproject/private/
 /nbproject
+tests/PrivateDocuments
+tests/PrivateDocuments/*

@@ -185,7 +185,11 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $ddtData = $generalData->addChild('DatiDDT');
         $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
-        $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format(DATE_ISO8601));
+
+        if ($documentDdt->getDocumentDate()) {
+            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format(DATE_ISO8601));
+        }
+
         $riferimentoLinea = $documentDdt->getLineNumberReference();
         if ($riferimentoLinea !== null) {
             foreach (explode(',', $riferimentoLinea) as $riferimentoLineaPart) {

@@ -228,5 +228,9 @@ class Supplier extends BillablePerson implements SupplierInterface
         return $this;
     }
 
+    public function hasContacts(): bool
+    {
+        return $this->getPhone() || $this->getEmail() || $this->getFax();
+    }
 
 }

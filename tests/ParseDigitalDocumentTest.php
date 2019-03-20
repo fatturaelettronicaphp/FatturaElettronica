@@ -63,6 +63,25 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
+    public function can_encode_decode_attachment()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
+
+        $eDocument = DigitalDocument::parseFrom($file);
+
+        $bodies = $eDocument->getDocumentInstances();
+        /** @var DigitalDocumentInstanceInterface $body */
+        $body = array_shift($bodies);
+
+        $attachments = $body->getAttachments();
+        /** @var AttachmentInterface $attachment */
+        $attachment = array_shift($attachments);
+
+        $this->assertEquals(base64_decode($attachment->getAttachment()), $attachment->getFileData());
+        $this->assertEquals($attachment->getAttachment(), base64_encode($attachment->getFileData()));
+    }
+
+    /** @test */
     public function can_read_xml_invoice_file()
     {
         $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';

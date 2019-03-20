@@ -125,7 +125,7 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $dettaglioLinee->addChild('PrezzoUnitario', round($line->getUnitPrice(), 2));
+        $dettaglioLinee->addChild('PrezzoUnitario', $line->getUnitPrice());
 
         $discounts = $line->getDiscounts();
         if (count($discounts) > 0) {

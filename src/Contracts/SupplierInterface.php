@@ -64,4 +64,6 @@ interface SupplierInterface extends BillablePersonInterface
     public function setCapital ($capital);
 
     public function setAssociateType ($associateType);
+
+    public function hasContacts(): bool;
 }
