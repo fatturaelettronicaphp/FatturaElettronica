@@ -33,6 +33,8 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('00484960588', $eDocument->getSupplier()->getFiscalCode());
         $this->assertEquals('00905811006', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('Eni SpADivisione Refining & Marketing', $eDocument->getSupplier()->getOrganization());
+
+        $this->assertTrue($eDocument->isValid());
     }
 
     /** @test */
@@ -192,6 +194,8 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('MP01', $detail->getMethod());
         $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
+
+        $this->assertTrue($eDocument->isValid());
     }
 
     /**
@@ -390,5 +394,7 @@ class ParseDigitalDocumentTest extends TestCase
         // Payment Info
         $paymentInfos = $firstRow->getPaymentInformations();
         $this->assertCount(0, $paymentInfos);
+
+        $this->assertTrue($eDocument->isValid());
     }
 }

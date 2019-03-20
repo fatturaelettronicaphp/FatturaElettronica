@@ -18,6 +18,8 @@ interface DigitalDocumentInterface
 
     public function write(string $filePath): bool;
 
+    public function isValid(): bool;
+
     public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance);
 
     public function getDocumentInstances(): array;

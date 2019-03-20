@@ -10,10 +10,12 @@ use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
 use Weble\FatturaElettronica\Enums\EmittingSubject;
 use Weble\FatturaElettronica\Contracts\SupplierInterface;
+use Weble\FatturaElettronica\Enums\RecipientCode;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
 use Weble\FatturaElettronica\Utilities\Arrayable;
 use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use Weble\FatturaElettronica\Validator\DigitalDocumentValidator;
 use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
@@ -62,6 +64,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances = [];
 
+    public function __construct()
+    {
+        $this->customerSdiCode = (string) RecipientCode::empty();
+    }
+
     public static function parseFrom($xml): DigitalDocumentInterface
     {
         return (new DigitalDocumentParser($xml))->parse();
@@ -75,6 +82,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function write(string $filePath) : bool
     {
         return (new DigitalDocumentWriter($this))->write($filePath);
+    }
+
+    public function isValid(): bool
+    {
+        return (new DigitalDocumentValidator($this))->isValid();
     }
 
     public function getEmittingSubject ()

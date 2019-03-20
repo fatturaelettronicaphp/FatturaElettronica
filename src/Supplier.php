@@ -39,6 +39,11 @@ class Supplier extends BillablePerson implements SupplierInterface
     /** @var WoundUpType */
     protected $settlementType;
 
+    public function __construct()
+    {
+        $this->taxRegime = TaxRegime::default();
+    }
+
     public function getReaOffice ()
     {
         return $this->reaOffice;
