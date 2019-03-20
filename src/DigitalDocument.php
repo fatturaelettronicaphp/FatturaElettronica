@@ -5,6 +5,7 @@ namespace Weble\FatturaElettronica;
 use SimpleXMLElement;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
+use Weble\FatturaElettronica\Contracts\CustomerInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
@@ -22,7 +23,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 {
     use Arrayable;
 
-    /** @var BillableInterface */
+    /** @var CustomerInterface */
     protected $customer;
 
     /** @var SupplierInterface */
@@ -84,9 +85,14 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentWriter($this))->write($filePath);
     }
 
+    public function validate(): DigitalDocumentValidator
+    {
+        return (new DigitalDocumentValidator($this));
+    }
+
     public function isValid(): bool
     {
-        return (new DigitalDocumentValidator($this))->isValid();
+        return $this->validate()->isValid();
     }
 
     public function getEmittingSubject ()
@@ -218,12 +224,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this;
     }
 
-    public function getCustomer (): ?BillableInterface
+    public function getCustomer (): ?CustomerInterface
     {
         return $this->customer;
     }
 
-    public function setCustomer (BillableInterface $customer): self
+    public function setCustomer (CustomerInterface $customer): self
     {
         $this->customer = $customer;
         return $this;

@@ -8,6 +8,7 @@ use Weble\FatturaElettronica\DigitalDocument;
 use Weble\FatturaElettronica\DigitalDocumentInstance;
 use Weble\FatturaElettronica\Enums\TransmissionFormat;
 use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
+use Weble\FatturaElettronica\Validator\DigitalDocumentValidator;
 use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 interface DigitalDocumentInterface
@@ -20,13 +21,15 @@ interface DigitalDocumentInterface
 
     public function isValid(): bool;
 
+    public function validate(): DigitalDocumentValidator;
+
     public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance);
 
     public function getDocumentInstances(): array;
 
-    public function getCustomer(): ?BillableInterface;
+    public function getCustomer(): ?CustomerInterface;
 
-    public function setCustomer(BillableInterface $customer);
+    public function setCustomer(CustomerInterface $customer);
 
     public function getSupplier(): ?SupplierInterface;
 

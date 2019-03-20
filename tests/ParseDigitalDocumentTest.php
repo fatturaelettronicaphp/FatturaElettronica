@@ -34,7 +34,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('00905811006', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('Eni SpADivisione Refining & Marketing', $eDocument->getSupplier()->getOrganization());
 
-        $this->assertTrue($eDocument->isValid());
+        $this->assertTrue($eDocument->isValid(), 'Is not Valid: ' . json_encode($eDocument->validate()->errors()));
     }
 
     /** @test */
@@ -195,7 +195,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
 
-        $this->assertTrue($eDocument->isValid());
+        $this->assertTrue($eDocument->isValid(), 'Is Invalid: ' . json_encode($eDocument->validate()->errors()));
     }
 
     /**

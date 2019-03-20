@@ -293,7 +293,12 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function hasDeduction (): bool
     {
-        if ($this->deductionAmount !== null) {
+        if (
+            $this->deductionAmount !== null ||
+            $this->deductionDescription !== null ||
+            $this->deductionPercentage !== null ||
+            $this->deductionType !== null
+        ) {
             return true;
         }
 

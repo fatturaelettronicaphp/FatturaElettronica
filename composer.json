@@ -27,6 +27,7 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-simplexml": "*",
+        "alcohol/iso4217": "^3.1",
         "league/iso3166": "^2.1",
         "spatie/enum": "^1.0"
     },

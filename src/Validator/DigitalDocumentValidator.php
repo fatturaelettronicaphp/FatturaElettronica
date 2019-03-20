@@ -6,7 +6,18 @@ use League\ISO3166\Exception\DomainException;
 use League\ISO3166\Exception\InvalidArgumentException;
 use League\ISO3166\ISO3166;
 use Weble\FatturaElettronica\Contracts\AddressInterface;
+use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use Weble\FatturaElettronica\Utilities\Pipeline;
+use Weble\FatturaElettronica\Validator\Body\DeductionValidator;
+use Weble\FatturaElettronica\Validator\Body\GeneralDataValidator;
+use Weble\FatturaElettronica\Validator\Body\LinesValidator;
+use Weble\FatturaElettronica\Validator\Body\TotalsValidator;
+use Weble\FatturaElettronica\Validator\Header\CustomerValidator;
+use Weble\FatturaElettronica\Validator\Header\IntermediaryValidator;
+use Weble\FatturaElettronica\Validator\Header\RepresentativeValidator;
+use Weble\FatturaElettronica\Validator\Header\SupplierValidator;
+use Weble\FatturaElettronica\Validator\Header\TransmissionDataValidator;
 
 class DigitalDocumentValidator
 {
@@ -18,12 +29,11 @@ class DigitalDocumentValidator
     public function __construct(DigitalDocumentInterface $document)
     {
         $this->document = $document;
+        $this->performValidation();
     }
 
     public function isValid(): bool
     {
-        $this->performValidation();
-
         return count($this->errors) <= 0;
     }
 
@@ -37,123 +47,48 @@ class DigitalDocumentValidator
         $this->errors = [];
 
         $this->validateHeader();
+        foreach ($this->document->getDocumentInstances() as $body) {
+            $this->validateBody($body);
+        }
 
         return $this;
     }
 
     protected function validateHeader(): self
     {
-        if ($this->document->getCountryCode() === null) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdPaese'][] = 'required';
-        }
+        $pipeline = new Pipeline();
 
-        $this->validateCountryCode($this->document->getCountryCode(), '//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdPaese');
-
-        if ($this->document->getSenderVatId() === null) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdCodice'][] = 'required';
-        }
-
-        $length = strlen($this->document->getSenderVatId());
-        if ($length > 28 || $length < 1) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/IdTrasmittente/IdCodice'][] = 'Length must be [1,28]';
-        }
-
-        if ($this->document->getSendingId() === null) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/ProgressivoInvio'][] = 'required';
-        }
-
-        $length = strlen($this->document->getSendingId());
-        if ($length > 10 || $length < 1) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/ProgressivoInvio'][] = 'Length must be [1,10]';
-        }
-
-        if ($this->document->getTransmissionFormat() === null) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione'][] = 'required';
-        }
-
-        if ($this->document->getCustomerSdiCode() === null) {
-            $this->errors['//FatturaElettronicaHeader/DatiTrasmissione/CodiceDestinatario'][] = 'required';
-        }
-
-        $this->validateSupplier();
+        $this->errors = $pipeline
+            ->send($this->errors)
+            ->with($this->document)
+            ->usingMethod('validate')
+            ->through([
+                TransmissionDataValidator::class,
+                SupplierValidator::class,
+                RepresentativeValidator::class,
+                CustomerValidator::class,
+                IntermediaryValidator::class
+            ])
+            ->thenReturn();
 
         return $this;
     }
 
-    protected function validateSupplier(): self
+    protected function validateBody(DigitalDocumentInstanceInterface $body): self
     {
-        $supplier = $this->document->getSupplier();
-        if ($supplier === null) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore'][] = 'required';
-            return $this;
-        }
+        $pipeline = new Pipeline();
 
-        if ($supplier->getCountryCode() === null) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdPaese'][] = 'required';
-        }
-
-        $this->validateCountryCode($supplier->getCountryCode(), '//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-
-        if ($supplier->getVatNumber() === null) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice'][] = 'required';
-        }
-
-        $length = strlen($supplier->getVatNumber());
-        if ($length > 28 || $length < 1) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice'][] = 'Length must be [1,28]';
-        }
-
-        if ($supplier->getOrganization() === null && $supplier->getSurname() === null && $supplier->getName() === null) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica'][] = 'required';
-        }
-
-        if ($supplier->getTaxRegime() === null) {
-            $this->errors['//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RegimeFiscale'][] = 'required';
-        }
-
-        $this
-            ->validateAddress($supplier->getAddress(), '//FatturaElettronicaHeader/CedentePrestatore/Sede');
-
-        if ($supplier->getForeignFixedAddress()) {
-            $this->validateAddress($supplier->getForeignFixedAddress(), '//FatturaElettronicaHeader/CedentePrestatore/StabileOrganizzazione');
-        }
-
-        return $this;
-    }
-
-    protected function validateAddress(AddressInterface $address, string $rootElement ): self
-    {
-        if ($address->getStreet() === null) {
-            $this->errors[$rootElement . '/Indirizzo'][] = 'required';
-        }
-
-        if ($address->getZip() === null) {
-            $this->errors[$rootElement . '/CAP'][] = 'required';
-        }
-
-        if ($address->getCity() === null) {
-            $this->errors[$rootElement . '/Comune'][] = 'required';
-        }
-
-        if ($address->getCountryCode() === null) {
-            $this->errors[$rootElement . '/Nazione'][] = 'required';
-        }
-
-        $this->validateCountryCode($address->getCountryCode(), $rootElement . '/Nazione');
-
-        return $this;
-    }
-
-
-    protected function validateCountryCode(string $code, string $element): self
-    {
-        try {
-            (new ISO3166())->alpha2($code);
-        } catch (InvalidArgumentException $e) {
-            $this->errors[ $element][] = $e->getMessage();
-        } catch (DomainException $e) {
-            $this->errors[ $element][] = $e->getMessage();
-        }
+        $this->errors = $pipeline
+            ->send($this->errors)
+            ->with($body)
+            ->usingMethod('validate')
+            ->through([
+                GeneralDataValidator::class,
+                DeductionValidator::class,
+                LinesValidator::class,
+                TotalsValidator::class
+            ])
+            ->thenReturn();
 
         return $this;
     }

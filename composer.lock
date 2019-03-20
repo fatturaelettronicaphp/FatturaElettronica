@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3855fe09c1bb4dbfe5fae6da57dfb193",
+    "content-hash": "3a4f18d42569d037a51e7ca433fe033d",
     "packages": [
+        {
+            "name": "alcohol/iso4217",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alcohol/iso4217.git",
+                "reference": "140bea9b461da9bdac4b1d3c547ea8433714258b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alcohol/iso4217/zipball/140bea9b461da9bdac4b1d3c547ea8433714258b",
+                "reference": "140bea9b461da9bdac4b1d3c547ea8433714258b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/php-invoker": "@stable",
+                "phpunit/phpunit": "^4.6 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Alcohol\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com"
+                }
+            ],
+            "description": "ISO 4217 PHP Library",
+            "homepage": "http://alcohol.github.io/iso4217/",
+            "keywords": [
+                "4217",
+                "ISO 4217",
+                "currencies",
+                "iso",
+                "library"
+            ],
+            "time": "2017-12-01T19:37:47+00:00"
+        },
         {
             "name": "league/iso3166",
             "version": "2.1.2",
