@@ -132,7 +132,7 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         $precision = 2;
-        $maxPrecision = 8;
+        $maxPrecision = 10;
         $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
         while($precision <= $maxPrecision && $difference > 0) {
             $precision++;

@@ -5,16 +5,6 @@ namespace Weble\FatturaElettronica\Validator;
 use DOMDocument;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Utilities\Pipeline;
-use Weble\FatturaElettronica\Validator\Body\DeductionValidator;
-use Weble\FatturaElettronica\Validator\Body\GeneralDataValidator;
-use Weble\FatturaElettronica\Validator\Body\LinesValidator;
-use Weble\FatturaElettronica\Validator\Body\TotalsValidator;
-use Weble\FatturaElettronica\Validator\Header\CustomerValidator;
-use Weble\FatturaElettronica\Validator\Header\IntermediaryValidator;
-use Weble\FatturaElettronica\Validator\Header\RepresentativeValidator;
-use Weble\FatturaElettronica\Validator\Header\SupplierValidator;
-use Weble\FatturaElettronica\Validator\Header\TransmissionDataValidator;
 
 class DigitalDocumentValidator
 {
@@ -61,10 +51,14 @@ class DigitalDocumentValidator
         return $this;
     }
 
+    /**
+     * Thanks to https://github.com/Slamdunk/php-validatore-fattura-elettronica
+     * @return string
+     */
     protected function getSchema(): string
     {
         $xsd = file_get_contents(dirname(__FILE__) . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
-        $xmldsigFilename       = dirname(__FILE__) . '/xsd/core.xsd';
+        $xmldsigFilename = dirname(__FILE__) . '/xsd/core.xsd';
         $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', \sprintf('\1%s"', $xmldsigFilename), $xsd);
 
         return $xsd;
@@ -74,49 +68,38 @@ class DigitalDocumentValidator
     {
         $this->errors = [];
 
-        $this->errors = libxml_get_errors();
+        $errors = libxml_get_errors();
+
+        /**
+         * array [level, code, column, message, file, line]
+         */
+        foreach ($errors as $error) {
+            $errorMessage = $this->parseErrorMessage($error->message);
+            if ($errorMessage !== null) {
+                $this->errors[$errorMessage['field']] = $errorMessage['message'];
+            }
+        }
 
         libxml_clear_errors();
 
         return $this;
     }
 
-    protected function validateHeader(): self
+    protected function parseErrorMessage(string $message): ?array
     {
-        $pipeline = new Pipeline();
+        if (stripos($message, "Namespace prefix") === 0) {
+            return null;
+        }
 
-        $this->errors = $pipeline
-            ->send($this->errors)
-            ->with($this->document)
-            ->usingMethod('validate')
-            ->through([
-                TransmissionDataValidator::class,
-                SupplierValidator::class,
-                RepresentativeValidator::class,
-                CustomerValidator::class,
-                IntermediaryValidator::class
-            ])
-            ->thenReturn();
+        if (stripos($message, "Element ") === 0) {
+            $message = substr($message, strlen("Element "));
+            $field = substr($message, 1, stripos($message, ':') - 1);
+            $message = substr($message, stripos($message, ':') + 2);
+        }
 
-        return $this;
-    }
-
-    protected function validateBody(DigitalDocumentInstanceInterface $body): self
-    {
-        $pipeline = new Pipeline();
-
-        $this->errors = $pipeline
-            ->send($this->errors)
-            ->with($body)
-            ->usingMethod('validate')
-            ->through([
-                GeneralDataValidator::class,
-                DeductionValidator::class,
-                LinesValidator::class,
-                TotalsValidator::class
-            ])
-            ->thenReturn();
-
-        return $this;
+        return [
+            'field' => $field,
+            'message' => $message
+        ];
     }
 }
