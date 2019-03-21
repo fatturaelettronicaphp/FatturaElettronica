@@ -26,6 +26,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-libxml": "*",
+        "ext-dom": "*",
         "ext-simplexml": "*",
         "alcohol/iso4217": "^3.1",
         "league/iso3166": "^2.1",

@@ -2,6 +2,7 @@
 
 namespace Weble\FatturaElettronica;
 
+use DOMDocument;
 use SimpleXMLElement;
 use Weble\FatturaElettronica\Contracts\BillableInterface;
 use Weble\FatturaElettronica\Contracts\BillablePersonInterface;

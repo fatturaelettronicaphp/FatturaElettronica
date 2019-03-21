@@ -73,22 +73,22 @@ abstract class AbstractBodyParser
         $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
         $billable->setTitle($title);
 
-        $customerName = $this->extractValueFromXml('Anagrafica/Nome');
+        $customerName = $this->extractValueFromXmlElement($xml,'Anagrafica/Nome');
         $billable->setName($customerName);
 
-        $customerSurname = $this->extractValueFromXml('Anagrafica/Cognome');
+        $customerSurname = $this->extractValueFromXmlElement($xml,'Anagrafica/Cognome');
         $billable->setSurname($customerSurname);
 
-        $customerOrganization = $this->extractValueFromXml('Anagrafica/Denominazione');
+        $customerOrganization = $this->extractValueFromXmlElement($xml,'Anagrafica/Denominazione');
         $billable->setOrganization($customerOrganization);
 
-        $customerFiscalCode = $this->extractValueFromXml('CodiceFiscale');
+        $customerFiscalCode = $this->extractValueFromXmlElement($xml,'CodiceFiscale');
         $billable->setFiscalCode($customerFiscalCode);
 
-        $value = $this->extractValueFromXml('IdFiscaleIVA/IdPaese');
+        $value = $this->extractValueFromXmlElement($xml,'IdFiscaleIVA/IdPaese');
         $billable->setCountryCode($value);
 
-        $customerVatNumber = $this->extractValueFromXml('IdFiscaleIVA/IdCodice');
+        $customerVatNumber = $this->extractValueFromXmlElement($xml,'IdFiscaleIVA/IdCodice');
         if ($customerVatNumber === null) {
             $customerVatNumber = '';
         }

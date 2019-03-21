@@ -65,7 +65,7 @@ class SupplierWriter extends AbstractHeaderWriter
         }
 
         if (!empty($supplier->getRegisterDate())) {
-            $datiAnagrafici->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format(DATE_ISO8601));
+            $datiAnagrafici->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format('Y-m-d\TH:i:s.000P'));
         }
 
         if ($supplier->getTaxRegime()) {

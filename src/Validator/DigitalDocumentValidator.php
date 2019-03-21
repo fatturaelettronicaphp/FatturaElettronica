@@ -2,10 +2,7 @@
 
 namespace Weble\FatturaElettronica\Validator;
 
-use League\ISO3166\Exception\DomainException;
-use League\ISO3166\Exception\InvalidArgumentException;
-use League\ISO3166\ISO3166;
-use Weble\FatturaElettronica\Contracts\AddressInterface;
+use DOMDocument;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use Weble\FatturaElettronica\Utilities\Pipeline;
@@ -44,12 +41,42 @@ class DigitalDocumentValidator
 
     protected function performValidation(): self
     {
+        libxml_use_internal_errors(true);
+
+        $documentXml = $this->document->serialize();
+        $dom = new DOMDocument();
+        $dom->loadXML($documentXml->saveXML());
+        $xsd = $this->getSchema();
+
+        try {
+            $isValid = $dom->schemaValidateSource($xsd);
+        } catch (\Exception $e) {
+            $isValid = false;
+        }
+
+        if (!$isValid) {
+            $this->manageErrors();
+        }
+
+        return $this;
+    }
+
+    protected function getSchema(): string
+    {
+        $xsd = file_get_contents(dirname(__FILE__) . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
+        $xmldsigFilename       = dirname(__FILE__) . '/xsd/core.xsd';
+        $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', \sprintf('\1%s"', $xmldsigFilename), $xsd);
+
+        return $xsd;
+    }
+
+    protected function manageErrors(): self
+    {
         $this->errors = [];
 
-        $this->validateHeader();
-        foreach ($this->document->getDocumentInstances() as $body) {
-            $this->validateBody($body);
-        }
+        $this->errors = libxml_get_errors();
+
+        libxml_clear_errors();
 
         return $this;
     }

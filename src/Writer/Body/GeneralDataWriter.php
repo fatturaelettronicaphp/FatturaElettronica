@@ -50,7 +50,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         $shipment = $this->body->getShipment();
-        if ($shipment) {
+        if ($shipment !== null) {
             $this->addShipment($generalData, $shipment);
         }
 
@@ -85,12 +85,12 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $importoTotaleDocumento = $this->body->getDocumentTotal();
         if ($importoTotaleDocumento !== null) {
-            $documentGeneralData->addChild('ImportoTotaleDocumento', number_format(round($importoTotaleDocumento, 2), 2));
+            $documentGeneralData->addChild('ImportoTotaleDocumento', SimpleXmlExtended::sanitizeFloat($importoTotaleDocumento));
         }
 
         $value = $this->body->getRounding();
         if ($value !== null) {
-            $documentGeneralData->addChild('Arrotondamento', number_format(round($value, 2), 2));
+            $documentGeneralData->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($value));
         }
 
         if (!empty($this->body->getDescriptions())) {
@@ -111,8 +111,8 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
         $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
-        $datiRitenuta->addChild('ImportoRitenuta', number_format($this->body->getDeductionAmount(), '2', '.', ''));
-        $datiRitenuta->addChild('AliquotaRitenuta', $this->body->getDeductionPercentage());
+        $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
+        $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
         $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
     }
 
@@ -123,7 +123,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiBollo = $documentGeneralData->addChild('DatiBollo');
         $datiBollo->addChild('BolloVirtuale', 'SI');
-        $datiBollo->addChild('ImportoBollo', number_format(round($this->body->getVirtualDutyAmount(), 2), 2));
+        $datiBollo->addChild('ImportoBollo', SimpleXmlExtended::sanitizeFloat($this->body->getVirtualDutyAmount()));
     }
 
     /**
@@ -134,15 +134,15 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiCassa = $documentGeneralData->addChild('DatiCassaPrevidenziale');
         $datiCassa->addChild('TipoCassa', $documentCassa->getType());
-        $datiCassa->addChild('AlCassa', $documentCassa->getPercentage());
-        $datiCassa->addChild('ImportoContributoCassa', empty($documentCassa->getAmount()) ? '0.00' : $documentCassa->getAmount());
+        $datiCassa->addChild('AlCassa', SimpleXmlExtended::sanitizeFloat($documentCassa->getPercentage()));
+        $datiCassa->addChild('ImportoContributoCassa', SimpleXmlExtended::sanitizeFloat($documentCassa->getAmount()));
 
         $imponibileCassa = $documentCassa->getSubtotal();
         if ($imponibileCassa !== null) {
-            $datiCassa->addChild('ImponibileCassa', $imponibileCassa);
+            $datiCassa->addChild('ImponibileCassa', SimpleXmlExtended::sanitizeFloat($imponibileCassa));
         }
 
-        $datiCassa->addChild('AliquotaIVA', $documentCassa->getTaxPercentage());
+        $datiCassa->addChild('AliquotaIVA', SimpleXmlExtended::sanitizeFloat($documentCassa->getTaxPercentage()));
 
         if ($documentCassa->hasDeduction()) {
             $datiCassa->addChild('Ritenuta', 'SI');
@@ -168,12 +168,12 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $percentualeSconto = $documentDiscount->getPercentage();
         if ($percentualeSconto !== null) {
-            $datiScontoMaggiorazione->addChild('Percentuale', $percentualeSconto);
+            $datiScontoMaggiorazione->addChild('Percentuale', SimpleXmlExtended::sanitizeFloat($percentualeSconto));
         }
 
         $importoSconto = $documentDiscount->getAmount();
         if ($importoSconto !== null) {
-            $datiScontoMaggiorazione->addChild('Importo', $importoSconto);
+            $datiScontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($importoSconto));
         }
     }
 
@@ -187,7 +187,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
 
         if ($documentDdt->getDocumentDate()) {
-            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format(DATE_ISO8601));
+            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d\TH:i:s.000P'));
         }
 
         $riferimentoLinea = $documentDdt->getLineNumberReference();
@@ -324,7 +324,7 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $value = $shipment->getPickupDate();
         if ($value !== null) {
-            $shipmentData->addChild('DataOraRitiro', $value->format(DATE_ISO8601));
+            $shipmentData->addChild('DataOraRitiro', $value->format('Y-m-d\TH:i:s.000P'));
         }
 
         $value = $shipment->getShipmentDate();
@@ -339,7 +339,7 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $value = $shipment->getDeliveryDate();
         if ($value !== null) {
-            $shipmentData->addChild('DataOraConsegna', $value->format(DATE_ISO8601));
+            $shipmentData->addChild('DataOraConsegna', $value->format('Y-m-d\TH:i:s.000P'));
         }
 
         $address = $shipment->getReturnAddress();

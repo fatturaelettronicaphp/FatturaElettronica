@@ -99,10 +99,10 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->usingMethod('write')
             ->through([
                 GeneralDataWriter::class,
-                AttachmentWriter::class,
-                PaymentsWriter::class,
                 ProductsWriter::class,
-                VehicleWriter::class
+                VehicleWriter::class,
+                PaymentsWriter::class,
+                AttachmentWriter::class,
             ])
             ->thenReturn();
 
@@ -114,11 +114,11 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         $this->xml = new SimpleXmlExtended('<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />', LIBXML_NOERROR);
 
         $namespaces = [
-            'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'versione' => (string)$this->document->getTransmissionFormat(),
             'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
+            'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
             'xmlns:xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:xsi:schemaLocation' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd',
-            'versione' => (string)$this->document->getTransmissionFormat()
         ];
 
         foreach ($namespaces as $name => $value) {

@@ -40,6 +40,7 @@ class ShipmentInformationsParser extends AbstractBodyParser
         $value = $this->extractValueFromXml('DatiGenerali/DatiTrasporto', false);
         if ($value !== null && count($value) > 0) {
             $value = array_shift($value);
+
             $instance = $this->extractShipmentInformationsFrom($value);
 
             if ($instance !== null ) {
@@ -62,23 +63,26 @@ class ShipmentInformationsParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($xml, 'CausaleTrasporto');
         $instance->setShipmentDescription($value);
 
-        $value = (int)$this->extractValueFromXmlElement($xml, 'NumeroColli');
+        $value = $this->extractValueFromXmlElement($xml, 'NumeroColli');
         $instance->setNumberOfPackages($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Descrizione');
         $instance->setDescription($value);
 
-        $value = (int)$this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
+        $value = $this->extractValueFromXmlElement($xml, 'UnitaMisuraPeso');
         $instance->setWeightUnit($value);
 
-        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoLordo');
+        $value = $this->extractValueFromXmlElement($xml, 'PesoLordo');
         $instance->setWeight($value);
 
-        $value = (float)$this->extractValueFromXmlElement($xml, 'PesoNetto');
+        $value = $this->extractValueFromXmlElement($xml, 'PesoNetto');
         $instance->setNetWeight($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'DataOraRitiro');
         $instance->setPickupDate($value);
+
+        $value = $this->extractValueFromXmlElement($xml, 'DataOraConsegna');
+        $instance->setDeliveryDate($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'DataInizioTrasporto');
         $instance->setShipmentDate($value);

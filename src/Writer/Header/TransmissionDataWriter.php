@@ -33,11 +33,6 @@ class TransmissionDataWriter extends AbstractHeaderWriter
 
         $datiTrasmissione->addChild('CodiceDestinatario', SimpleXmlExtended::sanitizeText((string)$recipientCode));
 
-        /* La Casella PEC è da inserire solo se presente e solo se CodiceDestinatario è vuoto*/
-        if ($recipientCode === (string)RecipientCode::empty() && $this->document->getCustomerPec() !== null) {
-            $datiTrasmissione->addChild('PECDestinatario', SimpleXmlExtended::sanitizeText($this->document->getCustomerPec()));
-        }
-
         if ($this->document->getSenderPhone() !== null && $this->document->getSenderEmail() !== null) {
             $contacts = $datiTrasmissione->addChild('ContattiTrasmittente');
 
@@ -48,6 +43,11 @@ class TransmissionDataWriter extends AbstractHeaderWriter
             if ($this->document->getSenderEmail() !== null) {
                 $contacts->addChild('Email', SimpleXmlExtended::sanitizeText($this->document->getSenderEmail()));
             }
+        }
+
+        /* La Casella PEC è da inserire solo se presente e solo se CodiceDestinatario è vuoto*/
+        if ($recipientCode === (string)RecipientCode::empty() && $this->document->getCustomerPec() !== null) {
+            $datiTrasmissione->addChild('PECDestinatario', SimpleXmlExtended::sanitizeText($this->document->getCustomerPec()));
         }
 
         return $this;

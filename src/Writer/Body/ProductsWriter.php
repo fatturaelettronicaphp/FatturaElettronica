@@ -65,11 +65,11 @@ class ProductsWriter extends AbstractBodyWriter
         $scontoMaggiorazione->addChild('Tipo', (string)$discount->getType());
 
         if ($discount->getPercentage() !== null) {
-            $scontoMaggiorazione->addChild('Percentuale', $discount->getPercentage());
+            $scontoMaggiorazione->addChild('Percentuale', SimpleXmlExtended::sanitizeFloat($discount->getPercentage()));
         }
 
         if ($discount->getAmount() !== null) {
-            $scontoMaggiorazione->addChild('Importo', $discount->getAmount());
+            $scontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($discount->getAmount()));
         }
     }
 
@@ -117,7 +117,7 @@ class ProductsWriter extends AbstractBodyWriter
             $quantita = 1;
         }
 
-        $dettaglioLinee->addChild('Quantita', number_format(round($quantita, 2), 2));
+        $dettaglioLinee->addChild('Quantita',SimpleXmlExtended::sanitizeFloat($quantita));
 
         if ($line->getUnit() !== null) {
             $dettaglioLinee->addChild('UnitaMisura', $line->getUnit());
@@ -131,7 +131,15 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $dettaglioLinee->addChild('PrezzoUnitario', $line->getUnitPrice());
+        $precision = 2;
+        $maxPrecision = 8;
+        $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
+        while($precision <= $maxPrecision && $difference > 0) {
+            $precision++;
+            $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
+        }
+
+        $dettaglioLinee->addChild('PrezzoUnitario', number_format($line->getUnitPrice(), $precision, '.', ''));
 
         $discounts = $line->getDiscounts();
         if (count($discounts) > 0) {
@@ -141,9 +149,9 @@ class ProductsWriter extends AbstractBodyWriter
             }
         }
 
-        $dettaglioLinee->addChild('PrezzoTotale', number_format(round($line->getTotal(), 2), 2));
+        $dettaglioLinee->addChild('PrezzoTotale',SimpleXmlExtended::sanitizeFloat($line->getTotal()));
 
-        $dettaglioLinee->addChild('AliquotaIVA', number_format(round($line->getTaxPercentage(), 2), 2));
+        $dettaglioLinee->addChild('AliquotaIVA',SimpleXmlExtended::sanitizeFloat($line->getTaxPercentage()));
 
         if ($line->isDeduction()) {
             $dettaglioLinee->addChild('Ritenuta', 'SI');
@@ -177,7 +185,7 @@ class ProductsWriter extends AbstractBodyWriter
     ): void {
         $datiRiepilogo = $datiBeniServizi->addChild('DatiRiepilogo');
 
-        $datiRiepilogo->addChild('AliquotaIVA', number_format(round($summary->getTaxPercentage(), 2), 2));
+        $datiRiepilogo->addChild('AliquotaIVA', SimpleXmlExtended::sanitizeFloat($summary->getTaxPercentage()));
 
         $taxType = $summary->getVatNature();
         if ($taxType !== null) {
@@ -185,11 +193,11 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         if ($summary->getOtherExpenses() !== null) {
-            $datiRiepilogo->addChild('SpeseAccessorie', $summary->getOtherExpenses());
+            $datiRiepilogo->addChild('SpeseAccessorie', SimpleXmlExtended::sanitizeFloat($summary->getOtherExpenses()));
         }
 
         if ($summary->getRounding() !== null) {
-            $datiRiepilogo->addChild('Arrotondamento', $summary->getRounding());
+            $datiRiepilogo->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($summary->getRounding()));
         }
 
         $imponibileImporto = $summary->getTotal();
@@ -202,8 +210,8 @@ class ProductsWriter extends AbstractBodyWriter
             $imposta = 0.00;
         }
 
-        $datiRiepilogo->addChild('ImponibileImporto', number_format(round($imponibileImporto, 2), 2));
-        $datiRiepilogo->addChild('Imposta', number_format(round($imposta, 2), 2));
+        $datiRiepilogo->addChild('ImponibileImporto', SimpleXmlExtended::sanitizeFloat($imponibileImporto));
+        $datiRiepilogo->addChild('Imposta', SimpleXmlExtended::sanitizeFloat($imposta));
 
         if ($summary->getTaxType() !== null) {
             $datiRiepilogo->addChild('EsigibilitaIVA', (string)$summary->getTaxType());

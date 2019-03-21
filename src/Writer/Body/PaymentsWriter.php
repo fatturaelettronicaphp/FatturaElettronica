@@ -35,7 +35,12 @@ class PaymentsWriter extends AbstractBodyWriter
                     $dettalioPagamento->addChild('DataScadenzaPagamento', $details->getDueDate()->format('Y-m-d'));
                 }
 
-                $dettalioPagamento->addChild('ImportoPagamento', empty($details->getAmount()) ? '0.00' : $details->getAmount());
+                $amount = $details->getAmount();
+                if (empty($amount)) {
+                    $amount = 0;
+                }
+
+                $dettalioPagamento->addChild('ImportoPagamento', number_format(round($amount, 2), 2, '.',''));
 
                 if ($details->getPostalOfficeCode() !== null) {
                     $dettalioPagamento->addChild('CodUfficioPostale', SimpleXmlExtended::sanitizeText($details->getPostalOfficeCode()));
