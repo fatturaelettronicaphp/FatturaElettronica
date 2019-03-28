@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "94943d0afaeee06ddcce5f522eb460ee",
+    "content-hash": "09a99da844004b365ce16b6f030fda29",
     "packages": [
         {
             "name": "alcohol/iso4217",
@@ -61,16 +61,16 @@
         },
         {
             "name": "fatturaelettronicaphp/enum",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fatturaelettronicaphp/enum.git",
-                "reference": "5635739d6a834f9055c920ff02b970cadee48c0e"
+                "reference": "95b4eab2194a0283d29de06a836e17fd6b022fcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fatturaelettronicaphp/enum/zipball/5635739d6a834f9055c920ff02b970cadee48c0e",
-                "reference": "5635739d6a834f9055c920ff02b970cadee48c0e",
+                "url": "https://api.github.com/repos/fatturaelettronicaphp/enum/zipball/95b4eab2194a0283d29de06a836e17fd6b022fcc",
+                "reference": "95b4eab2194a0283d29de06a836e17fd6b022fcc",
                 "shasum": ""
             },
             "require": {
@@ -79,7 +79,7 @@
             },
             "require-dev": {
                 "larapack/dd": "^1.0",
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "autoload": {
@@ -104,7 +104,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2019-03-28T13:50:55+00:00"
+            "time": "2019-03-28T14:51:57+00:00"
         },
         {
             "name": "league/iso3166",
