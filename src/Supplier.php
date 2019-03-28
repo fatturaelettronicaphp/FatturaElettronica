@@ -1,11 +1,11 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\SupplierInterface;
-use Weble\FatturaElettronica\Enums\TaxRegime;
-use Weble\FatturaElettronica\Enums\AssociateType;
-use Weble\FatturaElettronica\Enums\WoundUpType;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\AssociateType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\WoundUpType;
 use DateTime;
 
 class Supplier extends BillablePerson implements SupplierInterface
@@ -18,7 +18,7 @@ class Supplier extends BillablePerson implements SupplierInterface
     protected $registerNumber;
     /** @var \DateTime */
     protected $registerDate;
-    /** @var \Weble\FatturaElettronica\Enums\TaxRegime */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime */
     protected $taxRegime;
     /** @var string */
     protected $email;

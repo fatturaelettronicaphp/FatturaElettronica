@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use Weble\FatturaElettronica\Customer;
-use Weble\FatturaElettronica\Enums\RecipientCode;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Customer;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class CustomerWriter extends AbstractHeaderWriter
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Parser;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
 
 use SimpleXMLElement;
 

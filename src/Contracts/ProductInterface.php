@@ -1,8 +1,8 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-use Weble\FatturaElettronica\Product;
+use FatturaElettronicaPhp\FatturaElettronica\Product;
 
 interface ProductInterface
 {

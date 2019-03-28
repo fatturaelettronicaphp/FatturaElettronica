@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\AddressInterface;
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Contracts\RepresentativeInterface;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RepresentativeInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class Representative extends Billable implements ArrayableInterface, RepresentativeInterface
 {

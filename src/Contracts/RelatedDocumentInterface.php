@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
-use Weble\FatturaElettronica\RelatedDocument;
+use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
 
 interface RelatedDocumentInterface
 {

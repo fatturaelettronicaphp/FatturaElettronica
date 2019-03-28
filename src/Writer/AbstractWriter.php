@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer;
 
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 
 abstract class AbstractWriter
 {

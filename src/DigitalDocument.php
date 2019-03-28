@@ -1,24 +1,24 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DOMDocument;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
-use Weble\FatturaElettronica\Contracts\CustomerInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Contracts\IntermediaryInterface;
-use Weble\FatturaElettronica\Enums\EmittingSubject;
-use Weble\FatturaElettronica\Contracts\SupplierInterface;
-use Weble\FatturaElettronica\Enums\RecipientCode;
-use Weble\FatturaElettronica\Enums\TransmissionFormat;
-use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Validator\DigitalDocumentValidator;
-use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\CustomerInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 {
@@ -33,10 +33,10 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string */
     protected $emittingSubject;
 
-    /** @var \Weble\FatturaElettronica\Contracts\BillablePersonInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface */
     protected $representative;
 
-    /** @var \Weble\FatturaElettronica\Contracts\IntermediaryInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface */
     protected $intermediary;
 
     /** @var TransmissionFormat */
@@ -63,7 +63,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string */
     protected $customerPec;
 
-    /** @var \Weble\FatturaElettronica\DigitalDocumentInstance[] */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance[] */
     protected $documentInstances = [];
 
     public function __construct()

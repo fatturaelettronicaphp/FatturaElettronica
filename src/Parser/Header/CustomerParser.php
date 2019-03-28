@@ -1,11 +1,11 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
 
-use Weble\FatturaElettronica\Customer;
-use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
-use Weble\FatturaElettronica\Representative;
+use FatturaElettronicaPhp\FatturaElettronica\Customer;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
+use FatturaElettronicaPhp\FatturaElettronica\Representative;
 
 class CustomerParser extends AbstractHeaderParser
 {

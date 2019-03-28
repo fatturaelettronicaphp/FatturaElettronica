@@ -1,13 +1,13 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\CustomerInterface;
-use Weble\FatturaElettronica\Contracts\RepresentativeInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\CustomerInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RepresentativeInterface;
 
 class Customer extends BillablePerson implements CustomerInterface
 {
-    /** @var \Weble\FatturaElettronica\Contracts\RepresentativeInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\RepresentativeInterface */
     protected $representative;
 
     public function getRepresentative (): ?RepresentativeInterface

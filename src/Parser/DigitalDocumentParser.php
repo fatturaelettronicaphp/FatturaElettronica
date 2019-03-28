@@ -1,34 +1,34 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
 
-use Weble\FatturaElettronica\Address;
-use Weble\FatturaElettronica\Billable;
-use Weble\FatturaElettronica\BillablePerson;
-use Weble\FatturaElettronica\Contracts\AddressInterface;
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
-use Weble\FatturaElettronica\Contracts\DiscountInterface;
-use Weble\FatturaElettronica\Contracts\FundInterface;
-use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
-use Weble\FatturaElettronica\Customer;
-use Weble\FatturaElettronica\DigitalDocument;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
-use Weble\FatturaElettronica\Discount;
-use Weble\FatturaElettronica\Enums\DocumentFormat;
-use Weble\FatturaElettronica\Enums\DocumentType;
-use Weble\FatturaElettronica\Exceptions\InvalidFileNameExtension;
-use Weble\FatturaElettronica\Exceptions\InvalidP7MFile;
+use FatturaElettronicaPhp\FatturaElettronica\Address;
+use FatturaElettronicaPhp\FatturaElettronica\Billable;
+use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Customer;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\Discount;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidFileNameExtension;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidP7MFile;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
-use Weble\FatturaElettronica\Fund;
-use Weble\FatturaElettronica\RelatedDocument;
-use Weble\FatturaElettronica\Representative;
-use Weble\FatturaElettronica\Shipment;
-use Weble\FatturaElettronica\ShippingLabel;
-use Weble\FatturaElettronica\Supplier;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
+use FatturaElettronicaPhp\FatturaElettronica\Fund;
+use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Representative;
+use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
+use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use DateTime;
 use TypeError;
 
@@ -60,7 +60,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
     protected $xml;
 
     /**
-     * @var \Weble\FatturaElettronica\Enums\DocumentFormat
+     * @var \FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentFormat
      */
     protected $fileType;
 

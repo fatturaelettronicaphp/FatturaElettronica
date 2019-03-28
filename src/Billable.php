@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class Billable implements ArrayableInterface, BillableInterface
 {

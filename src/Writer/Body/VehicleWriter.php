@@ -1,6 +1,6 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Body;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 
 class VehicleWriter extends AbstractBodyWriter

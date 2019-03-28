@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica\Validator;
+namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 
 use DOMDocument;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 
 class DigitalDocumentValidator
 {

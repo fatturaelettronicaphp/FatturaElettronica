@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use Weble\FatturaElettronica\Enums\RecipientCode;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class TransmissionDataWriter extends AbstractHeaderWriter
 {

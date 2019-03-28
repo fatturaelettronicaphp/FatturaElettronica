@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use SimpleXMLElement;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 
 interface DigitalDocumentParserInterface
 {

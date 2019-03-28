@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-use Weble\FatturaElettronica\Enums\FundType;
-use Weble\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\FundType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 
 interface FundInterface
 {

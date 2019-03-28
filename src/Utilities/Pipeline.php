@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Utilities;
+namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
 
 
 use phpDocumentor\Reflection\Types\Callable_;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Closure;
 use SimpleXMLElement;
 

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 
-use Weble\FatturaElettronica\Enums\DiscountType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DiscountType;
 
 interface DiscountInterface
 {

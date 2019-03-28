@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Body;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 
-use Weble\FatturaElettronica\Exceptions\InvalidDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 
 class AttachmentWriter extends AbstractBodyWriter
 {
@@ -15,7 +15,7 @@ class AttachmentWriter extends AbstractBodyWriter
 
         $xml = $this->xml->addChild('Allegati');
 
-        /** @var \Weble\FatturaElettronica\Contracts\AttachmentInterface $attachment */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface $attachment */
         foreach ($this->body->getAttachments() as $attachment) {
             if (!$attachment->getName()) {
                 throw new InvalidDocument('<NomeAttachment> is required');

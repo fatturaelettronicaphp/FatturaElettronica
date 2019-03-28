@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
-use Weble\FatturaElettronica\Enums\PaymentTerm;
-use Weble\FatturaElettronica\PaymentInfo;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
+use FatturaElettronicaPhp\FatturaElettronica\PaymentInfo;
 
 interface PaymentInfoInterface
 {

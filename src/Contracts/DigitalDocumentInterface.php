@@ -1,15 +1,15 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\DigitalDocument;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
-use Weble\FatturaElettronica\Enums\TransmissionFormat;
-use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
-use Weble\FatturaElettronica\Validator\DigitalDocumentValidator;
-use Weble\FatturaElettronica\Writer\DigitalDocumentWriter;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
+use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
 
 interface DigitalDocumentInterface
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
-use Weble\FatturaElettronica\Contracts\LineInterface;
-use Weble\FatturaElettronica\Enums\CancelType;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Contracts\ProductInterface;
-use Weble\FatturaElettronica\Contracts\DiscountInterface;
-use Weble\FatturaElettronica\Enums\VatNature;
-use Weble\FatturaElettronica\Contracts\OtherDataInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
 
 class Line implements ArrayableInterface, LineInterface
 {
@@ -90,7 +90,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\ProductInterface[]
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[]
      */
     public function getProducts (): array
     {
@@ -98,7 +98,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\ProductInterface[] $products
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[] $products
      *
      * @return Line
      */
@@ -249,7 +249,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function addDiscount (?\Weble\FatturaElettronica\Contracts\DiscountInterface $discounts): Line
+    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts): Line
     {
         $this->discounts[] = $discounts;
         return $this;
@@ -354,7 +354,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\OtherDataInterface
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface
      */
     public function getOtherData (): array
     {
@@ -362,11 +362,11 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\OtherDataInterface $otherData
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData
      *
      * @return Line
      */
-    public function addOtherData (\Weble\FatturaElettronica\Contracts\OtherDataInterface $otherData): Line
+    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData): Line
     {
         $this->otherData[] = $otherData;
         return $this;

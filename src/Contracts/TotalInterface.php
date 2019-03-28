@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-use Weble\FatturaElettronica\Enums\VatEligibility;
-use Weble\FatturaElettronica\Enums\VatNature;
-use Weble\FatturaElettronica\Total;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Total;
 
 interface TotalInterface
 {
@@ -45,12 +45,12 @@ interface TotalInterface
     public function setTotal (?float $total);
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\VatNature
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
      */
     public function getVatNature (): ?VatNature;
 
     /**
-     * @param \Weble\FatturaElettronica\Enums\VatNature $vatNature
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature $vatNature
      *
      * @return Total
      */
@@ -81,12 +81,12 @@ interface TotalInterface
     public function setRounding (?float $rounding);
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\VatEligibility
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility
      */
     public function getTaxType (): ?VatEligibility;
 
     /**
-     * @param \Weble\FatturaElettronica\Enums\VatEligibility $taxType
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility $taxType
      *
      * @return Total
      */

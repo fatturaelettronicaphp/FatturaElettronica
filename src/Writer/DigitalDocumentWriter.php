@@ -1,31 +1,31 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer;
 
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
-use Weble\FatturaElettronica\Customer;
-use Weble\FatturaElettronica\Enums\TaxRegime;
-use Weble\FatturaElettronica\RelatedDocument;
-use Weble\FatturaElettronica\Supplier;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentWriterInterface;
-use Weble\FatturaElettronica\Enums\RecipientCode;
-use Weble\FatturaElettronica\Exceptions\InvalidDocument;
-use Weble\FatturaElettronica\Utilities\Pipeline;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Customer;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
+use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Supplier;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentWriterInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Writer\Body\AttachmentWriter;
-use Weble\FatturaElettronica\Writer\Body\GeneralDataWriter;
-use Weble\FatturaElettronica\Writer\Body\PaymentsWriter;
-use Weble\FatturaElettronica\Writer\Body\ProductsWriter;
-use Weble\FatturaElettronica\Writer\Body\VehicleWriter;
-use Weble\FatturaElettronica\Writer\Header\CustomerWriter;
-use Weble\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
-use Weble\FatturaElettronica\Writer\Header\IntermediaryWriter;
-use Weble\FatturaElettronica\Writer\Header\RepresentativeWriter;
-use Weble\FatturaElettronica\Writer\Header\SupplierWriter;
-use Weble\FatturaElettronica\Writer\Header\TransmissionDataWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\AttachmentWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\GeneralDataWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\PaymentsWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\ProductsWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\VehicleWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\CustomerWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\IntermediaryWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 
 class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 {

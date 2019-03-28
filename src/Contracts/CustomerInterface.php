@@ -1,11 +1,11 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
-use Weble\FatturaElettronica\Enums\AssociateType;
-use Weble\FatturaElettronica\Enums\WoundUpType;
-use Weble\FatturaElettronica\Enums\TaxRegime;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\AssociateType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\WoundUpType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
 
 interface CustomerInterface extends BillablePersonInterface
 {

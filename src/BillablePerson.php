@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\AddressInterface;
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Contracts\BillablePersonInterface;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class BillablePerson extends Billable implements BillablePersonInterface, ArrayableInterface
 {
@@ -16,10 +16,10 @@ class BillablePerson extends Billable implements BillablePersonInterface, Arraya
     protected $eori;
     protected $fiscalCode;
 
-    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
     protected $address;
 
-    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
     protected $foreignFixedAddress;
 
     public function getAddress (): ?AddressInterface

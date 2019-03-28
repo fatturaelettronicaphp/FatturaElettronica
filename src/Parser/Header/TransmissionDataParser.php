@@ -1,9 +1,9 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
 
-use Weble\FatturaElettronica\Exceptions\InvalidXmlFile;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 
 class TransmissionDataParser extends AbstractHeaderParser
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\TotalInterface;
-use Weble\FatturaElettronica\Enums\VatNature;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Enums\VatEligibility;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility;
 
 class Total implements ArrayableInterface, TotalInterface
 {
@@ -94,7 +94,7 @@ class Total implements ArrayableInterface, TotalInterface
     }
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\VatNature
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
      */
     public function getVatNature (): ?VatNature
     {
@@ -154,7 +154,7 @@ class Total implements ArrayableInterface, TotalInterface
     }
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\VatEligibility
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility
      */
     public function getTaxType (): ?VatEligibility
     {

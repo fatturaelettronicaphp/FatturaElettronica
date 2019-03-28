@@ -1,13 +1,7 @@
 <?php
-/**
- * ${$PROJECT_NAME}
- * Copyright 2019 Weble Srl
- * LICENSE - MIT License
- */
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-namespace Weble\FatturaElettronica\Contracts;
-
-use Weble\FatturaElettronica\Attachment;
+use FatturaElettronicaPhp\FatturaElettronica\Attachment;
 
 interface AttachmentInterface
 {

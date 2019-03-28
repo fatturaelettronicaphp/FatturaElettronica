@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Tests;
+namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Weble\FatturaElettronica\Contracts\AttachmentInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Contracts\DiscountInterface;
-use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
-use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
-use Weble\FatturaElettronica\Contracts\TotalInterface;
-use Weble\FatturaElettronica\DigitalDocument;
-use Weble\FatturaElettronica\Enums\TransmissionFormat;
-use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 
 class SameXmlTest extends TestCase
 {

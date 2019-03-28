@@ -1,30 +1,30 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
 
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Parser\Body\AttachmentParser;
-use Weble\FatturaElettronica\Parser\Body\ConventionsParser;
-use Weble\FatturaElettronica\Parser\Body\DeductionParser;
-use Weble\FatturaElettronica\Parser\Body\DiscountParser;
-use Weble\FatturaElettronica\Parser\Body\FundParser;
-use Weble\FatturaElettronica\Parser\Body\GeneralDataParser;
-use Weble\FatturaElettronica\Parser\Body\MainInvoiceParser;
-use Weble\FatturaElettronica\Parser\Body\LinesParser;
-use Weble\FatturaElettronica\Parser\Body\PaymentInfoParser;
-use Weble\FatturaElettronica\Parser\Body\PurchaseOrderParser;
-use Weble\FatturaElettronica\Parser\Body\RecepitsParser;
-use Weble\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
-use Weble\FatturaElettronica\Parser\Body\SalParser;
-use Weble\FatturaElettronica\Parser\Body\ShipmentInformationsParser;
-use Weble\FatturaElettronica\Parser\Body\ShippingLabelsParser;
-use Weble\FatturaElettronica\Parser\Body\SummaryParser;
-use Weble\FatturaElettronica\Parser\Body\VehicleParser;
-use Weble\FatturaElettronica\Parser\Body\VirtualDutyParser;
-use Weble\FatturaElettronica\Utilities\Pipeline;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\AttachmentParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ConventionsParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\DeductionParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\DiscountParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\FundParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\GeneralDataParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\MainInvoiceParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\LinesParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\PaymentInfoParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\PurchaseOrderParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\RecepitsParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SalParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ShipmentInformationsParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ShippingLabelsParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SummaryParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VehicleParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VirtualDutyParser;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
 
 class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
 {

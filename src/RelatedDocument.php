@@ -1,11 +1,11 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
-use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 
 class RelatedDocument extends ShippingLabel implements ArrayableInterface, RelatedDocumentInterface

@@ -1,14 +1,14 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-use Weble\FatturaElettronica\Address;
-use Weble\FatturaElettronica\BillablePerson;
-use Weble\FatturaElettronica\Contracts\AddressInterface;
-use Weble\FatturaElettronica\Contracts\BillableInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Address;
+use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Parser\XmlUtilities;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\XmlUtilities;
 
 
 abstract class AbstractHeaderParser

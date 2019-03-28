@@ -1,10 +1,10 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Writer\AbstractWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\AbstractWriter;
 
 abstract class AbstractHeaderWriter extends AbstractWriter
 {

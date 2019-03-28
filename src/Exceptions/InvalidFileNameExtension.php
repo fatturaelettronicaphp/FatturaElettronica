@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Exceptions;
+namespace FatturaElettronicaPhp\FatturaElettronica\Exceptions;
 
 
 class InvalidFileNameExtension extends \InvalidArgumentException

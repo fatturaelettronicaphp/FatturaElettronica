@@ -1,6 +1,6 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 interface BillablePersonInterface extends BillableInterface
 {

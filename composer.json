@@ -1,11 +1,11 @@
 {
-    "name": "weble/FatturaElettronica",
+    "name": "fatturaelettronicaphp/FatturaElettronica",
     "description": "",
     "keywords": [
         "spatie",
         "FatturaElettronica"
     ],
-    "homepage": "https://github.com/spatie/FatturaElettronica",
+    "homepage": "https://github.com/fatturaelettronicaphp/FatturaElettronica",
     "license": "MIT",
     "authors": [
         {
@@ -38,12 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Weble\\FatturaElettronica\\": "src"
+            "FatturaElettronicaPhp\\FatturaElettronica\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Weble\\FatturaElettronica\\Tests\\": "tests"
+            "FatturaElettronicaPhp\\FatturaElettronica\\Tests\\": "tests"
         }
     },
     "scripts": {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use Weble\FatturaElettronica\Enums\RecipientCode;
-use Weble\FatturaElettronica\Enums\TaxRegime;
-use Weble\FatturaElettronica\Exceptions\InvalidDocument;
-use Weble\FatturaElettronica\Supplier;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Supplier;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class IntermediaryWriter extends AbstractHeaderWriter
 {

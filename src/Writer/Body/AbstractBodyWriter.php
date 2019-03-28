@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Body;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 use SimpleXMLElement;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\RelatedDocumentInterface;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
-use Weble\FatturaElettronica\Writer\AbstractWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\AbstractWriter;
 
 abstract class AbstractBodyWriter extends AbstractWriter
 {

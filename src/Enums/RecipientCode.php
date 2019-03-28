@@ -1,6 +1,6 @@
 <?php
 
-namespace Weble\FatturaElettronica\Enums;
+namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
 
 /**

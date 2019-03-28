@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Tests;
+namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Weble\FatturaElettronica\Contracts\AttachmentInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use Weble\FatturaElettronica\Contracts\DiscountInterface;
-use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
-use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
-use Weble\FatturaElettronica\Contracts\TotalInterface;
-use Weble\FatturaElettronica\DigitalDocument;
-use Weble\FatturaElettronica\Enums\TransmissionFormat;
-use Weble\FatturaElettronica\Parser\DigitalDocumentParser;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 
 class ParseDigitalDocumentTest extends TestCase
 {
@@ -114,7 +114,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
      *
      * @return array
      * @throws \Exception
@@ -156,7 +156,7 @@ class ParseDigitalDocumentTest extends TestCase
         // Corpo
         $rows = $eDocument->getDocumentInstances();
 
-        /** @var \Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
         $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
@@ -170,7 +170,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         // Righe
         $products = $firstRow->getLines();
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
@@ -199,7 +199,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
      *
      * @return array
      * @throws \Exception
@@ -244,7 +244,7 @@ class ParseDigitalDocumentTest extends TestCase
         // Corpo
         $rows = $eDocument->getDocumentInstances();
 
-        /** @var \Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
         $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
@@ -283,7 +283,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         // Righe
         $products = $firstRow->getLines();
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
@@ -303,7 +303,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('ENASARCO TC07',  $otherData->getText());
         $this->assertEquals(53.79,  $otherData->getNumber());
 
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(2, $firstProduct->getNumber());
@@ -315,7 +315,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $firstProduct->getTaxPercentage());
         $this->assertEquals('N2', (string) $firstProduct->getVatNature());
 
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(3, $firstProduct->getNumber());
@@ -332,7 +332,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('SC', (string) $discount->getType());
         $this->assertEquals(10 , $discount->getPercentage());
 
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(4, $firstProduct->getNumber());
@@ -344,7 +344,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(22, $firstProduct->getTaxPercentage());
 
 
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(5, $firstProduct->getNumber());

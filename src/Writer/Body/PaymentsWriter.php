@@ -1,19 +1,19 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Body;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class PaymentsWriter extends AbstractBodyWriter
 {
     protected function performWrite ()
     {
-        /** @var \Weble\FatturaElettronica\Contracts\PaymentInfoInterface $payment */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface $payment */
         foreach( $this->body->getPaymentInformations() as $payment ) {
             $datiPagamento = $this->xml->addChild( 'DatiPagamento' );
             $datiPagamento->addChild( 'CondizioniPagamento', (string) $payment->getTerms() );
 
-            /** @var \Weble\FatturaElettronica\Contracts\PaymentDetailsInterface $details */
+            /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface $details */
             foreach ($payment->getDetails() as $details) {
                 $dettalioPagamento = $datiPagamento->addChild('DettaglioPagamento');
 

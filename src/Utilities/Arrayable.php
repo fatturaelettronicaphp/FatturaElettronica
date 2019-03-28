@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Weble\FatturaElettronica\Utilities;
+namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
 
 
 use DateTime;
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
-use Weble\FatturaElettronica\Enums\DeductionType;
-use Weble\FatturaElettronica\Enums\DiscountType;
-use Weble\FatturaElettronica\Enums\FundType;
-use Weble\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DiscountType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\FundType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 
 trait Arrayable
 {

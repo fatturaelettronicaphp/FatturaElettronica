@@ -1,8 +1,8 @@
 <?php
 
-namespace Weble\FatturaElettronica\Parser\Header;
+namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-use Weble\FatturaElettronica\BillablePerson;
+use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
 
 class IntermediaryParser extends AbstractHeaderParser
 {

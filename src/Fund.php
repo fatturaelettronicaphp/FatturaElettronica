@@ -1,16 +1,16 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use Weble\FatturaElettronica\Contracts\FundInterface;
-use Weble\FatturaElettronica\Enums\DocumentType;
-use Weble\FatturaElettronica\Enums\DeductionType;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use DateTime;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Enums\VatNature;
-use Weble\FatturaElettronica\Enums\FundType;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\FundType;
 
 class Fund implements ArrayableInterface, FundInterface
 {

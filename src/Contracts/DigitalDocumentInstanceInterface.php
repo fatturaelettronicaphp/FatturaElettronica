@@ -1,15 +1,15 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
-use Weble\FatturaElettronica\DigitalDocumentInstance;
-use Weble\FatturaElettronica\Enums\DeductionType;
-use Weble\FatturaElettronica\Enums\DocumentType;
-use Weble\FatturaElettronica\Fund;
-use Weble\FatturaElettronica\RelatedDocument;
-use Weble\FatturaElettronica\Shipment;
-use Weble\FatturaElettronica\ShippingLabel;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
+use FatturaElettronicaPhp\FatturaElettronica\Fund;
+use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 
 interface DigitalDocumentInstanceInterface
 {

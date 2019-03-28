@@ -1,11 +1,11 @@
 <?php
 
-namespace Weble\FatturaElettronica\Writer\Body;
+namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 
-use Weble\FatturaElettronica\Contracts\OtherDataInterface;
-use Weble\FatturaElettronica\Exceptions\InvalidDocument;
-use Weble\FatturaElettronica\Utilities\SimpleXmlExtended;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class ProductsWriter extends AbstractBodyWriter
 {
@@ -13,12 +13,12 @@ class ProductsWriter extends AbstractBodyWriter
     {
         $datiBeniServizi = $this->xml->addChild('DatiBeniServizi');
 
-        /** @var \Weble\FatturaElettronica\Contracts\LineInterface $line */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $line */
         foreach ($this->body->getLines() as $line) {
             $this->addLine($datiBeniServizi, $line);
         }
 
-        /** @var \Weble\FatturaElettronica\Contracts\TotalInterface $summary */
+        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface $summary */
         foreach ($this->body->getTotals() as $summary) {
             $this->addTotal($datiBeniServizi, $summary);
         }
@@ -55,11 +55,11 @@ class ProductsWriter extends AbstractBodyWriter
 
     /**
      * @param \SimpleXMLElement $dettaglioLinee
-     * @param \Weble\FatturaElettronica\Contracts\DiscountInterface $discount
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discount
      */
     protected function addDiscount(
         \SimpleXMLElement $dettaglioLinee,
-        \Weble\FatturaElettronica\Contracts\DiscountInterface $discount
+        \FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discount
     ): void {
         $scontoMaggiorazione = $dettaglioLinee->addChild('ScontoMaggiorazione');
         $scontoMaggiorazione->addChild('Tipo', (string)$discount->getType());
@@ -75,11 +75,11 @@ class ProductsWriter extends AbstractBodyWriter
 
     /**
      * @param \SimpleXMLElement $dettaglioLinee
-     * @param \Weble\FatturaElettronica\Contracts\ProductInterface $product
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface $product
      */
     protected function addProduct(
         \SimpleXMLElement $dettaglioLinee,
-        \Weble\FatturaElettronica\Contracts\ProductInterface $product
+        \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface $product
     ): void {
         $codiceArticolo = $dettaglioLinee->addChild('CodiceArticolo');
         $codiceArticolo->addChild('CodiceTipo', $product->getCodeType());
@@ -88,11 +88,11 @@ class ProductsWriter extends AbstractBodyWriter
 
     /**
      * @param \SimpleXMLElement $datiBeniServizi
-     * @param \Weble\FatturaElettronica\Contracts\LineInterface $line
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $line
      */
     protected function addLine(
         \SimpleXMLElement $datiBeniServizi,
-        \Weble\FatturaElettronica\Contracts\LineInterface $line
+        \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $line
     ): void {
         $dettaglioLinee = $datiBeniServizi->addChild('DettaglioLinee');
 
@@ -104,7 +104,7 @@ class ProductsWriter extends AbstractBodyWriter
 
         $products = $line->getProducts();
         if (count($products) > 0) {
-            /** @var \Weble\FatturaElettronica\Contracts\ProductInterface $product */
+            /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface $product */
             foreach ($products as $product) {
                 $this->addProduct($dettaglioLinee, $product);
             }
@@ -143,7 +143,7 @@ class ProductsWriter extends AbstractBodyWriter
 
         $discounts = $line->getDiscounts();
         if (count($discounts) > 0) {
-            /** @var \Weble\FatturaElettronica\Contracts\DiscountInterface $discount */
+            /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discount */
             foreach ($discounts as $discount) {
                 $this->addDiscount($dettaglioLinee, $discount);
             }
@@ -177,11 +177,11 @@ class ProductsWriter extends AbstractBodyWriter
 
     /**
      * @param \SimpleXMLElement $datiBeniServizi
-     * @param \Weble\FatturaElettronica\Contracts\TotalInterface $summary
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface $summary
      */
     protected function addTotal(
         \SimpleXMLElement $datiBeniServizi,
-        \Weble\FatturaElettronica\Contracts\TotalInterface $summary
+        \FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface $summary
     ): void {
         $datiRiepilogo = $datiBeniServizi->addChild('DatiRiepilogo');
 

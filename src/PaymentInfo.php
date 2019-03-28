@@ -1,12 +1,12 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use Weble\FatturaElettronica\Contracts\PaymentDetailsInterface;
-use Weble\FatturaElettronica\Contracts\PaymentInfoInterface;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
-use Weble\FatturaElettronica\Enums\PaymentTerm;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use DateTime;
 
 class PaymentInfo implements ArrayableInterface, PaymentInfoInterface

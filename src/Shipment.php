@@ -1,16 +1,16 @@
 <?php
 
-namespace Weble\FatturaElettronica;
+namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
-use Weble\FatturaElettronica\Utilities\Arrayable;
-use Weble\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
+use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class Shipment implements ArrayableInterface
 {
     use Arrayable;
 
-    /** @var \Weble\FatturaElettronica\Contracts\BillableInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface */
     protected $shipper;
     /** @var string */
     protected $method;
@@ -34,23 +34,23 @@ class Shipment implements ArrayableInterface
     protected $deliveryDate;
     /** @var string */
     protected $returnType;
-    /** @var \Weble\FatturaElettronica\Contracts\AddressInterface */
+    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
     protected $returnAddress;
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\BillableInterface
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface
      */
-    public function getShipper (): ?\Weble\FatturaElettronica\Contracts\BillableInterface
+    public function getShipper (): ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface
     {
         return $this->shipper;
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\BillableInterface $shipper
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface $shipper
      *
      * @return Shipment
      */
-    public function setShipper (?\Weble\FatturaElettronica\Contracts\BillableInterface $shipper): Shipment
+    public function setShipper (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface $shipper): Shipment
     {
         $this->shipper = $shipper;
         return $this;
@@ -300,19 +300,19 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\AddressInterface
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface
      */
-    public function getReturnAddress (): ?\Weble\FatturaElettronica\Contracts\AddressInterface
+    public function getReturnAddress (): ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface
     {
         return $this->returnAddress;
     }
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\AddressInterface $returnAddress
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface $returnAddress
      *
      * @return Shipment
      */
-    public function setReturnAddress (\Weble\FatturaElettronica\Contracts\AddressInterface $returnAddress): Shipment
+    public function setReturnAddress (\FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface $returnAddress): Shipment
     {
         $this->returnAddress = $returnAddress;
         return $this;

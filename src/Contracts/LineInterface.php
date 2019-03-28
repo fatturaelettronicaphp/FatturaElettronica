@@ -1,8 +1,8 @@
 <?php
 
-namespace Weble\FatturaElettronica\Contracts;
+namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-use Weble\FatturaElettronica\Line;
+use FatturaElettronicaPhp\FatturaElettronica\Line;
 
 interface LineInterface
 {
@@ -19,19 +19,19 @@ interface LineInterface
     public function setNumber (?int $number);
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\CancelType
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType
      */
-    public function getTipoCessazionePrestazione (): ?\Weble\FatturaElettronica\Enums\CancelType;
+    public function getTipoCessazionePrestazione (): ?\FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType;
 
     public function setTipoCessazionePrestazione ($tipoCessazionePrestazione);
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\ProductInterface[]
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[]
      */
     public function getProducts (): array;
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\ProductInterface[] $products
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[] $products
      *
      * @return Line
      */
@@ -111,7 +111,7 @@ interface LineInterface
 
     public function getDiscounts (): array;
 
-    public function addDiscount (?\Weble\FatturaElettronica\Contracts\DiscountInterface $discounts);
+    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts);
 
     /**
      * @return float
@@ -150,12 +150,12 @@ interface LineInterface
     public function setDeduction (bool $deduction);
 
     /**
-     * @return \Weble\FatturaElettronica\Enums\VatNature
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
      */
-    public function getVatNature (): ?\Weble\FatturaElettronica\Enums\VatNature;
+    public function getVatNature (): ?\FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 
     /**
-     * @param \Weble\FatturaElettronica\Enums\VatNature $vatNature
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature $vatNature
      *
      * @return Line
      */
@@ -174,14 +174,14 @@ interface LineInterface
     public function setAdministrativeContact (?string $administrativeContact);
 
     /**
-     * @return \Weble\FatturaElettronica\Contracts\OtherDataInterface
+     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface
      */
     public function getOtherData (): array;
 
     /**
-     * @param \Weble\FatturaElettronica\Contracts\OtherDataInterface $otherData
+     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData
      *
      * @return Line
      */
-    public function addOtherData (\Weble\FatturaElettronica\Contracts\OtherDataInterface $otherData);
+    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData);
 }
