@@ -148,7 +148,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $output = [];
         $exitCode = 0;
-        exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s', $p7mFilePath, $xmlPath), $output, $exitCode);
+        exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
 
         if ($exitCode !== 0) {
             throw new InvalidP7MFile('Invalid p7m file opening for file ' . $p7mFilePath);

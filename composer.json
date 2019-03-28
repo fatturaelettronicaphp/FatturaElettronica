@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.1",
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-libxml": "*",
@@ -30,7 +30,7 @@
         "ext-simplexml": "*",
         "alcohol/iso4217": "^3.1",
         "league/iso3166": "^2.1",
-        "spatie/enum": "^1.0"
+        "fatturaelettronicaphp/enum": "^1.2"
     },
     "require-dev": {
         "larapack/dd": "^1.0",
