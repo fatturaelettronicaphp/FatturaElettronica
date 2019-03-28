@@ -1,7 +1,10 @@
 # Changelog
 
-All notable changes to `FatturaElettronica` will be documented in this file
+I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
-## 1.0.0 - 201X-XX-XX
+## 1.0.0 - 2019-03-28
 
-- initial release
+- Release Iniziale
+- Lettura
+- Scrittura
+- Validazione

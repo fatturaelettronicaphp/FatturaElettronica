@@ -4,21 +4,26 @@
 [![Build Status](https://img.shields.io/travis/fatturaelettronicaphp/fattura-elettronica/master.svg?style=flat-square)](https://travis-ci.org/fatturaelettronicaphp/fattura-elettronica)
 [![Total Downloads](https://img.shields.io/packagist/dt/fatturaelettronicaphp/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/fatturaelettronicaphp/fattura-elettronica)
 
-Pacchetto per la lettura e la generazione della fattura elettronica, sia PA che B2B / B2C
+Pacchetto PHP per la lettura, la generazione e la validazione della fattura elettronica, sia per la Pubblica Amministrazione che tra privati (B2B)
 
-## Installation
+## Installazione
 
-You can install the package via composer:
+Il pacchetto viene installato attraverso composer, e richiede PHP >= 7.1
 
 ```bash
-composer require weble/FatturaElettronica
+composer require fatturaelettronicaphp/fattura-elettronica
 ```
 
-## Documentation
+## Documentazione
 
-Check the [Documentation](https://weble.github.io/FatturaElettronica/)
+E' presente una documentazione estesa qui:
+ 
+ [https://fatturaelettronicaphp.github.io/FatturaElettronica/](https://fatturaelettronicaphp.github.io/FatturaElettronica/)
 
-## Testing
+## Test
+
+Il pacchetto è testato su una grande varietà di fattura elettroniche.
+E' possibile lanciare la suite di test del pacchetto con:
 
 ``` bash
 composer test
@@ -26,15 +31,15 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Controlla il [CHANGELOG](CHANGELOG.md) per i cambiamenti tra le versioni.
 
-## Contributing
+## Contribuire
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Invia una Pull Request per suggerire migliorie o nuove funzionalità.
 
-### Security
+### Sicurezza
 
-If you discover any security related issues, please email daniele@weble.it instead of using the issue tracker.
+Se trovi un problema di sicurezza con il pacchetto, scrivi una mail a daniele@weble.it invece di usare le Issues di Github.
 
 
 ## Credits
@@ -43,6 +48,6 @@ If you discover any security related issues, please email daniele@weble.it inste
 - [Tobia Zanarella](https://github.com/ShellrentSrl)
 - [All Contributors](../../contributors)
 
-## License
+## Licenza
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). [License File](LICENSE.md) 
