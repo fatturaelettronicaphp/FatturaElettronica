@@ -14,6 +14,7 @@ module.exports = {
             ['/parsing/', 'Lettura'],
             ['/writing/', 'Scrittura'],
             ['/manipulating/', 'Manipolazione'],
+            ['/validating/', 'Validazione'],
         ]
     }
 }

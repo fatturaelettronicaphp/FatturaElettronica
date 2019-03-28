@@ -6,19 +6,19 @@
 $xml = '/path/to/file.xml';
 $eDocument = DigitalDocument::parseFrom($xml);
 
-/** @var \Weble\FatturaElettronica\Customer $customer **/
+/** @var \FatturaElettronicaPhp\FatturaElettronica\Customer $customer **/
 $customer = $digitalDocument->getCustomer();
 
-/** @var \Weble\FatturaElettronica\Supplier $supplier **/
+/** @var \FatturaElettronicaPhp\FatturaElettronica\Supplier $supplier **/
 $supplier = $digitalDocument->getSupplier();
 
-/** @var \Weble\FatturaElettronica\DigitalDocument[] $documents **/
+/** @var \FatturaElettronicaPhp\FatturaElettronica\DigitalDocument[] $documents **/
 $documents = $digitalDocument->getDocumentInstances();
 
 $customer->getOrganization(); // Alpha Srl
 $customer->getVatNumber(); // 03412317712
 
-/** @var \Weble\FatturaElettronica\DigitalDocument $document **/
+/** @var \FatturaElettronicaPhp\FatturaElettronica\DigitalDocument $document **/
 foreach ($documents as $document) {
     $document->getDocumentDate(); // \DateTime
     $document->getDocumentNumber(); // 123

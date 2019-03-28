@@ -7,9 +7,9 @@ Ogni campo dell'XML viene mappato al valore correto, forzandone la tipizzazione.
 ## Cessionario / Committente (o Cliente)
 ``` php
 $xml = '/path/to/file.xml';
-$eDocument = \Weble\FatturaElettronica\DigitalDocument::parseFrom($xml);
+$eDocument = \FatturaElettronicaPhp\FatturaElettronica\DigitalDocument::parseFrom($xml);
 
-/** @var \Weble\FatturaElettronica\Customer $customer **/
+/** @var \FatturaElettronicaPhp\FatturaElettronica\Customer $customer **/
 $customer = $eDocument->getCustomer();
 ``` 
 
@@ -19,6 +19,5 @@ $customer = $eDocument->getCustomer();
 $nomeOrganizzazione = $customer->getOrganization();
 /** @var string $partitaIva */
 $partitaIva = $customer->getVatNumber();
-
 ```
  

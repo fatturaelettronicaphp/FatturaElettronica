@@ -10,7 +10,7 @@ $eDocument->write($filePath);
 
 ## SimpleXmlElement
 ``` php
-// This needs to be a DigitalDocumentInterface object
+// Deve essere un'istanza di \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface 
 $eDocument = new DigitalDocument();
 $eDocument->setTransmissionFormat('FPR12');
 
