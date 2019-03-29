@@ -11,9 +11,3 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-  -
-deploy:
-  provider: script
-  script: bash deploy-docs.sh
-  on:
-    branch: master
