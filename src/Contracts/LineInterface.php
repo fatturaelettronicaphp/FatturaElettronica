@@ -78,24 +78,15 @@ interface LineInterface
      */
     public function getStartDate (): ?\DateTime;
 
-    /**
-     * @param \DateTime $startDate
-     *
-     * @return Line
-     */
-    public function setStartDate (\DateTime $startDate);
+
+    public function setStartDate ($startDate, $format = null);
 
     /**
      * @return \DateTime
      */
     public function getEndDate (): ?\DateTime;
 
-    /**
-     * @param \DateTime $endDate
-     *
-     * @return Line
-     */
-    public function setEndDate (\DateTime $endDate);
+    public function setEndDate ($endDate, $format = null);
 
     /**
      * @return float

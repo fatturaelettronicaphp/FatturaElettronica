@@ -62,7 +62,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setNumber (?int $number): Line
+    public function setNumber (?int $number): self
     {
         $this->number = $number;
         return $this;
@@ -75,7 +75,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function setTipoCessazionePrestazione ($tipoCessazionePrestazione): Line
+    public function setTipoCessazionePrestazione ($tipoCessazionePrestazione): self
     {
         if ($tipoCessazionePrestazione === null) {
             return $this;
@@ -102,7 +102,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function addProduct (ProductInterface $product): Line
+    public function addProduct (ProductInterface $product): self
     {
         $this->products[] = $product;
         return $this;
@@ -121,7 +121,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setDescription (?string $description): Line
+    public function setDescription (?string $description): self
     {
         $this->description = $description;
         return $this;
@@ -140,7 +140,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setQuantity (?float $quantity): Line
+    public function setQuantity (?float $quantity): self
     {
         $this->quantity = $quantity;
         return $this;
@@ -159,7 +159,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setUnit (?string $unit): Line
+    public function setUnit (?string $unit): self
     {
         $this->unit = $unit;
         return $this;
@@ -174,7 +174,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function setStartDate ($startDate, $format = null): Line
+    public function setStartDate ($startDate, $format = null): self
     {
         if ($startDate === null) {
             return $this;
@@ -203,7 +203,7 @@ class Line implements ArrayableInterface, LineInterface
         return $this->endDate;
     }
 
-    public function setEndDate ($endDate, $format = null): Line
+    public function setEndDate ($endDate, $format = null): self
     {
         if ($endDate === null) {
             return $this;
@@ -236,7 +236,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setUnitPrice (?float $unitPrice): Line
+    public function setUnitPrice (?float $unitPrice): self
     {
         $this->unitPrice = $unitPrice;
         return $this;
@@ -249,7 +249,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts): Line
+    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts): self
     {
         $this->discounts[] = $discounts;
         return $this;
@@ -268,7 +268,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setTotal (?float $total): Line
+    public function setTotal (?float $total): self
     {
         $this->total = $total;
         return $this;
@@ -287,7 +287,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setTaxPercentage (?float $taxPercentage): Line
+    public function setTaxPercentage (?float $taxPercentage): self
     {
         $this->taxPercentage = $taxPercentage;
         return $this;
@@ -306,7 +306,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setDeduction ($deduction): Line
+    public function setDeduction ($deduction): self
     {
         $this->deduction = (bool) $deduction;
         return $this;
@@ -320,7 +320,7 @@ class Line implements ArrayableInterface, LineInterface
         return $this->vatNature;
     }
 
-    public function setVatNature ($vatNature): Line
+    public function setVatNature ($vatNature): self
     {
         if ($vatNature === null) {
             return $this;
@@ -347,7 +347,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function setAdministrativeContact (?string $administrativeContact): Line
+    public function setAdministrativeContact (?string $administrativeContact): self
     {
         $this->administrativeContact = $administrativeContact;
         return $this;
@@ -366,7 +366,7 @@ class Line implements ArrayableInterface, LineInterface
      *
      * @return Line
      */
-    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData): Line
+    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData): self
     {
         $this->otherData[] = $otherData;
         return $this;
