@@ -52,5 +52,5 @@ interface OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setDate (?DateTime $date);
+    public function setDate ($date, $format = null);
 }
