@@ -1,11 +1,16 @@
 {
     "name": "fatturaelettronicaphp/fattura-elettronica",
-    "description": "",
+    "description": "Pacchetto PHP per la lettura, la generazione e la validazione della fattura elettronica, sia per la Pubblica Amministrazione che tra privati (B2B)",
     "keywords": [
-        "spatie",
-        "FatturaElettronica"
+        "Fattura",
+        "Fattura PHP",
+        "Fattura Elettronica",
+        "Fattura Elettronica PHP",
+        "Fattura PA",
+        "Fattura Pubblica Amministrazione",
+        "PHP"
     ],
-    "homepage": "https://github.com/fatturaelettronicaphp/FatturaElettronica",
+    "homepage": "https://fatturaelettronicaphp.github.io/FatturaElettronica/",
     "license": "MIT",
     "authors": [
         {
