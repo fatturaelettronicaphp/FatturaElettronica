@@ -141,7 +141,7 @@ interface DigitalDocumentInstanceInterface
 
     public function hasShippingLabels (): bool;
 
-    public function setMainInvoiceDate (?DateTime $mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface;
+    public function setMainInvoiceDate ($mainInvoiceDate, $format = null): DigitalDocumentInstanceInterface;
 
     public function setShipment (?Shipment $shipment): DigitalDocumentInstanceInterface;
 
