@@ -28,9 +28,9 @@ class Line implements ArrayableInterface, LineInterface
     protected $quantity;
     /** @var string */
     protected $unit;
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $startDate;
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $endDate;
     /** @var float */
     protected $unitPrice;
@@ -90,7 +90,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[]
+     * @return ProductInterface[]
      */
     public function getProducts (): array
     {
@@ -98,7 +98,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[] $products
+     * @param ProductInterface[] $products
      *
      * @return Line
      */
@@ -166,7 +166,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStartDate (): ?DateTime
     {
@@ -196,9 +196,9 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getEndDate (): ?\DateTime
+    public function getEndDate (): ?DateTime
     {
         return $this->endDate;
     }
@@ -249,7 +249,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
 
-    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts): self
+    public function addDiscount (?DiscountInterface $discounts): self
     {
         $this->discounts[] = $discounts;
         return $this;
@@ -354,7 +354,7 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface
+     * @return OtherDataInterface
      */
     public function getOtherData (): array
     {
@@ -362,11 +362,11 @@ class Line implements ArrayableInterface, LineInterface
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData
+     * @param OtherDataInterface $otherData
      *
      * @return Line
      */
-    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData): self
+    public function addOtherData (OtherDataInterface $otherData): self
     {
         $this->otherData[] = $otherData;
         return $this;

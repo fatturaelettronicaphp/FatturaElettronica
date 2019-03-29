@@ -3,8 +3,10 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 
 use DOMDocument;
+use Exception;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use function sprintf;
 
 class DigitalDocumentValidator
 {
@@ -40,7 +42,7 @@ class DigitalDocumentValidator
 
         try {
             $isValid = $dom->schemaValidateSource($xsd);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $isValid = false;
         }
 
@@ -59,7 +61,7 @@ class DigitalDocumentValidator
     {
         $xsd = file_get_contents(dirname(__FILE__) . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
         $xmldsigFilename = dirname(__FILE__) . '/xsd/core.xsd';
-        $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', \sprintf('\1%s"', $xmldsigFilename), $xsd);
+        $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 
         return $xsd;
     }

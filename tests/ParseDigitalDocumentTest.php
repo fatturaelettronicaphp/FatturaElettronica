@@ -3,6 +3,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
+use DateTime;
+use Exception;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use PHPUnit\Framework\TestCase;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
@@ -114,10 +117,10 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     * @param DigitalDocumentInterface $eDocument
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function validateDocument(DigitalDocumentInterface $eDocument)
     {
@@ -156,12 +159,12 @@ class ParseDigitalDocumentTest extends TestCase
         // Corpo
         $rows = $eDocument->getDocumentInstances();
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
+        /** @var DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
         $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
         $this->assertEquals('EUR', $firstRow->getCurrency());
-        $this->assertEquals(new \DateTime('2014-12-18'), $firstRow->getDocumentDate());
+        $this->assertEquals(new DateTime('2014-12-18'), $firstRow->getDocumentDate());
         $this->assertEquals('123', $firstRow->getDocumentNumber());
         $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',
             $firstRow->getDescriptions()[0]);
@@ -170,7 +173,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         // Righe
         $products = $firstRow->getLines();
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
@@ -192,17 +195,17 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var PaymentDetailsInterface $detail */
         $detail = array_shift($details);
         $this->assertEquals('MP01', $detail->getMethod());
-        $this->assertEquals(new \DateTime('2015-01-30'), $detail->getDueDate());
+        $this->assertEquals(new DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
 
         $this->assertTrue($eDocument->isValid(), 'Is Invalid: ' . json_encode($eDocument->validate()->errors()));
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface $eDocument
+     * @param DigitalDocumentInterface $eDocument
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     protected function validateComplexDocument(DigitalDocumentInterface $eDocument)
     {
@@ -244,12 +247,12 @@ class ParseDigitalDocumentTest extends TestCase
         // Corpo
         $rows = $eDocument->getDocumentInstances();
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface $firstRow */
+        /** @var DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
         $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
         $this->assertEquals('EUR', $firstRow->getCurrency());
-        $this->assertEquals(new \DateTime('2019-03-19'), $firstRow->getDocumentDate());
+        $this->assertEquals(new DateTime('2019-03-19'), $firstRow->getDocumentDate());
         $this->assertEquals('1', $firstRow->getDocumentNumber());
         $this->assertEquals('Descrizione della causale del documento AAAABBBBBB 1324325y82973482 hbtg2vy14t5fy',
             $firstRow->getDescriptions()[0]);
@@ -283,7 +286,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         // Righe
         $products = $firstRow->getLines();
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
@@ -293,8 +296,8 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(652, $firstProduct->getUnitPrice());
         $this->assertEquals(652, $firstProduct->getTotal());
         $this->assertEquals(22, $firstProduct->getTaxPercentage());
-        $this->assertEquals(new \DateTime('2019-03-19'), $firstProduct->getStartDate());
-        $this->assertEquals(new \DateTime('2020-03-18'), $firstProduct->getEndDate());
+        $this->assertEquals(new DateTime('2019-03-19'), $firstProduct->getStartDate());
+        $this->assertEquals(new DateTime('2020-03-18'), $firstProduct->getEndDate());
 
 
         $datas = $firstProduct->getOtherData();
@@ -303,7 +306,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('ENASARCO TC07',  $otherData->getText());
         $this->assertEquals(53.79,  $otherData->getNumber());
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(2, $firstProduct->getNumber());
@@ -315,7 +318,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $firstProduct->getTaxPercentage());
         $this->assertEquals('N2', (string) $firstProduct->getVatNature());
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(3, $firstProduct->getNumber());
@@ -332,7 +335,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('SC', (string) $discount->getType());
         $this->assertEquals(10 , $discount->getPercentage());
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(4, $firstProduct->getNumber());
@@ -344,7 +347,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(22, $firstProduct->getTaxPercentage());
 
 
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface $firstProduct */
+        /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(5, $firstProduct->getNumber());

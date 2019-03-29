@@ -2,6 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
+use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 use FatturaElettronicaPhp\FatturaElettronica\Line;
 
 interface LineInterface
@@ -19,19 +22,19 @@ interface LineInterface
     public function setNumber (?int $number);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType
+     * @return CancelType
      */
-    public function getTipoCessazionePrestazione (): ?\FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType;
+    public function getTipoCessazionePrestazione (): ?CancelType;
 
     public function setTipoCessazionePrestazione ($tipoCessazionePrestazione);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[]
+     * @return ProductInterface[]
      */
     public function getProducts (): array;
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface[] $products
+     * @param ProductInterface[] $products
      *
      * @return Line
      */
@@ -74,17 +77,17 @@ interface LineInterface
     public function setUnit (?string $unit);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getStartDate (): ?\DateTime;
+    public function getStartDate (): ?DateTime;
 
 
     public function setStartDate ($startDate, $format = null);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getEndDate (): ?\DateTime;
+    public function getEndDate (): ?DateTime;
 
     public function setEndDate ($endDate, $format = null);
 
@@ -102,7 +105,7 @@ interface LineInterface
 
     public function getDiscounts (): array;
 
-    public function addDiscount (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $discounts);
+    public function addDiscount (?DiscountInterface $discounts);
 
     /**
      * @return float
@@ -141,12 +144,12 @@ interface LineInterface
     public function setDeduction ($deduction);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
+     * @return VatNature
      */
-    public function getVatNature (): ?\FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+    public function getVatNature (): ?VatNature;
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature $vatNature
+     * @param VatNature $vatNature
      *
      * @return Line
      */
@@ -165,14 +168,14 @@ interface LineInterface
     public function setAdministrativeContact (?string $administrativeContact);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface
+     * @return OtherDataInterface
      */
     public function getOtherData (): array;
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData
+     * @param OtherDataInterface $otherData
      *
      * @return Line
      */
-    public function addOtherData (\FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface $otherData);
+    public function addOtherData (OtherDataInterface $otherData);
 }

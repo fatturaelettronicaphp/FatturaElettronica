@@ -94,7 +94,7 @@ class Total implements ArrayableInterface, TotalInterface
     }
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
+     * @return VatNature
      */
     public function getVatNature (): ?VatNature
     {
@@ -154,7 +154,7 @@ class Total implements ArrayableInterface, TotalInterface
     }
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility
+     * @return VatEligibility
      */
     public function getTaxType (): ?VatEligibility
     {

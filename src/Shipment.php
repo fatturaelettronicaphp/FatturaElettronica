@@ -3,6 +3,8 @@
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
@@ -10,7 +12,7 @@ class Shipment implements ArrayableInterface
 {
     use Arrayable;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface */
+    /** @var BillableInterface */
     protected $shipper;
     /** @var string */
     protected $method;
@@ -34,23 +36,23 @@ class Shipment implements ArrayableInterface
     protected $deliveryDate;
     /** @var string */
     protected $returnType;
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
+    /** @var AddressInterface */
     protected $returnAddress;
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface
+     * @return BillableInterface
      */
-    public function getShipper (): ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface
+    public function getShipper (): ?BillableInterface
     {
         return $this->shipper;
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface $shipper
+     * @param BillableInterface $shipper
      *
      * @return Shipment
      */
-    public function setShipper (?\FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface $shipper): Shipment
+    public function setShipper (?BillableInterface $shipper): Shipment
     {
         $this->shipper = $shipper;
         return $this;
@@ -191,9 +193,9 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getPickupDate (): ?\DateTime
+    public function getPickupDate (): ?DateTime
     {
         return $this->pickupDate;
     }
@@ -219,9 +221,9 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getShipmentDate (): ?\DateTime
+    public function getShipmentDate (): ?DateTime
     {
         return $this->shipmentDate;
     }
@@ -248,15 +250,15 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDeliveryDate (): ?\DateTime
+    public function getDeliveryDate (): ?DateTime
     {
         return $this->deliveryDate;
     }
 
     /**
-     * @param \DateTime $deliveryDate
+     * @param DateTime $deliveryDate
      *
      * @return Shipment
      */
@@ -300,19 +302,19 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface
+     * @return AddressInterface
      */
-    public function getReturnAddress (): ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface
+    public function getReturnAddress (): ?AddressInterface
     {
         return $this->returnAddress;
     }
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface $returnAddress
+     * @param AddressInterface $returnAddress
      *
      * @return Shipment
      */
-    public function setReturnAddress (\FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface $returnAddress): Shipment
+    public function setReturnAddress (AddressInterface $returnAddress): Shipment
     {
         $this->returnAddress = $returnAddress;
         return $this;

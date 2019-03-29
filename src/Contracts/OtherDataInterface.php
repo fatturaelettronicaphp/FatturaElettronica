@@ -2,6 +2,8 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
+use DateTime;
+
 interface OtherDataInterface
 {
     /**
@@ -41,14 +43,14 @@ interface OtherDataInterface
     public function setNumber (?float $number);
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDate (): ?\DateTime;
+    public function getDate (): ?DateTime;
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return OtherDataInterface
      */
-    public function setDate (?\DateTime $date);
+    public function setDate (?DateTime $date);
 }

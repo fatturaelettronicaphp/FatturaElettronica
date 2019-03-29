@@ -45,7 +45,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
 {
     use XmlUtilities;
 
-    /** @var \SimpleXMLElement  */
+    /** @var SimpleXMLElement */
     protected $xml;
 
     public function __construct (SimpleXMLElement $xml)

@@ -54,7 +54,7 @@ class SummaryParser extends AbstractBodyParser
     /**
      * @param $total
      *
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Total
+     * @return Total
      */
     protected function extractTotalFrom ($total): TotalInterface
     {

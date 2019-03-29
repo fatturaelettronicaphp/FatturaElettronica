@@ -45,12 +45,12 @@ interface TotalInterface
     public function setTotal (?float $total);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
+     * @return VatNature
      */
     public function getVatNature (): ?VatNature;
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature $vatNature
+     * @param VatNature $vatNature
      *
      * @return Total
      */
@@ -81,12 +81,12 @@ interface TotalInterface
     public function setRounding (?float $rounding);
 
     /**
-     * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility
+     * @return VatEligibility
      */
     public function getTaxType (): ?VatEligibility;
 
     /**
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility $taxType
+     * @param VatEligibility $taxType
      *
      * @return Total
      */

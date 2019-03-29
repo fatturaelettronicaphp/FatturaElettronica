@@ -60,7 +60,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
     protected $xml;
 
     /**
-     * @var \FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentFormat
+     * @var DocumentFormat
      */
     protected $fileType;
 

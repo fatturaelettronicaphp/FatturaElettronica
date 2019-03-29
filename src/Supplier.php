@@ -16,9 +16,9 @@ class Supplier extends BillablePerson implements SupplierInterface
     protected $registerState;
     /** @var string */
     protected $registerNumber;
-    /** @var \DateTime */
+    /** @var DateTime */
     protected $registerDate;
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime */
+    /** @var TaxRegime */
     protected $taxRegime;
     /** @var string */
     protected $email;

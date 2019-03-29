@@ -2,18 +2,20 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class PaymentsWriter extends AbstractBodyWriter
 {
     protected function performWrite ()
     {
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface $payment */
+        /** @var PaymentInfoInterface $payment */
         foreach( $this->body->getPaymentInformations() as $payment ) {
             $datiPagamento = $this->xml->addChild( 'DatiPagamento' );
             $datiPagamento->addChild( 'CondizioniPagamento', (string) $payment->getTerms() );
 
-            /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface $details */
+            /** @var PaymentDetailsInterface $details */
             foreach ($payment->getDetails() as $details) {
                 $dettalioPagamento = $datiPagamento->addChild('DettaglioPagamento');
 

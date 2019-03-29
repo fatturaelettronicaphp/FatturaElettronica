@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\RepresentativeInterface;
 
 class Customer extends BillablePerson implements CustomerInterface
 {
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\RepresentativeInterface */
+    /** @var RepresentativeInterface */
     protected $representative;
 
     public function getRepresentative (): ?RepresentativeInterface

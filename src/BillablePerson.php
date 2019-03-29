@@ -16,10 +16,10 @@ class BillablePerson extends Billable implements BillablePersonInterface, Arraya
     protected $eori;
     protected $fiscalCode;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
+    /** @var AddressInterface */
     protected $address;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface */
+    /** @var AddressInterface */
     protected $foreignFixedAddress;
 
     public function getAddress (): ?AddressInterface

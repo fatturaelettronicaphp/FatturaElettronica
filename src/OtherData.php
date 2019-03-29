@@ -87,15 +87,15 @@ class OtherData implements ArrayableInterface, OtherDataInterface
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDate (): ?\DateTime
+    public function getDate (): ?DateTime
     {
         return $this->date;
     }
 
     /**
-     * @param \DateTime $date
+     * @param DateTime $date
      *
      * @return OtherDataInterface
      */

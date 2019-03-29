@@ -4,7 +4,9 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Exceptions;
 
 
-class InvalidFileNameExtension extends \InvalidArgumentException
+use InvalidArgumentException;
+
+class InvalidFileNameExtension extends InvalidArgumentException
 {
 
 }

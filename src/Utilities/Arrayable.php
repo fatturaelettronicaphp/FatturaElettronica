@@ -11,6 +11,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DiscountType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\FundType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use ReflectionClass;
 
 trait Arrayable
 {
@@ -18,7 +19,7 @@ trait Arrayable
     {
         $values = [];
 
-        $properties = (new \ReflectionClass($this))->getProperties();
+        $properties = (new ReflectionClass($this))->getProperties();
         foreach ($properties as $property) {
             $name = $property->getName();
             $value = $this->$name;

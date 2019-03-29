@@ -4,7 +4,9 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Exceptions;
 
 
-class InvalidDocument extends \TypeError
+use TypeError;
+
+class InvalidDocument extends TypeError
 {
 
 }

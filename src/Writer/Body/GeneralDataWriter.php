@@ -2,8 +2,15 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Fund;
+use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
+use SimpleXMLElement;
 
 class GeneralDataWriter extends AbstractBodyWriter
 {
@@ -44,7 +51,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         /* Dati documenti DDT */
-        /** @var \FatturaElettronicaPhp\FatturaElettronica\ShippingLabel $documentDdt */
+        /** @var ShippingLabel $documentDdt */
         foreach ($this->body->getShippingLabels() as $documentDdt) {
             $this->addShippingLabelsData($generalData, $documentDdt);
         }
@@ -59,7 +66,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         return $this;
     }
 
-    protected function addGeneralData (\SimpleXMLElement $generalData)
+    protected function addGeneralData (SimpleXMLElement $generalData)
     {
         $documentGeneralData = $generalData->addChild('DatiGeneraliDocumento');
         $documentGeneralData->addChild('TipoDocumento', (string)$this->body->getDocumentType());
@@ -105,9 +112,9 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $documentGeneralData
+     * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addDeductionData (\SimpleXMLElement $documentGeneralData): void
+    protected function addDeductionData (SimpleXMLElement $documentGeneralData): void
     {
         $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
         $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
@@ -117,9 +124,9 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $documentGeneralData
+     * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addVirtualDutyData (\SimpleXMLElement $documentGeneralData): void
+    protected function addVirtualDutyData (SimpleXMLElement $documentGeneralData): void
     {
         $datiBollo = $documentGeneralData->addChild('DatiBollo');
         $datiBollo->addChild('BolloVirtuale', 'SI');
@@ -127,10 +134,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $documentGeneralData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Fund $documentCassa
+     * @param SimpleXMLElement $documentGeneralData
+     * @param Fund $documentCassa
      */
-    protected function addFundData (\SimpleXMLElement $documentGeneralData, \FatturaElettronicaPhp\FatturaElettronica\Fund $documentCassa): void
+    protected function addFundData (SimpleXMLElement $documentGeneralData, Fund $documentCassa): void
     {
         $datiCassa = $documentGeneralData->addChild('DatiCassaPrevidenziale');
         $datiCassa->addChild('TipoCassa', $documentCassa->getType());
@@ -158,10 +165,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $documentGeneralData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $documentDiscount
+     * @param SimpleXMLElement $documentGeneralData
+     * @param DiscountInterface $documentDiscount
      */
-    protected function addDiscountData (\SimpleXMLElement $documentGeneralData, \FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface $documentDiscount): void
+    protected function addDiscountData (SimpleXMLElement $documentGeneralData, DiscountInterface $documentDiscount): void
     {
         $datiScontoMaggiorazione = $documentGeneralData->addChild('ScontoMaggiorazione');
         $datiScontoMaggiorazione->addChild('Tipo', $documentDiscount->getType());
@@ -178,10 +185,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $generalData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\ShippingLabel $documentDdt
+     * @param SimpleXMLElement $generalData
+     * @param ShippingLabel $documentDdt
      */
-    protected function addShippingLabelsData (\SimpleXMLElement $generalData, \FatturaElettronicaPhp\FatturaElettronica\ShippingLabel $documentDdt): void
+    protected function addShippingLabelsData (SimpleXMLElement $generalData, ShippingLabel $documentDdt): void
     {
         $ddtData = $generalData->addChild('DatiDDT');
         $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
@@ -199,10 +206,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $shipmentData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface|null $documentPerson
+     * @param SimpleXMLElement $shipmentData
+     * @param BillableInterface|null $documentPerson
      */
-    protected function addShipperInfo (\SimpleXMLElement $shipmentData, ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface $documentPerson): void
+    protected function addShipperInfo (SimpleXMLElement $shipmentData, ?BillableInterface $documentPerson): void
     {
         $datiAnagrafici = $shipmentData->addChild('DatiAnagraficiVettore');
 
@@ -235,10 +242,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $shipmentData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface|null $address
+     * @param SimpleXMLElement $shipmentData
+     * @param AddressInterface|null $address
      */
-    protected function addShipmentAddress (\SimpleXMLElement $shipmentData, ?\FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface $address): void
+    protected function addShipmentAddress (SimpleXMLElement $shipmentData, ?AddressInterface $address): void
     {
         $addressData = $shipmentData->addChild('IndirizzoResa');
         if ($address->getStreet() === null) {
@@ -274,10 +281,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $generalData
-     * @param \FatturaElettronicaPhp\FatturaElettronica\Shipment|null $shipment
+     * @param SimpleXMLElement $generalData
+     * @param Shipment|null $shipment
      */
-    protected function addShipment (\SimpleXMLElement $generalData, ?\FatturaElettronicaPhp\FatturaElettronica\Shipment $shipment): void
+    protected function addShipment (SimpleXMLElement $generalData, ?Shipment $shipment): void
     {
         $shipmentData = $generalData->addChild('DatiTrasporto');
 
@@ -349,9 +356,9 @@ class GeneralDataWriter extends AbstractBodyWriter
     }
 
     /**
-     * @param \SimpleXMLElement $generalData
+     * @param SimpleXMLElement $generalData
      */
-    protected function addMainInvoice (\SimpleXMLElement $generalData): void
+    protected function addMainInvoice (SimpleXMLElement $generalData): void
     {
         if ($this->body->getMainInvoiceDate() !== null || $this->body->getMainInvoiceNumber() !== null) {
             $mainInvoiceData = $generalData->addChild('FatturaPrincipale');

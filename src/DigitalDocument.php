@@ -33,10 +33,10 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string */
     protected $emittingSubject;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface */
+    /** @var BillablePersonInterface */
     protected $representative;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface */
+    /** @var IntermediaryInterface */
     protected $intermediary;
 
     /** @var TransmissionFormat */
@@ -63,7 +63,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string */
     protected $customerPec;
 
-    /** @var \FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance[] */
+    /** @var DigitalDocumentInstance[] */
     protected $documentInstances = [];
 
     public function __construct()
