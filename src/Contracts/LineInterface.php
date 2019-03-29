@@ -138,7 +138,7 @@ interface LineInterface
      *
      * @return Line
      */
-    public function setDeduction (bool $deduction);
+    public function setDeduction ($deduction);
 
     /**
      * @return \FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature
