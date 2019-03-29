@@ -5,3 +5,4 @@ node_modules
 /nbproject
 tests/PrivateDocuments
 tests/PrivateDocuments/*
+build
