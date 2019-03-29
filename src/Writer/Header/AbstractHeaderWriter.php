@@ -20,8 +20,6 @@ abstract class AbstractHeaderWriter extends AbstractWriter
         return $this->xml;
     }
 
-    abstract protected function performWrite();
-
     /**
      * Ricalcola i dati fiscali di un anagrafica utente sulla base della nazione
      *

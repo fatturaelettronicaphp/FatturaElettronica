@@ -23,8 +23,6 @@ abstract class AbstractBodyWriter extends AbstractWriter
         return $this->xml;
     }
 
-    abstract protected function performWrite();
-
     protected function addExternalDocument (RelatedDocumentInterface $documentData, SimpleXMLElement $parent)
     {
         $riferimentoLinea = $documentData->getLineNumberReference();
