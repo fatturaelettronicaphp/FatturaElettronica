@@ -2,9 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use SimpleXMLElement;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\AbstractWriter;
+use SimpleXMLElement;
 
 abstract class AbstractHeaderWriter extends AbstractWriter
 {

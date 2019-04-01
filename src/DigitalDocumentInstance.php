@@ -2,19 +2,19 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
+use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
-use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 
 class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInstanceInterface
 {

@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use SimpleXMLElement;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 
 interface DigitalDocumentWriterInterface
 {

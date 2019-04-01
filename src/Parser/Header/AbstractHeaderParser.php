@@ -7,8 +7,8 @@ use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use SimpleXMLElement;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\XmlUtilities;
+use SimpleXMLElement;
 
 
 abstract class AbstractHeaderParser

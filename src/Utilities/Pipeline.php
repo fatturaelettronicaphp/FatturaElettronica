@@ -4,10 +4,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
 
 
-use phpDocumentor\Reflection\Types\Callable_;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use Closure;
-use SimpleXMLElement;
 
 class Pipeline
 {

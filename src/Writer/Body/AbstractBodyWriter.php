@@ -2,11 +2,11 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
-use SimpleXMLElement;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\AbstractWriter;
+use SimpleXMLElement;
 
 abstract class AbstractBodyWriter extends AbstractWriter
 {

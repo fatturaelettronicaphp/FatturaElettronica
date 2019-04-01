@@ -4,10 +4,9 @@ namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
-use DateTime;
 
 class PaymentInfo implements ArrayableInterface, PaymentInfoInterface
 {

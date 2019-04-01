@@ -2,9 +2,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
-use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
-
 class EmittingSubjectWriter extends AbstractHeaderWriter
 {
     protected function performWrite ()

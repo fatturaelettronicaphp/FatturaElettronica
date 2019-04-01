@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;

@@ -3,10 +3,10 @@
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility;
 
 class Total implements ArrayableInterface, TotalInterface
 {

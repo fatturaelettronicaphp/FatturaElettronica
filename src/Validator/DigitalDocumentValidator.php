@@ -4,7 +4,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 
 use DOMDocument;
 use Exception;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use function sprintf;
 

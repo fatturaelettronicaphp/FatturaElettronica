@@ -3,14 +3,14 @@
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\CancelType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
 
 class Line implements ArrayableInterface, LineInterface
 {

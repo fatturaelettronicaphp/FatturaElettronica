@@ -2,16 +2,13 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use DOMDocument;
-use SimpleXMLElement;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\CustomerInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
@@ -19,6 +16,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
+use SimpleXMLElement;
 
 class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 {

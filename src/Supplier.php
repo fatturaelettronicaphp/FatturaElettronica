@@ -2,11 +2,11 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\AssociateType;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\WoundUpType;
 use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\AssociateType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\WoundUpType;
 
 class Supplier extends BillablePerson implements SupplierInterface
 {

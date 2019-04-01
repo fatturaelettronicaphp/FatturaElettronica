@@ -2,7 +2,7 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
 
-use \SimpleXMLElement;
+use SimpleXMLElement;
 
 class SimpleXmlExtended extends SimpleXMLElement
 {

@@ -2,18 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
-use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\FundType;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DiscountType;
-use FatturaElettronicaPhp\FatturaElettronica\Fund;
 
 class Product implements ArrayableInterface, ProductInterface
 {

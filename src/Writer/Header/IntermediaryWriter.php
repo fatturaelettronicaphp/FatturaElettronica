@@ -2,10 +2,7 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class IntermediaryWriter extends AbstractHeaderWriter

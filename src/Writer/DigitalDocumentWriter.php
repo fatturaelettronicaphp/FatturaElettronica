@@ -3,18 +3,10 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Customer;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
-use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentWriterInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
-use SimpleXMLElement;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\AttachmentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\GeneralDataWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\PaymentsWriter;
@@ -26,6 +18,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\IntermediaryWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
+use SimpleXMLElement;
 
 class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 {

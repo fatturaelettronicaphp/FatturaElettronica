@@ -3,12 +3,8 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
-use PHPUnit\Framework\TestCase;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\AssociateType;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
+use PHPUnit\Framework\TestCase;
 
 class EnumTest extends TestCase
 {

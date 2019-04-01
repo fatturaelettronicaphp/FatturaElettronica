@@ -4,7 +4,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\PaymentInfo;
 
 interface PaymentDetailsInterface

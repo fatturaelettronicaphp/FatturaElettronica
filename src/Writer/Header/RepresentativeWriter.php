@@ -2,7 +2,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
-use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 

@@ -2,14 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
-use DateTime;
-use SimpleXMLElement;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
+use SimpleXMLElement;
 
 interface DigitalDocumentInterface
 {

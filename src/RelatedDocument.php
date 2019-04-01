@@ -2,7 +2,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
-use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;

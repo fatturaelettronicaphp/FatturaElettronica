@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
 use FatturaElettronicaPhp\FatturaElettronica\Customer;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class CustomerWriter extends AbstractHeaderWriter

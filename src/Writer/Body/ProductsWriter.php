@@ -8,7 +8,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\ProductInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use SimpleXMLElement;
 

@@ -3,11 +3,9 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
-use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
 use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 

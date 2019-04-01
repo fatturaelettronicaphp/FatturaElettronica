@@ -3,9 +3,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
 
-use FatturaElettronicaPhp\FatturaElettronica\Customer;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
-use FatturaElettronicaPhp\FatturaElettronica\Representative;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 
 class SupplierParser extends AbstractHeaderParser
