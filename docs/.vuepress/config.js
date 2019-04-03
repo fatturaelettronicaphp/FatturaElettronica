@@ -13,7 +13,7 @@ module.exports = {
         navbar: true,
         nav: [
             {text: 'Guida', 'link': '/'},
-            {text: 'Github', 'link': 'https://github.com/Weble/FatturaElettronica'}
+            {text: 'Github', 'link': 'https://github.com/fatturaelettronicaphp/FatturaElettronica'}
         ],
         sidebar: [
             ['/', 'Introduzione'],
