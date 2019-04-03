@@ -5,6 +5,22 @@
 
 Pacchetto PHP per la lettura, la generazione e la validazione della fattura elettronica, sia per la Pubblica Amministrazione che tra privati (B2B)
 
+Il pacchetto è utilizzato per gestione delle fatture elettroniche nel portale [https://www.shellrent.com/fattura-elettronica/](https://www.shellrent.com/fattura-elettronica/?utm_source=fatturaelettronicaphp)
+
+## Sponsors
+<!--special start-->
+ 
+<p>
+  <a href="https://www.weble.it" target="_blank">
+    <img width="200" src="./assets/weble-logo-quadrato.png">
+  </a>
+  <a href="https://www.shellrent.com" target="_blank">
+      <img height="220" src="./assets/shellrent.jpg">
+    </a>
+</p>
+  
+<!--special end-->
+
 
 ## Installazione
 

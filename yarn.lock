@@ -840,6 +840,13 @@
     markdown-it-emoji "^1.4.0"
     prismjs "^1.13.0"
 
+"@vuepress/plugin-active-header-links@^1.0.0-alpha.0":
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.0.0-alpha.0.tgz#aa127fb5bd5d504fb9cbd65ca5e2fa37fd1cc324"
+  integrity sha512-oB8MJeMh+7LWyaSGRAPPcw6mVfqy+8XP3BgLGrMVFisAhBpAzNgvOrKIzdtbJybRXd25Xt1A6lNglmyg0dYbyg==
+  dependencies:
+    lodash.throttle "^4.1.1"
+
 "@vuepress/plugin-active-header-links@^1.0.0-alpha.44":
   version "1.0.0-alpha.44"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.0.0-alpha.44.tgz#8d9dc12879054fbcfbba04e5076146b7d245a976"
@@ -853,6 +860,11 @@
   integrity sha512-AeoH44Pp1AtOjGtxAoj96DH6UjNVZxGm1oLb0/vgxp0i4PEdMjhzzlETS9FoUnHQK+kfmKyZMbbQOJCHzkuRIQ==
   dependencies:
     markdown-it-container "^2.0.0"
+
+"@vuepress/plugin-google-analytics@^1.0.0-alpha.46":
+  version "1.0.0-alpha.46"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-google-analytics/-/plugin-google-analytics-1.0.0-alpha.46.tgz#a76d60b0441633483039835d2a34b9bbb88df28b"
+  integrity sha512-Lyr8gmCcIXg6EbBEKhppja+kQeTwGPsEALqSNttyonQfiDKSZDfeMAvHq5XdA8IO5gIFTdU9fgA6jhUFQUopzQ==
 
 "@vuepress/plugin-last-updated@^1.0.0-alpha.44":
   version "1.0.0-alpha.44"
@@ -875,6 +887,11 @@
   dependencies:
     "@vuepress/shared-utils" "^1.0.0-alpha.44"
 
+"@vuepress/plugin-search@^1.0.0-alpha.0":
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-1.0.0-alpha.0.tgz#9faf04047d03a16f0bb5d98bee0df3435e3c8c58"
+  integrity sha512-FELGWmLIG8GX8MlMGRDfqiQiHnq6MC122H/d033inQ5X1hhVI1lIOoHIFd8gecgx/jaCZSnKx9oKU3ZvnDd0Cw==
+
 "@vuepress/plugin-search@^1.0.0-alpha.44":
   version "1.0.0-alpha.44"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-1.0.0-alpha.44.tgz#c5ab7abe591ca025d57886a9ee817e4217504fd8"
@@ -894,6 +911,18 @@
     hash-sum "^1.0.2"
     semver "^5.5.0"
     upath "^1.1.0"
+
+"@vuepress/theme-default@^1.0.0-alpha.0":
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@vuepress/theme-default/-/theme-default-1.0.0-alpha.0.tgz#346e8e632b9dd99867aab77b8531ae114e237c3b"
+  integrity sha512-/C5mOG/vl7/trIxtBZh+smRPuWOmr1bSVayFq7HrTJEh1e2nLEU3wwujWcDUzwX3IYXywFXEV5qixKmFt/GZnw==
+  dependencies:
+    "@vuepress/plugin-active-header-links" "^1.0.0-alpha.0"
+    "@vuepress/plugin-search" "^1.0.0-alpha.0"
+    docsearch.js "^2.5.2"
+    nprogress "^0.2.0"
+    stylus "^0.54.5"
+    stylus-loader "^3.0.2"
 
 "@vuepress/theme-default@^1.0.0-alpha.44":
   version "1.0.0-alpha.44"
