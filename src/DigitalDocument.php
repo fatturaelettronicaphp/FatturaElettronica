@@ -84,6 +84,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentWriter($this))->write($filePath);
     }
 
+    public function generatedFilename(): string
+    {
+        return $this->getCountryCode() . $this->getSenderVatId() . '_' . $this->getSendingId() . '.xml';
+    }
+
     public function validate(): DigitalDocumentValidator
     {
         return (new DigitalDocumentValidator($this));

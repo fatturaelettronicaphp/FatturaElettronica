@@ -28,36 +28,40 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     /** @var SimpleXmlExtended */
     protected $xml;
 
-    public function __construct (DigitalDocumentInterface $document)
+    public function __construct(DigitalDocumentInterface $document)
     {
         $this->document = $document;
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
         return $this->xml;
     }
 
-    public function write ($filePath): bool
+    public function write($filePath): bool
     {
+        if (stripos($filePath, '.xml') === false) {
+            $filePath = $filePath . '/' . $this->document->generatedFilename();
+        }
+
         return $this->generate()->xml()->asXML($filePath);
     }
 
 
-    public function generate (): DigitalDocumentWriterInterface
+    public function generate(): DigitalDocumentWriterInterface
     {
         $this
             ->createXml()
             ->writeHeader();
 
         foreach ($this->document->getDocumentInstances() as $instance) {
-           $this->writeBody($instance);
+            $this->writeBody($instance);
         }
 
         return $this;
     }
 
-    protected function writeHeader (): self
+    protected function writeHeader(): self
     {
         $xmlHeader = $this->xml->addChild('FatturaElettronicaHeader');
 
@@ -80,7 +84,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this;
     }
 
-    protected function writeBody (DigitalDocumentInstanceInterface $body): self
+    protected function writeBody(DigitalDocumentInstanceInterface $body): self
     {
         $bodyXml = $this->xml->addChild('FatturaElettronicaBody');
 
@@ -102,9 +106,10 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this;
     }
 
-    protected function createXml (): self
+    protected function createXml(): self
     {
-        $this->xml = new SimpleXmlExtended('<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />', LIBXML_NOERROR);
+        $this->xml = new SimpleXmlExtended('<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />',
+            LIBXML_NOERROR);
 
         $namespaces = [
             'versione' => (string)$this->document->getTransmissionFormat(),

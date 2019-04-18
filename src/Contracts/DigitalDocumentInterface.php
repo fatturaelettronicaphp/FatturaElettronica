@@ -14,6 +14,8 @@ interface DigitalDocumentInterface
 
     public function write(string $filePath): bool;
 
+    public function generatedFilename(): string;
+
     public function isValid(): bool;
 
     public function validate(): DigitalDocumentValidator;
