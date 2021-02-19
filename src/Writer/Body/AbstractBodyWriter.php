@@ -13,8 +13,7 @@ abstract class AbstractBodyWriter extends AbstractWriter
     /** @var DigitalDocumentInstanceInterface */
     protected $body;
 
-
-    public function write ($body): SimpleXMLElement
+    public function write($body): SimpleXMLElement
     {
         $this->body = $body;
 
@@ -23,7 +22,7 @@ abstract class AbstractBodyWriter extends AbstractWriter
         return $this->xml;
     }
 
-    protected function addExternalDocument (RelatedDocumentInterface $documentData, SimpleXMLElement $parent)
+    protected function addExternalDocument(RelatedDocumentInterface $documentData, SimpleXMLElement $parent)
     {
         $riferimentoLinea = $documentData->getLineNumberReference();
         if ($riferimentoLinea !== null) {
@@ -34,7 +33,7 @@ abstract class AbstractBodyWriter extends AbstractWriter
 
         $parent->addChild('IdDocumento', SimpleXmlExtended::sanitizeText($documentData->getDocumentNumber()));
 
-        if (!empty($documentData->getDocumentDate())) {
+        if (! empty($documentData->getDocumentDate())) {
             $parent->addChild('Data', $documentData->getDocumentDate()->format('Y-m-d'));
         }
 

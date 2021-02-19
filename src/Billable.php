@@ -16,58 +16,63 @@ class Billable implements ArrayableInterface, BillableInterface
     protected $countryCode;
     protected $vatNumber;
 
-    public function getCountryCode ()
+    public function getCountryCode()
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode ($countryCode): self
+    public function setCountryCode($countryCode): self
     {
         $this->countryCode = $countryCode;
+
         return $this;
     }
 
-    public function getName ()
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName ($name): self
+    public function setName($name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
-    public function getVatNumber ()
+    public function getVatNumber()
     {
         return $this->vatNumber;
     }
 
-    public function setVatNumber ($vatNumber): self
+    public function setVatNumber($vatNumber): self
     {
         $this->vatNumber = $vatNumber;
+
         return $this;
     }
 
-    public function getSurname ()
+    public function getSurname()
     {
         return $this->surname;
     }
 
-    public function setSurname ($surname): self
+    public function setSurname($surname): self
     {
         $this->surname = $surname;
+
         return $this;
     }
 
-    public function getOrganization ()
+    public function getOrganization()
     {
         return $this->organization;
     }
 
-    public function setOrganization ($organization): self
+    public function setOrganization($organization): self
     {
         $this->organization = $organization;
+
         return $this;
     }
 }

@@ -4,24 +4,23 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 interface BillableInterface
 {
-    public function getName ();
+    public function getName();
 
-    public function setName ($name);
+    public function setName($name);
 
-    public function getVatNumber ();
+    public function getVatNumber();
 
-    public function setVatNumber ($vatNumber);
+    public function setVatNumber($vatNumber);
 
-    public function getSurname ();
+    public function getSurname();
 
-    public function setSurname ($surname);
+    public function setSurname($surname);
 
-    public function getOrganization ();
+    public function getOrganization();
 
-    public function setOrganization ($organization);
+    public function setOrganization($organization);
 
-    public function setCountryCode ($countryCode);
+    public function setCountryCode($countryCode);
 
-    public function getCountryCode ();
-
+    public function getCountryCode();
 }

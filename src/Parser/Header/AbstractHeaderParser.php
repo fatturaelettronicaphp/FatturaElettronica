@@ -10,7 +10,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\XmlUtilities;
 use SimpleXMLElement;
 
-
 abstract class AbstractHeaderParser
 {
     use XmlUtilities;
@@ -23,17 +22,17 @@ abstract class AbstractHeaderParser
     /** @var DigitalDocumentInterface */
     protected $document;
 
-    public function __construct (DigitalDocumentInterface $document)
+    public function __construct(DigitalDocumentInterface $document)
     {
         $this->document = $document;
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
         return $this->xml;
     }
 
-    public function parse (SimpleXMLElement $xml): DigitalDocumentInterface
+    public function parse(SimpleXMLElement $xml): DigitalDocumentInterface
     {
         $this->xml = $xml;
 
@@ -42,9 +41,9 @@ abstract class AbstractHeaderParser
         return $this->document;
     }
 
-    abstract protected function performParsing ();
+    abstract protected function performParsing();
 
-    protected function extractBillableInformationsFrom (SimpleXMLElement $xml, BillableInterface $billable = null): BillableInterface
+    protected function extractBillableInformationsFrom(SimpleXMLElement $xml, BillableInterface $billable = null): BillableInterface
     {
         if ($billable === null) {
             $billable = new BillablePerson();
@@ -77,7 +76,7 @@ abstract class AbstractHeaderParser
         return $billable;
     }
 
-    protected function extractAddressInformationFrom (SimpleXMLElement $xml): AddressInterface
+    protected function extractAddressInformationFrom(SimpleXMLElement $xml): AddressInterface
     {
         $address = new Address();
 

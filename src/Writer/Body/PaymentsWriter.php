@@ -8,12 +8,12 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class PaymentsWriter extends AbstractBodyWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         /** @var PaymentInfoInterface $payment */
-        foreach( $this->body->getPaymentInformations() as $payment ) {
-            $datiPagamento = $this->xml->addChild( 'DatiPagamento' );
-            $datiPagamento->addChild( 'CondizioniPagamento', (string) $payment->getTerms() );
+        foreach ($this->body->getPaymentInformations() as $payment) {
+            $datiPagamento = $this->xml->addChild('DatiPagamento');
+            $datiPagamento->addChild('CondizioniPagamento', (string) $payment->getTerms());
 
             /** @var PaymentDetailsInterface $details */
             foreach ($payment->getDetails() as $details) {
@@ -42,7 +42,7 @@ class PaymentsWriter extends AbstractBodyWriter
                     $amount = 0;
                 }
 
-                $dettalioPagamento->addChild('ImportoPagamento', number_format(round($amount, 2), 2, '.',''));
+                $dettalioPagamento->addChild('ImportoPagamento', number_format(round($amount, 2), 2, '.', ''));
 
                 if ($details->getPostalOfficeCode() !== null) {
                     $dettalioPagamento->addChild('CodUfficioPostale', SimpleXmlExtended::sanitizeText($details->getPostalOfficeCode()));

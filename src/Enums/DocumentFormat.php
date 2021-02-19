@@ -8,5 +8,4 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
  */
 class DocumentFormat extends Enum
 {
-
 }

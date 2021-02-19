@@ -12,7 +12,7 @@ class DiscountType extends Enum
 {
     protected static $map = [
         'discount' => 'SC',
-        'increase' => 'MG'
+        'increase' => 'MG',
     ];
 
     protected static $descriptions = [

@@ -42,7 +42,7 @@ class Shipment implements ArrayableInterface
     /**
      * @return BillableInterface
      */
-    public function getShipper (): ?BillableInterface
+    public function getShipper(): ?BillableInterface
     {
         return $this->shipper;
     }
@@ -52,16 +52,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setShipper (?BillableInterface $shipper): Shipment
+    public function setShipper(?BillableInterface $shipper): Shipment
     {
         $this->shipper = $shipper;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getMethod (): ?string
+    public function getMethod(): ?string
     {
         return $this->method;
     }
@@ -71,16 +72,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setMethod (?string $method): Shipment
+    public function setMethod(?string $method): Shipment
     {
         $this->method = $method;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getDescription (): ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -90,16 +92,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setDescription (?string $description): Shipment
+    public function setDescription(?string $description): Shipment
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getShipmentDescription (): ?string
+    public function getShipmentDescription(): ?string
     {
         return $this->shipmentDescription;
     }
@@ -109,17 +112,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setShipmentDescription (?string $shipmentDescription): Shipment
+    public function setShipmentDescription(?string $shipmentDescription): Shipment
     {
         $this->shipmentDescription = $shipmentDescription;
+
         return $this;
     }
-
 
     /**
      * @return int
      */
-    public function getNumberOfPackages (): ?int
+    public function getNumberOfPackages(): ?int
     {
         return $this->numberOfPackages;
     }
@@ -129,16 +132,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setNumberOfPackages (?int $numberOfPackages): Shipment
+    public function setNumberOfPackages(?int $numberOfPackages): Shipment
     {
         $this->numberOfPackages = $numberOfPackages;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getWeightUnit (): ?string
+    public function getWeightUnit(): ?string
     {
         return $this->weightUnit;
     }
@@ -148,16 +152,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setWeightUnit (?string $weightUnit): Shipment
+    public function setWeightUnit(?string $weightUnit): Shipment
     {
         $this->weightUnit = $weightUnit;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getWeight (): ?float
+    public function getWeight(): ?float
     {
         return $this->weight;
     }
@@ -167,16 +172,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setWeight (?float $weight): Shipment
+    public function setWeight(?float $weight): Shipment
     {
         $this->weight = $weight;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getNetWeight (): ?float
+    public function getNetWeight(): ?float
     {
         return $this->netWeight;
     }
@@ -186,21 +192,22 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setNetWeight (?float $netWeight): Shipment
+    public function setNetWeight(?float $netWeight): Shipment
     {
         $this->netWeight = $netWeight;
+
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getPickupDate (): ?DateTime
+    public function getPickupDate(): ?DateTime
     {
         return $this->pickupDate;
     }
 
-    public function setPickupDate ($date, $format = null): self
+    public function setPickupDate($date, $format = null): self
     {
         if ($date === null) {
             return $this;
@@ -208,28 +215,30 @@ class Shipment implements ArrayableInterface
 
         if ($format !== null) {
             $this->pickupDate = DateTime::createFromFormat($format, $date);
+
             return $this;
         }
 
         if ($date instanceof DateTime) {
             $this->pickupDate = $date;
+
             return $this;
         }
 
         $this->pickupDate = new DateTime($date);
+
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getShipmentDate (): ?DateTime
+    public function getShipmentDate(): ?DateTime
     {
         return $this->shipmentDate;
     }
 
-
-    public function setShipmentDate ($date, $format = null): self
+    public function setShipmentDate($date, $format = null): self
     {
         if ($date === null) {
             return $this;
@@ -237,22 +246,25 @@ class Shipment implements ArrayableInterface
 
         if ($format !== null) {
             $this->shipmentDate = DateTime::createFromFormat($format, $date);
+
             return $this;
         }
 
         if ($date instanceof DateTime) {
             $this->shipmentDate = $date;
+
             return $this;
         }
 
         $this->shipmentDate = new DateTime($date);
+
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getDeliveryDate (): ?DateTime
+    public function getDeliveryDate(): ?DateTime
     {
         return $this->deliveryDate;
     }
@@ -262,7 +274,7 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setDeliveryDate ($date, $format = null): self
+    public function setDeliveryDate($date, $format = null): self
     {
         if ($date === null) {
             return $this;
@@ -270,22 +282,25 @@ class Shipment implements ArrayableInterface
 
         if ($format !== null) {
             $this->deliveryDate = DateTime::createFromFormat($format, $date);
+
             return $this;
         }
 
         if ($date instanceof DateTime) {
             $this->deliveryDate = $date;
+
             return $this;
         }
 
         $this->deliveryDate = new DateTime($date);
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getReturnType (): ?string
+    public function getReturnType(): ?string
     {
         return $this->returnType;
     }
@@ -295,16 +310,17 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setReturnType (?string $returnType): Shipment
+    public function setReturnType(?string $returnType): Shipment
     {
         $this->returnType = $returnType;
+
         return $this;
     }
 
     /**
      * @return AddressInterface
      */
-    public function getReturnAddress (): ?AddressInterface
+    public function getReturnAddress(): ?AddressInterface
     {
         return $this->returnAddress;
     }
@@ -314,11 +330,10 @@ class Shipment implements ArrayableInterface
      *
      * @return Shipment
      */
-    public function setReturnAddress (AddressInterface $returnAddress): Shipment
+    public function setReturnAddress(AddressInterface $returnAddress): Shipment
     {
         $this->returnAddress = $returnAddress;
+
         return $this;
     }
-
-
 }

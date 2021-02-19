@@ -2,12 +2,11 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 
 class TransmissionDataParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $transmissionFormat = $this->extractValueFromXml('//FatturaElettronicaHeader/DatiTrasmissione/FormatoTrasmissione');
         if ($transmissionFormat === null) {

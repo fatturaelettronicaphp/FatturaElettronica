@@ -4,7 +4,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Body;
 
 class VehicleParser extends RelatedDocumentParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = $this->extractValueFromXml('DatiVeicoli/Data');
         $this->digitalDocymentInstance->setVehicleRegistrationDate($value);

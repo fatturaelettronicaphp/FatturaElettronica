@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Fund;
 
 class FundParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $funds = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiCassaPrevidenziale', false);
 
@@ -17,10 +17,10 @@ class FundParser extends AbstractBodyParser
         }
     }
 
-    protected function extractFundInformationsFrom ($fund): FundInterface
+    protected function extractFundInformationsFrom($fund): FundInterface
     {
         $fundInstance = new Fund();
-        $value = $this->extractValueFromXmlElement($fund, 'TipoCassa');
+        $value        = $this->extractValueFromXmlElement($fund, 'TipoCassa');
         $fundInstance->setType($value);
 
         $value = $this->extractValueFromXmlElement($fund, 'AlCassa');

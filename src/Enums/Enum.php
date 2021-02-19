@@ -9,7 +9,7 @@ abstract class Enum extends \Spatie\Enum\Enum
     /** @var string */
     public $description;
 
-    public function __construct (string $value = null)
+    public function __construct(string $value = null)
     {
         parent::__construct($value);
 

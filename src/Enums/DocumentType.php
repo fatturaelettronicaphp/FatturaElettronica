@@ -19,12 +19,12 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class DocumentType extends Enum
 {
     protected static $map = [
-        'invoice' => 'TD01',
+        'invoice'        => 'TD01',
         'advanceInvoice' => 'TD02',
-        'advanceBill' => 'TD03',
-        'creditNote' => 'TD04',
-        'debitNote' => 'TD05',
-        'bill' => 'TD06',
+        'advanceBill'    => 'TD03',
+        'creditNote'     => 'TD04',
+        'debitNote'      => 'TD05',
+        'bill'           => 'TD06',
     ];
 
     protected static $descriptions = [

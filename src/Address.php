@@ -17,73 +17,75 @@ class Address implements ArrayableInterface, AddressInterface
     protected $state;
     protected $countryCode;
 
-
-    public function getStreet ()
+    public function getStreet()
     {
         return $this->street;
     }
 
-    public function setStreet ($street): AddressInterface
+    public function setStreet($street): AddressInterface
     {
         $this->street = $street;
+
         return $this;
     }
 
-
-    public function getStreetNumber ()
+    public function getStreetNumber()
     {
         return $this->streetNumber;
     }
 
-    public function setStreetNumber ($streetNumber): AddressInterface
+    public function setStreetNumber($streetNumber): AddressInterface
     {
         $this->streetNumber = $streetNumber;
+
         return $this;
     }
 
-    public function getZip ()
+    public function getZip()
     {
         return $this->zip;
     }
 
-    public function setZip ($zip): AddressInterface
+    public function setZip($zip): AddressInterface
     {
         $this->zip = $zip;
+
         return $this;
     }
 
-
-    public function getCity ()
+    public function getCity()
     {
         return $this->city;
     }
 
-
-    public function setCity ($city): AddressInterface
+    public function setCity($city): AddressInterface
     {
         $this->city = $city;
+
         return $this;
     }
 
-    public function getState ()
+    public function getState()
     {
         return $this->state;
     }
 
-    public function setState ($state): AddressInterface
+    public function setState($state): AddressInterface
     {
         $this->state = $state;
+
         return $this;
     }
 
-    public function getCountryCode ()
+    public function getCountryCode()
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode ($countryCode): AddressInterface
+    public function setCountryCode($countryCode): AddressInterface
     {
         $this->countryCode = $countryCode;
+
         return $this;
     }
 }

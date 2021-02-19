@@ -2,10 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-
 class EmittingSubjectParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $code = $this->extractValueFromXml('//FatturaElettronicaHeader/SoggettoEmittente');
         $this->document->setEmittingSubject($code);

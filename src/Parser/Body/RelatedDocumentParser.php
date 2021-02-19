@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\RelatedDocument;
 
 abstract class RelatedDocumentParser extends AbstractBodyParser
 {
-    protected function extractRelatedDocumentInformationsFrom ($order): RelatedDocumentInterface
+    protected function extractRelatedDocumentInformationsFrom($order): RelatedDocumentInterface
     {
         $instance = new RelatedDocument();
 

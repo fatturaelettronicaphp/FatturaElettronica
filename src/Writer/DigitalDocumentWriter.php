@@ -47,7 +47,6 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this->generate()->xml()->asXML($filePath);
     }
 
-
     public function generate(): DigitalDocumentWriterInterface
     {
         $this
@@ -77,7 +76,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
                 RepresentativeWriter::class,
                 CustomerWriter::class,
                 IntermediaryWriter::class,
-                EmittingSubjectWriter::class
+                EmittingSubjectWriter::class,
             ])
             ->thenReturn();
 
@@ -108,14 +107,16 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
     protected function createXml(): self
     {
-        $this->xml = new SimpleXmlExtended('<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />',
-            LIBXML_NOERROR);
+        $this->xml = new SimpleXmlExtended(
+            '<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />',
+            LIBXML_NOERROR
+        );
 
         $namespaces = [
-            'versione' => (string)$this->document->getTransmissionFormat(),
-            'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
-            'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
-            'xmlns:xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+            'versione'               => (string)$this->document->getTransmissionFormat(),
+            'xmlns:xmlns:ds'         => 'http://www.w3.org/2000/09/xmldsig#',
+            'xmlns:xmlns:p'          => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'xmlns:xmlns:xsi'        => 'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:xsi:schemaLocation' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd',
         ];
 

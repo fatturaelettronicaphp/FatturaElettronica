@@ -2,15 +2,14 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 
 class AttachmentWriter extends AbstractBodyWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
-        if (!$this->body->hasAttachments()) {
+        if (! $this->body->hasAttachments()) {
             return $this->xml;
         }
 
@@ -18,11 +17,11 @@ class AttachmentWriter extends AbstractBodyWriter
 
         /** @var AttachmentInterface $attachment */
         foreach ($this->body->getAttachments() as $attachment) {
-            if (!$attachment->getName()) {
+            if (! $attachment->getName()) {
                 throw new InvalidDocument('<NomeAttachment> is required');
             }
 
-            if (!$attachment->getFileData()) {
+            if (! $attachment->getFileData()) {
                 throw new InvalidDocument('<Attachment> is required');
             }
 
@@ -43,5 +42,4 @@ class AttachmentWriter extends AbstractBodyWriter
             $xml->addChild('Attachment', base64_encode($attachment->getFileData()));
         }
     }
-
 }

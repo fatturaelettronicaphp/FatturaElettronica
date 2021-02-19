@@ -12,10 +12,10 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
  */
 class VatEligibility extends Enum
 {
-    protected static  $map = [
+    protected static $map = [
         'immediately' => 'I',
-        'deferred' => 'D',
-        'split' => 'S',
+        'deferred'    => 'D',
+        'split'       => 'S',
     ];
 
     protected static $descriptions = [

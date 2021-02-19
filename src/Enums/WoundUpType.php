@@ -11,12 +11,12 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class WoundUpType extends Enum
 {
     protected static $map = [
-        'normal' => 'LN',
-        'woundUp' => 'LS'
+        'normal'  => 'LN',
+        'woundUp' => 'LS',
     ];
 
     protected static $descriptions = [
         'LN' => 'Non in Liquidazione',
-        'LS' => 'In Liquidazione'
+        'LS' => 'In Liquidazione',
     ];
 }

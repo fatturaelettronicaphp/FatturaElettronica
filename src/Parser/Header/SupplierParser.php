@@ -2,15 +2,13 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 
 class SupplierParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
-
         $supplier = new Supplier();
 
         $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Nome');

@@ -7,5 +7,4 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class Intermediary extends BillablePerson implements ArrayableInterface, IntermediaryInterface
 {
-
 }
