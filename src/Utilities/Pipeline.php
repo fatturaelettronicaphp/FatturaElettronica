@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
-
 
 use Closure;
 
@@ -19,49 +17,53 @@ class Pipeline
 
     protected $method = 'handle';
 
-    public function send ($object): self
+    public function send($object): self
     {
         $this->object = $object;
+
         return $this;
     }
 
-    public function through ($pipes): self
+    public function through($pipes): self
     {
         $this->pipes = $pipes;
+
         return $this;
     }
 
-    public function with ($dependency): self
+    public function with($dependency): self
     {
         $this->dependency = $dependency;
+
         return $this;
     }
 
-    public function then (Closure $destination)
+    public function then(Closure $destination)
     {
         $this->carry();
+
         return $destination($this->object);
     }
 
-    public function thenReturn ()
+    public function thenReturn()
     {
         return $this->then(function ($passable) {
             return $passable;
         });
     }
 
-    public function usingMethod (string $method): self
+    public function usingMethod(string $method): self
     {
         $this->method = $method;
+
         return $this;
     }
 
-    protected function carry ()
+    protected function carry()
     {
         foreach ($this->pipes as $pipe) {
-            $handler = new $pipe($this->object);
+            $handler      = new $pipe($this->object);
             $this->object = $handler->{$this->method}($this->dependency);
         }
-
     }
 }

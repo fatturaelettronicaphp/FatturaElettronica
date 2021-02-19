@@ -1,6 +1,5 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
 
 interface ArrayableInterface

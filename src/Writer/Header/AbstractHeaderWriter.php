@@ -11,7 +11,7 @@ abstract class AbstractHeaderWriter extends AbstractWriter
     /** @var DigitalDocumentInterface */
     protected $document;
 
-    public function write ($document): SimpleXMLElement
+    public function write($document): SimpleXMLElement
     {
         $this->document = $document;
 
@@ -35,15 +35,15 @@ abstract class AbstractHeaderWriter extends AbstractWriter
      *  - IdCodice = partita iva se indicata, altrimenti codice fiscale
      *  - CodiceFiscale = vuoto
      */
-    protected function calculateFiscalData ($idPaese, $codiceFiscale, $idCodice = '')
+    protected function calculateFiscalData($idPaese, $codiceFiscale, $idCodice = '')
     {
         if ($idPaese !== null && $idPaese !== 'IT') {
-            $idCodice = !empty($idCodice) ? $idCodice : $codiceFiscale;
+            $idCodice      = ! empty($idCodice) ? $idCodice : $codiceFiscale;
             $codiceFiscale = '';
         }
 
         return [
-            'idCodice' => $idCodice,
+            'idCodice'      => $idCodice,
             'codiceFiscale' => $codiceFiscale,
         ];
     }

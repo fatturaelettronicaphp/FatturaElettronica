@@ -27,7 +27,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class TaxRegime extends Enum
 {
     protected static $map = [
-        'default' => 'RF01'
+        'default' => 'RF01',
     ];
 
     protected static $descriptions = [

@@ -14,7 +14,7 @@ use SimpleXMLElement;
 
 class GeneralDataWriter extends AbstractBodyWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         $generalData = $this->xml->addChild('DatiGenerali');
 
@@ -66,7 +66,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         return $this;
     }
 
-    protected function addGeneralData (SimpleXMLElement $generalData)
+    protected function addGeneralData(SimpleXMLElement $generalData)
     {
         $documentGeneralData = $generalData->addChild('DatiGeneraliDocumento');
         $documentGeneralData->addChild('TipoDocumento', (string)$this->body->getDocumentType());
@@ -100,7 +100,7 @@ class GeneralDataWriter extends AbstractBodyWriter
             $documentGeneralData->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($value));
         }
 
-        if (!empty($this->body->getDescriptions())) {
+        if (! empty($this->body->getDescriptions())) {
             foreach ($this->body->getDescriptions() as $description) {
                 $documentGeneralData->addChild('Causale', SimpleXmlExtended::sanitizeText($description));
             }
@@ -114,7 +114,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     /**
      * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addDeductionData (SimpleXMLElement $documentGeneralData): void
+    protected function addDeductionData(SimpleXMLElement $documentGeneralData): void
     {
         $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
         $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
@@ -126,7 +126,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     /**
      * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addVirtualDutyData (SimpleXMLElement $documentGeneralData): void
+    protected function addVirtualDutyData(SimpleXMLElement $documentGeneralData): void
     {
         $datiBollo = $documentGeneralData->addChild('DatiBollo');
         $datiBollo->addChild('BolloVirtuale', 'SI');
@@ -137,7 +137,7 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $documentGeneralData
      * @param Fund $documentCassa
      */
-    protected function addFundData (SimpleXMLElement $documentGeneralData, Fund $documentCassa): void
+    protected function addFundData(SimpleXMLElement $documentGeneralData, Fund $documentCassa): void
     {
         $datiCassa = $documentGeneralData->addChild('DatiCassaPrevidenziale');
         $datiCassa->addChild('TipoCassa', $documentCassa->getType());
@@ -159,7 +159,7 @@ class GeneralDataWriter extends AbstractBodyWriter
             $datiCassa->addChild('Natura', $documentCassa->getVatNature());
         }
 
-        if (!empty($documentCassa->getRepresentative())) {
+        if (! empty($documentCassa->getRepresentative())) {
             $datiCassa->addChild('RiferimentoAmministrazione', SimpleXmlExtended::sanitizeText($documentCassa->getRepresentative()));
         }
     }
@@ -168,7 +168,7 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $documentGeneralData
      * @param DiscountInterface $documentDiscount
      */
-    protected function addDiscountData (SimpleXMLElement $documentGeneralData, DiscountInterface $documentDiscount): void
+    protected function addDiscountData(SimpleXMLElement $documentGeneralData, DiscountInterface $documentDiscount): void
     {
         $datiScontoMaggiorazione = $documentGeneralData->addChild('ScontoMaggiorazione');
         $datiScontoMaggiorazione->addChild('Tipo', $documentDiscount->getType());
@@ -188,7 +188,7 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $generalData
      * @param ShippingLabel $documentDdt
      */
-    protected function addShippingLabelsData (SimpleXMLElement $generalData, ShippingLabel $documentDdt): void
+    protected function addShippingLabelsData(SimpleXMLElement $generalData, ShippingLabel $documentDdt): void
     {
         $ddtData = $generalData->addChild('DatiDDT');
         $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
@@ -209,11 +209,11 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $shipmentData
      * @param BillableInterface|null $documentPerson
      */
-    protected function addShipperInfo (SimpleXMLElement $shipmentData, ?BillableInterface $documentPerson): void
+    protected function addShipperInfo(SimpleXMLElement $shipmentData, ?BillableInterface $documentPerson): void
     {
         $datiAnagrafici = $shipmentData->addChild('DatiAnagraficiVettore');
 
-        $idPaese = $documentPerson->getCountryCode();
+        $idPaese   = $documentPerson->getCountryCode();
         $vatNumber = $documentPerson->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, null, $vatNumber);
@@ -222,21 +222,22 @@ class GeneralDataWriter extends AbstractBodyWriter
         $idFiscaleIva->addChild('IdPaese', $idPaese);
         $idFiscaleIva->addChild('IdCodice', $fiscalData['idCodice']);
 
-        if (!empty($fiscalData['codiceFiscale'])) {
+        if (! empty($fiscalData['codiceFiscale'])) {
             $datiAnagrafici->addChild('CodiceFiscale', SimpleXmlExtended::sanitizeText($fiscalData['codiceFiscale']));
         }
 
         $anagrafica = $datiAnagrafici->addChild('Anagrafica');
-        if (!empty($documentPerson->getOrganization())) {
+        if (! empty($documentPerson->getOrganization())) {
             $anagrafica->addChild('Denominazione', SimpleXmlExtended::sanitizeText($documentPerson->getOrganization()));
+
             return;
         }
 
-        if (!empty($documentPerson->getName())) {
+        if (! empty($documentPerson->getName())) {
             $anagrafica->addChild('Nome', SimpleXmlExtended::sanitizeText($documentPerson->getName()));
         }
 
-        if (!empty($documentPerson->getSurname())) {
+        if (! empty($documentPerson->getSurname())) {
             $anagrafica->addChild('Cognome', SimpleXmlExtended::sanitizeText($documentPerson->getSurname()));
         }
     }
@@ -245,7 +246,7 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $shipmentData
      * @param AddressInterface|null $address
      */
-    protected function addShipmentAddress (SimpleXMLElement $shipmentData, ?AddressInterface $address): void
+    protected function addShipmentAddress(SimpleXMLElement $shipmentData, ?AddressInterface $address): void
     {
         $addressData = $shipmentData->addChild('IndirizzoResa');
         if ($address->getStreet() === null) {
@@ -284,7 +285,7 @@ class GeneralDataWriter extends AbstractBodyWriter
      * @param SimpleXMLElement $generalData
      * @param Shipment|null $shipment
      */
-    protected function addShipment (SimpleXMLElement $generalData, ?Shipment $shipment): void
+    protected function addShipment(SimpleXMLElement $generalData, ?Shipment $shipment): void
     {
         $shipmentData = $generalData->addChild('DatiTrasporto');
 
@@ -358,7 +359,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     /**
      * @param SimpleXMLElement $generalData
      */
-    protected function addMainInvoice (SimpleXMLElement $generalData): void
+    protected function addMainInvoice(SimpleXMLElement $generalData): void
     {
         if ($this->body->getMainInvoiceDate() !== null || $this->body->getMainInvoiceNumber() !== null) {
             $mainInvoiceData = $generalData->addChild('FatturaPrincipale');
@@ -374,5 +375,4 @@ class GeneralDataWriter extends AbstractBodyWriter
             }
         }
     }
-
 }

@@ -6,7 +6,7 @@ use SimpleXMLElement;
 
 interface DigitalDocumentParserInterface
 {
-    public function parse ();
+    public function parse();
 
-    public function xml (): SimpleXMLElement;
+    public function xml(): SimpleXMLElement;
 }

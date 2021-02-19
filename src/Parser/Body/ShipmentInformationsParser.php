@@ -7,7 +7,7 @@ use SimpleXMLElement;
 
 class ShipmentInformationsParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = $this->extractValueFromXml('DatiGenerali/DatiTrasporto', false);
         if ($value !== null && count($value) > 0) {
@@ -15,13 +15,13 @@ class ShipmentInformationsParser extends AbstractBodyParser
 
             $instance = $this->extractShipmentInformationsFrom($value);
 
-            if ($instance !== null ) {
+            if ($instance !== null) {
                 $this->digitalDocymentInstance->setShipment($instance);
             }
         }
     }
 
-    protected function extractShipmentInformationsFrom (SimpleXMLElement $xml): ?Shipment
+    protected function extractShipmentInformationsFrom(SimpleXMLElement $xml): ?Shipment
     {
         if ($xml === null) {
             return null;

@@ -6,7 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
 
 class IntermediaryParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/TerzoIntermediarioOSoggettoEmittente', false);
         if ($value === null) {

@@ -13,51 +13,50 @@ use FatturaElettronicaPhp\FatturaElettronica\Product;
 
 class LinesParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $rows = (array) $this->extractValueFromXml('DatiBeniServizi/DettaglioLinee', false);
         foreach ($rows as $row) {
             $line = $this->extractProductInformationsFrom($row);
             $this->digitalDocymentInstance->addLine($line);
         }
-
     }
 
-    protected function extractProductInformationsFrom ($xml): LineInterface
+    protected function extractProductInformationsFrom($xml): LineInterface
     {
         $instance = new Line();
-        $value = $this->extractValueFromXmlElement($xml, 'NumeroLinea');
-        $instance->setNumber( (int) $value);
+        $value    = $this->extractValueFromXmlElement($xml, 'NumeroLinea');
+        $instance->setNumber((int) $value);
 
         $value = $this->extractValueFromXmlElement($xml, 'TipoCessionePrestazione');
-        $instance->setTipoCessazionePrestazione( $value);
+        $instance->setTipoCessazionePrestazione($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Descrizione');
-        $instance->setDescription( $value);
+        $instance->setDescription($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Quantita');
         $instance->setQuantity((float) $value);
 
         $value = $this->extractValueFromXmlElement($xml, 'UnitaMisura');
-        $instance->setUnit( $value);
+        $instance->setUnit($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'DataInizioPeriodo');
-        $instance->setStartDate( $value);
+        $instance->setStartDate($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'DataFinePeriodo');
-        $instance->setEndDate( $value);
+        $instance->setEndDate($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'PrezzoUnitario');
-        $instance->setUnitPrice( $value);
+        $instance->setUnitPrice($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'PrezzoTotale');
-        $instance->setTotal( $value);
+        $instance->setTotal($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'AliquotaIVA');
-        $instance->setTaxPercentage( $value);
+        $instance->setTaxPercentage($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Natura');
-        $instance->setVatNature( $value);
+        $instance->setVatNature($value);
 
         $products = (array) $this->extractValueFromXmlElement($xml, 'CodiceArticolo', false);
         foreach ($products as $product) {
@@ -80,7 +79,7 @@ class LinesParser extends AbstractBodyParser
         return $instance;
     }
 
-    protected function extractProductCodeInformationsFrom ($xml): ProductInterface
+    protected function extractProductCodeInformationsFrom($xml): ProductInterface
     {
         $instance = new Product();
 
@@ -93,7 +92,7 @@ class LinesParser extends AbstractBodyParser
         return $instance;
     }
 
-    protected function extractDiscountInformationsFrom ($xml): DiscountInterface
+    protected function extractDiscountInformationsFrom($xml): DiscountInterface
     {
         $instance = new Discount();
 
@@ -109,7 +108,7 @@ class LinesParser extends AbstractBodyParser
         return $instance;
     }
 
-    protected function extractOtherDataFrom ($xml): OtherDataInterface
+    protected function extractOtherDataFrom($xml): OtherDataInterface
     {
         $instance = new OtherData();
 
@@ -120,7 +119,7 @@ class LinesParser extends AbstractBodyParser
         $instance->setText($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'RiferimentoNumero');
-        $instance->setNumber( $value);
+        $instance->setNumber($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'RiferimentoData');
         $instance->setDate($value);

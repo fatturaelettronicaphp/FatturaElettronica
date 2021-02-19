@@ -99,169 +99,182 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->validate()->isValid();
     }
 
-    public function getEmittingSubject ()
+    public function getEmittingSubject()
     {
         return $this->emittingSubject;
     }
 
-    public function setEmittingSubject ($emittingSubject): self
+    public function setEmittingSubject($emittingSubject): self
     {
         if ($emittingSubject === null) {
             return $this;
         }
 
-        if (!$emittingSubject instanceof EmittingSubject) {
+        if (! $emittingSubject instanceof EmittingSubject) {
             $emittingSubject = EmittingSubject::from($emittingSubject);
         }
 
         $this->emittingSubject = $emittingSubject;
+
         return $this;
     }
 
-    public function getRepresentative (): ?BillablePersonInterface
+    public function getRepresentative(): ?BillablePersonInterface
     {
         return $this->representative;
     }
 
-    public function setRepresentative (?BillablePersonInterface $representative): self
+    public function setRepresentative(?BillablePersonInterface $representative): self
     {
         $this->representative = $representative;
+
         return $this;
     }
 
-    public function getIntermediary (): ?IntermediaryInterface
+    public function getIntermediary(): ?IntermediaryInterface
     {
         return $this->intermediary;
     }
 
-    public function setIntermediary (?IntermediaryInterface $intermediary): self
+    public function setIntermediary(?IntermediaryInterface $intermediary): self
     {
         $this->intermediary = $intermediary;
+
         return $this;
     }
 
-    public function addDigitalDocumentInstance (DigitalDocumentInstanceInterface $instance): self
+    public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance): self
     {
         $this->documentInstances[] = $instance;
+
         return $this;
     }
 
-    public function getDocumentInstances (): array
+    public function getDocumentInstances(): array
     {
         return $this->documentInstances;
     }
 
-    public function getCountryCode ()
+    public function getCountryCode()
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode ($countryCode): self
+    public function setCountryCode($countryCode): self
     {
         $this->countryCode = $countryCode;
+
         return $this;
     }
 
-    public function getCustomerSdiCode ()
+    public function getCustomerSdiCode()
     {
         return $this->customerSdiCode;
     }
 
-    public function setCustomerSdiCode ($customerSdiCode): self
+    public function setCustomerSdiCode($customerSdiCode): self
     {
         $this->customerSdiCode = $customerSdiCode;
+
         return $this;
     }
 
-    public function getSenderVatId ()
+    public function getSenderVatId()
     {
         return $this->senderVatId;
     }
 
-    public function setSenderVatId ($senderVatId): self
+    public function setSenderVatId($senderVatId): self
     {
         $this->senderVatId = $senderVatId;
+
         return $this;
     }
 
-    public function getSendingId ()
+    public function getSendingId()
     {
         return $this->sendingId;
     }
 
-    public function setSendingId ($sendingId): self
+    public function setSendingId($sendingId): self
     {
         $this->sendingId = $sendingId;
+
         return $this;
     }
 
-    public function getSenderPhone ()
+    public function getSenderPhone()
     {
         return $this->senderPhone;
     }
 
-    public function setSenderPhone ($senderPhone): self
+    public function setSenderPhone($senderPhone): self
     {
         $this->senderPhone = $senderPhone;
+
         return $this;
     }
 
-    public function getSenderEmail ()
+    public function getSenderEmail()
     {
         return $this->senderEmail;
     }
 
-    public function setSenderEmail ($senderEmail): self
+    public function setSenderEmail($senderEmail): self
     {
         $this->senderEmail = $senderEmail;
+
         return $this;
     }
 
-    public function getCustomerPec ()
+    public function getCustomerPec()
     {
         return $this->customerPec;
     }
 
-    public function setCustomerPec ($customerPec): self
+    public function setCustomerPec($customerPec): self
     {
         $this->customerPec = $customerPec;
+
         return $this;
     }
 
-    public function getCustomer (): ?CustomerInterface
+    public function getCustomer(): ?CustomerInterface
     {
         return $this->customer;
     }
 
-    public function setCustomer (CustomerInterface $customer): self
+    public function setCustomer(CustomerInterface $customer): self
     {
         $this->customer = $customer;
+
         return $this;
     }
 
-    public function getSupplier (): ?SupplierInterface
+    public function getSupplier(): ?SupplierInterface
     {
         return $this->supplier;
     }
 
-    public function setSupplier (SupplierInterface $supplier): self
+    public function setSupplier(SupplierInterface $supplier): self
     {
         $this->supplier = $supplier;
+
         return $this;
     }
 
-    public function getTransmissionFormat (): ?TransmissionFormat
+    public function getTransmissionFormat(): ?TransmissionFormat
     {
         return $this->transmissionFormat;
     }
 
-    public function setTransmissionFormat ($transmissionFormat): self
+    public function setTransmissionFormat($transmissionFormat): self
     {
         if ($transmissionFormat === null) {
             return $this;
         }
 
-        if (!$transmissionFormat instanceof TransmissionFormat) {
+        if (! $transmissionFormat instanceof TransmissionFormat) {
             $transmissionFormat = TransmissionFormat::from($transmissionFormat);
         }
 

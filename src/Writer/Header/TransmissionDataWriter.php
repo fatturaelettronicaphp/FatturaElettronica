@@ -7,10 +7,10 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class TransmissionDataWriter extends AbstractHeaderWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         $datiTrasmissione = $this->xml->addChild('DatiTrasmissione');
-        $idTrasmittente = $datiTrasmissione->addChild('IdTrasmittente');
+        $idTrasmittente   = $datiTrasmissione->addChild('IdTrasmittente');
 
         $idTrasmittente->addChild('IdPaese', $this->document->getCountryCode());
         $idTrasmittente->addChild('IdCodice', $this->document->getSenderVatId());
@@ -52,5 +52,4 @@ class TransmissionDataWriter extends AbstractHeaderWriter
 
         return $this;
     }
-
 }

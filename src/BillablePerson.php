@@ -21,58 +21,63 @@ class BillablePerson extends Billable implements BillablePersonInterface, Arraya
     /** @var AddressInterface */
     protected $foreignFixedAddress;
 
-    public function getAddress (): ?AddressInterface
+    public function getAddress(): ?AddressInterface
     {
         return $this->address;
     }
 
-    public function setAddress (AddressInterface $address): self
+    public function setAddress(AddressInterface $address): self
     {
         $this->address = $address;
+
         return $this;
     }
 
-    public function getForeignFixedAddress (): ?AddressInterface
+    public function getForeignFixedAddress(): ?AddressInterface
     {
         return $this->foreignFixedAddress;
     }
 
-    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress): self
+    public function setForeignFixedAddress(AddressInterface $foreignFixedAddress): self
     {
         $this->foreignFixedAddress = $foreignFixedAddress;
+
         return $this;
     }
 
-    public function getTitle ()
+    public function getTitle()
     {
         return $this->title;
     }
 
-    public function setTitle ($title): self
+    public function setTitle($title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
-    public function getEori ()
+    public function getEori()
     {
         return $this->eori;
     }
 
-    public function setEori ($eori): self
+    public function setEori($eori): self
     {
         $this->eori = $eori;
+
         return $this;
     }
 
-    public function getFiscalCode ()
+    public function getFiscalCode()
     {
         return $this->fiscalCode;
     }
 
-    public function setFiscalCode ($fiscalCode): self
+    public function setFiscalCode($fiscalCode): self
     {
         $this->fiscalCode = $fiscalCode;
+
         return $this;
     }
 }

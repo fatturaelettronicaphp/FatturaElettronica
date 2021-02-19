@@ -6,7 +6,7 @@ use SimpleXMLElement;
 
 interface DigitalDocumentWriterInterface
 {
-    public function xml (): SimpleXMLElement;
+    public function xml(): SimpleXMLElement;
 
     public function generate(): DigitalDocumentWriterInterface;
 

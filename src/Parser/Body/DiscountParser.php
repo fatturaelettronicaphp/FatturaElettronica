@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Discount;
 
 class DiscountParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $discounts = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/ScontoMaggiorazione', false);
         foreach ($discounts as $discount) {
@@ -16,7 +16,7 @@ class DiscountParser extends AbstractBodyParser
         }
     }
 
-    protected function extractDiscountInformationsFrom ($discount): DiscountInterface
+    protected function extractDiscountInformationsFrom($discount): DiscountInterface
     {
         $discountInstance = new Discount();
 

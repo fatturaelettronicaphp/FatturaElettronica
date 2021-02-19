@@ -22,17 +22,17 @@ abstract class AbstractBodyParser
     /** @var DigitalDocumentInstanceInterface */
     protected $digitalDocymentInstance;
 
-    public function __construct (DigitalDocumentInstanceInterface $digitalDocumentInstance)
+    public function __construct(DigitalDocumentInstanceInterface $digitalDocumentInstance)
     {
         $this->digitalDocymentInstance = $digitalDocumentInstance;
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
         return $this->xml;
     }
 
-    public function parse (SimpleXMLElement $xml): DigitalDocumentInstanceInterface
+    public function parse(SimpleXMLElement $xml): DigitalDocumentInstanceInterface
     {
         $this->xml = $xml;
 
@@ -43,29 +43,29 @@ abstract class AbstractBodyParser
 
     abstract protected function performParsing();
 
-    protected function extractBillableInformationsFrom (SimpleXMLElement $xml): BillableInterface
+    protected function extractBillableInformationsFrom(SimpleXMLElement $xml): BillableInterface
     {
         $billable = new BillablePerson();
 
         $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
         $billable->setTitle($title);
 
-        $customerName = $this->extractValueFromXmlElement($xml,'Anagrafica/Nome');
+        $customerName = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
         $billable->setName($customerName);
 
-        $customerSurname = $this->extractValueFromXmlElement($xml,'Anagrafica/Cognome');
+        $customerSurname = $this->extractValueFromXmlElement($xml, 'Anagrafica/Cognome');
         $billable->setSurname($customerSurname);
 
-        $customerOrganization = $this->extractValueFromXmlElement($xml,'Anagrafica/Denominazione');
+        $customerOrganization = $this->extractValueFromXmlElement($xml, 'Anagrafica/Denominazione');
         $billable->setOrganization($customerOrganization);
 
-        $customerFiscalCode = $this->extractValueFromXmlElement($xml,'CodiceFiscale');
+        $customerFiscalCode = $this->extractValueFromXmlElement($xml, 'CodiceFiscale');
         $billable->setFiscalCode($customerFiscalCode);
 
-        $value = $this->extractValueFromXmlElement($xml,'IdFiscaleIVA/IdPaese');
+        $value = $this->extractValueFromXmlElement($xml, 'IdFiscaleIVA/IdPaese');
         $billable->setCountryCode($value);
 
-        $customerVatNumber = $this->extractValueFromXmlElement($xml,'IdFiscaleIVA/IdCodice');
+        $customerVatNumber = $this->extractValueFromXmlElement($xml, 'IdFiscaleIVA/IdCodice');
         if ($customerVatNumber === null) {
             $customerVatNumber = '';
         }
@@ -74,7 +74,7 @@ abstract class AbstractBodyParser
         return $billable;
     }
 
-    protected function extractAddressInformationFrom (SimpleXMLElement $xml): AddressInterface
+    protected function extractAddressInformationFrom(SimpleXMLElement $xml): AddressInterface
     {
         $address = new Address();
 
@@ -98,5 +98,4 @@ abstract class AbstractBodyParser
 
         return $address;
     }
-
 }

@@ -7,5 +7,4 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
 class Representative extends Billable implements ArrayableInterface, RepresentativeInterface
 {
-
 }

@@ -12,7 +12,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class AssociateType extends Enum
 {
     protected static $map = [
-        'single' => 'SU',
+        'single'   => 'SU',
         'multiple' => 'SM',
     ];
 

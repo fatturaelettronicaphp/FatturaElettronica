@@ -14,8 +14,8 @@ class PaymentTerm extends Enum
 {
     protected static $map = [
         'installment' => 'TP01',
-        'full' => 'TP02',
-        'advanced' => 'TP03'
+        'full'        => 'TP02',
+        'advanced'    => 'TP03',
     ];
 
     protected static $descriptions = [

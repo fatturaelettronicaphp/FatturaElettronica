@@ -6,7 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 
 class ShippingLabelsParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiDDT', false);
         foreach ($value as $v) {
@@ -15,7 +15,7 @@ class ShippingLabelsParser extends AbstractBodyParser
         }
     }
 
-    protected function extractShippingLabelInformationsFrom ($order): ShippingLabel
+    protected function extractShippingLabelInformationsFrom($order): ShippingLabel
     {
         $instance = new ShippingLabel();
 

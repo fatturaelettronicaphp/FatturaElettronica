@@ -21,12 +21,12 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
     /** @var SimpleXMLElement */
     protected $xml;
 
-    public function __construct (SimpleXMLElement $xml)
+    public function __construct(SimpleXMLElement $xml)
     {
         $this->xml = $xml;
     }
 
-    public function parse (DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
+    public function parse(DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
     {
         if ($digitalDocument === null) {
             $digitalDocument = new DigitalDocument();
@@ -49,8 +49,8 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
             ->thenReturn();
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
-            return $this->xml;
+        return $this->xml;
     }
 }

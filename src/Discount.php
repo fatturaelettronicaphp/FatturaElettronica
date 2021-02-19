@@ -20,44 +20,47 @@ class Discount implements ArrayableInterface, DiscountInterface
     /** @var float */
     protected $amount;
 
-    public function getType (): ?DiscountType
+    public function getType(): ?DiscountType
     {
         return $this->type;
     }
 
-    public function setType ($type): DiscountInterface
+    public function setType($type): DiscountInterface
     {
         if ($type === null) {
             return $this;
         }
 
-        if (!$type instanceof DiscountType) {
+        if (! $type instanceof DiscountType) {
             $type = DiscountType::from($type);
         }
 
         $this->type = $type;
+
         return $this;
     }
 
-    public function getPercentage (): ?float
+    public function getPercentage(): ?float
     {
         return $this->percentage;
     }
 
-    public function setPercentage (?float $percentage): DiscountInterface
+    public function setPercentage(?float $percentage): DiscountInterface
     {
         $this->percentage = $percentage;
+
         return $this;
     }
 
-    public function getAmount (): ?float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
-    public function setAmount (?float $amount): DiscountInterface
+    public function setAmount(?float $amount): DiscountInterface
     {
         $this->amount = $amount;
+
         return $this;
     }
 }

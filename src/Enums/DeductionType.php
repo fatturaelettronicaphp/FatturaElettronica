@@ -11,8 +11,8 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class DeductionType extends Enum
 {
     protected static $map = [
-        'person' => 'RT01',
-        'company' => 'RT02'
+        'person'  => 'RT01',
+        'company' => 'RT02',
     ];
 
     protected static $descriptions = [

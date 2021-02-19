@@ -2,7 +2,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-
 /**
  * @method static self empty()
  * @method static self foreign()
@@ -10,7 +9,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class RecipientCode extends Enum
 {
     public static $map = [
-        'empty' => '0000000',
-        'foreign' => 'XXXXXXX'
+        'empty'   => '0000000',
+        'foreign' => 'XXXXXXX',
     ];
 }

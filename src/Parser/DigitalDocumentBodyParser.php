@@ -38,18 +38,18 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
     /** @var DigitalDocumentInstanceInterface */
     protected $digitalDocymentInstance;
 
-    public function __construct (SimpleXMLElement $xml)
+    public function __construct(SimpleXMLElement $xml)
     {
-        $this->xml = $xml;
+        $this->xml                     = $xml;
         $this->digitalDocymentInstance = new DigitalDocumentInstance();
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
         return $this->xml;
     }
 
-    public function parse (): DigitalDocumentInstanceInterface
+    public function parse(): DigitalDocumentInstanceInterface
     {
         $parserPipeline = new Pipeline();
 
@@ -75,7 +75,7 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 SummaryParser::class,
                 VehicleParser::class,
                 PaymentInfoParser::class,
-                AttachmentParser::class
+                AttachmentParser::class,
             ])
             ->thenReturn();
     }

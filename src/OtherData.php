@@ -23,7 +23,7 @@ class OtherData implements ArrayableInterface, OtherDataInterface
     /**
      * @return string
      */
-    public function getType (): ?string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -33,16 +33,17 @@ class OtherData implements ArrayableInterface, OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setType (?string $type): OtherDataInterface
+    public function setType(?string $type): OtherDataInterface
     {
         $this->type = $type;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getText (): ?string
+    public function getText(): ?string
     {
         return $this->text;
     }
@@ -52,16 +53,17 @@ class OtherData implements ArrayableInterface, OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setText (?string $text): OtherDataInterface
+    public function setText(?string $text): OtherDataInterface
     {
         $this->text = $text;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getNumber (): ?float
+    public function getNumber(): ?float
     {
         return $this->number;
     }
@@ -71,16 +73,17 @@ class OtherData implements ArrayableInterface, OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setNumber (?float $number): OtherDataInterface
+    public function setNumber(?float $number): OtherDataInterface
     {
         $this->number = $number;
+
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getDate (): ?DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
@@ -90,7 +93,7 @@ class OtherData implements ArrayableInterface, OtherDataInterface
      *
      * @return OtherDataInterface
      */
-    public function setDate ($date, $format = null): OtherDataInterface
+    public function setDate($date, $format = null): OtherDataInterface
     {
         if ($date === null) {
             return $this;
@@ -98,17 +101,18 @@ class OtherData implements ArrayableInterface, OtherDataInterface
 
         if ($format !== null) {
             $this->date = DateTime::createFromFormat($format, $date);
+
             return $this;
         }
 
         if ($date instanceof DateTime) {
             $this->date = $date;
+
             return $this;
         }
 
         $this->date = new DateTime($date);
+
         return $this;
     }
-
-
 }

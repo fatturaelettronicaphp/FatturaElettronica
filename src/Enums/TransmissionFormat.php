@@ -13,12 +13,12 @@ class TransmissionFormat extends Enum
     protected static $map = [
         'FPA12' => 'FPA12',
         'FPR12' => 'FPR12',
-        'b2b' => 'FPR12',
-        'pa' => 'FPA12',
+        'b2b'   => 'FPR12',
+        'pa'    => 'FPA12',
     ];
 
     protected static $descriptions = [
         'FPA12' => 'Pubblica Amministrazione (P.A.)',
-        'FPR12' => 'Privati (B2B / B2C)'
+        'FPR12' => 'Privati (B2B / B2C)',
     ];
 }

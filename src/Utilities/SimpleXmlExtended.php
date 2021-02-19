@@ -13,10 +13,10 @@ class SimpleXmlExtended extends SimpleXMLElement
      *
      * @return $this
      */
-    public function addCData ($text)
+    public function addCData($text)
     {
         $node = dom_import_simplexml($this);
-        $no = $node->ownerDocument;
+        $no   = $node->ownerDocument;
         $node->appendChild($no->createCDATASection($text));
 
         return $this;
@@ -30,7 +30,7 @@ class SimpleXmlExtended extends SimpleXMLElement
      *
      * @return string
      */
-    public static function sanitizeText ($text)
+    public static function sanitizeText($text)
     {
         /* Tolgo i caratteri HTML perchè sto scrivendo dentro un XML */
         $text = htmlspecialchars($text);

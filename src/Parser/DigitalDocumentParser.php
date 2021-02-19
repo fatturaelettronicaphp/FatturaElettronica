@@ -56,17 +56,18 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
      * @param string $filePath
      * @param string $extension
      */
-    public function __construct ($filePath, $extension = '')
+    public function __construct($filePath, $extension = '')
     {
         if (is_object($filePath) && $filePath instanceof SimpleXMLElement) {
             $this->createFromXml($filePath);
+
             return;
         }
 
         $this->createFromFile($filePath, $extension);
     }
 
-    public function parse (DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
+    public function parse(DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
     {
         if ($digitalDocument === null) {
             $digitalDocument = new DigitalDocument();
@@ -74,11 +75,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser = new DigitalDocumentBodyParser($body);
+            $bodyParser   = new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
@@ -86,27 +87,27 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $digitalDocument;
     }
 
-    public function xml (): SimpleXMLElement
+    public function xml(): SimpleXMLElement
     {
         return $this->xml;
     }
 
-    public function originalFilename ()
+    public function originalFilename()
     {
         return $this->fileName;
     }
 
-    public function xmlFilePath ()
+    public function xmlFilePath()
     {
         return $this->xmlFilePath;
     }
 
-    public function p7mFilePath ()
+    public function p7mFilePath()
     {
         return $this->p7mFilePath;
     }
 
-    protected function extractP7m (): void
+    protected function extractP7m(): void
     {
         try {
             $this->xmlFilePath = $this->extractP7mToXml($this->p7mFilePath);
@@ -118,15 +119,15 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    protected function extractP7mToXml ($p7mFilePath): string
+    protected function extractP7mToXml($p7mFilePath): string
     {
-        if (!file_exists($p7mFilePath)) {
+        if (! file_exists($p7mFilePath)) {
             throw new InvalidP7MFile('File does not exist: ' .  $p7mFilePath);
         }
 
         $xmlPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml';
 
-        $output = [];
+        $output   = [];
         $exitCode = 0;
         exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
 
@@ -137,13 +138,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $xmlPath;
     }
 
-
-    protected function extractFileNameAndType ($filePath, $extension): void
+    protected function extractFileNameAndType($filePath, $extension): void
     {
         // Split extension and file name
-        $extension = strtolower($extension);
-        $fileName = pathinfo($filePath, PATHINFO_BASENAME);
-        $fileNameParts = explode(".", $fileName);
+        $extension      = strtolower($extension);
+        $fileName       = pathinfo($filePath, PATHINFO_BASENAME);
+        $fileNameParts  = explode(".", $fileName);
         $this->fileName = array_shift($fileNameParts);
 
         try {
@@ -154,14 +154,14 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    protected function createFromXml (SimpleXMLElement $xml)
+    protected function createFromXml(SimpleXMLElement $xml)
     {
         $this->xml = $xml;
     }
 
-    protected function createFromFile ($filePath, $extension = null)
+    protected function createFromFile($filePath, $extension = null)
     {
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
@@ -183,7 +183,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         libxml_use_internal_errors(true);
         $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
 
-        if (!$simpleXml) {
+        if (! $simpleXml) {
             throw new InvalidXmlFile();
         }
 

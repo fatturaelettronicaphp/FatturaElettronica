@@ -11,12 +11,12 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class EmittingSubject extends Enum
 {
     protected static $map = [
-        'supplier' => 'CC',
-        'thirdParty' => 'TZ'
+        'supplier'   => 'CC',
+        'thirdParty' => 'TZ',
     ];
 
     protected static $descriptions = [
         'CC' => 'Cessionario / Committente',
-        'TZ' => 'Terzo'
+        'TZ' => 'Terzo',
     ];
 }

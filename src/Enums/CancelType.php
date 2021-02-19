@@ -16,9 +16,9 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 class CancelType extends Enum
 {
     protected static $map = [
-        'discount' => 'SC',
-        'reward' => 'PR',
-        'writeOff' => 'AB',
+        'discount'  => 'SC',
+        'reward'    => 'PR',
+        'writeOff'  => 'AB',
         'accessory' => 'AC',
     ];
 
@@ -26,6 +26,6 @@ class CancelType extends Enum
         'SC' => 'Sconto',
         'PR' => 'Premio',
         'AB' => 'Abbuono',
-        'AC' => 'Spesa Accessoria'
+        'AC' => 'Spesa Accessoria',
     ];
 }

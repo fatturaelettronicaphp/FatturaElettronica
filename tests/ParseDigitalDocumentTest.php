@@ -1,22 +1,20 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
 use DateTime;
 use Exception;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
-use PHPUnit\Framework\TestCase;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
+use PHPUnit\Framework\TestCase;
 
 class ParseDigitalDocumentTest extends TestCase
 {
@@ -37,7 +35,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('00905811006', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('Eni SpADivisione Refining & Marketing', $eDocument->getSupplier()->getOrganization());
 
-       $this->assertTrue($eDocument->isValid(), 'Is not Valid: ' . json_encode($eDocument->validate()->errors()));
+        $this->assertTrue($eDocument->isValid(), 'Is not Valid: ' . json_encode($eDocument->validate()->errors()));
     }
 
     /** @test */
@@ -99,8 +97,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
-        $xml = simplexml_load_file($file);
+        $file      = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
+        $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateDocument($eDocument);
@@ -109,8 +107,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_complex_xml_invoice()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT01234567899_000sq.xml';
-        $xml = simplexml_load_file($file);
+        $file      = dirname(__FILE__) . '/fixtures/IT01234567899_000sq.xml';
+        $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateComplexDocument($eDocument);
@@ -166,10 +164,14 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('EUR', $firstRow->getCurrency());
         $this->assertEquals(new DateTime('2014-12-18'), $firstRow->getDocumentDate());
         $this->assertEquals('123', $firstRow->getDocumentNumber());
-        $this->assertEquals('LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',
-            $firstRow->getDescriptions()[0]);
-        $this->assertEquals('SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB',
-            $firstRow->getDescriptions()[1]);
+        $this->assertEquals(
+            'LA FATTURA FA RIFERIMENTO AD UNA OPERAZIONE AAAA BBBBBBBBBBBBBBBBBB CCC DDDDDDDDDDDDDDD E FFFFFFFFFFFFFFFFFFFF GGGGGGGGGG HHHHHHH II LLLLLLLLLLLLLLLLL MMM NNNNN OO PPPPPPPPPPP QQQQ RRRR SSSSSSSSSSSSSS',
+            $firstRow->getDescriptions()[0]
+        );
+        $this->assertEquals(
+            'SEGUE DESCRIZIONE CAUSALE NEL CASO IN CUI NON SIANO STATI SUFFICIENTI 200 CARATTERI AAAAAAAAAAA BBBBBBBBBBBBBBBBB',
+            $firstRow->getDescriptions()[1]
+        );
 
         // Righe
         $products = $firstRow->getLines();
@@ -177,8 +179,10 @@ class ParseDigitalDocumentTest extends TestCase
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
-        $this->assertEquals("LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "LA DESCRIZIONE DELLA FORNITURA PUO' SUPERARE I CENTO CARATTERI CHE RAPPRESENTAVANO IL PRECEDENTE LIMITE DIMENSIONALE. TALE LIMITE NELLA NUOVA VERSIONE E' STATO PORTATO A MILLE CARATTERI",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(5, $firstProduct->getQuantity());
         $this->assertEquals(1, $firstProduct->getUnitPrice());
         $this->assertEquals(5, $firstProduct->getTotal());
@@ -254,8 +258,10 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('EUR', $firstRow->getCurrency());
         $this->assertEquals(new DateTime('2019-03-19'), $firstRow->getDocumentDate());
         $this->assertEquals('1', $firstRow->getDocumentNumber());
-        $this->assertEquals('Descrizione della causale del documento AAAABBBBBB 1324325y82973482 hbtg2vy14t5fy',
-            $firstRow->getDescriptions()[0]);
+        $this->assertEquals(
+            'Descrizione della causale del documento AAAABBBBBB 1324325y82973482 hbtg2vy14t5fy',
+            $firstRow->getDescriptions()[0]
+        );
 
         // Ritenuta
         $this->assertEquals('RT02', (string)$firstRow->getDeductionType());
@@ -290,8 +296,10 @@ class ParseDigitalDocumentTest extends TestCase
         $firstProduct = array_shift($products);
 
         $this->assertEquals(1, $firstProduct->getNumber());
-        $this->assertEquals("PRODOTTO A",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "PRODOTTO A",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(1, $firstProduct->getQuantity());
         $this->assertEquals(652, $firstProduct->getUnitPrice());
         $this->assertEquals(652, $firstProduct->getTotal());
@@ -299,8 +307,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(new DateTime('2019-03-19'), $firstProduct->getStartDate());
         $this->assertEquals(new DateTime('2020-03-18'), $firstProduct->getEndDate());
 
-
-        $datas = $firstProduct->getOtherData();
+        $datas     = $firstProduct->getOtherData();
         $otherData = array_shift($datas);
         $this->assertEquals('CASSA-PREV', (string) $otherData->getType());
         $this->assertEquals('ENASARCO TC07',  $otherData->getText());
@@ -310,8 +317,10 @@ class ParseDigitalDocumentTest extends TestCase
         $firstProduct = array_shift($products);
 
         $this->assertEquals(2, $firstProduct->getNumber());
-        $this->assertEquals("Prodotto B",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "Prodotto B",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(1, $firstProduct->getQuantity());
         $this->assertEquals(452, $firstProduct->getUnitPrice());
         $this->assertEquals(452, $firstProduct->getTotal());
@@ -322,8 +331,10 @@ class ParseDigitalDocumentTest extends TestCase
         $firstProduct = array_shift($products);
 
         $this->assertEquals(3, $firstProduct->getNumber());
-        $this->assertEquals("Prodotto con Sconto 10%",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "Prodotto con Sconto 10%",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(1, $firstProduct->getQuantity());
         $this->assertEquals(300, $firstProduct->getUnitPrice());
         $this->assertEquals(270, $firstProduct->getTotal());
@@ -333,26 +344,29 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var DiscountInterface $discount */
         $discount = array_shift($discounts);
         $this->assertEquals('SC', (string) $discount->getType());
-        $this->assertEquals(10 , $discount->getPercentage());
+        $this->assertEquals(10, $discount->getPercentage());
 
         /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(4, $firstProduct->getNumber());
-        $this->assertEquals("Prodotto split payment 1",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "Prodotto split payment 1",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(1, $firstProduct->getQuantity());
         $this->assertEquals(20, $firstProduct->getUnitPrice());
         $this->assertEquals(20, $firstProduct->getTotal());
         $this->assertEquals(22, $firstProduct->getTaxPercentage());
 
-
         /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
 
         $this->assertEquals(5, $firstProduct->getNumber());
-        $this->assertEquals("Prodotto split payment 2",
-            $firstProduct->getDescription());
+        $this->assertEquals(
+            "Prodotto split payment 2",
+            $firstProduct->getDescription()
+        );
         $this->assertEquals(1, $firstProduct->getQuantity());
         $this->assertEquals(650, $firstProduct->getUnitPrice());
         $this->assertEquals(650, $firstProduct->getTotal());
@@ -392,7 +406,6 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(670.00, $total->getTotal());
         $this->assertEquals(147.40, $total->getTaxAmount());
         $this->assertEquals('S', (string) $total->getTaxType());
-
 
         // Payment Info
         $paymentInfos = $firstRow->getPaymentInformations();
