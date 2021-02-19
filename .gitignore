@@ -6,3 +6,5 @@ node_modules
 tests/PrivateDocuments
 tests/PrivateDocuments/*
 build
+.phpunit.result.cache
+composer.lock
