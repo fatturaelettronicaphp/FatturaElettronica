@@ -24,11 +24,11 @@ abstract class Enum implements Stringable, JsonSerializable
 
     public function __construct(string $value)
     {
-        if (!isset(self::values()[$value])) {
+        if (! isset(self::values()[$value])) {
             throw new TypeError("Value '{$value}' is not support on type " . static::class);
         }
 
-        $this->value = $value;
+        $this->value       = $value;
         $this->description = self::values()[$value] ?? $value;
     }
 

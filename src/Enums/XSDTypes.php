@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
-
 
 use DOMDocument;
 use DOMElement;
@@ -15,7 +13,7 @@ abstract class XSDTypes
 
     public static function types(string $type): array
     {
-        if (!self::$types){
+        if (! self::$types) {
             self::$types = self::extractValuesFromXSD();
         }
 
@@ -31,9 +29,9 @@ abstract class XSDTypes
         $doc = new DOMDocument();
         $doc->loadXML(mb_convert_encoding($xsd, 'utf-8', mb_detect_encoding($xsd)));
 
-        $xpath = '/xs:schema/xs:simpleType';
+        $xpath   = '/xs:schema/xs:simpleType';
         $domPath = new DOMXPath($doc);
-        $nodes = $domPath->evaluate($xpath);
+        $nodes   = $domPath->evaluate($xpath);
 
         $types = [];
         /** @var DOMElement $node */
@@ -46,12 +44,12 @@ abstract class XSDTypes
                 continue;
             }
 
-            $typeName = $node->getAttribute('name');
+            $typeName         = $node->getAttribute('name');
             $types[$typeName] = [];
             foreach ($nodes as $values) {
-                $value = $values->getAttribute('value');
-                $desc = $value;
-                $xpath = 'xs:annotation/xs:documentation';
+                $value        = $values->getAttribute('value');
+                $desc         = $value;
+                $xpath        = 'xs:annotation/xs:documentation';
                 $descriptions = $domPath->evaluate($xpath, $values);
                 /** @var DOMElement $description */
                 foreach ($descriptions as $description) {
