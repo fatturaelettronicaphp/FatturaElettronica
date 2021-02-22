@@ -53,21 +53,21 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
     /**
      * Costruttore del parser
      *
-     * @param string $filePath
+     * @param string|SimpleXMLElement $filePathOrXml
      * @param string $extension
      */
-    public function __construct($filePath, $extension = '')
+    public function __construct($filePathOrXml, string $extension = '')
     {
-        if (is_object($filePath) && $filePath instanceof SimpleXMLElement) {
-            $this->createFromXml($filePath);
+        if (is_object($filePathOrXml) && $filePathOrXml instanceof SimpleXMLElement) {
+            $this->createFromXml($filePathOrXml);
 
             return;
         }
 
-        $this->createFromFile($filePath, $extension);
+        $this->createFromFile($filePathOrXml, $extension);
     }
 
-    public function parse(DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
+    public function parse(?DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
     {
         if ($digitalDocument === null) {
             $digitalDocument = new DigitalDocument();
@@ -92,17 +92,17 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $this->xml;
     }
 
-    public function originalFilename()
+    public function originalFilename(): ?string
     {
         return $this->fileName;
     }
 
-    public function xmlFilePath()
+    public function xmlFilePath(): ?string
     {
         return $this->xmlFilePath;
     }
 
-    public function p7mFilePath()
+    public function p7mFilePath(): ?string
     {
         return $this->p7mFilePath;
     }
@@ -119,7 +119,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    protected function extractP7mToXml($p7mFilePath): string
+    protected function extractP7mToXml(string $p7mFilePath): string
     {
         if (! file_exists($p7mFilePath)) {
             throw new InvalidP7MFile('File does not exist: ' .  $p7mFilePath);
@@ -138,7 +138,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $xmlPath;
     }
 
-    protected function extractFileNameAndType($filePath, $extension): void
+    protected function extractFileNameAndType(string $filePath, $extension): void
     {
         // Split extension and file name
         $extension      = strtolower($extension);
@@ -154,12 +154,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
     }
 
-    protected function createFromXml(SimpleXMLElement $xml)
+    protected function createFromXml(SimpleXMLElement $xml): void
     {
         $this->xml = $xml;
     }
 
-    protected function createFromFile($filePath, $extension = null)
+    protected function createFromFile(string $filePath, ?string $extension = null): void
     {
         if (! file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
@@ -171,12 +171,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $this->extractFileNameAndType($filePath, $extension);
 
-        if ($this->fileType->equals(DocumentFormat::p7m())) {
+        if ($this->fileType === DocumentFormat::P7M) {
             $this->p7mFilePath = $this->filePath;
             $this->extractP7m();
         }
 
-        if ($this->fileType->equals(DocumentFormat::xml())) {
+        if ($this->fileType === DocumentFormat::XML) {
             $this->xmlFilePath = $this->filePath;
         }
 

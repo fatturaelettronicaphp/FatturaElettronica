@@ -205,7 +205,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         }
 
         if (! $deductionType instanceof DeductionType) {
-            $deductionType = DeductionType::from($deductionType);
+            $deductionType = new DeductionType($deductionType);
         }
 
         $this->deductionType = $deductionType;
@@ -285,7 +285,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         }
 
         if (! $documentType instanceof DocumentType) {
-            $documentType = DocumentType::from($documentType);
+            $documentType = new DocumentType($documentType);
         }
 
         $this->documentType = $documentType;

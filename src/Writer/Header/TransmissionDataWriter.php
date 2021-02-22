@@ -24,10 +24,10 @@ class TransmissionDataWriter extends AbstractHeaderWriter
          */
         $recipientCode = $this->document->getCustomerSdiCode();
         if ($recipientCode === null) {
-            $recipientCode = RecipientCode::empty();
+            $recipientCode = RecipientCode::EMPTY;
 
             if ($this->document->getCustomer()->getCountryCode() !== 'IT') {
-                $recipientCode = RecipientCode::foreign();
+                $recipientCode = RecipientCode::FOREIGN;
             }
         }
 
@@ -46,7 +46,7 @@ class TransmissionDataWriter extends AbstractHeaderWriter
         }
 
         /* La Casella PEC è da inserire solo se presente e solo se CodiceDestinatario è vuoto*/
-        if ($recipientCode === (string)RecipientCode::empty() && $this->document->getCustomerPec() !== null) {
+        if ($recipientCode === RecipientCode::EMPTY && $this->document->getCustomerPec() !== null) {
             $datiTrasmissione->addChild('PECDestinatario', SimpleXmlExtended::sanitizeText($this->document->getCustomerPec()));
         }
 

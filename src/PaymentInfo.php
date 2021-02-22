@@ -37,7 +37,7 @@ class PaymentInfo implements ArrayableInterface, PaymentInfoInterface
         }
 
         if (! $terms instanceof PaymentTerm) {
-            $terms = PaymentTerm::from($terms);
+            $terms = new PaymentTerm($terms);
         }
 
         $this->terms = $terms;

@@ -34,8 +34,7 @@
         "ext-dom": "*",
         "ext-simplexml": "*",
         "alcohol/iso4217": "^3.1",
-        "league/iso3166": "^2.1",
-        "fatturaelettronicaphp/enum": "^1.2"
+        "league/iso3166": "^2.1"
     },
     "require-dev": {
         "larapack/dd": "^1.0",

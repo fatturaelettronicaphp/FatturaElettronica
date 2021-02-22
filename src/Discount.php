@@ -32,7 +32,7 @@ class Discount implements ArrayableInterface, DiscountInterface
         }
 
         if (! $type instanceof DiscountType) {
-            $type = DiscountType::from($type);
+            $type = new DiscountType($type);
         }
 
         $this->type = $type;

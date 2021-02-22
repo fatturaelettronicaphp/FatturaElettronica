@@ -66,9 +66,13 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     public function __construct()
     {
-        $this->customerSdiCode = (string) RecipientCode::empty();
+        $this->customerSdiCode = RecipientCode::EMPTY;
     }
 
+    /**
+     * @param string|SimpleXMLElement $xml
+     * @return DigitalDocumentInterface
+     */
     public static function parseFrom($xml): DigitalDocumentInterface
     {
         return (new DigitalDocumentParser($xml))->parse();
@@ -111,7 +115,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $emittingSubject instanceof EmittingSubject) {
-            $emittingSubject = EmittingSubject::from($emittingSubject);
+            $emittingSubject = new EmittingSubject($emittingSubject);
         }
 
         $this->emittingSubject = $emittingSubject;
@@ -275,7 +279,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $transmissionFormat instanceof TransmissionFormat) {
-            $transmissionFormat = TransmissionFormat::from($transmissionFormat);
+            $transmissionFormat = new TransmissionFormat($transmissionFormat);
         }
 
         $this->transmissionFormat = $transmissionFormat;

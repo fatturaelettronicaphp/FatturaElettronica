@@ -25,7 +25,6 @@ class ParseDigitalDocumentTest extends TestCase
 
         $eDocument = DigitalDocument::parseFrom($file);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
-
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
 
         $this->assertEquals('03579410246', $eDocument->getCustomer()->getVatNumber());
@@ -97,7 +96,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file      = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
+        $file      = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
