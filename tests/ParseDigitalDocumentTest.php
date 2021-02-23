@@ -21,7 +21,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_p7m_invoice()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
+        $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
         $eDocument = DigitalDocument::parseFrom($file);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -40,7 +40,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_attachments()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
+        $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
         $eDocument = DigitalDocument::parseFrom($file);
 
@@ -67,7 +67,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_encode_decode_attachment()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT00484960588_ERKHK.xml.p7m';
+        $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
         $eDocument = DigitalDocument::parseFrom($file);
 
@@ -86,7 +86,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice_file()
     {
-        $file = dirname(__FILE__) . '/fixtures/IT01234567890_FPR02.xml';
+        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
 
         $eDocument = DigitalDocument::parseFrom($file);
 
@@ -106,7 +106,7 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_complex_xml_invoice()
     {
-        $file      = dirname(__FILE__) . '/fixtures/IT01234567899_000sq.xml';
+        $file      = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
         $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
