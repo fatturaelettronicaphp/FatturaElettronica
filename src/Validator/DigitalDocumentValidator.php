@@ -58,8 +58,8 @@ class DigitalDocumentValidator
      */
     protected function getSchema(): string
     {
-        $xsd             = file_get_contents(dirname(__FILE__) . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
-        $xmldsigFilename = dirname(__FILE__) . '/xsd/core.xsd';
+        $xsd             = file_get_contents(__DIR__ . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
+        $xmldsigFilename = __DIR__ . '/xsd/core.xsd';
         $xsd             = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 
         return $xsd;
