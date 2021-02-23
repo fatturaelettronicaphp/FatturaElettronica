@@ -75,11 +75,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser = new DigitalDocumentBodyParser($body);
+            $bodyParser   = new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
@@ -121,7 +121,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function extractP7mToXml(string $p7mFilePath): string
     {
-        if (!file_exists($p7mFilePath)) {
+        if (! file_exists($p7mFilePath)) {
             throw new InvalidP7MFile('File does not exist: ' . $p7mFilePath);
         }
 
@@ -140,11 +140,10 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         return $xmlPath;
     }
 
-
     protected function convertFromDERtoSMIMEFormat(string $file): string
     {
         $pemPath = tempnam(sys_get_temp_dir(), basename($file));
-        $to = <<<TXT
+        $to      = <<<TXT
 MIME-Version: 1.0
 Content-Disposition: attachment; filename="smime.p7m"
 Content-Type: application/x-pkcs7-mime; smime-type=signed-data; name="smime.p7m"
@@ -161,8 +160,8 @@ TXT;
     protected function der2pem(string $p7mFilePath): string
     {
         $pemPath = tempnam(sys_get_temp_dir(), basename($p7mFilePath));
-        $pem = chunk_split(base64_encode(file_get_contents($p7mFilePath)), 64, "\n");
-        $pem = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
+        $pem     = chunk_split(base64_encode(file_get_contents($p7mFilePath)), 64, "\n");
+        $pem     = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
 
         file_put_contents($pemPath, $pem);
 
@@ -172,9 +171,9 @@ TXT;
     protected function extractFileNameAndType(string $filePath, $extension): void
     {
         // Split extension and file name
-        $extension = strtolower($extension);
-        $fileName = pathinfo($filePath, PATHINFO_BASENAME);
-        $fileNameParts = explode(".", $fileName);
+        $extension      = strtolower($extension);
+        $fileName       = pathinfo($filePath, PATHINFO_BASENAME);
+        $fileNameParts  = explode(".", $fileName);
         $this->fileName = array_shift($fileNameParts);
 
         try {
@@ -192,7 +191,7 @@ TXT;
 
     protected function createFromFile(string $filePath, ?string $extension = null): void
     {
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
@@ -214,7 +213,7 @@ TXT;
         libxml_use_internal_errors(true);
         $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
 
-        if (!$simpleXml) {
+        if (! $simpleXml) {
             throw new InvalidXmlFile();
         }
 
