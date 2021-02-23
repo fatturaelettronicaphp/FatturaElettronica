@@ -135,7 +135,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
          * exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
          **/
         $p7mFilePath = $this->convertFromDERtoSMIMEFormat($p7mFilePath);
-        openssl_pkcs7_verify($p7mFilePath, PKCS7_NOVERIFY + PKCS7_NOSIGS, '/dev/null', [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath);
+        openssl_pkcs7_verify($p7mFilePath, PKCS7_NOVERIFY + PKCS7_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath);
 
         return $xmlPath;
     }
