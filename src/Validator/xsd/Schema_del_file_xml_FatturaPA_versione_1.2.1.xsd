@@ -5,7 +5,7 @@
            targetNamespace="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
            version="1.2.1">
 
-    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="./core.xsd" />
+    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="core.xsd" />
 
     <xs:element name="FatturaElettronica" type="FatturaElettronicaType">
         <xs:annotation>
