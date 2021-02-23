@@ -5,7 +5,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 use DOMDocument;
 use Exception;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use function sprintf;
 
 class DigitalDocumentValidator
 {
@@ -35,7 +34,7 @@ class DigitalDocumentValidator
         libxml_use_internal_errors(true);
 
         $documentXml = $this->document->serialize();
-        $dom         = new DOMDocument();
+        $dom = new DOMDocument();
         $dom->loadXML($documentXml->saveXML());
         $xsd = $this->getSchema();
 
@@ -45,7 +44,7 @@ class DigitalDocumentValidator
             $isValid = false;
         }
 
-        if (! $isValid) {
+        if (!$isValid) {
             $this->manageErrors();
         }
 
@@ -58,11 +57,7 @@ class DigitalDocumentValidator
      */
     protected function getSchema(): string
     {
-        $xsd             = file_get_contents(__DIR__ . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
-        $xmldsigFilename = __DIR__ . '/xsd/core.xsd';
-        $xsd             = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
-
-        return $xsd;
+        return file_get_contents(__DIR__ . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
     }
 
     protected function manageErrors(): self
@@ -94,7 +89,7 @@ class DigitalDocumentValidator
 
         if (stripos($message, "Element ") === 0) {
             $message = substr($message, strlen("Element "));
-            $field   = substr($message, 1, stripos($message, ':') - 1);
+            $field = substr($message, 1, stripos($message, ':') - 1);
             $message = substr($message, stripos($message, ':') + 2);
         }
 
