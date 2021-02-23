@@ -8,5 +8,5 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
  */
 class WoundUpType extends Enum
 {
-   protected const TYPE = 'StatoLiquidazioneType';
+    protected const TYPE = 'StatoLiquidazioneType';
 }
