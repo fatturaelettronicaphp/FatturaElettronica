@@ -75,11 +75,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser   = new DigitalDocumentBodyParser($body);
+            $bodyParser = new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
@@ -121,29 +121,60 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function extractP7mToXml(string $p7mFilePath): string
     {
-        if (! file_exists($p7mFilePath)) {
-            throw new InvalidP7MFile('File does not exist: ' .  $p7mFilePath);
+        if (!file_exists($p7mFilePath)) {
+            throw new InvalidP7MFile('File does not exist: ' . $p7mFilePath);
         }
 
         $xmlPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml';
+        $pemPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.pem';
 
-        $output   = [];
-        $exitCode = 0;
-        exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
-
-        if ($exitCode !== 0) {
-            throw new InvalidP7MFile('Invalid p7m file opening for file ' . $p7mFilePath);
-        }
+        /**
+         * This is the evivalent call to
+         * $exitCode = 0;
+         * $output   = [];
+         * exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
+         **/
+        $p7mFilePath = $this->convertFromDERtoSMIMEFormat($p7mFilePath);
+        openssl_pkcs7_verify($p7mFilePath, PKCS7_NOVERIFY + PKCS7_NOSIGS, '/dev/null', [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath);
 
         return $xmlPath;
+    }
+
+
+    protected function convertFromDERtoSMIMEFormat(string $file): string
+    {
+        $pemPath = tempnam(sys_get_temp_dir(), basename($file));
+        $to = <<<TXT
+MIME-Version: 1.0
+Content-Disposition: attachment; filename="smime.p7m"
+Content-Type: application/x-pkcs7-mime; smime-type=signed-data; name="smime.p7m"
+Content-Transfer-Encoding: base64
+\n
+TXT;
+        $from = file_get_contents($file);
+        $to .= chunk_split(base64_encode($from));
+        file_put_contents($pemPath, $to);
+
+        return $pemPath;
+    }
+
+    protected function der2pem(string $p7mFilePath): string
+    {
+        $pemPath = tempnam(sys_get_temp_dir(), basename($p7mFilePath));
+        $pem = chunk_split(base64_encode(file_get_contents($p7mFilePath)), 64, "\n");
+        $pem = "-----BEGIN CERTIFICATE-----\n" . $pem . "-----END CERTIFICATE-----\n";
+
+        file_put_contents($pemPath, $pem);
+
+        return $pemPath;
     }
 
     protected function extractFileNameAndType(string $filePath, $extension): void
     {
         // Split extension and file name
-        $extension      = strtolower($extension);
-        $fileName       = pathinfo($filePath, PATHINFO_BASENAME);
-        $fileNameParts  = explode(".", $fileName);
+        $extension = strtolower($extension);
+        $fileName = pathinfo($filePath, PATHINFO_BASENAME);
+        $fileNameParts = explode(".", $fileName);
         $this->fileName = array_shift($fileNameParts);
 
         try {
@@ -161,7 +192,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
     protected function createFromFile(string $filePath, ?string $extension = null): void
     {
-        if (! file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
@@ -183,7 +214,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         libxml_use_internal_errors(true);
         $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
 
-        if (! $simpleXml) {
+        if (!$simpleXml) {
             throw new InvalidXmlFile();
         }
 
