@@ -34,7 +34,7 @@ class DigitalDocumentValidator
         libxml_use_internal_errors(true);
 
         $documentXml = $this->document->serialize();
-        $dom = new DOMDocument();
+        $dom         = new DOMDocument();
         $dom->loadXML($documentXml->saveXML());
         $xsd = $this->getSchema();
 
@@ -44,7 +44,7 @@ class DigitalDocumentValidator
             $isValid = false;
         }
 
-        if (!$isValid) {
+        if (! $isValid) {
             $this->manageErrors();
         }
 
@@ -89,7 +89,7 @@ class DigitalDocumentValidator
 
         if (stripos($message, "Element ") === 0) {
             $message = substr($message, strlen("Element "));
-            $field = substr($message, 1, stripos($message, ':') - 1);
+            $field   = substr($message, 1, stripos($message, ':') - 1);
             $message = substr($message, stripos($message, ':') + 2);
         }
 
