@@ -1,6 +1,5 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
@@ -22,7 +21,7 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
 
     public function __construct()
     {
-        $this->decoders = array_map(function(string $decoderClass) {
+        $this->decoders = array_map(function (string $decoderClass) {
             return new $decoderClass;
         }, self::STANDARD_DECODERS);
     }
@@ -43,6 +42,7 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
     {
         // Add to the top of the list
         array_unshift($this->decoders, $decoder);
+
         return $this;
     }
 }

@@ -22,7 +22,7 @@ class ParseDigitalDocumentTest extends TestCase
      * @test
      * @dataProvider listOfInvoices
      */
-    public function can_read_p7m_invoices( $filePath)
+    public function can_read_p7m_invoices($filePath)
     {
         $eDocument = DigitalDocument::parseFrom($filePath);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -106,8 +106,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
-        $xml = simplexml_load_file($file);
+        $file      = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
+        $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateDocument($eDocument);
@@ -116,8 +116,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_complex_xml_invoice()
     {
-        $file = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
-        $xml = simplexml_load_file($file);
+        $file      = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
+        $xml       = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateComplexDocument($eDocument);
@@ -316,7 +316,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(new DateTime('2019-03-19'), $firstProduct->getStartDate());
         $this->assertEquals(new DateTime('2020-03-18'), $firstProduct->getEndDate());
 
-        $datas = $firstProduct->getOtherData();
+        $datas     = $firstProduct->getOtherData();
         $otherData = array_shift($datas);
         $this->assertEquals('CASSA-PREV', (string)$otherData->getType());
         $this->assertEquals('ENASARCO TC07', $otherData->getText());
@@ -429,7 +429,7 @@ class ParseDigitalDocumentTest extends TestCase
             return __DIR__ . '/fixtures/data/' . $file;
         }, array_diff(scandir(__DIR__ . '/fixtures/data'), [
             '.',
-            '..'
+            '..',
         ]));
 
         $keys = array_map(function ($file) {
