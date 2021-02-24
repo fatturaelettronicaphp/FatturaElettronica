@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
-
 
 interface DigitalDocumentDecodeInterface
 {

@@ -6,13 +6,10 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Decoder\DigitalDocumentDecoder;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentFormat;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\CannotDecodeFile;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidFileNameExtension;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidP7MFile;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use SimpleXMLElement;
-use TypeError;
 
 class DigitalDocumentParser implements DigitalDocumentParserInterface
 {
@@ -106,7 +103,7 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
         }
 
         $filePath = (new DigitalDocumentDecoder())->decode($filePath);
-        if (!$filePath) {
+        if (! $filePath) {
             throw new CannotDecodeFile($filePath);
         }
 
