@@ -1,11 +1,8 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
-use SimpleXMLElement;
 
 class SMIMEBase64Decoder extends SMIMEDecoder implements DigitalDocumentDecodeInterface
 {
