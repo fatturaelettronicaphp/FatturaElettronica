@@ -9,17 +9,10 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\AttachmentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\GeneralDataWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\PaymentsWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\ProductsWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\SimplifiedProductsWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\VehicleWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\CustomerWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\IntermediaryWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SimplifiedCustomerWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SimplifiedSupplierWriter;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 use SimpleXMLElement;
 

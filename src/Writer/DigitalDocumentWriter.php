@@ -126,5 +126,4 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
         return $this;
     }
-
 }

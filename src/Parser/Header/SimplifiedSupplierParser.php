@@ -2,20 +2,19 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 
 class SimplifiedSupplierParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if (!$this->document->isSimplified()) {
+        if (! $this->document->isSimplified()) {
             return $this->document;
         }
 
         $supplier = new Supplier();
 
-        $prefix = '//FatturaElettronicaHeader/CedentePrestatore/';
+        $prefix       = '//FatturaElettronicaHeader/CedentePrestatore/';
         $documentName = $this->extractValueFromXml($prefix . 'Nome');
         $supplier->setName($documentName);
 

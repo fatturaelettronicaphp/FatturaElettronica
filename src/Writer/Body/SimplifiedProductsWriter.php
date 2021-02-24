@@ -41,5 +41,4 @@ class SimplifiedProductsWriter extends AbstractBodyWriter
             }
         }
     }
-
 }

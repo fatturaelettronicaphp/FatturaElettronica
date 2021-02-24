@@ -123,7 +123,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
             return $this;
         }
 
-        if (!$vatNature instanceof VatNature) {
+        if (! $vatNature instanceof VatNature) {
             $vatNature = new VatNature($vatNature);
         }
 
@@ -151,5 +151,4 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
 
         return $this;
     }
-
 }

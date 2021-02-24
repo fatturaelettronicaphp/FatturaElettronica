@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Header;
 
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
@@ -12,14 +11,14 @@ class SupplierWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         $cedentePrestatore = $this->xml->addChild('CedentePrestatore');
-        $datiAnagrafici = $cedentePrestatore;
-        if (!$this->document->isSimplified()) {
+        $datiAnagrafici    = $cedentePrestatore;
+        if (! $this->document->isSimplified()) {
             $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
         }
 
         /** @var Supplier $supplier */
-        $supplier = $this->document->getSupplier();
-        $idPaese  = $supplier->getCountryCode();
+        $supplier      = $this->document->getSupplier();
+        $idPaese       = $supplier->getCountryCode();
         $codiceFiscale = $supplier->getFiscalCode();
         $vatNumber     = $supplier->getVatNumber();
 

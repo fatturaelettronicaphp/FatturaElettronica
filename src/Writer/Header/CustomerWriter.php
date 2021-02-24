@@ -51,7 +51,7 @@ class CustomerWriter extends AbstractHeaderWriter
             $sede = $cessionarioCommittente->addChild('Sede');
             $sede->addChild('Indirizzo', SimpleXmlExtended::sanitizeText($address->getStreet()));
 
-            if (!empty($address->getStreetNumber())) {
+            if (! empty($address->getStreetNumber())) {
                 $sede->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
             }
 

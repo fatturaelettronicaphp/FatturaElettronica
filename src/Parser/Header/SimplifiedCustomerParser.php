@@ -9,13 +9,13 @@ class SimplifiedCustomerParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if (!$this->document->isSimplified()) {
+        if (! $this->document->isSimplified()) {
             return $this->document;
         }
 
         $customer = new Customer();
 
-        $prefix = '//FatturaElettronicaHeader/CessionarioCommittente/';
+        $prefix       = '//FatturaElettronicaHeader/CessionarioCommittente/';
         $customerName = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Nome');
         $customer->setName($customerName);
 

@@ -72,6 +72,4 @@ interface SimplifiedLineInterface
      * @return self
      */
     public function setReference(?string $reference): self;
-
-
 }

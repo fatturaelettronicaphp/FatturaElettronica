@@ -10,38 +10,38 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         $cessionarioCommittente = $this->xml->addChild('CessionarioCommittente');
-        $identificativiFiscali = $cessionarioCommittente->addChild('IdentificativiFiscali');
+        $identificativiFiscali  = $cessionarioCommittente->addChild('IdentificativiFiscali');
 
         /** @var Customer $customer */
         $customer = $this->document->getCustomer();
 
-        $idPaese = $customer->getCountryCode();
+        $idPaese       = $customer->getCountryCode();
         $codiceFiscale = $customer->getFiscalCode();
-        $vatNumber = $customer->getVatNumber();
+        $vatNumber     = $customer->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 
-        if (!empty($vatNumber)) {
+        if (! empty($vatNumber)) {
             $idFiscaleIva = $identificativiFiscali->addChild('IdFiscaleIVA');
             $idFiscaleIva->addChild('IdPaese', $idPaese);
             $idFiscaleIva->addChild('IdCodice', SimpleXmlExtended::sanitizeText($fiscalData['idCodice']));
         }
 
-        if (!empty($fiscalData['codiceFiscale'])) {
+        if (! empty($fiscalData['codiceFiscale'])) {
             $identificativiFiscali->addChild('CodiceFiscale', SimpleXmlExtended::sanitizeText($fiscalData['codiceFiscale']));
         }
 
-        if (!empty($customer->getOrganization() && !empty($customer->getName()) && !empty($customer->getName()))) {
+        if (! empty($customer->getOrganization() && ! empty($customer->getName()) && ! empty($customer->getName()))) {
             $altriDatiIdentificativi = $cessionarioCommittente->addChild('AltriDatiIdentificativi');
 
-            if (!empty($customer->getOrganization())) {
+            if (! empty($customer->getOrganization())) {
                 $altriDatiIdentificativi->addChild('Denominazione', SimpleXmlExtended::sanitizeText($customer->getOrganization()));
             } else {
-                if (!empty($customer->getName())) {
+                if (! empty($customer->getName())) {
                     $altriDatiIdentificativi->addChild('Nome', SimpleXmlExtended::sanitizeText($customer->getName()));
                 }
 
-                if (!empty($customer->getSurname())) {
+                if (! empty($customer->getSurname())) {
                     $altriDatiIdentificativi->addChild('Cognome', SimpleXmlExtended::sanitizeText($customer->getSurname()));
                 }
             }
@@ -52,7 +52,7 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
                 $sede = $altriDatiIdentificativi->addChild('Sede');
                 $sede->addChild('Indirizzo', SimpleXmlExtended::sanitizeText($address->getStreet()));
 
-                if (!empty($address->getStreetNumber())) {
+                if (! empty($address->getStreetNumber())) {
                     $sede->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
                 }
 
@@ -62,7 +62,7 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
 
                 $sede->addChild('CAP', $sanitizedCap);
                 $sede->addChild('Comune', SimpleXmlExtended::sanitizeText($address->getCity()));
-                if (!empty($address->getState()) and ($address->getCountryCode() == 'IT')) {
+                if (! empty($address->getState()) and ($address->getCountryCode() == 'IT')) {
                     $sede->addChild('Provincia', strtoupper(SimpleXmlExtended::sanitizeText($address->getState())));
                 }
 
@@ -76,7 +76,7 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
 
             $stabileOrganizzazione->addChild('Indirizzo', SimpleXmlExtended::sanitizeText($address->getStreet()));
 
-            if (!empty($address->getStreetNumber())) {
+            if (! empty($address->getStreetNumber())) {
                 $stabileOrganizzazione->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
             }
 
@@ -88,7 +88,7 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
 
             $stabileOrganizzazione->addChild('Comune', SimpleXmlExtended::sanitizeText($address->getCity()));
 
-            if (!empty($address->getState()) and ($address->getCountryCode() == 'IT')) {
+            if (! empty($address->getState()) and ($address->getCountryCode() == 'IT')) {
                 $stabileOrganizzazione->addChild('Provincia', strtoupper(SimpleXmlExtended::sanitizeText($address->getState())));
             }
 
@@ -104,14 +104,14 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
             $idFiscaleIva->addChild('IdPaese', $personAgent->getCountryCode());
             $idFiscaleIva->addChild('IdCodice', SimpleXmlExtended::sanitizeText($personAgent->getVatNumber()));
 
-            if (!empty($personAgent->getOrganization())) {
+            if (! empty($personAgent->getOrganization())) {
                 $rappresentanteFiscale->addChild('Denominazione', SimpleXmlExtended::sanitizeText($personAgent->getOrganization()));
             } else {
-                if (!empty($personAgent->getName())) {
+                if (! empty($personAgent->getName())) {
                     $rappresentanteFiscale->addChild('Nome', SimpleXmlExtended::sanitizeText($personAgent->getName()));
                 }
 
-                if (!empty($personAgent->getSurname())) {
+                if (! empty($personAgent->getSurname())) {
                     $rappresentanteFiscale->addChild('Cognome', SimpleXmlExtended::sanitizeText($personAgent->getSurname()));
                 }
             }

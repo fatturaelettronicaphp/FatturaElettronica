@@ -2,18 +2,8 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
-use DateTime;
-use Exception;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use PHPUnit\Framework\TestCase;
 
 class ParseSimplifiedDigitalDocumentTest extends TestCase
@@ -36,7 +26,7 @@ class ParseSimplifiedDigitalDocumentTest extends TestCase
             return __DIR__ . '/fixtures/semplificata/' . $file;
         }, array_diff(scandir(__DIR__ . '/fixtures/semplificata'), [
             '.',
-            '..'
+            '..',
         ]));
 
         $keys = array_map(function ($file) {
