@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
-
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
 use SimpleXMLElement;
@@ -21,7 +19,7 @@ class SMIMEDecoder implements DigitalDocumentDecodeInterface
          * exec(sprintf('openssl smime -verify -noverify -nosigs -in %s -inform DER -out %s 2> /dev/null', $p7mFilePath, $xmlPath), $output, $exitCode);
          **/
         $p7mFilePath = $this->convertFromDERtoSMIMEFormat($filePath);
-        if (!openssl_pkcs7_verify($p7mFilePath, PKCS7_NOVERIFY + PKCS7_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)) {
+        if (! openssl_pkcs7_verify($p7mFilePath, PKCS7_NOVERIFY + PKCS7_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)) {
             return null;
         }
 
