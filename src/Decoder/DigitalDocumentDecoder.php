@@ -4,12 +4,15 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
+use SimpleXMLElement;
 
 class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
 {
     protected const STANDARD_DECODERS = [
         XMLDecoder::class,
-        SMIMEDecoder::class
+        SMIMEDecoder::class,
+        SMIMEBase64Decoder::class,
+        CMSDecoder::class,
     ];
 
     /**
@@ -24,7 +27,7 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
         }, self::STANDARD_DECODERS);
     }
 
-    public function decode(string $filePath): ?string
+    public function decode(string $filePath): ?SimpleXMLElement
     {
         foreach ($this->decoders as $decoder) {
             $file = (new $decoder)->decode($filePath);

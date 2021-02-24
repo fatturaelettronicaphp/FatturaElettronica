@@ -5,13 +5,14 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
 
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
+use SimpleXMLElement;
 
 class SMIMEDecoder implements DigitalDocumentDecodeInterface
 {
-    public function decode(string $filePath): ?string
+    public function decode(string $filePath): ?SimpleXMLElement
     {
-        $xmlPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.xml';
-        $pemPath = tempnam(sys_get_temp_dir(), 'fattura_elettronica_') . '.pem';
+        $xmlPath = tempnam(sys_get_temp_dir(), basename($filePath));
+        $pemPath = tempnam(sys_get_temp_dir(), basename($filePath));
 
         /**
          * This is the evivalent call to
@@ -24,7 +25,7 @@ class SMIMEDecoder implements DigitalDocumentDecodeInterface
             return null;
         }
 
-        return $xmlPath;
+        return (new XMLDecoder())->decode($xmlPath);
     }
 
     protected function convertFromDERtoSMIMEFormat(string $file): string

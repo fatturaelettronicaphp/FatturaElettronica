@@ -8,3 +8,5 @@ tests/PrivateDocuments/*
 build
 .phpunit.result.cache
 composer.lock
+tests/fixtures/data
+tests/fixtures/data/*

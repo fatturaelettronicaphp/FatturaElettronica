@@ -105,16 +105,9 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
-        $filePath = (new DigitalDocumentDecoder())->decode($filePath);
-        if (!$filePath) {
-            throw new CannotDecodeFile($filePath);
-        }
-
-        $this->xmlFilePath = $filePath;
-
-        $simpleXml = simplexml_load_string(file_get_contents($this->xmlFilePath()), 'SimpleXMLElement', LIBXML_NOERROR + LIBXML_NOWARNING);
+        $simpleXml = (new DigitalDocumentDecoder())->decode($filePath);
         if (! $simpleXml) {
-            throw new InvalidXmlFile();
+            throw new InvalidXmlFile($filePath);
         }
 
         $this->xml = $simpleXml;

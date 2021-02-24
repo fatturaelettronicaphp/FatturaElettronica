@@ -18,6 +18,16 @@ use PHPUnit\Framework\TestCase;
 
 class ParseDigitalDocumentTest extends TestCase
 {
+    /**
+     * @test
+     * @dataProvider listOfInvoices
+     */
+    public function can_read_p7m_invoices( $filePath)
+    {
+        $eDocument = DigitalDocument::parseFrom($filePath);
+        $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+    }
+
     /** @test */
     public function can_read_p7m_invoice()
     {
@@ -96,8 +106,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file      = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
-        $xml       = simplexml_load_file($file);
+        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
+        $xml = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateDocument($eDocument);
@@ -106,8 +116,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_complex_xml_invoice()
     {
-        $file      = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
-        $xml       = simplexml_load_file($file);
+        $file = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
+        $xml = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateComplexDocument($eDocument);
@@ -226,7 +236,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
         $this->assertEquals('01234567899', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('ACME SPA', $eDocument->getSupplier()->getOrganization());
-        $this->assertEquals('RF01', (string) $eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
 
         $this->assertEquals('VIA ALFREDO BIANCHI', $eDocument->getSupplier()->getAddress()->getStreet());
         $this->assertEquals('111', $eDocument->getSupplier()->getAddress()->getStreetNumber());
@@ -306,11 +316,11 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(new DateTime('2019-03-19'), $firstProduct->getStartDate());
         $this->assertEquals(new DateTime('2020-03-18'), $firstProduct->getEndDate());
 
-        $datas     = $firstProduct->getOtherData();
+        $datas = $firstProduct->getOtherData();
         $otherData = array_shift($datas);
-        $this->assertEquals('CASSA-PREV', (string) $otherData->getType());
-        $this->assertEquals('ENASARCO TC07',  $otherData->getText());
-        $this->assertEquals(53.79,  $otherData->getNumber());
+        $this->assertEquals('CASSA-PREV', (string)$otherData->getType());
+        $this->assertEquals('ENASARCO TC07', $otherData->getText());
+        $this->assertEquals(53.79, $otherData->getNumber());
 
         /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
@@ -324,7 +334,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(452, $firstProduct->getUnitPrice());
         $this->assertEquals(452, $firstProduct->getTotal());
         $this->assertEquals(0, $firstProduct->getTaxPercentage());
-        $this->assertEquals('N2', (string) $firstProduct->getVatNature());
+        $this->assertEquals('N2', (string)$firstProduct->getVatNature());
 
         /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
@@ -342,7 +352,7 @@ class ParseDigitalDocumentTest extends TestCase
         $discounts = $firstProduct->getDiscounts();
         /** @var DiscountInterface $discount */
         $discount = array_shift($discounts);
-        $this->assertEquals('SC', (string) $discount->getType());
+        $this->assertEquals('SC', (string)$discount->getType());
         $this->assertEquals(10, $discount->getPercentage());
 
         /** @var LineInterface $firstProduct */
@@ -378,7 +388,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(705.20, $total->getTotal());
         $this->assertEquals(149.41, $total->getTaxAmount());
-        $this->assertEquals('I', (string) $total->getTaxType());
+        $this->assertEquals('I', (string)$total->getTaxType());
 
         /** @var TotalInterface $total */
         $total = array_shift($totals);
@@ -386,8 +396,8 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(452, $total->getTotal());
         $this->assertEquals(0, $total->getTaxAmount());
-        $this->assertEquals('I', (string) $total->getTaxType());
-        $this->assertEquals('N2', (string) $total->getVatNature());
+        $this->assertEquals('I', (string)$total->getTaxType());
+        $this->assertEquals('N2', (string)$total->getVatNature());
         $this->assertEquals('ESCLUSI ART.3 C.4 DPR 633/72', $total->getReference());
 
         /** @var TotalInterface $total */
@@ -396,7 +406,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(292.03, $total->getTotal());
         $this->assertEquals(61.87, $total->getTaxAmount());
-        $this->assertEquals('D', (string) $total->getTaxType());
+        $this->assertEquals('D', (string)$total->getTaxType());
 
         /** @var TotalInterface $total */
         $total = array_shift($totals);
@@ -404,12 +414,33 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(670.00, $total->getTotal());
         $this->assertEquals(147.40, $total->getTaxAmount());
-        $this->assertEquals('S', (string) $total->getTaxType());
+        $this->assertEquals('S', (string)$total->getTaxType());
 
         // Payment Info
         $paymentInfos = $firstRow->getPaymentInformations();
         $this->assertCount(0, $paymentInfos);
 
         $this->assertTrue($eDocument->isValid(), json_encode($eDocument->validate()->errors()));
+    }
+
+    public function listOfInvoices(): array
+    {
+        $files = array_map(function ($file) {
+            return __DIR__ . '/fixtures/data/' . $file;
+        }, array_diff(scandir(__DIR__ . '/fixtures/data'), [
+            '.',
+            '..'
+        ]));
+
+        $keys = array_map(function ($file) {
+            return basename($file);
+        }, $files);
+
+        $data = [];
+        foreach ($keys as $index => $key) {
+            $data[$key] = [$files[$index]];
+        }
+
+        return $data;
     }
 }
