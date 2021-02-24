@@ -20,6 +20,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\RelatedInvoicesParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SalParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ShipmentInformationsParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ShippingLabelsParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SimplifiedProductsParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SummaryParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VehicleParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VirtualDutyParser;
@@ -36,12 +37,12 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
     protected $xml;
 
     /** @var DigitalDocumentInstanceInterface */
-    protected $digitalDocymentInstance;
+    protected $digitalDocumentInstance;
 
     public function __construct(SimpleXMLElement $xml)
     {
         $this->xml                     = $xml;
-        $this->digitalDocymentInstance = new DigitalDocumentInstance();
+        $this->digitalDocumentInstance = new DigitalDocumentInstance();
     }
 
     public function xml(): SimpleXMLElement
@@ -54,7 +55,7 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
         $parserPipeline = new Pipeline();
 
         return $parserPipeline
-            ->send($this->digitalDocymentInstance)
+            ->send($this->digitalDocumentInstance)
             ->with($this->xml())
             ->usingMethod('parse')
             ->through([
@@ -72,6 +73,7 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 ShipmentInformationsParser::class,
                 MainInvoiceParser::class,
                 LinesParser::class,
+                SimplifiedProductsParser::class,
                 SummaryParser::class,
                 VehicleParser::class,
                 PaymentInfoParser::class,

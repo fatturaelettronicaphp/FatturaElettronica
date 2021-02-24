@@ -5,25 +5,24 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 
-class SupplierParser extends AbstractHeaderParser
+class SimplifiedSupplierParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if ($this->document->isSimplified()) {
+        if (!$this->document->isSimplified()) {
             return $this->document;
         }
 
         $supplier = new Supplier();
 
-        $prefix = '//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/';
-
-        $documentName = $this->extractValueFromXml($prefix . 'Anagrafica/Nome');
+        $prefix = '//FatturaElettronicaHeader/CedentePrestatore/';
+        $documentName = $this->extractValueFromXml($prefix . 'Nome');
         $supplier->setName($documentName);
 
-        $documentSurname = $this->extractValueFromXml($prefix . 'Anagrafica/Cognome');
+        $documentSurname = $this->extractValueFromXml($prefix . 'Cognome');
         $supplier->setSurname($documentSurname);
 
-        $documentOrganization = $this->extractValueFromXml($prefix . 'Anagrafica/Denominazione');
+        $documentOrganization = $this->extractValueFromXml($prefix . 'Denominazione');
         $supplier->setOrganization($documentOrganization);
 
         $documentFiscalCode = $this->extractValueFromXml($prefix . 'CodiceFiscale');
@@ -39,7 +38,7 @@ class SupplierParser extends AbstractHeaderParser
             $supplier->setCountryCode($value);
         }
 
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Sede', false);
+        $addressValue = $this->extractValueFromXml($prefix . 'Sede', false);
         if ($addressValue !== null) {
             $addressValue = array_shift($addressValue);
         }

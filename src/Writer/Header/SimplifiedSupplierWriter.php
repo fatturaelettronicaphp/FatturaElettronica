@@ -7,15 +7,11 @@ use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
-class SupplierWriter extends AbstractHeaderWriter
+class SimplifiedSupplierWriter extends AbstractHeaderWriter
 {
     protected function performWrite()
     {
         $cedentePrestatore = $this->xml->addChild('CedentePrestatore');
-        $datiAnagrafici = $cedentePrestatore;
-        if (!$this->document->isSimplified()) {
-            $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
-        }
 
         /** @var Supplier $supplier */
         $supplier = $this->document->getSupplier();
@@ -25,47 +21,40 @@ class SupplierWriter extends AbstractHeaderWriter
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 
-        $idFiscaleIva = $datiAnagrafici->addChild('IdFiscaleIVA');
+        $idFiscaleIva = $cedentePrestatore->addChild('IdFiscaleIVA');
         $idFiscaleIva->addChild('IdPaese', $idPaese);
         $idFiscaleIva->addChild('IdCodice', SimpleXmlExtended::sanitizeText($fiscalData['idCodice']));
 
         if (! empty($fiscalData['codiceFiscale'])) {
-            $datiAnagrafici->addChild('CodiceFiscale', SimpleXmlExtended::sanitizeText($fiscalData['codiceFiscale']));
+            $cedentePrestatore->addChild('CodiceFiscale', SimpleXmlExtended::sanitizeText($fiscalData['codiceFiscale']));
         }
 
-        $anagrafica = $datiAnagrafici->addChild('Anagrafica');
         if (! empty($supplier->getOrganization())) {
-            $anagrafica->addChild('Denominazione', SimpleXmlExtended::sanitizeText($supplier->getOrganization()));
+            $cedentePrestatore->addChild('Denominazione', SimpleXmlExtended::sanitizeText($supplier->getOrganization()));
         } else {
             if (! empty($supplier->getName())) {
-                $anagrafica->addChild('Nome', SimpleXmlExtended::sanitizeText($supplier->getName()));
+                $cedentePrestatore->addChild('Nome', SimpleXmlExtended::sanitizeText($supplier->getName()));
             }
 
             if (! empty($supplier->getSurname())) {
-                $anagrafica->addChild('Cognome', SimpleXmlExtended::sanitizeText($supplier->getSurname()));
+                $cedentePrestatore->addChild('Cognome', SimpleXmlExtended::sanitizeText($supplier->getSurname()));
             }
         }
 
         if (! empty($supplier->getRegister())) {
-            $datiAnagrafici->addChild('AlboProfessionale', SimpleXmlExtended::sanitizeText($supplier->getRegister()));
+            $cedentePrestatore->addChild('AlboProfessionale', SimpleXmlExtended::sanitizeText($supplier->getRegister()));
         }
 
         if (! empty($supplier->getRegisterState())) {
-            $datiAnagrafici->addChild('ProvinciaAlbo', strtoupper(SimpleXmlExtended::sanitizeText($supplier->getRegisterState())));
+            $cedentePrestatore->addChild('ProvinciaAlbo', strtoupper(SimpleXmlExtended::sanitizeText($supplier->getRegisterState())));
         }
 
         if (! empty($supplier->getRegisterNumber())) {
-            $datiAnagrafici->addChild('NumeroIscrizioneAlbo', SimpleXmlExtended::sanitizeText($supplier->getRegisterNumber()));
+            $cedentePrestatore->addChild('NumeroIscrizioneAlbo', SimpleXmlExtended::sanitizeText($supplier->getRegisterNumber()));
         }
 
         if (! empty($supplier->getRegisterDate())) {
-            $datiAnagrafici->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format('Y-m-d\TH:i:s.000P'));
-        }
-
-        if ($supplier->getTaxRegime()) {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)$supplier->getTaxRegime());
-        } else {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)TaxRegime::default());
+            $cedentePrestatore->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format('Y-m-d\TH:i:s.000P'));
         }
 
         $sede = $cedentePrestatore->addChild('Sede');
@@ -104,6 +93,12 @@ class SupplierWriter extends AbstractHeaderWriter
             }
 
             $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText((string)$supplier->getSettlementType()));
+        }
+
+        if ($supplier->getTaxRegime()) {
+            $cedentePrestatore->addChild('RegimeFiscale', (string)$supplier->getTaxRegime());
+        } else {
+            $cedentePrestatore->addChild('RegimeFiscale', (string)TaxRegime::RF01());
         }
 
         if ($supplier->hasContacts()) {

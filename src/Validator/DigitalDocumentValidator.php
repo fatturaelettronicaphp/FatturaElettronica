@@ -39,6 +39,7 @@ class DigitalDocumentValidator
         $dom->loadXML($documentXml->saveXML());
         $xsd = $this->getSchema();
 
+
         try {
             $isValid = $dom->schemaValidateSource($xsd);
         } catch (Exception $e) {
@@ -58,7 +59,8 @@ class DigitalDocumentValidator
      */
     protected function getSchema(): string
     {
-        $xsd             = file_get_contents(__DIR__ . '/xsd/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd');
+        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
+        $xsd             = file_get_contents(__DIR__ . '/xsd/' . $schemaFile);
         $xmldsigFilename = __DIR__ . '/xsd/core.xsd';
         $xsd             = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 

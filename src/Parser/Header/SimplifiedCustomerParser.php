@@ -5,38 +5,39 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 use FatturaElettronicaPhp\FatturaElettronica\Customer;
 use FatturaElettronicaPhp\FatturaElettronica\Representative;
 
-class CustomerParser extends AbstractHeaderParser
+class SimplifiedCustomerParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if ($this->document->isSimplified()) {
+        if (!$this->document->isSimplified()) {
             return $this->document;
         }
 
         $customer = new Customer();
 
-        $customerName = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Nome');
+        $prefix = '//FatturaElettronicaHeader/CessionarioCommittente/';
+        $customerName = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Nome');
         $customer->setName($customerName);
 
-        $customerSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Cognome');
+        $customerSurname = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Cognome');
         $customer->setSurname($customerSurname);
 
-        $customerOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Denominazione');
+        $customerOrganization = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Denominazione');
         $customer->setOrganization($customerOrganization);
 
-        $customerFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/CodiceFiscale');
+        $customerFiscalCode = $this->extractValueFromXml($prefix . 'IdentificativiFiscali/CodiceFiscale');
         $customer->setFiscalCode($customerFiscalCode);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdPaese');
+        $value = $this->extractValueFromXml($prefix . 'IdentificativiFiscali/IdFiscaleIVA/IdPaese');
         $customer->setCountryCode($value);
 
-        $customerVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/IdFiscaleIVA/IdCodice');
+        $customerVatNumber = $this->extractValueFromXml($prefix . 'IdentificativiFiscali/IdFiscaleIVA/IdCodice');
         if ($customerVatNumber === null) {
             $customerVatNumber = '';
         }
         $customer->setVatNumber($customerVatNumber);
 
-        $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/Sede', false);
+        $addressValue = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Sede', false);
         if ($addressValue !== null) {
             $addressValue = array_shift($addressValue);
         }

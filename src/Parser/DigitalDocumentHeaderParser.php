@@ -9,6 +9,8 @@ use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\CustomerParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\EmittingSubjectParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\IntermediaryParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\RepresentativeParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\SimplifiedCustomerParser;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\SimplifiedSupplierParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\SupplierParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\TransmissionDataParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
@@ -40,7 +42,9 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
             ->usingMethod('parse')
             ->through([
                 TransmissionDataParser::class,
+                SimplifiedCustomerParser::class,
                 CustomerParser::class,
+                SimplifiedSupplierParser::class,
                 SupplierParser::class,
                 RepresentativeParser::class,
                 IntermediaryParser::class,

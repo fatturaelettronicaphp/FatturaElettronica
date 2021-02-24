@@ -10,6 +10,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\SimplifiedLineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
@@ -83,8 +84,11 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var int[] */
     protected $sals = [];
 
-    /** @var int[] */
+    /** @var LineInterface[] */
     protected $lines = [];
+
+    /** @var SimplifiedLineInterface|null */
+    protected $simplifiedLine;
 
     /** @var ShippingLabel[] */
     protected $shippingLabels = [];
@@ -474,6 +478,18 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     public function getLines(): array
     {
         return $this->lines;
+    }
+
+    public function setSimplifiedLine(SimplifiedLineInterface $line): DigitalDocumentInstanceInterface
+    {
+        $this->simplifiedLine = $line;
+
+        return $this;
+    }
+
+    public function getSimplifiedLine(): SimplifiedLineInterface
+    {
+        return $this->simplifiedLine;
     }
 
     public function hasSals(): bool

@@ -22,10 +22,11 @@ class ParseDigitalDocumentTest extends TestCase
      * @test
      * @dataProvider listOfInvoices
      */
-    public function can_read_p7m_invoices( $filePath)
+    public function can_read_p7m_invoices(string $filePath)
     {
         $eDocument = DigitalDocument::parseFrom($filePath);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+        $this->assertFalse($eDocument->isSimplified());
     }
 
     /** @test */
@@ -35,6 +36,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         $eDocument = DigitalDocument::parseFrom($file);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+        $this->assertFalse($eDocument->isSimplified());
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
 
         $this->assertEquals('03579410246', $eDocument->getCustomer()->getVatNumber());

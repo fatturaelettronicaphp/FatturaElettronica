@@ -11,16 +11,19 @@ use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\AttachmentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\GeneralDataWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\PaymentsWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\ProductsWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\SimplifiedProductsWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\VehicleWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\CustomerWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\IntermediaryWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SimplifiedCustomerWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SimplifiedSupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 use SimpleXMLElement;
 
-class DigitalDocumentWriter implements DigitalDocumentWriterInterface
+class SimplifiedDigitalDocumentWriter implements DigitalDocumentWriterInterface
 {
     /** @var DigitalDocumentInterface */
     protected $document;
@@ -72,10 +75,8 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->usingMethod('write')
             ->through([
                 TransmissionDataWriter::class,
-                SupplierWriter::class,
-                RepresentativeWriter::class,
-                CustomerWriter::class,
-                IntermediaryWriter::class,
+                SimplifiedSupplierWriter::class,
+                SimplifiedCustomerWriter::class,
                 EmittingSubjectWriter::class,
             ])
             ->thenReturn();
@@ -95,9 +96,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->usingMethod('write')
             ->through([
                 GeneralDataWriter::class,
-                ProductsWriter::class,
-                VehicleWriter::class,
-                PaymentsWriter::class,
+                SimplifiedProductsWriter::class,
                 AttachmentWriter::class,
             ])
             ->thenReturn();
@@ -108,16 +107,14 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     protected function createXml(): self
     {
         $this->xml = new SimpleXmlExtended(
-            '<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronica />',
+            '<?xml version="1.0" encoding="UTF-8"?><p:FatturaElettronicaSemplificata />',
             LIBXML_NOERROR
         );
 
         $namespaces = [
-            'versione'               => (string)$this->document->getTransmissionFormat(),
-            'xmlns:xmlns:ds'         => 'http://www.w3.org/2000/09/xmldsig#',
-            'xmlns:xmlns:p'          => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
-            'xmlns:xmlns:xsi'        => 'http://www.w3.org/2001/XMLSchema-instance',
-            'xsi:xsi:schemaLocation' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'versione'       => (string)$this->document->getTransmissionFormat(),
+            'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
+            'xmlns:xmlns:p'  => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.0',
         ];
 
         foreach ($namespaces as $name => $value) {
@@ -126,5 +123,4 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
         return $this;
     }
-
 }

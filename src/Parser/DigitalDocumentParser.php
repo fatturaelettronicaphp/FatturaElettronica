@@ -6,13 +6,9 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Decoder\DigitalDocumentDecoder;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\CannotDecodeFile;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidFileNameExtension;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidP7MFile;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use SimpleXMLElement;
-use TypeError;
 
 class DigitalDocumentParser implements DigitalDocumentParserInterface
 {
@@ -65,11 +61,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser   = new DigitalDocumentBodyParser($body);
+            $bodyParser = new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
@@ -101,12 +97,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
     {
         $this->fileName = $filePath;
 
-        if (! file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
         $simpleXml = (new DigitalDocumentDecoder())->decode($filePath);
-        if (! $simpleXml) {
+        if (!$simpleXml) {
             throw new InvalidXmlFile($filePath);
         }
 

@@ -75,4 +75,6 @@ interface DigitalDocumentInterface
     public function setRepresentative(?BillablePersonInterface $representative);
 
     public function getRepresentative(): ?BillablePersonInterface;
+
+    public function isSimplified(): bool;
 }

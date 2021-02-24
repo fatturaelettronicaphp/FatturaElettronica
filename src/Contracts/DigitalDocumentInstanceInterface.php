@@ -88,6 +88,10 @@ interface DigitalDocumentInstanceInterface
 
     public function addLine(LineInterface $line): DigitalDocumentInstanceInterface;
 
+    public function getSimplifiedLine(): SimplifiedLineInterface;
+
+    public function setSimplifiedLine(SimplifiedLineInterface $line): DigitalDocumentInstanceInterface;
+
     /**
      * @return DiscountInterface[]
      */

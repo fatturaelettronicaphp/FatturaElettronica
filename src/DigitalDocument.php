@@ -16,6 +16,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\SimplifiedDigitalDocumentWriter;
 use SimpleXMLElement;
 
 class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
@@ -80,11 +81,19 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     public function serialize() : SimpleXMLElement
     {
+        if ($this->isSimplified()) {
+            return (new SimplifiedDigitalDocumentWriter($this))->generate()->xml();
+        }
+
         return (new DigitalDocumentWriter($this))->generate()->xml();
     }
 
     public function write(string $filePath) : bool
     {
+        if ($this->isSimplified()) {
+            return (new SimplifiedDigitalDocumentWriter($this))->write($filePath);
+        }
+
         return (new DigitalDocumentWriter($this))->write($filePath);
     }
 
@@ -285,5 +294,10 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         $this->transmissionFormat = $transmissionFormat;
 
         return $this;
+    }
+
+    public function isSimplified(): bool
+    {
+        return $this->transmissionFormat->equals(TransmissionFormat::FSM10());
     }
 }
