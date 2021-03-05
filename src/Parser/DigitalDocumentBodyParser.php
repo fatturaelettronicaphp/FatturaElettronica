@@ -27,34 +27,11 @@ use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VirtualDutyParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
 use SimpleXMLElement;
 
-class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
+class DigitalDocumentBodyParser extends AbstractDigitalDocumentBodyParser implements DigitalDocumentParserInterface
 {
-    use XmlUtilities;
-
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $xml;
-
-    /** @var DigitalDocumentInstanceInterface */
-    protected $digitalDocumentInstance;
-
-    public function __construct(SimpleXMLElement $xml)
-    {
-        $this->xml                     = $xml;
-        $this->digitalDocumentInstance = new DigitalDocumentInstance();
-    }
-
-    public function xml(): SimpleXMLElement
-    {
-        return $this->xml;
-    }
-
     public function parse(): DigitalDocumentInstanceInterface
     {
-        $parserPipeline = new Pipeline();
-
-        return $parserPipeline
+        return (new Pipeline())
             ->send($this->digitalDocumentInstance)
             ->with($this->xml())
             ->usingMethod('parse')
@@ -73,7 +50,6 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 ShipmentInformationsParser::class,
                 MainInvoiceParser::class,
                 LinesParser::class,
-                SimplifiedProductsParser::class,
                 SummaryParser::class,
                 VehicleParser::class,
                 PaymentInfoParser::class,

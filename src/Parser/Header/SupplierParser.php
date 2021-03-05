@@ -8,10 +8,6 @@ class SupplierParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if ($this->document->isSimplified()) {
-            return $this->document;
-        }
-
         $supplier = new Supplier();
 
         $prefix = '//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/';

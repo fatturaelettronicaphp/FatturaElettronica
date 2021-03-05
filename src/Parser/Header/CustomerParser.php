@@ -9,10 +9,6 @@ class CustomerParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if ($this->document->isSimplified()) {
-            return $this->document;
-        }
-
         $customer = new Customer();
 
         $customerName = $this->extractValueFromXml('//FatturaElettronicaHeader/CessionarioCommittente/DatiAnagrafici/Anagrafica/Nome');

@@ -9,10 +9,6 @@ class SimplifiedCustomerParser extends AbstractHeaderParser
 {
     protected function performParsing()
     {
-        if (! $this->document->isSimplified()) {
-            return $this->document;
-        }
-
         $customer = new Customer();
 
         $prefix       = '//FatturaElettronicaHeader/CessionarioCommittente/';
