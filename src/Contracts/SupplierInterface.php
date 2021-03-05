@@ -9,61 +9,61 @@ use FatturaElettronicaPhp\FatturaElettronica\Enums\WoundUpType;
 
 interface SupplierInterface extends BillablePersonInterface
 {
-    public function getRegisterState ();
+    public function getRegisterState();
 
-    public function setRegister ($register);
+    public function setRegister($register);
 
-    public function getEmail ();
+    public function getEmail();
 
-    public function setEmail ($email);
+    public function setEmail($email);
 
-    public function getAssociateType (): ?AssociateType;
+    public function getAssociateType(): ?AssociateType;
 
-    public function setTaxRegime ($taxRegime);
+    public function setTaxRegime($taxRegime);
 
-    public function getRegister ();
+    public function getRegister();
 
-    public function setPhone ($phone);
+    public function setPhone($phone);
 
-    public function getRegisterNumber ();
+    public function getRegisterNumber();
 
-    public function setRegisterDate ($registerDate, $format = null);
+    public function setRegisterDate($registerDate, $format = null);
 
-    public function getTaxRegime (): TaxRegime;
+    public function getTaxRegime(): TaxRegime;
 
-    public function setAdministrativeContact ($administrativeContact);
+    public function setAdministrativeContact($administrativeContact);
 
-    public function setReaOffice ($reaOffice);
+    public function setReaOffice($reaOffice);
 
-    public function getReaOffice ();
+    public function getReaOffice();
 
-    public function getFax ();
+    public function getFax();
 
-    public function setReaNumber ($reaNumber);
+    public function setReaNumber($reaNumber);
 
-    public function getReaNumber ();
+    public function getReaNumber();
 
-    public function getSettlementType (): ?WoundUpType;
+    public function getSettlementType(): ?WoundUpType;
 
-    public function getRegisterDate (): ?DateTime;
+    public function getRegisterDate(): ?DateTime;
 
-    public function setSettlementType ($settlementType);
+    public function setSettlementType($settlementType);
 
-    public function getAdministrativeContact ();
+    public function getAdministrativeContact();
 
-    public function setRegisterState ($registerState);
+    public function setRegisterState($registerState);
 
-    public function setRegisterNumber ($registerNumber);
+    public function setRegisterNumber($registerNumber);
 
-    public function getCapital ();
+    public function getCapital();
 
-    public function getPhone ();
+    public function getPhone();
 
-    public function setFax ($fax);
+    public function setFax($fax);
 
-    public function setCapital ($capital);
+    public function setCapital($capital);
 
-    public function setAssociateType ($associateType);
+    public function setAssociateType($associateType);
 
     public function hasContacts(): bool;
 }

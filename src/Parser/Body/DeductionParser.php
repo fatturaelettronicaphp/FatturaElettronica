@@ -4,7 +4,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Body;
 
 class DeductionParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         /**
          * Ritenuta
@@ -21,6 +21,4 @@ class DeductionParser extends AbstractBodyParser
         $value = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/CausalePagamento');
         $this->digitalDocymentInstance->setDeductionDescription($value);
     }
-
-
 }

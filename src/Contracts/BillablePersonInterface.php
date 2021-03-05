@@ -4,23 +4,23 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 interface BillablePersonInterface extends BillableInterface
 {
-    public function getFiscalCode ();
+    public function getFiscalCode();
 
-    public function setFiscalCode ($fiscalCode);
+    public function setFiscalCode($fiscalCode);
 
-    public function setTitle ($title);
+    public function setTitle($title);
 
-    public function setEori ($eori);
+    public function setEori($eori);
 
-    public function getTitle ();
+    public function getTitle();
 
-    public function getEori ();
+    public function getEori();
 
-    public function getAddress (): ?AddressInterface;
+    public function getAddress(): ?AddressInterface;
 
-    public function setAddress (AddressInterface $address);
+    public function setAddress(AddressInterface $address);
 
-    public function getForeignFixedAddress (): ?AddressInterface;
+    public function getForeignFixedAddress(): ?AddressInterface;
 
-    public function setForeignFixedAddress (AddressInterface $foreignFixedAddress);
+    public function setForeignFixedAddress(AddressInterface $foreignFixedAddress);
 }

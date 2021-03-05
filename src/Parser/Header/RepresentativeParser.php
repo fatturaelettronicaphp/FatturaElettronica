@@ -6,7 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
 
 class RepresentativeParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/RappresentanteFiscale', false);
         if ($value === null) {

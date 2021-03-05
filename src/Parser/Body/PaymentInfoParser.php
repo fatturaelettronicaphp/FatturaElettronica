@@ -8,7 +8,7 @@ use FatturaElettronicaPhp\FatturaElettronica\PaymentInfo;
 
 class PaymentInfoParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $infos = (array)$this->extractValueFromXml('DatiPagamento', false);
         foreach ($infos as $info) {
@@ -17,7 +17,7 @@ class PaymentInfoParser extends AbstractBodyParser
         }
     }
 
-    protected function extractPaymentDetailsFrom ($detail): PaymentDetailsInterface
+    protected function extractPaymentDetailsFrom($detail): PaymentDetailsInterface
     {
         $instanceDetail = new PaymentDetails();
 
@@ -85,7 +85,7 @@ class PaymentInfoParser extends AbstractBodyParser
      * @param $info
      * @return PaymentInfo
      */
-    protected function extractPaymentInfoFrom ($info): PaymentInfo
+    protected function extractPaymentInfoFrom($info): PaymentInfo
     {
         $instanceInfo = new PaymentInfo();
 
@@ -97,6 +97,7 @@ class PaymentInfoParser extends AbstractBodyParser
             $instanceDetail = $this->extractPaymentDetailsFrom($detail);
             $instanceInfo->addDetails($instanceDetail);
         }
+
         return $instanceInfo;
     }
 }

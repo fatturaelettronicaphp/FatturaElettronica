@@ -25,31 +25,9 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
  * @method static self MP20()
  * @method static self MP21()
  * @method static self MP22()
+ * @method static self MP23()
  */
 class PaymentMethod extends Enum
 {
-    protected static $descriptions = [
-        'MP01' => 'contanti',
-        'MP02' => 'assegno',
-        'MP03' => 'assegno circolare',
-        'MP04' => 'contanti presso Tesoreria',
-        'MP05' => 'bonifico',
-        'MP06' => 'vaglia cambiario',
-        'MP07' => 'bollettino bancario',
-        'MP08' => 'carta di pagamento',
-        'MP09' => 'RID',
-        'MP10' => 'RID utenze',
-        'MP11' => 'RID veloce',
-        'MP12' => 'RIBA',
-        'MP13' => 'MAV',
-        'MP14' => 'quietanza erario',
-        'MP15' => 'giroconto su conti di contabilità speciale',
-        'MP16' => 'domiciliazione bancaria',
-        'MP17' => 'domiciliazione postale',
-        'MP18' => 'bollettino di c/c postale',
-        'MP19' => 'SEPA Direct Debit',
-        'MP20' => 'SEPA Direct Debit CORE',
-        'MP21' => 'SEPA Direct Debit B2B',
-        'MP22' => 'Trattenuta su somme già riscosse',
-    ];
+    protected const TYPE = 'ModalitaPagamentoType';
 }

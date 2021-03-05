@@ -24,7 +24,7 @@ class Attachment implements ArrayableInterface, AttachmentInterface
     /**
      * @return string
      */
-    public function getName (): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -33,16 +33,17 @@ class Attachment implements ArrayableInterface, AttachmentInterface
      * @param string $name
      * @return Attachment
      */
-    public function setName (?string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getCompression (): ?string
+    public function getCompression(): ?string
     {
         return $this->compression;
     }
@@ -51,16 +52,17 @@ class Attachment implements ArrayableInterface, AttachmentInterface
      * @param string $compression
      * @return Attachment
      */
-    public function setCompression (?string $compression): self
+    public function setCompression(?string $compression): self
     {
         $this->compression = $compression;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getFormat (): ?string
+    public function getFormat(): ?string
     {
         return $this->format;
     }
@@ -69,16 +71,17 @@ class Attachment implements ArrayableInterface, AttachmentInterface
      * @param string $format
      * @return Attachment
      */
-    public function setFormat (?string $format): self
+    public function setFormat(?string $format): self
     {
         $this->format = $format;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getDescription (): ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -87,16 +90,17 @@ class Attachment implements ArrayableInterface, AttachmentInterface
      * @param string $description
      * @return Attachment
      */
-    public function setDescription (?string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getAttachment (): ?string
+    public function getAttachment(): ?string
     {
         return $this->attachment;
     }
@@ -105,21 +109,22 @@ class Attachment implements ArrayableInterface, AttachmentInterface
      * @param string $attachment
      * @return Attachment
      */
-    public function setAttachment (?string $attachment): self
+    public function setAttachment(?string $attachment): self
     {
         $this->attachment = $attachment;
+
         return $this;
     }
 
-    public function getFileData (): string
+    public function getFileData(): string
     {
         return base64_decode($this->getAttachment());
     }
 
-    public function writeFileToFolder ($filePath = null): string
+    public function writeFileToFolder($filePath = null): string
     {
         if ($filePath === null) {
-            $folder = tempnam(sys_get_temp_dir(), 'fattura_elettronica');
+            $folder   = tempnam(sys_get_temp_dir(), 'fattura_elettronica');
             $filePath =  $folder . $this->getName();
         }
 

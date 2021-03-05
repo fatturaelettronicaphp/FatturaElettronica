@@ -39,7 +39,7 @@ class Total implements ArrayableInterface, TotalInterface
     /**
      * @return float
      */
-    public function getTaxAmount (): ?float
+    public function getTaxAmount(): ?float
     {
         return $this->taxAmount;
     }
@@ -49,16 +49,17 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setTaxAmount (?float $taxAmount): self
+    public function setTaxAmount(?float $taxAmount): self
     {
         $this->taxAmount = $taxAmount;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getTaxPercentage (): ?float
+    public function getTaxPercentage(): ?float
     {
         return $this->taxPercentage;
     }
@@ -68,16 +69,17 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setTaxPercentage (?float $taxPercentage): self
+    public function setTaxPercentage(?float $taxPercentage): self
     {
         $this->taxPercentage = $taxPercentage;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getTotal (): ?float
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -87,38 +89,40 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setTotal (?float $total): self
+    public function setTotal(?float $total): self
     {
         $this->total = $total;
+
         return $this;
     }
 
     /**
      * @return VatNature
      */
-    public function getVatNature (): ?VatNature
+    public function getVatNature(): ?VatNature
     {
         return $this->vatNature;
     }
 
-    public function setVatNature ( $vatNature): self
+    public function setVatNature($vatNature): self
     {
         if ($vatNature === null) {
             return $this;
         }
 
-        if (!$vatNature instanceof VatNature) {
-            $vatNature = VatNature::from($vatNature);
+        if (! $vatNature instanceof VatNature) {
+            $vatNature = new VatNature($vatNature);
         }
 
         $this->vatNature = $vatNature;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getOtherExpenses (): ?float
+    public function getOtherExpenses(): ?float
     {
         return $this->otherExpenses;
     }
@@ -128,16 +132,17 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setOtherExpenses (?float $otherExpenses): self
+    public function setOtherExpenses(?float $otherExpenses): self
     {
         $this->otherExpenses = $otherExpenses;
+
         return $this;
     }
 
     /**
      * @return float
      */
-    public function getRounding (): ?float
+    public function getRounding(): ?float
     {
         return $this->rounding;
     }
@@ -147,38 +152,40 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setRounding (?float $rounding): self
+    public function setRounding(?float $rounding): self
     {
         $this->rounding = $rounding;
+
         return $this;
     }
 
     /**
      * @return VatEligibility
      */
-    public function getTaxType (): ?VatEligibility
+    public function getTaxType(): ?VatEligibility
     {
         return $this->taxType;
     }
 
-    public function setTaxType ( $taxType): self
+    public function setTaxType($taxType): self
     {
         if ($taxType === null) {
             return $this;
         }
 
-        if (!$taxType instanceof VatEligibility) {
-            $taxType = VatEligibility::from($taxType);
+        if (! $taxType instanceof VatEligibility) {
+            $taxType = new VatEligibility($taxType);
         }
 
         $this->taxType = $taxType;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getReference (): ?string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
@@ -188,11 +195,10 @@ class Total implements ArrayableInterface, TotalInterface
      *
      * @return Total
      */
-    public function setReference (?string $reference): self
+    public function setReference(?string $reference): self
     {
         $this->reference = $reference;
+
         return $this;
     }
-
-
 }

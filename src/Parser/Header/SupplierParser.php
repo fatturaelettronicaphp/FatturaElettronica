@@ -2,40 +2,37 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 
 class SupplierParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
-
         $supplier = new Supplier();
 
-        $documentName = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Nome');
+        $prefix = '//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/';
+
+        $documentName = $this->extractValueFromXml($prefix . 'Anagrafica/Nome');
         $supplier->setName($documentName);
 
-        $documentSurname = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Cognome');
+        $documentSurname = $this->extractValueFromXml($prefix . 'Anagrafica/Cognome');
         $supplier->setSurname($documentSurname);
 
-        $documentOrganization = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/Anagrafica/Denominazione');
+        $documentOrganization = $this->extractValueFromXml($prefix . 'Anagrafica/Denominazione');
         $supplier->setOrganization($documentOrganization);
 
-        $documentFiscalCode = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/CodiceFiscale');
+        $documentFiscalCode = $this->extractValueFromXml($prefix . 'CodiceFiscale');
         $supplier->setFiscalCode($documentFiscalCode);
 
-        $documentVatNumber = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdCodice');
-        if ($documentVatNumber === null) {
-            throw new InvalidXmlFile('Vat Number is required');
+        $documentVatNumber = $this->extractValueFromXml($prefix . 'IdFiscaleIVA/IdCodice');
+        if ($documentVatNumber !== null) {
+            $supplier->setVatNumber($documentVatNumber);
         }
-        $supplier->setVatNumber($documentVatNumber);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/IdFiscaleIVA/IdPaese');
-        if ($value === null) {
-            throw new InvalidXmlFile('IdPaese is required');
+        $value = $this->extractValueFromXml($prefix . 'IdFiscaleIVA/IdPaese');
+        if ($value !== null) {
+            $supplier->setCountryCode($value);
         }
-        $supplier->setCountryCode($value);
 
         $addressValue = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Sede', false);
         if ($addressValue !== null) {
@@ -57,20 +54,22 @@ class SupplierParser extends AbstractHeaderParser
             $supplier->setForeignFixedAddress($address);
         }
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/AlboProfessionale');
+        $value = $this->extractValueFromXml($prefix . 'AlboProfessionale');
         $supplier->setRegister($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/ProvinciaAlbo');
+        $value = $this->extractValueFromXml($prefix . 'ProvinciaAlbo');
         $supplier->setRegisterState($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/NumeroIscrizioneAlbo');
+        $value = $this->extractValueFromXml($prefix . 'NumeroIscrizioneAlbo');
         $supplier->setRegisterNumber($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/DataIscrizioneAlbo');
+        $value = $this->extractValueFromXml($prefix . 'DataIscrizioneAlbo');
         $supplier->setRegisterDate($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RegimeFiscale');
-        $supplier->setTaxRegime($value);
+        $value = $this->extractValueFromXml($prefix . 'RegimeFiscale');
+        if ($value !== null) {
+            $supplier->setTaxRegime($value);
+        }
 
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Telefono');
         $supplier->setPhone($value);
@@ -81,7 +80,7 @@ class SupplierParser extends AbstractHeaderParser
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Fax');
         $supplier->setFax($value);
 
-        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/DatiAnagrafici/RiferimentoAmministrazione');
+        $value = $this->extractValueFromXml($prefix . 'RiferimentoAmministrazione');
         $supplier->setAdministrativeContact($value);
 
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/Ufficio');

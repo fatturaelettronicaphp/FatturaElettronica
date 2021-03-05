@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronicaSemplificata xmlns:pfx1="http://www.tibco.com/ns/no_namespace_schema_location/RMCA_FAT_WRITER/Schemas/fattura_SAP_RMCA.xsd" xmlns:pfx41="http://www.tibco.com/ns/no_namespace_schema_location/RMCA_FAT_WRITER/Schemas/metadati.xsd" xmlns:ns3="http://telecomitalia.it/s2d/soa/esb_etl/logger" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.0" xmlns:pfx31="http://www.tibco.com/ns/no_namespace_schema_location/RMCA_FAT_WRITER/Schemas/aliquoteIVA.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:pfx6="http://www.fatturapa.gov.it/sdi/fatturapa/v1.0" versione="FSM10">
+    <FatturaElettronicaHeader>
+        <DatiTrasmissione>
+            <IdTrasmittente>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>00123456789</IdCodice>
+            </IdTrasmittente>
+            <ProgressivoInvio>123456</ProgressivoInvio>
+            <FormatoTrasmissione>FSM10</FormatoTrasmissione>
+            <CodiceDestinatario>0000000</CodiceDestinatario>
+        </DatiTrasmissione>
+        <CedentePrestatore>
+            <IdFiscaleIVA>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>00444448888</IdCodice>
+            </IdFiscaleIVA>
+            <CodiceFiscale>00444448888</CodiceFiscale>
+            <Denominazione>AAAAA AZIENDA PROVA SPA</Denominazione>
+            <Sede>
+                <Indirizzo>Via Prova aaa bbb</Indirizzo>
+                <NumeroCivico>1</NumeroCivico>
+                <CAP>20123</CAP>
+                <Comune>MILANO</Comune>
+                <Provincia>MI</Provincia>
+                <Nazione>IT</Nazione>
+            </Sede>
+            <IscrizioneREA>
+                <Ufficio>MI</Ufficio>
+                <NumeroREA>1230123</NumeroREA>
+                <CapitaleSociale>10000.00</CapitaleSociale>
+                <SocioUnico>SM</SocioUnico>
+                <StatoLiquidazione>LN</StatoLiquidazione>
+            </IscrizioneREA>
+            <RegimeFiscale>RF01</RegimeFiscale>
+        </CedentePrestatore>
+        <CessionarioCommittente>
+            <IdentificativiFiscali>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>03333333333</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>03333333333</CodiceFiscale>
+            </IdentificativiFiscali>
+            <AltriDatiIdentificativi>
+                <Denominazione>PROVA TEST TEST SRL</Denominazione>
+                <Sede>
+                    <Indirizzo>VIA PROVA PROVA</Indirizzo>
+                    <CAP>00101</CAP>
+                    <Comune>TORINO</Comune>
+                    <Provincia>TO</Provincia>
+                    <Nazione>IT</Nazione>
+                </Sede>
+            </AltriDatiIdentificativi>
+        </CessionarioCommittente>
+    </FatturaElettronicaHeader>
+    <FatturaElettronicaBody>
+        <DatiGenerali>
+            <DatiGeneraliDocumento>
+                <TipoDocumento>TD08</TipoDocumento>
+                <Divisa>EUR</Divisa>
+                <Data>2019-03-30</Data>
+                <Numero>987354321</Numero>
+            </DatiGeneraliDocumento>
+            <DatiFatturaRettificata>
+                <NumeroFR>123456789</NumeroFR>
+                <DataFR>2020-12-14</DataFR>
+                <ElementiRettificati>Prodotto consegnato in precedenza</ElementiRettificati>
+            </DatiFatturaRettificata>
+        </DatiGenerali>
+        <DatiBeniServizi>
+            <Descrizione>Prodotto restituito</Descrizione>
+            <Importo>63.90</Importo>
+            <DatiIVA>
+                <Imposta>63.90</Imposta>
+            </DatiIVA>
+        </DatiBeniServizi>
+    </FatturaElettronicaBody>
+</p:FatturaElettronicaSemplificata>

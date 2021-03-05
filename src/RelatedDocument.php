@@ -6,7 +6,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\RelatedDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
-
 class RelatedDocument extends ShippingLabel implements ArrayableInterface, RelatedDocumentInterface
 {
     use Arrayable;
@@ -20,50 +19,51 @@ class RelatedDocument extends ShippingLabel implements ArrayableInterface, Relat
     /** @var string */
     protected $cigCode;
 
-
-    public function getLineNumber (): ?string
+    public function getLineNumber(): ?string
     {
         return $this->lineNumber;
     }
 
-    public function setLineNumber (?string $lineNumber): RelatedDocument
+    public function setLineNumber(?string $lineNumber): RelatedDocument
     {
         $this->lineNumber = $lineNumber;
+
         return $this;
     }
 
-    public function getOrderCode (): ?string
+    public function getOrderCode(): ?string
     {
         return $this->orderCode;
     }
 
-    public function setOrderCode (?string $orderCode): RelatedDocument
+    public function setOrderCode(?string $orderCode): RelatedDocument
     {
         $this->orderCode = $orderCode;
+
         return $this;
     }
 
-    public function getCupCode (): ?string
+    public function getCupCode(): ?string
     {
         return $this->cupCode;
     }
 
-    public function setCupCode (?string $cupCode): RelatedDocument
+    public function setCupCode(?string $cupCode): RelatedDocument
     {
         $this->cupCode = $cupCode;
+
         return $this;
     }
 
-    public function getCigCode (): ?string
+    public function getCigCode(): ?string
     {
         return $this->cigCode;
     }
 
-    public function setCigCode (?string $cigCode): RelatedDocument
+    public function setCigCode(?string $cigCode): RelatedDocument
     {
         $this->cigCode = $cigCode;
+
         return $this;
     }
-
-
 }

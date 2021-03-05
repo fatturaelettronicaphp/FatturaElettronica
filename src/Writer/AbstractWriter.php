@@ -11,7 +11,7 @@ abstract class AbstractWriter
      */
     protected $xml;
 
-    public function __construct (SimpleXMLElement $xml)
+    public function __construct(SimpleXMLElement $xml)
     {
         $this->xml = $xml;
     }
@@ -35,15 +35,15 @@ abstract class AbstractWriter
      *  - IdCodice = partita iva se indicata, altrimenti codice fiscale
      *  - CodiceFiscale = vuoto
      */
-    protected function calculateFiscalData ($idPaese, $codiceFiscale, $idCodice = '')
+    protected function calculateFiscalData($idPaese, $codiceFiscale, $idCodice = '')
     {
         if ($idPaese !== 'IT') {
-            $idCodice = !empty($idCodice) ? $idCodice : $codiceFiscale;
+            $idCodice      = ! empty($idCodice) ? $idCodice : $codiceFiscale;
             $codiceFiscale = '';
         }
 
         return [
-            'idCodice' => $idCodice,
+            'idCodice'      => $idCodice,
             'codiceFiscale' => $codiceFiscale,
         ];
     }

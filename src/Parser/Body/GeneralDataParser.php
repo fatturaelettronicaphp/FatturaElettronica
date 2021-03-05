@@ -8,13 +8,13 @@ use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
 
 class GeneralDataParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $types = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/TipoDocumento');
         if ($types === null) {
             throw new InvalidXmlFile('<TipoDocumento> not found');
         }
-        $type = DocumentType::from($types);
+        $type = new DocumentType($types);
 
         $datas = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Data');
         if ($datas === null) {
@@ -40,8 +40,8 @@ class GeneralDataParser extends AbstractBodyParser
         }
 
         $documentTotal = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
-        $rounding = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
-        $art73 = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Art73');
+        $rounding      = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
+        $art73         = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Art73');
 
         $this->digitalDocymentInstance
             ->setDocumentType($type)

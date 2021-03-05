@@ -2,7 +2,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\OtherDataInterface;
@@ -121,7 +120,7 @@ class ProductsWriter extends AbstractBodyWriter
             $quantita = 1;
         }
 
-        $dettaglioLinee->addChild('Quantita',SimpleXmlExtended::sanitizeFloat($quantita));
+        $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita));
 
         if ($line->getUnit() !== null) {
             $dettaglioLinee->addChild('UnitaMisura', $line->getUnit());
@@ -135,10 +134,10 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $precision = 2;
+        $precision    = 2;
         $maxPrecision = 10;
-        $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
-        while($precision <= $maxPrecision && $difference > 0) {
+        $difference   = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
+        while ($precision <= $maxPrecision && $difference > 0) {
             $precision++;
             $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
         }
@@ -153,9 +152,9 @@ class ProductsWriter extends AbstractBodyWriter
             }
         }
 
-        $dettaglioLinee->addChild('PrezzoTotale',SimpleXmlExtended::sanitizeFloat($line->getTotal()));
+        $dettaglioLinee->addChild('PrezzoTotale', SimpleXmlExtended::sanitizeFloat($line->getTotal()));
 
-        $dettaglioLinee->addChild('AliquotaIVA',SimpleXmlExtended::sanitizeFloat($line->getTaxPercentage()));
+        $dettaglioLinee->addChild('AliquotaIVA', SimpleXmlExtended::sanitizeFloat($line->getTaxPercentage()));
 
         if ($line->isDeduction()) {
             $dettaglioLinee->addChild('Ritenuta', 'SI');
@@ -175,7 +174,6 @@ class ProductsWriter extends AbstractBodyWriter
             foreach ($otherData as $o) {
                 $this->addOtherData($dettaglioLinee, $o);
             }
-
         }
     }
 

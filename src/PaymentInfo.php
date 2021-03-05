@@ -21,7 +21,7 @@ class PaymentInfo implements ArrayableInterface, PaymentInfoInterface
     /**
      * @return PaymentTerm
      */
-    public function getTerms (): ?PaymentTerm
+    public function getTerms(): ?PaymentTerm
     {
         return $this->terms;
     }
@@ -30,32 +30,34 @@ class PaymentInfo implements ArrayableInterface, PaymentInfoInterface
      * @param PaymentTerm $terms
      * @return PaymentInfo
      */
-    public function setTerms ($terms): self
+    public function setTerms($terms): self
     {
         if ($terms === null) {
             return $this;
         }
 
-        if (!$terms instanceof PaymentTerm) {
-            $terms = PaymentTerm::from($terms);
+        if (! $terms instanceof PaymentTerm) {
+            $terms = new PaymentTerm($terms);
         }
 
         $this->terms = $terms;
+
         return $this;
     }
 
-    public function addDetails (PaymentDetailsInterface $details): self
+    public function addDetails(PaymentDetailsInterface $details): self
     {
         $this->details[] = $details;
+
         return $this;
     }
 
-    public function getDetails (): array
+    public function getDetails(): array
     {
         return $this->details;
     }
 
-    public function hasDetails (): bool
+    public function hasDetails(): bool
     {
         return count($this->details) > 0;
     }

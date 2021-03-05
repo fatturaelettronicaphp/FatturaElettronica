@@ -2,13 +2,12 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Header;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Customer;
 use FatturaElettronicaPhp\FatturaElettronica\Representative;
 
 class CustomerParser extends AbstractHeaderParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $customer = new Customer();
 

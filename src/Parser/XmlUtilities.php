@@ -1,6 +1,5 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
 
 use SimpleXMLElement;
@@ -9,12 +8,12 @@ trait XmlUtilities
 {
     abstract public function xml(): SimpleXMLElement;
 
-    protected function extractValueFromXml (string $xPath, $convertToString = true)
+    protected function extractValueFromXml(string $xPath, $convertToString = true)
     {
         return $this->extractValueFromXmlElement($this->xml(), $xPath, $convertToString);
     }
 
-    protected function extractValueFromXmlElement (SimpleXMLElement $xml, string $xPath, $convertToString = true)
+    protected function extractValueFromXmlElement(SimpleXMLElement $xml, string $xPath, $convertToString = true)
     {
         $value = $xml->xpath($xPath);
 

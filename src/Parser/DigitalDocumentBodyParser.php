@@ -4,7 +4,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\AttachmentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\ConventionsParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\DeductionParser;
@@ -24,37 +23,13 @@ use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\SummaryParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VehicleParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Body\VirtualDutyParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Pipeline;
-use SimpleXMLElement;
 
-class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
+class DigitalDocumentBodyParser extends AbstractDigitalDocumentBodyParser implements DigitalDocumentParserInterface
 {
-    use XmlUtilities;
-
-    /**
-     * @var SimpleXMLElement
-     */
-    protected $xml;
-
-    /** @var DigitalDocumentInstanceInterface */
-    protected $digitalDocymentInstance;
-
-    public function __construct (SimpleXMLElement $xml)
+    public function parse(): DigitalDocumentInstanceInterface
     {
-        $this->xml = $xml;
-        $this->digitalDocymentInstance = new DigitalDocumentInstance();
-    }
-
-    public function xml (): SimpleXMLElement
-    {
-        return $this->xml;
-    }
-
-    public function parse (): DigitalDocumentInstanceInterface
-    {
-        $parserPipeline = new Pipeline();
-
-        return $parserPipeline
-            ->send($this->digitalDocymentInstance)
+        return (new Pipeline())
+            ->send($this->digitalDocumentInstance)
             ->with($this->xml())
             ->usingMethod('parse')
             ->through([
@@ -75,7 +50,7 @@ class DigitalDocumentBodyParser implements DigitalDocumentParserInterface
                 SummaryParser::class,
                 VehicleParser::class,
                 PaymentInfoParser::class,
-                AttachmentParser::class
+                AttachmentParser::class,
             ])
             ->thenReturn();
     }

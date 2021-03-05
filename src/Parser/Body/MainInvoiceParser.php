@@ -4,7 +4,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Body;
 
 class MainInvoiceParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $value = $this->extractValueFromXml('DatiGenerali/NumeroFatturaPrincipale');
         $this->digitalDocymentInstance->setMainInvoiceNumber($value);

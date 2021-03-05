@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 
 class RepresentativeWriter extends AbstractHeaderWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         $documentPerson = $this->document->getRepresentative();
 
@@ -16,11 +16,11 @@ class RepresentativeWriter extends AbstractHeaderWriter
         }
 
         $rappresentanteFiscale = $this->xml->addChild('RappresentanteFiscale');
-        $datiAnagrafici = $rappresentanteFiscale->addChild('DatiAnagrafici');
+        $datiAnagrafici        = $rappresentanteFiscale->addChild('DatiAnagrafici');
 
-        $idPaese = $documentPerson->getCountryCode();
+        $idPaese       = $documentPerson->getCountryCode();
         $codiceFiscale = $documentPerson->getFiscalCode();
-        $vatNumber = $documentPerson->getVatNumber();
+        $vatNumber     = $documentPerson->getVatNumber();
         if (empty($codiceFiscale) && empty($vatNumber)) {
             throw new InvalidDocument('Invalid empty fiscal code and vat number for rappresentante fiscale');
         }
@@ -31,26 +31,24 @@ class RepresentativeWriter extends AbstractHeaderWriter
         $idFiscaleIva->addChild('IdPaese', $idPaese);
         $idFiscaleIva->addChild('IdCodice', $fiscalData['idCodice']);
 
-        if (!empty($fiscalData['codiceFiscale'])) {
+        if (! empty($fiscalData['codiceFiscale'])) {
             $datiAnagrafici->addChild('CodiceFiscale', SimpleXmlExtended::sanitizeText($fiscalData['codiceFiscale']));
         }
 
         $anagrafica = $datiAnagrafici->addChild('Anagrafica');
 
-        if (!empty($documentPerson->getOrganization())) {
+        if (! empty($documentPerson->getOrganization())) {
             $anagrafica->addChild('Denominazione', SimpleXmlExtended::sanitizeText($documentPerson->getOrganization()));
-
         } else {
-            if (!empty($documentPerson->getName())) {
+            if (! empty($documentPerson->getName())) {
                 $anagrafica->addChild('Nome', SimpleXmlExtended::sanitizeText($documentPerson->getName()));
             }
 
-            if (!empty($documentPerson->getSurname())) {
+            if (! empty($documentPerson->getSurname())) {
                 $anagrafica->addChild('Cognome', SimpleXmlExtended::sanitizeText($documentPerson->getSurname()));
             }
         }
 
         return $this;
     }
-
 }

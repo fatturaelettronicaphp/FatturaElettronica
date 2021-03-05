@@ -1,20 +1,18 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Utilities;
-
 
 use ReflectionClass;
 
 trait Arrayable
 {
-    public function toArray (): array
+    public function toArray(): array
     {
         $values = [];
 
         $properties = (new ReflectionClass($this))->getProperties();
         foreach ($properties as $property) {
-            $name = $property->getName();
+            $name  = $property->getName();
             $value = $this->$name;
 
             if (is_array($value)) {

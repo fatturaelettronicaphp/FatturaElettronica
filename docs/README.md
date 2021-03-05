@@ -24,7 +24,7 @@ Il pacchetto è utilizzato per gestione delle fatture elettroniche nel portale [
 
 ## Installazione
 
-Il pacchetto viene installato attraverso composer, e richiede PHP >= 7.1
+Il pacchetto viene installato attraverso composer, e richiede PHP >= 7.3
 
 ```bash
 composer require fatturaelettronicaphp/fattura-elettronica

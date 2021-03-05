@@ -2,10 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
-
 class VehicleWriter extends AbstractBodyWriter
 {
-    protected function performWrite ()
+    protected function performWrite()
     {
         if ($this->body->getVehicleRegistrationDate() !== null || $this->body->getVehicleTotalKm() !== null) {
             $vehicleData = $this->xml->addChild('DatiVeicoli');

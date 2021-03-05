@@ -7,7 +7,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 
 class AttachmentParser extends AbstractBodyParser
 {
-    protected function performParsing ()
+    protected function performParsing()
     {
         $attachments = (array)$this->extractValueFromXml('Allegati', false);
         foreach ($attachments as $attachment) {
@@ -20,7 +20,7 @@ class AttachmentParser extends AbstractBodyParser
      * @param $attachment
      * @return Attachment
      */
-    protected function extractAttachmentFrom ($attachment): AttachmentInterface
+    protected function extractAttachmentFrom($attachment): AttachmentInterface
     {
         $instance = new Attachment();
 
@@ -38,6 +38,7 @@ class AttachmentParser extends AbstractBodyParser
 
         $value = (string) $this->extractValueFromXmlElement($attachment, 'Attachment');
         $instance->setAttachment($value);
+
         return $instance;
     }
 }
