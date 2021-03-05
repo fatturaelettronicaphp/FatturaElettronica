@@ -61,11 +61,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser = $digitalDocument->isSimplified() ? new SimplifiedDigitalDocumentBodyParser($body) : new DigitalDocumentBodyParser($body);
+            $bodyParser   = $digitalDocument->isSimplified() ? new SimplifiedDigitalDocumentBodyParser($body) : new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }
@@ -97,12 +97,12 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
     {
         $this->fileName = $filePath;
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new InvalidFileNameExtension(sprintf('File does not exist "%s"', $filePath));
         }
 
         $simpleXml = (new DigitalDocumentDecoder())->decode($filePath);
-        if (!$simpleXml) {
+        if (! $simpleXml) {
             throw new InvalidXmlFile($filePath);
         }
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser;
-
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
@@ -22,7 +20,7 @@ abstract class AbstractDigitalDocumentBodyParser
 
     public function __construct(SimpleXMLElement $xml)
     {
-        $this->xml = $xml;
+        $this->xml                     = $xml;
         $this->digitalDocumentInstance = new DigitalDocumentInstance();
     }
 
