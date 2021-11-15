@@ -427,22 +427,13 @@ class ParseDigitalDocumentTest extends TestCase
 
     public function listOfInvoices(): array
     {
-        $files = array_map(function ($file) {
-            return __DIR__ . '/fixtures/data/' . $file;
-        }, array_diff(scandir(__DIR__ . '/fixtures/data'), [
-            '.',
-            '..',
-        ]));
-
-        $keys = array_map(function ($file) {
-            return basename($file);
-        }, $files);
-
-        $data = [];
-        foreach ($keys as $index => $key) {
-            $data[$key] = [$files[$index]];
-        }
-
-        return $data;
+        return [
+            ['IT01234567890_11001.xml' => __DIR__ . '/fixtures/IT01234567890_11001.xml'],
+            ['IT01234567890_11002.xml' => __DIR__ . '/fixtures/IT01234567890_11002.xml'],
+            ['IT01234567890_FPR02.xml' => __DIR__ . '/fixtures/IT01234567890_FPR02.xml'],
+            ['IT01234567899_000sq.xml' => __DIR__ . '/fixtures/IT01234567899_000sq.xml'],
+            ['IT00484960588_ERKHK.xml.p7m' => __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m'],
+            ['ESEMPIO TD24.xml' => __DIR__ . '/fixtures/ESEMPIO TD24.xml'],
+        ];
     }
 }

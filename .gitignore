@@ -10,3 +10,4 @@ build
 composer.lock
 tests/fixtures/data
 tests/fixtures/data/*
+.DS_Store
