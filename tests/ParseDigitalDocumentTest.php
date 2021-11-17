@@ -32,12 +32,13 @@ class ParseDigitalDocumentTest extends TestCase
     /**
      * @test
      */
-    public function validates_dashed_emails()
+    public function validates_dashed_emails_domains()
     {
         $eDocument = DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT01234567890_11002.xml');
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
         $this->assertTrue($eDocument->isValid());
     }
+
 
     /** @test */
     public function can_read_p7m_invoice()
