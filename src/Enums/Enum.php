@@ -6,7 +6,7 @@ use JsonSerializable;
 use Stringable;
 use TypeError;
 
-abstract class Enum implements Stringable, JsonSerializable
+abstract class Enum implements JsonSerializable
 {
     protected static $values = [];
 
