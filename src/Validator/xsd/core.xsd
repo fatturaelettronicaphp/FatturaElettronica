@@ -1,5 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE schema PUBLIC "-//W3C//DTD XMLSchema 200102//EN" "http://www.w3.org/2001/XMLSchema.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE schema
+        PUBLIC "-//W3C//DTD XMLSchema 200102//EN" "http://www.w3.org/2001/XMLSchema.dtd"
+        [
+                <!ATTLIST schema
+                        xmlns:ds CDATA #FIXED "http://www.w3.org/2000/09/xmldsig#">
+                <!ENTITY dsig 'http://www.w3.org/2000/09/xmldsig#'>
+                <!ENTITY % p ''>
+                <!ENTITY % s ''>
+                ]>
+
 <!-- Schema for XML Signatures
     http://www.w3.org/2000/09/xmldsig#
     $Revision: 1.1 $ on $Date: 2002/02/08 20:32:26 $ by $Author: reagle $
@@ -15,7 +24,12 @@
     [1] http://www.w3.org/Consortium/Legal/copyright-software-19980720
     [2] http://www.w3.org/Consortium/Legal/IPR-FAQ-20000620.html#DTD
 -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.w3.org/2000/09/xmldsig#" version="0.1" elementFormDefault="qualified">
+
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+        targetNamespace="http://www.w3.org/2000/09/xmldsig#"
+        version="0.1" elementFormDefault="qualified">
 
     <!-- Basic Types Defined for Signatures -->
 
@@ -197,11 +211,13 @@
             <sequence>
                 <element name="PGPKeyID" type="base64Binary"/>
                 <element name="PGPKeyPacket" type="base64Binary" minOccurs="0"/>
-                <any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+                <any namespace="##other" processContents="lax" minOccurs="0"
+                     maxOccurs="unbounded"/>
             </sequence>
             <sequence>
                 <element name="PGPKeyPacket" type="base64Binary"/>
-                <any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+                <any namespace="##other" processContents="lax" minOccurs="0"
+                     maxOccurs="unbounded"/>
             </sequence>
         </choice>
     </complexType>
