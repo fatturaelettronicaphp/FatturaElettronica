@@ -42,7 +42,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
      *
      * @return Line
      */
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): SimplifiedLineInterface
     {
         $this->description = $description;
 
@@ -62,7 +62,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
      *
      * @return Total
      */
-    public function setTaxAmount(?float $taxAmount): self
+    public function setTaxAmount(?float $taxAmount): SimplifiedLineInterface
     {
         $this->taxAmount = $taxAmount;
 
@@ -82,7 +82,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
      *
      * @return Total
      */
-    public function setTaxPercentage(?float $taxPercentage): self
+    public function setTaxPercentage(?float $taxPercentage): SimplifiedLineInterface
     {
         $this->taxPercentage = $taxPercentage;
 
@@ -102,7 +102,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
      *
      * @return Total
      */
-    public function setTotal(?float $total): self
+    public function setTotal(?float $total): SimplifiedLineInterface
     {
         $this->total = $total;
 
@@ -117,7 +117,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
         return $this->vatNature;
     }
 
-    public function setVatNature($vatNature): self
+    public function setVatNature($vatNature): SimplifiedLineInterface
     {
         if ($vatNature === null) {
             return $this;
@@ -145,7 +145,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
      *
      * @return Total
      */
-    public function setReference(?string $reference): self
+    public function setReference(?string $reference): SimplifiedLineInterface
     {
         $this->reference = $reference;
 
