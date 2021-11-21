@@ -2,23 +2,36 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Body;
 
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Deduction;
+
 class DeductionParser extends AbstractBodyParser
 {
     protected function performParsing()
     {
-        /**
-         * Ritenuta
-         */
-        $value = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/TipoRitenuta');
-        $this->digitalDocymentInstance->setDeductionType($value);
+		$deductions = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta', false);
 
-        $value = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/ImportoRitenuta');
-        $this->digitalDocymentInstance->setDeductionAmount($value);
-
-        $value = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/AliquotaRitenuta');
-        $this->digitalDocymentInstance->setDeductionPercentage($value);
-
-        $value = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta/CausalePagamento');
-        $this->digitalDocymentInstance->setDeductionDescription($value);
+		foreach ($deductions as $deduction) {
+			$deductionInstance = $this->extractFundInformationsFrom($deduction);
+			$this->digitalDocymentInstance->addDeduction($deductionInstance);
+		}
     }
+
+	protected function extractFundInformationsFrom($fund): DeductionInterface
+	{
+		$deductionInstance = new Deduction();
+		$value        = $this->extractValueFromXmlElement($fund, 'TipoRitenuta');
+		$deductionInstance->setType($value);
+
+		$value = $this->extractValueFromXmlElement($fund, 'ImportoRitenuta');
+		$deductionInstance->setAmount($value);
+
+		$value = $this->extractValueFromXmlElement($fund, 'AliquotaRitenuta');
+		$deductionInstance->setPercentage($value);
+
+		$value = $this->extractValueFromXmlElement($fund, 'CausalePagamento');
+		$deductionInstance->setDescription($value);
+
+		return $deductionInstance;
+	}
 }
