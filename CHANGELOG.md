@@ -3,7 +3,7 @@
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
 ## 2.2.0
-- Aggiunta gestione multiple ritenute (grazie @Vetar)
+- Aggiunta gestione multiple ritenute (grazie @vetarsonr)
 
 ## 2.1.0 - 15/11/2021
 - Aggiornata compatibilità XSD
