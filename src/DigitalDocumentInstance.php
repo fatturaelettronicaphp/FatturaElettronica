@@ -4,6 +4,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\FundInterface;
@@ -59,6 +60,9 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     /** @var float */
     protected $virtualDutyAmount;
+
+    /** @var DeductionInterface[] */
+    protected $deductions = [];
 
     /** @var FundInterface[] */
     protected $funds = [];
@@ -199,6 +203,9 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function getDeductionType(): ?DeductionType
     {
+    	if( $this->hasMultipleDeductions() )
+    		return $this->getDeductions()[0]->getType();
+
         return $this->deductionType;
     }
 
@@ -219,7 +226,10 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function getDeductionAmount(): ?float
     {
-        return $this->deductionAmount;
+		if( $this->hasMultipleDeductions() )
+			return $this->getDeductions()[0]->getAmount();
+
+		return $this->deductionAmount;
     }
 
     public function setDeductionAmount(?float $deductionAmount): DigitalDocumentInstanceInterface
@@ -231,19 +241,25 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function getDeductionPercentage(): ?float
     {
+		if( $this->hasMultipleDeductions() )
+			return $this->getDeductions()[0]->getPercentage();
+
         return $this->deductionPercentage;
     }
 
     public function setDeductionPercentage(?float $deductionPercentage): DigitalDocumentInstanceInterface
     {
-        $this->deductionPercentage = $deductionPercentage;
+		$this->deductionPercentage = $deductionPercentage;
 
         return $this;
     }
 
     public function getDeductionDescription(): ?string
     {
-        return $this->deductionDescription;
+		if( $this->hasMultipleDeductions() )
+			return $this->getDeductions()[0]->getDescription();
+
+		return $this->deductionDescription;
     }
 
     public function setDeductionDescription(?string $deductionDescription): DigitalDocumentInstanceInterface
@@ -322,6 +338,26 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
         return false;
     }
+
+	public function hasMultipleDeductions(): bool
+	{
+		return count($this->deductions) > 0;
+	}
+
+    public function addDeduction(DeductionInterface $deduction): DigitalDocumentInstanceInterface
+	{
+		$this->deductions[] = $deduction;
+
+		return $this;
+	}
+
+	/**
+	 * @return DeductionInterface[]
+	 */
+	public function getDeductions(): array
+	{
+		return $this->deductions;
+	}
 
     public function addFund(FundInterface $fund): DigitalDocumentInstanceInterface
     {

@@ -4,7 +4,9 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Deduction;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
@@ -78,6 +80,10 @@ class GeneralDataWriter extends AbstractBodyWriter
             $this->addDeductionData($documentGeneralData);
         }
 
+		foreach ($this->body->getDeductions() as $deduction) {
+			$this->addDeductionData($documentGeneralData, $deduction);
+		}
+
         if ($this->body->getVirtualDuty()) {
             $this->addVirtualDutyData($documentGeneralData);
         }
@@ -114,13 +120,26 @@ class GeneralDataWriter extends AbstractBodyWriter
     /**
      * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addDeductionData(SimpleXMLElement $documentGeneralData): void
+    protected function addDeductionData(SimpleXMLElement $documentGeneralData, Deduction $deduction = null): void
     {
-        $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
-        $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
-        $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
-        $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
-        $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
+
+    	if( $deduction instanceof Deduction)
+		{
+			$datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
+			$datiRitenuta->addChild('TipoRitenuta', $deduction->getType());
+			$datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getAmount()));
+			$datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getPercentage()));
+			$datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($deduction->getDescription()));
+		}
+		else
+		{
+			$datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
+			$datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
+			$datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
+			$datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
+			$datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
+		}
+
     }
 
     /**

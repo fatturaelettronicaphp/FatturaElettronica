@@ -3,6 +3,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use DateTime;
+use FatturaElettronicaPhp\FatturaElettronica\Deduction;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
@@ -46,6 +47,15 @@ interface DigitalDocumentInstanceInterface
     public function getDeductionDescription(): ?string;
 
     public function setDeductionDescription(?string $deductionDescription): DigitalDocumentInstanceInterface;
+
+    public function addDeduction(DeductionInterface $deduction): DigitalDocumentInstanceInterface;
+
+	/**
+	 * @return Deduction[]
+	 */
+    public function getDeductions(): array;
+
+    public function hasMultipleDeductions(): bool;
 
     public function getVirtualDuty(): ?string;
 
