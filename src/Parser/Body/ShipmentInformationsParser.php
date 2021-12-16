@@ -63,9 +63,12 @@ class ShipmentInformationsParser extends AbstractBodyParser
         $instance->setReturnType($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'IndirizzoResa', false);
-        if ($value !== null) {
-            $value = $this->extractAddressInformationFrom($value);
-            $instance->setReturnAddress($value);
+        if ($value !== null && count($value) > 0) {
+            $value = array_shift($value);
+            if ($value !== null) {
+                $value = $this->extractAddressInformationFrom($value);
+                $instance->setReturnAddress($value);
+            }
         }
 
         $value = $this->extractValueFromXmlElement($xml, 'DatiAnagraficiVettore', false);
