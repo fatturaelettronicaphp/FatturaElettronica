@@ -26,7 +26,7 @@ trait XmlUtilities
         }
 
         if ($convertToString) {
-            return $value[0]->__toString();
+            return trim($value[0]->__toString());
         }
 
         return $value;
