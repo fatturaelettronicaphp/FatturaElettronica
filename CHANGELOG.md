@@ -2,6 +2,10 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.2.3
+
+- Fix per Indirizzo Resa
+
 ## 2.2.2
 
 - Fix per campi con spazi.
