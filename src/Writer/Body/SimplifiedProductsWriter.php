@@ -9,10 +9,14 @@ class SimplifiedProductsWriter extends AbstractBodyWriter
 {
     protected function performWrite()
     {
-        /** @var SimplifiedLine $line */
-        $line = $this->body->getSimplifiedLine();
+        /** @var SimplifiedLine[] $lines */
+        $lines = $this->body->getSimplifiedLines();
 
-        if ($line) {
+        if (count($lines) <= 0) {
+            return;
+        }
+
+        foreach ($lines as $line) {
             $datiBeniServizi = $this->xml->addChild('DatiBeniServizi');
 
             $datiBeniServizi->addChild('Descrizione', SimpleXmlExtended::sanitizeText($line->getDescription()));

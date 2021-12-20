@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.3.0
+- Supporto per multipe righe di beni e servizi nelle fatture elettroniche semplificate.
+
 ## 2.2.3
 
 - Fix per Indirizzo Resa
