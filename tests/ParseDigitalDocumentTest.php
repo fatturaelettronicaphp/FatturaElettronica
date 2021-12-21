@@ -438,7 +438,25 @@ class ParseDigitalDocumentTest extends TestCase
 
     public function listOfInvoices(): array
     {
-        return [
+        // List of files that cannot be shared on GIT due to privacy reasons
+        // But that can be placed into fixtures/private and run against this suite
+        $privateFiles = [];
+        $privateDir = __DIR__ . '/fixtures/private';
+
+        if (is_dir($privateDir)) {
+            $files = scandir($privateDir);
+            $privateFiles = array_filter($files, function($file) use ($privateDir) {
+                return in_array(pathinfo($file, PATHINFO_EXTENSION), ['xml', 'p7m']);
+            });
+
+            $privateFiles = array_fill_keys(array_map(function ($file){
+                return basename($file);
+            }, $privateFiles), array_map(function($file) use ($privateDir) {
+                return $privateDir . '/' . $file;
+            }, $privateFiles));
+        }
+
+        return array_merge([
             ['IT01234567890_11001.xml' => __DIR__ . '/fixtures/IT01234567890_11001.xml'],
             ['IT01234567890_11001_spazi.xml' => __DIR__ . '/fixtures/IT01234567890_11001_spazi.xml'],
             ['IT01234567890_11001_reso.xml' => __DIR__ . '/fixtures/IT01234567890_11001_reso.xml'],
@@ -447,6 +465,6 @@ class ParseDigitalDocumentTest extends TestCase
             ['IT01234567899_000sq.xml' => __DIR__ . '/fixtures/IT01234567899_000sq.xml'],
             ['IT00484960588_ERKHK.xml.p7m' => __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m'],
             ['ESEMPIO TD24.xml' => __DIR__ . '/fixtures/ESEMPIO TD24.xml'],
-        ];
+        ], $privateFiles);
     }
 }
