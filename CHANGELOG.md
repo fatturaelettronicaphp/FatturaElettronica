@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.4.0
+- Aggiunto supporto alla codifica CMS
+
 ## 2.3.0
 - Supporto per multipe righe di beni e servizi nelle fatture elettroniche semplificate.
 
