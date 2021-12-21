@@ -9,30 +9,38 @@ class SimplifiedProductsParser extends AbstractBodyParser
 {
     protected function performParsing()
     {
-        $line = new SimplifiedLine();
+        $rows = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi', false);
 
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/Descrizione');
-        $line->setDescription($value);
-
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/Importo');
-        $line->setTotal($value);
-
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/DatiIVA/Imposta');
-        $line->setTaxAmount($value);
-
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/DatiIVA/Aliquota');
-        $line->setTaxPercentage($value);
-
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/Natura');
-        if ($value) {
-            $line->setVatNature(new VatNature($value));
+        if (!$rows || !is_array($rows)) {
+            return;
         }
+        foreach ($rows as $row) {
 
-        $value = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi/RiferimentoNormativo');
-        if ($value) {
-            $line->setReference($value);
+            $line = new SimplifiedLine();
+
+            $value = $this->extractValueFromXmlElement($row, 'Descrizione');
+            $line->setDescription($value);
+
+            $value = $this->extractValueFromXmlElement($row, 'Importo');
+            $line->setTotal($value);
+
+            $value = $this->extractValueFromXmlElement($row, 'DatiIVA/Imposta');
+            $line->setTaxAmount($value);
+
+            $value = $this->extractValueFromXmlElement($row, 'DatiIVA/Aliquota');
+            $line->setTaxPercentage($value);
+
+            $value = $this->extractValueFromXmlElement($row, 'Natura');
+            if ($value) {
+                $line->setVatNature(new VatNature($value));
+            }
+
+            $value = $this->extractValueFromXmlElement($row, 'RiferimentoNormativo');
+            if ($value) {
+                $line->setReference($value);
+            }
+
+            $this->digitalDocymentInstance->addSimplifiedLine($line);
         }
-
-        $this->digitalDocymentInstance->setSimplifiedLine($line);
     }
 }

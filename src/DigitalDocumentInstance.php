@@ -91,8 +91,8 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
     /** @var LineInterface[] */
     protected $lines = [];
 
-    /** @var SimplifiedLineInterface|null */
-    protected $simplifiedLine;
+    /** @var SimplifiedLineInterface[] */
+    protected $simplifiedLines = [];
 
     /** @var ShippingLabel[] */
     protected $shippingLabels = [];
@@ -518,14 +518,26 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
 
     public function setSimplifiedLine(SimplifiedLineInterface $line): DigitalDocumentInstanceInterface
     {
-        $this->simplifiedLine = $line;
+        $this->simplifiedLines = [$line];
 
         return $this;
     }
 
-    public function getSimplifiedLine(): SimplifiedLineInterface
+    public function addSimplifiedLine(SimplifiedLineInterface $line): DigitalDocumentInstanceInterface
     {
-        return $this->simplifiedLine;
+        $this->simplifiedLines[] = $line;
+
+        return $this;
+    }
+
+    public function getSimplifiedLine(): ?SimplifiedLineInterface
+    {
+        return $this->simplifiedLines[0] ?? null;
+    }
+
+    public function getSimplifiedLines(): array
+    {
+        return $this->simplifiedLines ?? [];
     }
 
     public function hasSals(): bool
