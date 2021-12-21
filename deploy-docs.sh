@@ -14,7 +14,7 @@ cd docs/.vuepress/dist
 
 git init
 git add -A
-git commit -m 'deploy'
+git commit -m 'deploy documentation'
 
 git push -f git@github.com:fatturaelettronicaphp/fatturaelettronica.git master:gh-pages
 
