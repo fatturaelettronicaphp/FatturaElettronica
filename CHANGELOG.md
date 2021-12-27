@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.4.1
+- Risolto un errore relativo al `RappresentanteFiscale`
+
 ## 2.4.0
 - Aggiunto supporto alla codifica CMS
 
