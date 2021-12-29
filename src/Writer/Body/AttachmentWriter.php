@@ -13,10 +13,10 @@ class AttachmentWriter extends AbstractBodyWriter
             return $this->xml;
         }
 
-        $xml = $this->xml->addChild('Allegati');
-
         /** @var AttachmentInterface $attachment */
         foreach ($this->body->getAttachments() as $attachment) {
+            $xml = $this->xml->addChild('Allegati');
+
             if (! $attachment->getName()) {
                 throw new InvalidDocument('<NomeAttachment> is required');
             }
