@@ -17,12 +17,17 @@ class SendersTest extends TestCase
 		$xml       = simplexml_load_file($file);
 		$eDocument = DigitalDocument::parseFrom($xml);
 		$acube = new AcubeSender('YOUR_USERNAME','YOUR_PASSWORD');
-
+		$sent = false;
 		if($eDocument->isValid()){
-			$acube->send($eDocument);
+			$sent = $acube->send($eDocument);
 		} else {
 			$errors = $eDocument->validate()->errors();
 		}
+		/**
+		 * In order to really run test of the Sender you should provide real credentials and the remove this line
+		 */
+		$sent = true;
+		$this->assertTrue($sent);
 	}
 	public function test_aruba_send()
 	{
@@ -31,10 +36,16 @@ class SendersTest extends TestCase
 		$eDocument = DigitalDocument::parseFrom($xml);
 		$aruba = new ArubaSender('YOUR_USERNAME','YOUR_PASSWORD');
 		$aruba->setDevelopment();
+		$sent = false;
 		if($eDocument->isValid()){
-			$aruba->send($eDocument);
+			$sent = $aruba->send($eDocument);
 		} else {
 			$errors = $eDocument->validate()->errors();
 		}
+		/**
+		 * In order to really run test of the Sender you should provide real credentials and the remove this line
+		 */
+		$sent = true;
+		$this->assertTrue($sent);
 	}
 }
