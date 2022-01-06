@@ -22,6 +22,7 @@ module.exports = {
             ['/writing/', 'Scrittura'],
             ['/manipulating/', 'Manipolazione'],
             ['/validating/', 'Validazione'],
+            ['/send/', 'Invio'],
         ]
     }
 }
