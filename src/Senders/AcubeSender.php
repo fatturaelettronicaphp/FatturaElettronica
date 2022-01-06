@@ -2,17 +2,16 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Senders;
 
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\SenderEnvironments;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\Senders\EmptyCredentialsException;
+use JsonException;
 
 /**
  * Factory class of the service Acube
  */
 class AcubeSender extends AbstractSender
 {
-	const ENDPOINT_LOGIN = "login_check";
-	const ENDPOINT_INVOICES = 'invoices';
+	protected const ENDPOINT_LOGIN = "login_check";
+	protected const ENDPOINT_INVOICES = 'invoices';
 	/**
 	 * @var string $api_url
 	 */
@@ -36,9 +35,11 @@ class AcubeSender extends AbstractSender
 	/**
 	 * @inheritDoc
 	 * @throws EmptyCredentialsException
+	 * @throws JsonException
 	 */
 	public function send($document)
 	{
+		$result = false;
 		$this->getUrl();
 		$loginToken = $this->login();
 
@@ -56,8 +57,8 @@ class AcubeSender extends AbstractSender
 			$result = curl_exec($ch);
 
 			$result = json_decode($result, true);
-			return $result;
 		}
+		return $result;
 	}
 
 	/**
@@ -65,6 +66,7 @@ class AcubeSender extends AbstractSender
 	 * @inheritDoc
 	 * @return string
 	 * @throws EmptyCredentialsException
+	 * @throws JsonException
 	 */
 	protected function login()
 	{
@@ -80,14 +82,14 @@ class AcubeSender extends AbstractSender
 		$options = array(
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HTTPHEADER => array('Content-type: application/json'),
-			CURLOPT_POSTFIELDS => json_encode($json_string)
+			CURLOPT_POSTFIELDS => json_encode($json_string, JSON_THROW_ON_ERROR)
 		);
 
 		curl_setopt_array($ch, $options);
 
 		$result = curl_exec($ch);
 
-		$result = json_decode($result, true);
+		$result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
 
 		return $result["token"]??false;
 	}

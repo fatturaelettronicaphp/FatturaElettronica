@@ -12,9 +12,9 @@ abstract class AbstractSender
 	 * The environment where the code is executed:
 	 *  - development -> test environment
 	 *  - production -> real environment
-	 * @var SenderEnvironments $environment
+	 * @var string $environment
 	 */
-	public $environment = null;
+	public $environment;
 	/**
 	 * @param DigitalDocument $document
 	 * @return bool
@@ -26,7 +26,7 @@ abstract class AbstractSender
 	abstract protected function login();
 
 	/**
-	 * @return SenderEnvironments
+	 * @return string
 	 */
 	public function getEnvironment()
 	{

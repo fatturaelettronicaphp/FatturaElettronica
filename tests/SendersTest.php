@@ -2,19 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
-use FatturaElettronicaPhp\FatturaElettronica\Address;
-use FatturaElettronicaPhp\FatturaElettronica\Customer;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
-use FatturaElettronicaPhp\FatturaElettronica\Enums;
-use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidCaseException;
-use FatturaElettronicaPhp\FatturaElettronica\Line;
-use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Senders\AcubeSender;
 use FatturaElettronicaPhp\FatturaElettronica\Senders\ArubaSender;
-use FatturaElettronicaPhp\FatturaElettronica\Supplier;
-use FatturaElettronicaPhp\FatturaElettronica\Total;
-use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 use PHPUnit\Framework\TestCase;
 
 class SendersTest extends TestCase

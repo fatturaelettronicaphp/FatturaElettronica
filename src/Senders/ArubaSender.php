@@ -2,14 +2,14 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Senders;
 
-use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use JsonException;
 
 class ArubaSender extends AbstractSender
 {
-	const DEMO_AUTH_URL = 'https://demoauth.fatturazioneelettronica.aruba.it';
-	const DEMO_INVOICE_URL = 'https://demows.fatturazioneelettronica.aruba.it';
-	const INVOICE_URL = 'https://auth.fatturazioneelettronica.aruba.it';
-	const AUTH_URL = 'https://ws.fatturazioneelettronica.aruba.it';
+	protected const DEMO_AUTH_URL = 'https://demoauth.fatturazioneelettronica.aruba.it';
+	protected const DEMO_INVOICE_URL = 'https://demows.fatturazioneelettronica.aruba.it';
+	protected const INVOICE_URL = 'https://auth.fatturazioneelettronica.aruba.it';
+	protected const AUTH_URL = 'https://ws.fatturazioneelettronica.aruba.it';
 
 	/**
 	 * @var string $upload_invoice_url
@@ -33,8 +33,10 @@ class ArubaSender extends AbstractSender
 		$this->username = $username;
 		$this->password = $password;
 	}
+
 	/**
 	 * @inheritDoc
+	 * @throws JsonException
 	 */
 	public function send($document)
 	{
@@ -55,11 +57,11 @@ class ArubaSender extends AbstractSender
 		$options = array(
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HTTPHEADER => $headers,
-			CURLOPT_POSTFIELDS => json_encode($data)
+			CURLOPT_POSTFIELDS => json_encode($data, JSON_THROW_ON_ERROR)
 		);
 		curl_setopt_array($ch, $options);
 		$result = curl_exec($ch);
-		$result = json_decode($result, true);
+		$result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
 
 		return $result;
 	}
@@ -67,6 +69,7 @@ class ArubaSender extends AbstractSender
 	/**
 	 * @inheritDoc
 	 *
+	 * @throws JsonException
 	 */
 	protected function login()
 	{
@@ -91,7 +94,7 @@ class ArubaSender extends AbstractSender
 
 		$result = curl_exec($ch);
 
-		$result = json_decode($result, true);
+		$result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
 
 		return $result['access_token']??false;
 	}
