@@ -102,7 +102,7 @@ class ArubaSender extends AbstractSender
 
         $result = curl_exec($ch);
 
-        $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $result = json_decode($result, true);
 
         return $result['access_token']??false;
     }

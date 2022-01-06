@@ -78,7 +78,7 @@ class AcubeSender extends AbstractSender
 
         $ch = curl_init($this->_api_url . self::ENDPOINT_LOGIN);
 
-        $json_string = array("email" => $this->username, "password" => $this->_password);
+        $json_string = array("email" => $this->_username, "password" => $this->_password);
 
         $options = array(
         CURLOPT_RETURNTRANSFER => true,
@@ -90,7 +90,7 @@ class AcubeSender extends AbstractSender
 
         $result = curl_exec($ch);
 
-        $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $result = json_decode($result, true);
 
         return $result["token"]??false;
     }
