@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.4.3
+- Aggiunto supporto per `NumeroLicenzaGuida` nei dati vettore
+
 ## 2.4.2
 - Risolto problema con la scrittura di Fatture Elettroniche con più di un allegato
 
