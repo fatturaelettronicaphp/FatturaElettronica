@@ -6,6 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Address;
 use FatturaElettronicaPhp\FatturaElettronica\BillablePerson;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\XmlUtilities;
 use SimpleXMLElement;
@@ -43,9 +44,12 @@ abstract class AbstractBodyParser
 
     abstract protected function performParsing();
 
-    protected function extractBillableInformationsFrom(SimpleXMLElement $xml): BillableInterface
+    protected function extractBillableInformationsFrom(SimpleXMLElement $xml, string $class = BillablePerson::class): BillablePersonInterface
     {
-        $billable = new BillablePerson();
+        $billable = new $class;
+        if (!$billable instanceof BillablePersonInterface) {
+            $billable = new BillablePerson();
+        }
 
         $title = $this->extractValueFromXmlElement($xml, 'Anagrafica/Nome');
         $billable->setTitle($title);

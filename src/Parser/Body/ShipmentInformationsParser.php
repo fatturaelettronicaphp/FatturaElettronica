@@ -3,6 +3,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Parser\Body;
 
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\Shipper;
 use SimpleXMLElement;
 
 class ShipmentInformationsParser extends AbstractBodyParser
@@ -75,8 +76,11 @@ class ShipmentInformationsParser extends AbstractBodyParser
         if ($value !== null && count($value) > 0) {
             $value = array_shift($value);
             if ($value !== null) {
-                $value = $this->extractBillableInformationsFrom($value);
-                $instance->setShipper($value);
+                /** @var Shipper $shipper */
+                $shipper = $this->extractBillableInformationsFrom($value, Shipper::class);
+                $license = $this->extractValueFromXmlElement($value, 'NumeroLicenzaGuida');
+                $shipper->setLicenseNumber($license);
+                $instance->setShipper($shipper);
             }
         }
 

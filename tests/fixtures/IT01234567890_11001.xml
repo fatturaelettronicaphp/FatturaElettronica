@@ -87,6 +87,7 @@
       </DatiRicezione>
       <DatiTrasporto>
 	<DatiAnagraficiVettore>
+        <NumeroLicenzaGuida>123456789</NumeroLicenzaGuida>
 	  <IdFiscaleIVA>
 	    <IdPaese>IT</IdPaese>
 	    <IdCodice>24681012141</IdCodice>

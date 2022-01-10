@@ -48,11 +48,11 @@ class Shipment implements ArrayableInterface
     }
 
     /**
-     * @param BillableInterface $shipper
+     * @param ?Shipper $shipper
      *
      * @return Shipment
      */
-    public function setShipper(?BillableInterface $shipper): Shipment
+    public function setShipper(?Shipper $shipper): Shipment
     {
         $this->shipper = $shipper;
 
