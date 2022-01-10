@@ -61,7 +61,7 @@ Se trovi un problema di sicurezza con il pacchetto, scrivi una mail a daniele@we
 - [Weble Srl](https://www.weble.it)
 - [Shellrent Srl](https://www.shellrent.com)
 - [Daniele Rosario](https://github.com/Skullbock)
-- [Tobia Zanarella](https://github.com/ShellrentSrl)
+- [Tobia Zanarella](https://github.com/tobispace)
 - [All Contributors](../../contributors)
 
 ## Licenza
