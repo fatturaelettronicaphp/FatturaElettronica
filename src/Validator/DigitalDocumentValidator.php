@@ -41,7 +41,6 @@ class DigitalDocumentValidator
 
         try {
             $isValid = $dom->schemaValidate($xsd);
-
         } catch (Exception $e) {
             $isValid = false;
         }
@@ -62,6 +61,7 @@ class DigitalDocumentValidator
         $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
 
         $filePath = __DIR__ . '/xsd/' . $schemaFile;
+
         return $filePath;
 
         $xsd = file_get_contents($filePath);
