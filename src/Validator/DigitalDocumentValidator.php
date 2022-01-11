@@ -60,7 +60,8 @@ class DigitalDocumentValidator
     {
         $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
         $xsd = file_get_contents(__DIR__ . '/xsd/' . $schemaFile);
-        $xmldsigFilename = __DIR__ . '/xsd/core.xsd';
+
+        $xmldsigFilename = __DIR__ . '/xsd/xmldsig-core-schema.xsd';
         $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 
         return $xsd;
