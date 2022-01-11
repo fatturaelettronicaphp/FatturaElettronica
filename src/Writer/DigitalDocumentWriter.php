@@ -12,6 +12,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\GeneralDataWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\PaymentsWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\ProductsWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Body\VehicleWriter;
+use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\AttributesWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\CustomerWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\EmittingSubjectWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\IntermediaryWriter;
@@ -71,6 +72,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->with($this->document)
             ->usingMethod('write')
             ->through([
+                AttributesWriter::class,
                 TransmissionDataWriter::class,
                 SupplierWriter::class,
                 RepresentativeWriter::class,

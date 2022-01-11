@@ -77,4 +77,12 @@ interface DigitalDocumentInterface
     public function getRepresentative(): ?BillablePersonInterface;
 
     public function isSimplified(): bool;
+
+    public function setVersion(?string $version);
+
+    public function getVersion();
+
+    public function getEmittingSystem();
+
+    public function setEmittingSystem(?string $system);
 }

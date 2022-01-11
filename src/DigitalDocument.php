@@ -65,6 +65,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var DigitalDocumentInstance[] */
     protected $documentInstances = [];
 
+    /** @var string|null */
+    protected $version;
+
+    /** @var string|null */
+    protected $emittingSystem;
+
     public function __construct()
     {
         $this->customerSdiCode = RecipientCode::EMPTY;
@@ -110,6 +116,28 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function isValid(): bool
     {
         return $this->validate()->isValid();
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?string $version): self
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    public function getEmittingSystem(): ?string
+    {
+        return $this->emittingSystem;
+    }
+
+    public function setEmittingSystem(?string $system): self
+    {
+        $this->emittingSystem = $system;
+        return $this;
     }
 
     public function getEmittingSubject()

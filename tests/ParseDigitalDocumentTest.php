@@ -147,6 +147,9 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         // Trasmissione
+        if ($eDocument->getEmittingSystem()) {
+            $this->assertEquals("TEST", $eDocument->getEmittingSystem());
+        }
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
         $this->assertEquals('IT', $eDocument->getCountryCode());
         $this->assertEquals('betagamma@pec.it', $eDocument->getCustomerPec());
