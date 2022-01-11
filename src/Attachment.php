@@ -124,8 +124,8 @@ class Attachment implements ArrayableInterface, AttachmentInterface
     public function writeFileToFolder($filePath = null): string
     {
         if ($filePath === null) {
-            $folder   = tempnam(sys_get_temp_dir(), 'fattura_elettronica');
-            $filePath =  $folder . $this->getName();
+            $folder = tempnam(sys_get_temp_dir(), 'fattura_elettronica');
+            $filePath = $folder . $this->getName();
         }
 
         $handle = fopen($filePath, 'w');

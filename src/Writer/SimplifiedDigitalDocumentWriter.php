@@ -46,7 +46,7 @@ class SimplifiedDigitalDocumentWriter implements DigitalDocumentWriterInterface
      */
     public function write($filePath, bool $format = false): bool
     {
-        if (!is_string($filePath) && !$filePath instanceof Stringable) {
+        if (! is_string($filePath) && ! $filePath instanceof Stringable) {
             throw new Exception('File path needs to be a string');
         }
 
@@ -128,9 +128,9 @@ class SimplifiedDigitalDocumentWriter implements DigitalDocumentWriterInterface
         );
 
         $namespaces = [
-            'versione'       => (string)$this->document->getTransmissionFormat(),
+            'versione' => (string)$this->document->getTransmissionFormat(),
             'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
-            'xmlns:xmlns:p'  => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.0',
+            'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.0',
         ];
 
         foreach ($namespaces as $name => $value) {

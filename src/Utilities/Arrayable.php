@@ -12,7 +12,7 @@ trait Arrayable
 
         $properties = (new ReflectionClass($this))->getProperties();
         foreach ($properties as $property) {
-            $name  = $property->getName();
+            $name = $property->getName();
             $value = $this->$name;
 
             if (is_array($value)) {

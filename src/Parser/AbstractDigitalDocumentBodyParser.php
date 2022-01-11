@@ -20,7 +20,7 @@ abstract class AbstractDigitalDocumentBodyParser
 
     public function __construct(SimpleXMLElement $xml)
     {
-        $this->xml                     = $xml;
+        $this->xml = $xml;
         $this->digitalDocumentInstance = new DigitalDocumentInstance();
     }
 

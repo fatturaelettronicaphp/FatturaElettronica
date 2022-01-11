@@ -15,7 +15,7 @@ class IntermediaryWriter extends AbstractHeaderWriter
             return $this;
         }
 
-        $intermediario  = $this->xml->addChild('TerzoIntermediarioOSoggettoEmittente');
+        $intermediario = $this->xml->addChild('TerzoIntermediarioOSoggettoEmittente');
         $datiAnagrafici = $intermediario->addChild('DatiAnagrafici');
 
         $idPaese = $intermediary->getCountryCode();

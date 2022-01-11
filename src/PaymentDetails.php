@@ -5,7 +5,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica;
 use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 

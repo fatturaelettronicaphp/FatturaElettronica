@@ -11,7 +11,7 @@ class SimplifiedCustomerParser extends AbstractHeaderParser
     {
         $customer = new Customer();
 
-        $prefix       = '//FatturaElettronicaHeader/CessionarioCommittente/';
+        $prefix = '//FatturaElettronicaHeader/CessionarioCommittente/';
         $customerName = $this->extractValueFromXml($prefix . 'AltriDatiIdentificativi/Nome');
         $customer->setName($customerName);
 

@@ -10,7 +10,7 @@ class SimplifiedSupplierParser extends AbstractHeaderParser
     {
         $supplier = new Supplier();
 
-        $prefix       = '//FatturaElettronicaHeader/CedentePrestatore/';
+        $prefix = '//FatturaElettronicaHeader/CedentePrestatore/';
         $documentName = $this->extractValueFromXml($prefix . 'Nome');
         $supplier->setName($documentName);
 

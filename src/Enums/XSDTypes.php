@@ -26,14 +26,14 @@ abstract class XSDTypes
 
         foreach (self::getXDS() as $xsd) {
             $xmldsigFilename = dirname(__DIR__) . '/Validator/xsd/core.xsd';
-            $xsd             = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
+            $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 
             $doc = new DOMDocument();
             $doc->loadXML(mb_convert_encoding($xsd, 'utf-8', mb_detect_encoding($xsd)));
 
-            $xpath   = '/xs:schema/xs:simpleType';
+            $xpath = '/xs:schema/xs:simpleType';
             $domPath = new DOMXPath($doc);
-            $nodes   = $domPath->evaluate($xpath);
+            $nodes = $domPath->evaluate($xpath);
 
             /** @var DOMElement $node */
             foreach ($nodes as $node) {
@@ -45,12 +45,12 @@ abstract class XSDTypes
                     continue;
                 }
 
-                $typeName         = $node->getAttribute('name');
+                $typeName = $node->getAttribute('name');
                 $types[$typeName] = $types[$typeName] ?? [];
                 foreach ($nodes as $values) {
-                    $value        = $values->getAttribute('value');
-                    $desc         = $value;
-                    $xpath        = 'xs:annotation/xs:documentation';
+                    $value = $values->getAttribute('value');
+                    $desc = $value;
+                    $xpath = 'xs:annotation/xs:documentation';
                     $descriptions = $domPath->evaluate($xpath, $values);
                     /** @var DOMElement $description */
                     foreach ($descriptions as $description) {

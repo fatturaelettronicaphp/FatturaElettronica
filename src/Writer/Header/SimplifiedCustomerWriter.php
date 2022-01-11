@@ -10,14 +10,14 @@ class SimplifiedCustomerWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         $cessionarioCommittente = $this->xml->addChild('CessionarioCommittente');
-        $identificativiFiscali  = $cessionarioCommittente->addChild('IdentificativiFiscali');
+        $identificativiFiscali = $cessionarioCommittente->addChild('IdentificativiFiscali');
 
         /** @var Customer $customer */
         $customer = $this->document->getCustomer();
 
-        $idPaese       = $customer->getCountryCode();
+        $idPaese = $customer->getCountryCode();
         $codiceFiscale = $customer->getFiscalCode();
-        $vatNumber     = $customer->getVatNumber();
+        $vatNumber = $customer->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 

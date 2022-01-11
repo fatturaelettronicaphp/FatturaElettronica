@@ -1,4 +1,5 @@
 <?php
+
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use FatturaElettronicaPhp\FatturaElettronica\Attachment;

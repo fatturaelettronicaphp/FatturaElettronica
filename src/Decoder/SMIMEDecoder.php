@@ -29,7 +29,7 @@ class SMIMEDecoder implements DigitalDocumentDecodeInterface
     protected function convertFromDERtoSMIMEFormat(string $file): string
     {
         $pemPath = tempnam(sys_get_temp_dir(), basename($file));
-        $to      = <<<TXT
+        $to = <<<TXT
 MIME-Version: 1.0
 Content-Disposition: attachment; filename="smime.p7m"
 Content-Type: application/x-pkcs7-mime; smime-type=signed-data; name="smime.p7m"

@@ -10,8 +10,8 @@ class SummaryParser extends AbstractBodyParser
 {
     protected function performParsing()
     {
-        $totals    = (array) $this->extractValueFromXml('DatiBeniServizi/DatiRiepilogo', false);
-        $amount    = 0;
+        $totals = (array) $this->extractValueFromXml('DatiBeniServizi/DatiRiepilogo', false);
+        $amount = 0;
         $amountTax = 0;
 
         foreach ($totals as $totalValue) {
@@ -30,13 +30,13 @@ class SummaryParser extends AbstractBodyParser
         $instance = new Total();
 
         $taxPercentage = $this->extractValueFromXmlElement($total, 'AliquotaIVA');
-        $nature        = $this->extractValueFromXmlElement($total, 'Natura');
-        $type          = $this->extractValueFromXmlElement($total, 'EsigibilitaIVA');
-        $expenses      = $this->extractValueFromXmlElement($total, 'SpeseAccessorie');
-        $rounding      = $this->extractValueFromXmlElement($total, 'Arrotondamento');
-        $totalValue    = $this->extractValueFromXmlElement($total, 'ImponibileImporto');
-        $tax           = $this->extractValueFromXmlElement($total, 'Imposta');
-        $reference     = $this->extractValueFromXmlElement($total, 'RiferimentoNormativo');
+        $nature = $this->extractValueFromXmlElement($total, 'Natura');
+        $type = $this->extractValueFromXmlElement($total, 'EsigibilitaIVA');
+        $expenses = $this->extractValueFromXmlElement($total, 'SpeseAccessorie');
+        $rounding = $this->extractValueFromXmlElement($total, 'Arrotondamento');
+        $totalValue = $this->extractValueFromXmlElement($total, 'ImponibileImporto');
+        $tax = $this->extractValueFromXmlElement($total, 'Imposta');
+        $reference = $this->extractValueFromXmlElement($total, 'RiferimentoNormativo');
 
         if ($totalValue === null) {
             throw new InvalidXmlFile('<ImponibileImporto> not found');

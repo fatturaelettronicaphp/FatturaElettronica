@@ -10,7 +10,7 @@ trait XmlUtilities
 
     protected function extractAttributeFromXmlElement(SimpleXMLElement $xml, string $attribute): ?string
     {
-        return $xml->attributes()[$attribute] ??  null;
+        return $xml->attributes()[$attribute] ?? null;
     }
 
     protected function extractValueFromXml(string $xPath, $convertToString = true)

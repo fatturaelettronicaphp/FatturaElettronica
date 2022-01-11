@@ -38,12 +38,12 @@ abstract class AbstractWriter
     protected function calculateFiscalData($idPaese, $codiceFiscale, $idCodice = '')
     {
         if ($idPaese !== 'IT') {
-            $idCodice      = ! empty($idCodice) ? $idCodice : $codiceFiscale;
+            $idCodice = ! empty($idCodice) ? $idCodice : $codiceFiscale;
             $codiceFiscale = '';
         }
 
         return [
-            'idCodice'      => $idCodice,
+            'idCodice' => $idCodice,
             'codiceFiscale' => $codiceFiscale,
         ];
     }

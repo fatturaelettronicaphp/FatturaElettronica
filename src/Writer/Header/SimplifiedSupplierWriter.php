@@ -13,10 +13,10 @@ class SimplifiedSupplierWriter extends AbstractHeaderWriter
         $cedentePrestatore = $this->xml->addChild('CedentePrestatore');
 
         /** @var Supplier $supplier */
-        $supplier      = $this->document->getSupplier();
-        $idPaese       = $supplier->getCountryCode();
+        $supplier = $this->document->getSupplier();
+        $idPaese = $supplier->getCountryCode();
         $codiceFiscale = $supplier->getFiscalCode();
-        $vatNumber     = $supplier->getVatNumber();
+        $vatNumber = $supplier->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 

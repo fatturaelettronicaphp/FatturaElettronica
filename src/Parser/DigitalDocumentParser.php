@@ -61,11 +61,11 @@ class DigitalDocumentParser implements DigitalDocumentParserInterface
 
         $simpleXml = $this->xml();
 
-        $headerParser    = new DigitalDocumentHeaderParser($simpleXml);
+        $headerParser = new DigitalDocumentHeaderParser($simpleXml);
         $digitalDocument = $headerParser->parse($digitalDocument);
 
         foreach ($simpleXml->xpath('//FatturaElettronicaBody') as $body) {
-            $bodyParser   = $digitalDocument->isSimplified() ? new SimplifiedDigitalDocumentBodyParser($body) : new DigitalDocumentBodyParser($body);
+            $bodyParser = $digitalDocument->isSimplified() ? new SimplifiedDigitalDocumentBodyParser($body) : new DigitalDocumentBodyParser($body);
             $bodyInstance = $bodyParser->parse();
             $digitalDocument->addDigitalDocumentInstance($bodyInstance);
         }

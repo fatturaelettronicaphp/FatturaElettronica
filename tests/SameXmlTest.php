@@ -7,12 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class SameXmlTest extends TestCase
 {
-
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file      = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
-        $xml       = simplexml_load_file($file);
+        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
+        $xml = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->assertEquals($eDocument, DigitalDocument::parseFrom($eDocument->serialize()));

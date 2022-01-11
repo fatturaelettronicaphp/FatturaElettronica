@@ -40,8 +40,8 @@ class GeneralDataParser extends AbstractBodyParser
         }
 
         $documentTotal = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
-        $rounding      = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
-        $art73         = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Art73');
+        $rounding = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
+        $art73 = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Art73');
 
         $this->digitalDocymentInstance
             ->setDocumentType($type)

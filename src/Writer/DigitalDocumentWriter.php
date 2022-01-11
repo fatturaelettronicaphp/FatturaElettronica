@@ -115,10 +115,10 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         );
 
         $namespaces = [
-            'versione'               => (string)$this->document->getTransmissionFormat(),
-            'xmlns:xmlns:ds'         => 'http://www.w3.org/2000/09/xmldsig#',
-            'xmlns:xmlns:p'          => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
-            'xmlns:xmlns:xsi'        => 'http://www.w3.org/2001/XMLSchema-instance',
+            'versione' => (string)$this->document->getTransmissionFormat(),
+            'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
+            'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
+            'xmlns:xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:xsi:schemaLocation' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
         ];
 

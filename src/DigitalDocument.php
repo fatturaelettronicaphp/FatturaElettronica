@@ -85,7 +85,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentParser($xml))->parse();
     }
 
-    public function serialize() : SimpleXMLElement
+    public function serialize(): SimpleXMLElement
     {
         if ($this->isSimplified()) {
             return (new SimplifiedDigitalDocumentWriter($this))->generate()->xml();
@@ -94,7 +94,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentWriter($this))->generate()->xml();
     }
 
-    public function write(string $filePath) : bool
+    public function write(string $filePath): bool
     {
         if ($this->isSimplified()) {
             return (new SimplifiedDigitalDocumentWriter($this))->write($filePath);
@@ -126,6 +126,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function setVersion(?string $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -137,6 +138,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function setEmittingSystem(?string $system): self
     {
         $this->emittingSystem = $system;
+
         return $this;
     }
 
