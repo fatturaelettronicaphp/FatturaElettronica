@@ -40,7 +40,8 @@ class DigitalDocumentValidator
         $xsd = $this->getSchema();
 
         try {
-            $isValid = $dom->schemaValidateSource($xsd);
+            $isValid = $dom->schemaValidate($xsd);
+
         } catch (Exception $e) {
             $isValid = false;
         }
@@ -59,7 +60,11 @@ class DigitalDocumentValidator
     protected function getSchema(): string
     {
         $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
-        $xsd = file_get_contents(__DIR__ . '/xsd/' . $schemaFile);
+
+        $filePath = __DIR__ . '/xsd/' . $schemaFile;
+        return $filePath;
+
+        $xsd = file_get_contents($filePath);
 
         $xmldsigFilename = __DIR__ . '/xsd/xmldsig-core-schema.xsd';
         $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
