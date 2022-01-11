@@ -216,11 +216,13 @@ class GeneralDataWriter extends AbstractBodyWriter
             $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d\TH:i:s.000P'));
         }
 
-        $riferimentoLinea = $documentDdt->getLineNumberReference();
-        if ($riferimentoLinea !== null) {
-            foreach (explode(',', $riferimentoLinea) as $riferimentoLineaPart) {
-                $ddtData->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLineaPart));
+        $riferimentiLinea = $documentDdt->getLineNumberReferences();
+        foreach ($riferimentiLinea as $riferimentoLinea) {
+            if ($riferimentoLinea === null) {
+                continue;
             }
+
+            $ddtData->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLinea));
         }
     }
 
