@@ -70,6 +70,7 @@
 <Anagrafica>
 <Denominazione>Trasporto spa</Denominazione>
 </Anagrafica>
+<NumeroLicenzaGuida>TEST</NumeroLicenzaGuida>
 </DatiAnagraficiVettore>
 <DataOraConsegna>2012-10-22T16:46:12.000+02:00</DataOraConsegna>
 </DatiTrasporto>

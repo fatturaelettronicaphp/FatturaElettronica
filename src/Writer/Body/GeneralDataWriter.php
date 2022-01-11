@@ -10,6 +10,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Deduction;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\Shipper;
 use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use SimpleXMLElement;
@@ -248,9 +249,13 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         $anagrafica = $datiAnagrafici->addChild('Anagrafica');
+
+        if ($documentPerson instanceof Shipper && !empty($documentPerson->getLicenseNumber())) {
+            $datiAnagrafici->addChild('NumeroLicenzaGuida', substr(SimpleXmlExtended::sanitizeText($documentPerson->getLicenseNumber()), 0, 20));
+        }
+
         if (! empty($documentPerson->getOrganization())) {
             $anagrafica->addChild('Denominazione', SimpleXmlExtended::sanitizeText($documentPerson->getOrganization()));
-
             return;
         }
 
@@ -310,6 +315,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $shipmentData = $generalData->addChild('DatiTrasporto');
 
+        /** @var Shipper $documentPerson */
         $documentPerson = $shipment->getShipper();
 
         if ($documentPerson !== null) {
