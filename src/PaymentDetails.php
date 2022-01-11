@@ -57,25 +57,6 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
     protected $paymentCode;
 
     /**
-     * @return PaymentTerm
-     */
-    public function getTerms(): ?PaymentTerm
-    {
-        return $this->terms;
-    }
-
-    /**
-     * @param PaymentTerm $terms
-     * @return PaymentInfo
-     */
-    public function setTerms($terms): self
-    {
-        $this->terms = $terms;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getPayee(): ?string
