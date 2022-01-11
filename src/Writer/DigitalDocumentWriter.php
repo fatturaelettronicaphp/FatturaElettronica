@@ -2,6 +2,8 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Writer;
 
+use DOMDocument;
+use Exception;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentWriterInterface;
@@ -20,6 +22,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 use SimpleXMLElement;
+use Stringable;
 
 class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 {
@@ -39,10 +42,30 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         return $this->xml;
     }
 
-    public function write($filePath): bool
+    /**
+     * TODO: In the next major version, add a string type
+     * @param string $filePath
+     * @param bool $format
+     * @return bool
+     * @throws Exception
+     */
+    public function write($filePath, bool $format = false): bool
     {
+        if (! is_string($filePath) && ! $filePath instanceof Stringable) {
+            throw new Exception('File path needs to be a string');
+        }
+
         if (stripos($filePath, '.xml') === false) {
             $filePath = $filePath . '/' . $this->document->generatedFilename();
+        }
+
+        if ($format) {
+            /** @var DOMDocument $dom */
+            $dom = dom_import_simplexml($this->generate()->xml())->ownerDocument;
+            $dom->preserveWhiteSpace = false;
+            $dom->formatOutput = true;
+
+            return $dom->save($filePath);
         }
 
         return $this->generate()->xml()->asXML($filePath);
