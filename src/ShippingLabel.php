@@ -14,17 +14,29 @@ class ShippingLabel implements ArrayableInterface
     protected $documentNumber;
     /** @var DateTime */
     protected $documentDate;
-    /** @var string */
-    protected $lineNumberReference;
+    /** @var string[] */
+    protected $lineNumberReferences = [];
 
     public function getLineNumberReference(): ?string
     {
-        return $this->lineNumberReference;
+        return $this->lineNumberReferences[0] ?? null;
+    }
+
+    public function getLineNumberReferences(): array
+    {
+        return $this->lineNumberReferences;
     }
 
     public function setLineNumberReference(?string $lineNumberReference)
     {
-        $this->lineNumberReference = $lineNumberReference;
+        $this->lineNumberReferences = [$lineNumberReference];
+
+        return $this;
+    }
+
+    public function addLineNumberReference(?string $lineNumberReference)
+    {
+        $this->lineNumberReferences[] = $lineNumberReference;
 
         return $this;
     }

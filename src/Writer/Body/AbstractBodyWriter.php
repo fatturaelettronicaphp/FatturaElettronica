@@ -24,11 +24,13 @@ abstract class AbstractBodyWriter extends AbstractWriter
 
     protected function addExternalDocument(RelatedDocumentInterface $documentData, SimpleXMLElement $parent)
     {
-        $riferimentoLinea = $documentData->getLineNumberReference();
-        if ($riferimentoLinea !== null) {
-            foreach (explode(',', $riferimentoLinea) as $riferimentoLineaPart) {
-                $parent->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLineaPart));
+        $riferimentiLinea = $documentData->getLineNumberReferences();
+        foreach ($riferimentiLinea as $riferimentoLinea) {
+            if ($riferimentoLinea === null) {
+                continue;
             }
+
+            $parent->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLinea));
         }
 
         $parent->addChild('IdDocumento', SimpleXmlExtended::sanitizeText($documentData->getDocumentNumber()));
