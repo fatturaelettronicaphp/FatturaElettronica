@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.5.1
+- Possibilità di formattare in "pretty print" gli xml scritti
+
 ## 2.5.0
 - Aggiornata compatibilità con la versione 1.6.4 della fattura elettronica
 - Sistemata compatibilità con `NumeroLicenzaGuida`
