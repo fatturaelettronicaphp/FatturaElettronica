@@ -9,29 +9,29 @@ class DeductionParser extends AbstractBodyParser
 {
     protected function performParsing()
     {
-		$deductions = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta', false);
+        $deductions = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/DatiRitenuta', false);
 
-		foreach ($deductions as $deduction) {
-			$deductionInstance = $this->extractFundInformationsFrom($deduction);
-			$this->digitalDocymentInstance->addDeduction($deductionInstance);
-		}
+        foreach ($deductions as $deduction) {
+            $deductionInstance = $this->extractFundInformationsFrom($deduction);
+            $this->digitalDocymentInstance->addDeduction($deductionInstance);
+        }
     }
 
-	protected function extractFundInformationsFrom($fund): DeductionInterface
-	{
-		$deductionInstance = new Deduction();
-		$value        = $this->extractValueFromXmlElement($fund, 'TipoRitenuta');
-		$deductionInstance->setType($value);
+    protected function extractFundInformationsFrom($fund): DeductionInterface
+    {
+        $deductionInstance = new Deduction();
+        $value = $this->extractValueFromXmlElement($fund, 'TipoRitenuta');
+        $deductionInstance->setType($value);
 
-		$value = $this->extractValueFromXmlElement($fund, 'ImportoRitenuta');
-		$deductionInstance->setAmount($value);
+        $value = $this->extractValueFromXmlElement($fund, 'ImportoRitenuta');
+        $deductionInstance->setAmount($value);
 
-		$value = $this->extractValueFromXmlElement($fund, 'AliquotaRitenuta');
-		$deductionInstance->setPercentage($value);
+        $value = $this->extractValueFromXmlElement($fund, 'AliquotaRitenuta');
+        $deductionInstance->setPercentage($value);
 
-		$value = $this->extractValueFromXmlElement($fund, 'CausalePagamento');
-		$deductionInstance->setDescription($value);
+        $value = $this->extractValueFromXmlElement($fund, 'CausalePagamento');
+        $deductionInstance->setDescription($value);
 
-		return $deductionInstance;
-	}
+        return $deductionInstance;
+    }
 }

@@ -65,6 +65,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var DigitalDocumentInstance[] */
     protected $documentInstances = [];
 
+    /** @var string|null */
+    protected $version;
+
+    /** @var string|null */
+    protected $emittingSystem;
+
     public function __construct()
     {
         $this->customerSdiCode = RecipientCode::EMPTY;
@@ -79,7 +85,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentParser($xml))->parse();
     }
 
-    public function serialize() : SimpleXMLElement
+    public function serialize(): SimpleXMLElement
     {
         if ($this->isSimplified()) {
             return (new SimplifiedDigitalDocumentWriter($this))->generate()->xml();
@@ -88,7 +94,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentWriter($this))->generate()->xml();
     }
 
-    public function write(string $filePath) : bool
+    public function write(string $filePath): bool
     {
         if ($this->isSimplified()) {
             return (new SimplifiedDigitalDocumentWriter($this))->write($filePath);
@@ -110,6 +116,30 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function isValid(): bool
     {
         return $this->validate()->isValid();
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(?string $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function getEmittingSystem(): ?string
+    {
+        return $this->emittingSystem;
+    }
+
+    public function setEmittingSystem(?string $system): self
+    {
+        $this->emittingSystem = $system;
+
+        return $this;
     }
 
     public function getEmittingSubject()

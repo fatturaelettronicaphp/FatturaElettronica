@@ -8,7 +8,6 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
-
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Deduction;
@@ -18,85 +17,80 @@ use PHPUnit\Framework\TestCase;
 
 class DeductionTest extends TestCase
 {
+    /** @test */
+    public function can_insert_multiple_deduction_nodes()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT01234567890_11001.xml';
+        $eDocument = DigitalDocument::parseFrom($file);
 
-	/** @test */
-	public function can_insert_multiple_deduction_nodes()
-	{
+        $rows = $eDocument->getDocumentInstances();
 
-		$file      = dirname(__FILE__) . '/fixtures/IT01234567890_11001.xml';
-		$eDocument = DigitalDocument::parseFrom($file);
+        /** @var DigitalDocumentInstanceInterface $firstRow */
+        $firstRow = array_shift($rows);
 
-		$rows = $eDocument->getDocumentInstances();
+        $deduction_one = (new Deduction())
+            ->setType('RT01')
+            ->setAmount(10.00)
+            ->setPercentage(20.00)
+            ->setDescription('A');
 
-		/** @var DigitalDocumentInstanceInterface $firstRow */
-		$firstRow = array_shift($rows);
+        $deduction_two = (new Deduction())
+            ->setType('RT02')
+            ->setAmount(5.00)
+            ->setPercentage(15.00)
+            ->setDescription('Q');
 
-		$deduction_one = (new Deduction())
-			->setType('RT01')
-			->setAmount(10.00)
-			->setPercentage(20.00)
-			->setDescription('A');
+        $firstRow
+            ->addDeduction($deduction_one)
+            ->addDeduction($deduction_two);
 
-		$deduction_two = (new Deduction())
-			->setType('RT02')
-			->setAmount(5.00)
-			->setPercentage(15.00)
-			->setDescription('Q');
+        $rows = $eDocument->getDocumentInstances();
 
-		$firstRow
-			->addDeduction($deduction_one)
-			->addDeduction($deduction_two);
+        /** @var DigitalDocumentInstanceInterface $firstRow */
+        $firstRow = array_shift($rows);
 
-		$rows = $eDocument->getDocumentInstances();
+        /** @var DeductionInterface $deduction_one */
+        /** @var DeductionInterface $deduction_two */
+        $deduction_one = $firstRow->getDeductions()[0];
+        $deduction_two = $firstRow->getDeductions()[1];
 
-		/** @var DigitalDocumentInstanceInterface $firstRow */
-		$firstRow = array_shift($rows);
+        $this->assertEquals('RT01', $deduction_one->getType());
+        $this->assertEquals(10.00, $deduction_one->getAmount());
+        $this->assertEquals(20.00, $deduction_one->getPercentage());
+        $this->assertEquals('A', $deduction_one->getDescription());
 
-		/** @var DeductionInterface $deduction_one */
-		/** @var DeductionInterface $deduction_two */
-		$deduction_one = $firstRow->getDeductions()[0];
-		$deduction_two = $firstRow->getDeductions()[1];
+        $this->assertEquals('RT02', $deduction_two->getType());
+        $this->assertEquals(5.00, $deduction_two->getAmount());
+        $this->assertEquals(15.00, $deduction_two->getPercentage());
+        $this->assertEquals('Q', $deduction_two->getDescription());
 
-		$this->assertEquals('RT01', $deduction_one->getType());
-		$this->assertEquals(10.00, $deduction_one->getAmount());
-		$this->assertEquals(20.00, $deduction_one->getPercentage());
-		$this->assertEquals('A', $deduction_one->getDescription());
+        $this->assertTrue($eDocument->isValid());
+    }
 
-		$this->assertEquals('RT02', $deduction_two->getType());
-		$this->assertEquals(5.00, $deduction_two->getAmount());
-		$this->assertEquals(15.00, $deduction_two->getPercentage());
-		$this->assertEquals('Q', $deduction_two->getDescription());
+    /** @test */
+    public function can_parse_a_document_with_multiple_deduction_nodes()
+    {
+        $file = dirname(__FILE__) . '/fixtures/IT01234567890_11001_multi_ritenute.xml';
+        $eDocument = DigitalDocument::parseFrom($file);
 
-		$this->assertTrue($eDocument->isValid());
+        $rows = $eDocument->getDocumentInstances();
 
-	}
+        /** @var DigitalDocumentInstanceInterface $firstRow */
+        $firstRow = array_shift($rows);
 
-	/** @test */
-	public function can_parse_a_document_with_multiple_deduction_nodes()
-	{
+        /** @var DeductionInterface $deduction_one */
+        /** @var DeductionInterface $deduction_two */
+        $deduction_one = $firstRow->getDeductions()[0];
+        $deduction_two = $firstRow->getDeductions()[1];
 
-		$file      = dirname(__FILE__) . '/fixtures/IT01234567890_11001_multi_ritenute.xml';
-		$eDocument = DigitalDocument::parseFrom($file);
+        $this->assertEquals(DeductionType::RT01(), $deduction_one->getType());
+        $this->assertEquals(10.00, $deduction_one->getAmount());
+        $this->assertEquals(20.00, $deduction_one->getPercentage());
+        $this->assertEquals('A', $deduction_one->getDescription());
 
-		$rows = $eDocument->getDocumentInstances();
-
-		/** @var DigitalDocumentInstanceInterface $firstRow */
-		$firstRow = array_shift($rows);
-
-		/** @var DeductionInterface $deduction_one */
-		/** @var DeductionInterface $deduction_two */
-		$deduction_one = $firstRow->getDeductions()[0];
-		$deduction_two = $firstRow->getDeductions()[1];
-
-		$this->assertEquals(DeductionType::RT01(), $deduction_one->getType());
-		$this->assertEquals(10.00, $deduction_one->getAmount());
-		$this->assertEquals(20.00, $deduction_one->getPercentage());
-		$this->assertEquals('A', $deduction_one->getDescription());
-
-		$this->assertEquals(DeductionType::RT02(), $deduction_two->getType());
-		$this->assertEquals(5.00, $deduction_two->getAmount());
-		$this->assertEquals(15.00, $deduction_two->getPercentage());
-		$this->assertEquals('Q', $deduction_two->getDescription());
-
-	}
+        $this->assertEquals(DeductionType::RT02(), $deduction_two->getType());
+        $this->assertEquals(5.00, $deduction_two->getAmount());
+        $this->assertEquals(15.00, $deduction_two->getPercentage());
+        $this->assertEquals('Q', $deduction_two->getDescription());
+    }
 }

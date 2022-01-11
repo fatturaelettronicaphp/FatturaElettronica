@@ -25,7 +25,7 @@ class LinesParser extends AbstractBodyParser
     protected function extractProductInformationsFrom($xml): LineInterface
     {
         $instance = new Line();
-        $value    = $this->extractValueFromXmlElement($xml, 'NumeroLinea');
+        $value = $this->extractValueFromXmlElement($xml, 'NumeroLinea');
         $instance->setNumber((int) $value);
 
         $value = $this->extractValueFromXmlElement($xml, 'TipoCessionePrestazione');

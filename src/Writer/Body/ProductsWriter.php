@@ -134,9 +134,9 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $precision    = 2;
+        $precision = 2;
         $maxPrecision = 10;
-        $difference   = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
+        $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
         while ($precision <= $maxPrecision && $difference > 0) {
             $precision++;
             $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));

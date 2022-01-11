@@ -17,7 +17,7 @@ class CMSDecoder implements DigitalDocumentDecodeInterface
         // php 8 only
         if (
             function_exists('openssl_cms_verify') &&
-            openssl_cms_verify($p7mFilePath, OPENSSL_CMS_NOVERIFY + OPENSSL_CMS_NOSIGS, $pemPath, array(__DIR__ . '/ca.pem'), __DIR__ . '/ca.pem', $xmlPath)
+            openssl_cms_verify($p7mFilePath, OPENSSL_CMS_NOVERIFY + OPENSSL_CMS_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)
         ) {
             return (new XMLDecoder())->decode($xmlPath);
         }

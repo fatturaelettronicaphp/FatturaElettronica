@@ -11,8 +11,10 @@ abstract class RelatedDocumentParser extends AbstractBodyParser
     {
         $instance = new RelatedDocument();
 
-        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
-        $instance->setLineNumberReference($value);
+        $value = (array) $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea', false);
+        foreach ($value as $reference) {
+            $instance->addLineNumberReference($reference);
+        }
 
         $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
         $instance->setDocumentNumber($value);

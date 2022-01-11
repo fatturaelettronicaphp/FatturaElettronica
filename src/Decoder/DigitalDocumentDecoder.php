@@ -22,14 +22,14 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
     public function __construct()
     {
         $this->decoders = array_map(function (string $decoderClass) {
-            return new $decoderClass;
+            return new $decoderClass();
         }, self::STANDARD_DECODERS);
     }
 
     public function decode(string $filePath): ?SimpleXMLElement
     {
         foreach ($this->decoders as $decoder) {
-            $file = (new $decoder)->decode($filePath);
+            $file = (new $decoder())->decode($filePath);
             if ($file) {
                 return $file;
             }

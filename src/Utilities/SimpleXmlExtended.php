@@ -16,7 +16,7 @@ class SimpleXmlExtended extends SimpleXMLElement
     public function addCData($text)
     {
         $node = dom_import_simplexml($this);
-        $no   = $node->ownerDocument;
+        $no = $node->ownerDocument;
         $node->appendChild($no->createCDATASection($text));
 
         return $this;

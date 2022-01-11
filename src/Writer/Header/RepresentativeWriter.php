@@ -16,11 +16,11 @@ class RepresentativeWriter extends AbstractHeaderWriter
         }
 
         $rappresentanteFiscale = $this->xml->addChild('RappresentanteFiscale');
-        $datiAnagrafici        = $rappresentanteFiscale->addChild('DatiAnagrafici');
+        $datiAnagrafici = $rappresentanteFiscale->addChild('DatiAnagrafici');
 
-        $idPaese       = $documentPerson->getCountryCode();
+        $idPaese = $documentPerson->getCountryCode();
         $codiceFiscale = $documentPerson->getFiscalCode();
-        $vatNumber     = $documentPerson->getVatNumber();
+        $vatNumber = $documentPerson->getVatNumber();
         if (empty($codiceFiscale) && empty($vatNumber)) {
             throw new InvalidDocument('Invalid empty fiscal code and vat number for rappresentante fiscale');
         }

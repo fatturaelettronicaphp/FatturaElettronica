@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
 use JsonSerializable;
-use Stringable;
 use TypeError;
 
 abstract class Enum implements JsonSerializable
@@ -28,7 +27,7 @@ abstract class Enum implements JsonSerializable
             throw new TypeError("Value '{$value}' is not support on type " . static::class);
         }
 
-        $this->value       = $value;
+        $this->value = $value;
         $this->description = self::values()[$value] ?? $value;
     }
 

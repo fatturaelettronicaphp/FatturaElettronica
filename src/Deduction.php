@@ -3,9 +3,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\DiscountType;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
@@ -69,15 +67,15 @@ class Deduction implements ArrayableInterface, DeductionInterface
         return $this;
     }
 
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
 
-	public function setDescription(?string $description): DeductionInterface
-	{
-		$this->description = $description;
+    public function setDescription(?string $description): DeductionInterface
+    {
+        $this->description = $description;
 
-		return $this;
-	}
+        return $this;
+    }
 }

@@ -11,16 +11,16 @@ class SupplierWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         $cedentePrestatore = $this->xml->addChild('CedentePrestatore');
-        $datiAnagrafici    = $cedentePrestatore;
+        $datiAnagrafici = $cedentePrestatore;
         if (! $this->document->isSimplified()) {
             $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
         }
 
         /** @var Supplier $supplier */
-        $supplier      = $this->document->getSupplier();
-        $idPaese       = $supplier->getCountryCode();
+        $supplier = $this->document->getSupplier();
+        $idPaese = $supplier->getCountryCode();
         $codiceFiscale = $supplier->getFiscalCode();
-        $vatNumber     = $supplier->getVatNumber();
+        $vatNumber = $supplier->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 

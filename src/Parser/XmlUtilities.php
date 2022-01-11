@@ -8,6 +8,11 @@ trait XmlUtilities
 {
     abstract public function xml(): SimpleXMLElement;
 
+    protected function extractAttributeFromXmlElement(SimpleXMLElement $xml, string $attribute): ?string
+    {
+        return $xml->attributes()[$attribute] ?? null;
+    }
+
     protected function extractValueFromXml(string $xPath, $convertToString = true)
     {
         return $this->extractValueFromXmlElement($this->xml(), $xPath, $convertToString);

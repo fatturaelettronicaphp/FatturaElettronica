@@ -2,6 +2,11 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.5.0
+- Aggiornata compatibilità con la versione 1.6.4 della fattura elettronica
+- Sistemata compatibilità con `NumeroLicenzaGuida`
+- Sistemato `NumeroRiferimentoLinea`
+
 ## 2.4.3
 - Aggiunto supporto per `NumeroLicenzaGuida` nei dati vettore
 

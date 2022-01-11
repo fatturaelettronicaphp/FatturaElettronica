@@ -5,7 +5,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica;
 use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
@@ -55,25 +54,6 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
     protected $latePaymentDateLimit;
     /** @var string */
     protected $paymentCode;
-
-    /**
-     * @return PaymentTerm
-     */
-    public function getTerms(): ?PaymentTerm
-    {
-        return $this->terms;
-    }
-
-    /**
-     * @param PaymentTerm $terms
-     * @return PaymentInfo
-     */
-    public function setTerms($terms): self
-    {
-        $this->terms = $terms;
-
-        return $this;
-    }
 
     /**
      * @return string

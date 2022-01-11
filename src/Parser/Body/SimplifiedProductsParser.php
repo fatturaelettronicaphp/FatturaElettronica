@@ -11,11 +11,10 @@ class SimplifiedProductsParser extends AbstractBodyParser
     {
         $rows = $this->extractValueFromXmlElement($this->xml, 'DatiBeniServizi', false);
 
-        if (!$rows || !is_array($rows)) {
+        if (! $rows || ! is_array($rows)) {
             return;
         }
         foreach ($rows as $row) {
-
             $line = new SimplifiedLine();
 
             $value = $this->extractValueFromXmlElement($row, 'Descrizione');

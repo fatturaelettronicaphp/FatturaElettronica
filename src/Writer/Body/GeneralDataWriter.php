@@ -4,12 +4,12 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Writer\Body;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DeductionInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DiscountInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Deduction;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
+use FatturaElettronicaPhp\FatturaElettronica\Shipper;
 use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\SimpleXmlExtended;
 use SimpleXMLElement;
@@ -80,9 +80,9 @@ class GeneralDataWriter extends AbstractBodyWriter
             $this->addDeductionData($documentGeneralData);
         }
 
-		foreach ($this->body->getDeductions() as $deduction) {
-			$this->addDeductionData($documentGeneralData, $deduction);
-		}
+        foreach ($this->body->getDeductions() as $deduction) {
+            $this->addDeductionData($documentGeneralData, $deduction);
+        }
 
         if ($this->body->getVirtualDuty()) {
             $this->addVirtualDutyData($documentGeneralData);
@@ -122,24 +122,19 @@ class GeneralDataWriter extends AbstractBodyWriter
      */
     protected function addDeductionData(SimpleXMLElement $documentGeneralData, Deduction $deduction = null): void
     {
-
-    	if( $deduction instanceof Deduction)
-		{
-			$datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
-			$datiRitenuta->addChild('TipoRitenuta', $deduction->getType());
-			$datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getAmount()));
-			$datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getPercentage()));
-			$datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($deduction->getDescription()));
-		}
-		else
-		{
-			$datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
-			$datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
-			$datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
-			$datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
-			$datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
-		}
-
+        if ($deduction instanceof Deduction) {
+            $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
+            $datiRitenuta->addChild('TipoRitenuta', $deduction->getType());
+            $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getAmount()));
+            $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getPercentage()));
+            $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($deduction->getDescription()));
+        } else {
+            $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
+            $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
+            $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
+            $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
+            $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
+        }
     }
 
     /**
@@ -216,11 +211,13 @@ class GeneralDataWriter extends AbstractBodyWriter
             $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d\TH:i:s.000P'));
         }
 
-        $riferimentoLinea = $documentDdt->getLineNumberReference();
-        if ($riferimentoLinea !== null) {
-            foreach (explode(',', $riferimentoLinea) as $riferimentoLineaPart) {
-                $ddtData->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLineaPart));
+        $riferimentiLinea = $documentDdt->getLineNumberReferences();
+        foreach ($riferimentiLinea as $riferimentoLinea) {
+            if ($riferimentoLinea === null) {
+                continue;
             }
+
+            $ddtData->addChild('RiferimentoNumeroLinea', SimpleXmlExtended::sanitizeText($riferimentoLinea));
         }
     }
 
@@ -232,7 +229,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiAnagrafici = $shipmentData->addChild('DatiAnagraficiVettore');
 
-        $idPaese   = $documentPerson->getCountryCode();
+        $idPaese = $documentPerson->getCountryCode();
         $vatNumber = $documentPerson->getVatNumber();
 
         $fiscalData = $this->calculateFiscalData($idPaese, null, $vatNumber);
@@ -246,6 +243,11 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         $anagrafica = $datiAnagrafici->addChild('Anagrafica');
+
+        if ($documentPerson instanceof Shipper && ! empty($documentPerson->getLicenseNumber())) {
+            $datiAnagrafici->addChild('NumeroLicenzaGuida', substr(SimpleXmlExtended::sanitizeText($documentPerson->getLicenseNumber()), 0, 20));
+        }
+
         if (! empty($documentPerson->getOrganization())) {
             $anagrafica->addChild('Denominazione', SimpleXmlExtended::sanitizeText($documentPerson->getOrganization()));
 
@@ -308,6 +310,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $shipmentData = $generalData->addChild('DatiTrasporto');
 
+        /** @var Shipper $documentPerson */
         $documentPerson = $shipment->getShipper();
 
         if ($documentPerson !== null) {

@@ -6,6 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentParserInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Exceptions\InvalidXmlFile;
+use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\AttributesParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\CustomerParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\EmittingSubjectParser;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\Header\IntermediaryParser;
@@ -42,6 +43,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
         if ($digitalDocument->isSimplified()) {
             return $parserPipeline
                 ->through([
+                    AttributesParser::class,
                     TransmissionDataParser::class,
                     SimplifiedCustomerParser::class,
                     SimplifiedSupplierParser::class,

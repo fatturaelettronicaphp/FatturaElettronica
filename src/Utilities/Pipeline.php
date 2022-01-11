@@ -62,7 +62,7 @@ class Pipeline
     protected function carry()
     {
         foreach ($this->pipes as $pipe) {
-            $handler      = new $pipe($this->object);
+            $handler = new $pipe($this->object);
             $this->object = $handler->{$this->method}($this->dependency);
         }
     }

@@ -50,9 +50,9 @@ interface DigitalDocumentInstanceInterface
 
     public function addDeduction(DeductionInterface $deduction): DigitalDocumentInstanceInterface;
 
-	/**
-	 * @return Deduction[]
-	 */
+    /**
+     * @return Deduction[]
+     */
     public function getDeductions(): array;
 
     public function hasMultipleDeductions(): bool;

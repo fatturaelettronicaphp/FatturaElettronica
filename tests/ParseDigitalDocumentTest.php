@@ -39,7 +39,6 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertTrue($eDocument->isValid());
     }
 
-
     /** @test */
     public function can_read_p7m_invoice()
     {
@@ -119,8 +118,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_xml_invoice()
     {
-        $file      = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
-        $xml       = simplexml_load_file($file);
+        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
+        $xml = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateDocument($eDocument);
@@ -129,8 +128,8 @@ class ParseDigitalDocumentTest extends TestCase
     /** @test */
     public function can_read_complex_xml_invoice()
     {
-        $file      = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
-        $xml       = simplexml_load_file($file);
+        $file = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
+        $xml = simplexml_load_file($file);
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateComplexDocument($eDocument);
@@ -147,6 +146,9 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         // Trasmissione
+        if ($eDocument->getEmittingSystem()) {
+            $this->assertEquals("TEST", $eDocument->getEmittingSystem());
+        }
         $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
         $this->assertEquals('IT', $eDocument->getCountryCode());
         $this->assertEquals('betagamma@pec.it', $eDocument->getCustomerPec());
@@ -329,7 +331,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(new DateTime('2019-03-19'), $firstProduct->getStartDate());
         $this->assertEquals(new DateTime('2020-03-18'), $firstProduct->getEndDate());
 
-        $datas     = $firstProduct->getOtherData();
+        $datas = $firstProduct->getOtherData();
         $otherData = array_shift($datas);
         $this->assertEquals('CASSA-PREV', (string)$otherData->getType());
         $this->assertEquals('ENASARCO TC07', $otherData->getText());
@@ -445,13 +447,13 @@ class ParseDigitalDocumentTest extends TestCase
 
         if (is_dir($privateDir)) {
             $files = scandir($privateDir);
-            $privateFiles = array_filter($files, function($file) use ($privateDir) {
+            $privateFiles = array_filter($files, function ($file) use ($privateDir) {
                 return in_array(pathinfo($file, PATHINFO_EXTENSION), ['xml', 'p7m']);
             });
 
-            $privateFiles = array_fill_keys(array_map(function ($file){
+            $privateFiles = array_fill_keys(array_map(function ($file) {
                 return basename($file);
-            }, $privateFiles), array_map(function($file) use ($privateDir) {
+            }, $privateFiles), array_map(function ($file) use ($privateDir) {
                 return $privateDir . '/' . $file;
             }, $privateFiles));
         }

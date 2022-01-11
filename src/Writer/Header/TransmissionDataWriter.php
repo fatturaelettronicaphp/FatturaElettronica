@@ -10,7 +10,7 @@ class TransmissionDataWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         $datiTrasmissione = $this->xml->addChild('DatiTrasmissione');
-        $idTrasmittente   = $datiTrasmissione->addChild('IdTrasmittente');
+        $idTrasmittente = $datiTrasmissione->addChild('IdTrasmittente');
 
         $idTrasmittente->addChild('IdPaese', $this->document->getCountryCode());
         $idTrasmittente->addChild('IdCodice', $this->document->getSenderVatId());
