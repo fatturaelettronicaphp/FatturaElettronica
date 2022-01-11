@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema
-        xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
-        xmlns="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
-        targetNamespace="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
-        version="1.2.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
+           targetNamespace="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
+           version="1.2.1">
 
-    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="core.xsd"/>
+    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#"
+               schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
 
     <xs:element name="FatturaElettronica" type="FatturaElettronicaType">
         <xs:annotation>
@@ -431,12 +431,13 @@
             </xs:enumeration>
             <xs:enumeration value="TD24">
                 <xs:annotation>
-                    <xs:documentation>Fattura differita di cui all'art.21, comma 4, lett. a)</xs:documentation>
+                    <xs:documentation>Fattura differita di cui all'art.21, comma 4, terzo periodo lett. a) DPR 633/72
+                    </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="TD25">
                 <xs:annotation>
-                    <xs:documentation>Fattura differita di cui all'art.21, comma 4, terzo periodo lett. b)
+                    <xs:documentation>Fattura differita di cui all'art.21, comma 4, terzo periodo lett. b) DPR 633/72
                     </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
@@ -1102,7 +1103,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="N1">
                 <xs:annotation>
-                    <xs:documentation>Escluse ex. art. 15</xs:documentation>
+                    <xs:documentation>Escluse ex. art. 15 del D.P.R. 633/1972</xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <!-- IL CODICE SEGUENTE (N2) NON SARA' PIU' VALIDO PER LE FATTURE EMESSE A PARTIRE DAL PRIMO GENNAIO 2021-->
@@ -1187,7 +1188,9 @@
             </xs:enumeration>
             <xs:enumeration value="N6.2">
                 <xs:annotation>
-                    <xs:documentation>Inversione contabile - cessione di oro e argento puro</xs:documentation>
+                    <xs:documentation>Inversione contabile - cessione di oro e argento ai sensi della legge 7/2000
+                        nonché di oreficeria usata ad OPO
+                    </xs:documentation>
                 </xs:annotation>
             </xs:enumeration>
             <xs:enumeration value="N6.3">
@@ -1414,7 +1417,8 @@
     <xs:simpleType name="EmailType">
         <xs:restriction base="xs:token">
             <xs:maxLength value="256"/>
-            <xs:pattern value=".+@.+[.]+.+" />
+            <xs:pattern
+                    value="([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|&quot;(\[\]!#-[^-~ \t]|(\\[\t -~]))+&quot;)@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*\])"/>
         </xs:restriction>
     </xs:simpleType>
     <xs:simpleType name="EmailContattiType">
