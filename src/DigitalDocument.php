@@ -94,13 +94,13 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return (new DigitalDocumentWriter($this))->generate()->xml();
     }
 
-    public function write(string $filePath): bool
+    public function write(string $filePath, bool $format = false): bool
     {
         if ($this->isSimplified()) {
-            return (new SimplifiedDigitalDocumentWriter($this))->write($filePath);
+            return (new SimplifiedDigitalDocumentWriter($this))->write($filePath, $format);
         }
 
-        return (new DigitalDocumentWriter($this))->write($filePath);
+        return (new DigitalDocumentWriter($this))->write($filePath, $format);
     }
 
     public function generatedFilename(): string

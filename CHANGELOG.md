@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.5.2
+- Fix della nuova funzionalità di pretty print XML
+
 ## 2.5.1
 - Possibilità di formattare in "pretty print" gli xml scritti
 
