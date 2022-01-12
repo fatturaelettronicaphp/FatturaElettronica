@@ -21,20 +21,6 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_prettify_xml()
-    {
-        $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
-        /** @var DigitalDocument $eDocument */
-        $eDocument = DigitalDocument::parseFrom($file);
-
-        $file = __DIR__ . '/fixtures/private/' . $eDocument->generatedFilename();
-        $eDocument->write($file, true);
-
-        $eDocumentGenerated = (new DigitalDocumentParser($file))->parse();
-        $this->assertEquals("IT01234567890_00001.xml", $eDocumentGenerated->generatedFilename());
-    }
-
-    /** @test */
     public function can_write_xml_invoice_from_p7m_invoice()
     {
         $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';

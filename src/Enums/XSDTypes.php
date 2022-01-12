@@ -25,7 +25,7 @@ abstract class XSDTypes
         $types = [];
 
         foreach (self::getXDS() as $xsd) {
-            $xmldsigFilename = dirname(__DIR__) . '/Validator/xsd/core.xsd';
+            $xmldsigFilename = dirname(__DIR__) . '/Validator/xsd/xmldsig-core-schema.xsd';
             $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
 
             $doc = new DOMDocument();
