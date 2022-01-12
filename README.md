@@ -1,7 +1,8 @@
 # Fattura Elettronica
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/fatturaelettronicaphp/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/fatturaelettronicaphp/fattura-elettronica)
-[![Build Status](https://img.shields.io/travis/fatturaelettronicaphp/FatturaElettronica/master.svg?style=flat-square)](https://travis-ci.org/fatturaelettronicaphp/FatturaElettronica)
+[![Tests](https://github.com/fatturaelettronicaphp/FatturaElettronica/actions/workflows/run-tests.yml/badge.svg?branch=master)](https://github.com/fatturaelettronicaphp/fattura-elettronica/actions/workflows/run-tests.yml)
+[![Total Downloads](https://img.shields.io/packagist/dt/fatturaelettronicaphp/fattura-elettronica.svg?style=flat-square)](https://packagist.org/packages/fatturaelettronicaphp/fattura-elettronica)
 
 Pacchetto PHP per la lettura, la generazione e la validazione della fattura elettronica, sia per la Pubblica Amministrazione che tra privati (B2B), oltre che per il formato di Fattura Elettronica Semplificata.
 
@@ -9,8 +10,8 @@ Il pacchetto è utilizzato per gestione delle fatture elettroniche nel portale [
 
 ## Installazione
 
-Il pacchetto viene installato attraverso composer, e richiede PHP 7.3+ o 8.0.
-«
+Il pacchetto viene installato attraverso composer, e richiede PHP 7.3+ o 8.0+
+
 ```bash
 composer require fatturaelettronicaphp/fattura-elettronica
 ```
