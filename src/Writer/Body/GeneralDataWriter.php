@@ -33,13 +33,13 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         /* Dati contratti */
-        foreach ($this->body->getConventions() as $dataContract) {
-            $this->addExternalDocument($dataContract, $generalData->addChild('DatiConvenzione'));
+        foreach ($this->body->getConventions() as $dataConvention) {
+            $this->addExternalDocument($dataConvention, $generalData->addChild('DatiConvenzione'));
         }
 
         /* Dati contratti */
-        foreach ($this->body->getReceipts() as $dataContract) {
-            $this->addExternalDocument($dataContract, $generalData->addChild('DatiRicezione'));
+        foreach ($this->body->getReceipts() as $dataReceipt) {
+            $this->addExternalDocument($dataReceipt, $generalData->addChild('DatiRicezione'));
         }
 
         /* Dati fatture */
