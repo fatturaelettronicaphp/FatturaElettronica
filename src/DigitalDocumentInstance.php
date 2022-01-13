@@ -601,7 +601,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->totals;
     }
 
-    public function setDocumentTotal(?float $documentTotal): self
+    public function setDocumentTotal(?float $documentTotal): DigitalDocumentInstanceInterface
     {
         $this->documentTotal = $documentTotal;
 

@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.1
+- Fix Typo in `DatiContratto`
+
 ## 2.6.0
 - Importante aggiornamento del document writer con supporto a tutti i campi della fattura elettronica, compresi test
 
