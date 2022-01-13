@@ -693,7 +693,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->vehicleRegistrationDate;
     }
 
-    public function setVehicleRegistrationDate($vehicleRegistrationDate, $format = null): self
+    public function setVehicleRegistrationDate($vehicleRegistrationDate, $format = null): DigitalDocumentInstanceInterface
     {
         if ($vehicleRegistrationDate === null) {
             return $this;
