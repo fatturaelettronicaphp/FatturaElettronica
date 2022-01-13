@@ -29,7 +29,7 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         /* Dati convenzioni */
         foreach ($this->body->getContracts() as $dataContract) {
-            $this->addExternalDocument($dataContract, $generalData->addChild('DatiContratti'));
+            $this->addExternalDocument($dataContract, $generalData->addChild('DatiContratto'));
         }
 
         /* Dati contratti */
