@@ -15,6 +15,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\SimplifiedLineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentReason;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 
@@ -266,7 +267,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         return $this->deductionDescription;
     }
 
-    public function setDeductionDescription(?string $deductionDescription): DigitalDocumentInstanceInterface
+    public function setDeductionDescription(?PaymentReason $deductionDescription): DigitalDocumentInstanceInterface
     {
         $this->deductionDescription = $deductionDescription;
 

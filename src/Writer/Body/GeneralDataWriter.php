@@ -208,7 +208,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
 
         if ($documentDdt->getDocumentDate()) {
-            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d\TH:i:s.000P'));
+            $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d'));
         }
 
         $riferimentiLinea = $documentDdt->getLineNumberReferences();
@@ -287,19 +287,21 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         $addressData->addChild('Indirizzo', $address->getStreet());
-        $addressData->addChild('CAP', $address->getZip());
-        $addressData->addChild('Comune', $address->getCity());
-        $addressData->addChild('Nazione', $address->getCountryCode());
 
         $value = $address->getStreetNumber();
         if ($value !== null) {
             $addressData->addChild('NumeroCivico', $value);
         }
 
+        $addressData->addChild('CAP', $address->getZip());
+        $addressData->addChild('Comune', $address->getCity());
+
         $value = $address->getState();
         if ($value !== null) {
             $addressData->addChild('Provincia', $value);
         }
+
+        $addressData->addChild('Nazione', $address->getCountryCode());
     }
 
     /**
@@ -344,12 +346,12 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $value = $shipment->getWeight();
         if ($value !== null) {
-            $shipmentData->addChild('PesoLordo', $value);
+            $shipmentData->addChild('PesoLordo', SimpleXmlExtended::sanitizeFloat($value));
         }
 
         $value = $shipment->getNetWeight();
         if ($value !== null) {
-            $shipmentData->addChild('PesoNetto', $value);
+            $shipmentData->addChild('PesoNetto', SimpleXmlExtended::sanitizeFloat($value));
         }
 
         $value = $shipment->getPickupDate();
@@ -364,17 +366,17 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $value = $shipment->getReturnType();
         if ($value !== null) {
-            $shipmentData->addChild('TipoResa', (string)$value);
-        }
-
-        $value = $shipment->getDeliveryDate();
-        if ($value !== null) {
-            $shipmentData->addChild('DataOraConsegna', $value->format('Y-m-d\TH:i:s.000P'));
+            $shipmentData->addChild('TipoResa', $value);
         }
 
         $address = $shipment->getReturnAddress();
         if ($address !== null) {
             $this->addShipmentAddress($shipmentData, $address);
+        }
+
+        $value = $shipment->getDeliveryDate();
+        if ($value !== null) {
+            $shipmentData->addChild('DataOraConsegna', $value->format('Y-m-d\TH:i:s.000P'));
         }
     }
 

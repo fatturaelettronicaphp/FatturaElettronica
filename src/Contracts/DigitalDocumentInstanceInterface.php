@@ -6,6 +6,7 @@ use DateTime;
 use FatturaElettronicaPhp\FatturaElettronica\Deduction;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DeductionType;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\DocumentType;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentReason;
 use FatturaElettronicaPhp\FatturaElettronica\Fund;
 use FatturaElettronicaPhp\FatturaElettronica\Shipment;
 use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
@@ -46,7 +47,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getDeductionDescription(): ?string;
 
-    public function setDeductionDescription(?string $deductionDescription): DigitalDocumentInstanceInterface;
+    public function setDeductionDescription(?PaymentReason $reason): DigitalDocumentInstanceInterface;
 
     public function addDeduction(DeductionInterface $deduction): DigitalDocumentInstanceInterface;
 
@@ -73,7 +74,7 @@ interface DigitalDocumentInstanceInterface
 
     public function setDocumentNumber(?string $documentNumber): DigitalDocumentInstanceInterface;
 
-    public function setDocumentTotal(?float $documentTotal);
+    public function setDocumentTotal(?float $documentTotal): DigitalDocumentInstanceInterface;
 
     public function getDocumentTotal(): ?float;
 
@@ -94,12 +95,14 @@ interface DigitalDocumentInstanceInterface
 
     public function addDiscount(DiscountInterface $discount): DigitalDocumentInstanceInterface;
 
+    /** @return LineInterface[] */
     public function getLines(): array;
 
     public function addLine(LineInterface $line): DigitalDocumentInstanceInterface;
 
     public function getSimplifiedLine(): ?SimplifiedLineInterface;
 
+    /** @return SimplifiedLineInterface[] */
     public function getSimplifiedLines(): array;
 
     public function setSimplifiedLine(SimplifiedLineInterface $line): DigitalDocumentInstanceInterface;
@@ -173,7 +176,7 @@ interface DigitalDocumentInstanceInterface
 
     public function getVehicleRegistrationDate(): ?DateTime;
 
-    public function setVehicleRegistrationDate($vehicleRegistrationDate, $format = null);
+    public function setVehicleRegistrationDate($vehicleRegistrationDate, $format = null): DigitalDocumentInstanceInterface;
 
     public function getVehicleTotalKm();
 

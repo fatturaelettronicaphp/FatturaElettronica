@@ -53,7 +53,7 @@ class SimplifiedSupplierWriter extends AbstractHeaderWriter
         }
 
         if (! empty($supplier->getRegisterDate())) {
-            $cedentePrestatore->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format('Y-m-d\TH:i:s.000P'));
+            $cedentePrestatore->addChild('DataIscrizioneAlbo', $supplier->getRegisterDate()->format('Y-m-d'));
         }
 
         $sede = $cedentePrestatore->addChild('Sede');

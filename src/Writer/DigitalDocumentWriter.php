@@ -22,7 +22,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\RepresentativeWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\SupplierWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\Header\TransmissionDataWriter;
 use SimpleXMLElement;
-use Stringable;
 
 class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 {
@@ -51,7 +50,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
      */
     public function write($filePath, bool $format = false): bool
     {
-        if (! is_string($filePath) && ! $filePath instanceof Stringable) {
+        if (! is_string($filePath)) {
             throw new Exception('File path needs to be a string');
         }
 
@@ -75,6 +74,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     {
         $this
             ->createXml()
+            ->writeAttributes()
             ->writeHeader();
 
         foreach ($this->document->getDocumentInstances() as $instance) {
@@ -95,7 +95,6 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             ->with($this->document)
             ->usingMethod('write')
             ->through([
-                AttributesWriter::class,
                 TransmissionDataWriter::class,
                 SupplierWriter::class,
                 RepresentativeWriter::class,
@@ -147,6 +146,15 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
 
         foreach ($namespaces as $name => $value) {
             $this->xml->addAttribute($name, $value);
+        }
+
+        return $this;
+    }
+
+    protected function writeAttributes(): self
+    {
+        if ($this->document->getEmittingSystem()) {
+            $this->xml->addAttribute('SistemaEmittente', substr($this->document->getEmittingSystem(), 0, 10));
         }
 
         return $this;

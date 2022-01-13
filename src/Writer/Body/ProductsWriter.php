@@ -41,18 +41,18 @@ class ProductsWriter extends AbstractBodyWriter
             $altriDatiGestionali->addChild('RiferimentoTesto', $value);
         }
 
-        $value = $otherData->getDate();
-        if ($value !== null) {
-            $altriDatiGestionali->addChild('RiferimentoData', $value->format('Y-m-d'));
-        }
-
         $importoEnasarco = $otherData->getNumber();
         if ($importoEnasarco !== null) {
             if ($importoEnasarco <= 0) {
                 $importoEnasarco = 0.00;
             }
 
-            $altriDatiGestionali->addChild('RiferimentoNumero', $importoEnasarco);
+            $altriDatiGestionali->addChild('RiferimentoNumero', SimpleXmlExtended::sanitizeFloat($importoEnasarco));
+        }
+
+        $value = $otherData->getDate();
+        if ($value !== null) {
+            $altriDatiGestionali->addChild('RiferimentoData', $value->format('Y-m-d'));
         }
     }
 

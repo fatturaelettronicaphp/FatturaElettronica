@@ -84,16 +84,16 @@ class PaymentsWriter extends AbstractBodyWriter
                     $dettalioPagamento->addChild('BIC', SimpleXmlExtended::sanitizeText($details->getBic()));
                 }
 
-                if ($details->getEarlyPaymentDiscount()) {
-                    $dettalioPagamento->addChild('ScontoPagamentoAnticipato', $details->getEarlyPaymentDiscount());
+                if ($details->getEarlyPaymentDiscount() !== null) {
+                    $dettalioPagamento->addChild('ScontoPagamentoAnticipato', SimpleXmlExtended::sanitizeFloat($details->getEarlyPaymentDiscount()));
                 }
 
                 if ($details->getEarlyPaymentDateLimit() !== null) {
                     $dettalioPagamento->addChild('DataLimitePagamentoAnticipato', $details->getEarlyPaymentDateLimit()->format('Y-m-d'));
                 }
 
-                if ($details->getLatePaymentFee()) {
-                    $dettalioPagamento->addChild('PenalitaPagamentiRitardati', $details->getLatePaymentFee());
+                if ($details->getLatePaymentFee() !== null) {
+                    $dettalioPagamento->addChild('PenalitaPagamentiRitardati', SimpleXmlExtended::sanitizeFloat($details->getLatePaymentFee()));
                 }
 
                 if ($details->getLatePaymentDateLimit() !== null) {

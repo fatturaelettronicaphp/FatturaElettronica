@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.0
+- Importante aggiornamento del document writer con supporto a tutti i campi della fattura elettronica, compresi test
+
 ## 2.5.2
 - Fix della nuova funzionalità di pretty print XML
 

@@ -22,6 +22,7 @@ interface DigitalDocumentInterface
 
     public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance);
 
+    /** @return DigitalDocumentInstanceInterface[] */
     public function getDocumentInstances(): array;
 
     public function getCustomer(): ?CustomerInterface;
