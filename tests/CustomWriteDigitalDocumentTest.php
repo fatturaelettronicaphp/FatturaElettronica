@@ -15,7 +15,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentReason;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\TaxRegime;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\VatEligibility;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
