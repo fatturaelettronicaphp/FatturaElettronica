@@ -30,7 +30,7 @@ class SimpleXmlExtended extends SimpleXMLElement
      *
      * @return string
      */
-    public static function sanitizeText($text)
+    public static function sanitizeText(string $text, int $limit = 1000)
     {
         /* Tolgo i caratteri HTML perchè sto scrivendo dentro un XML */
         $text = htmlspecialchars($text);
@@ -39,10 +39,16 @@ class SimpleXmlExtended extends SimpleXMLElement
         $text = preg_replace('/(\r?\n){1,}/', ' ', $text);
 
         /* Limito il numero massimo di caratteri */
-        $text = mb_substr($text, 0, 1000, 'UTF-8');
+        $text = mb_substr($text, 0, $limit, 'UTF-8');
 
-        /* Converto i caratteri speciali UTF-8 */
-        $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
+        // Le stringhe sono tutte definite come {IsBasicLatin}
+        // Questo check controlla se il testo fornito rientra in tale range
+        // https://stackoverflow.com/questions/53043409/php-string-validation-for-basiclatin-and-1supplement
+        // Se non rientra nel range, converte i caratteri in UTF8 non supportati nella loro versione
+        // ASCII più simile al carattere specificato.
+        if (!preg_match('~^[\x00-\xFF]{1,' . $limit . '}$~u', $text)) {
+            $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
+        }
 
         /* Sostituisco i doppi spazi con spazi singoli (va fatto solo alla fine in quanto le varie conversioni precedenti potrebbero talvolta generare spazi bianchi, eventualmente creandoli dunque anche doppi) */
         $text = preg_replace("/\s+/", ' ', $text);

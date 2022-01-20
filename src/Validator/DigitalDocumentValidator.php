@@ -52,24 +52,11 @@ class DigitalDocumentValidator
         return $this;
     }
 
-    /**
-     * Thanks to https://github.com/Slamdunk/php-validatore-fattura-elettronica
-     * @return string
-     */
     protected function getSchema(): string
     {
         $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
 
-        $filePath = __DIR__ . '/xsd/' . $schemaFile;
-
-        return $filePath;
-
-        $xsd = file_get_contents($filePath);
-
-        $xmldsigFilename = __DIR__ . '/xsd/xmldsig-core-schema.xsd';
-        $xsd = preg_replace('/(\bschemaLocation=")[^"]+"/', sprintf('\1%s"', $xmldsigFilename), $xsd);
-
-        return $xsd;
+        return __DIR__ . '/xsd/' . $schemaFile;
     }
 
     protected function manageErrors(): self

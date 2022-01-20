@@ -80,7 +80,7 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->setNumber(1)
             ->setAdministrativeContact("TEST")
             ->setDeduction(false)
-            ->setDescription("TEST")
+            ->setDescription("àèéìòù")
             ->setEndDate(new DateTime())
             ->setQuantity(1)
             ->setStartDate(new DateTime())
@@ -162,6 +162,10 @@ class CustomWriteDigitalDocumentTest extends TestCase
         $this->assertStringContainsString("<PenalitaPagamentiRitardati>12.00</PenalitaPagamentiRitardati>", $xml);
         $this->assertStringContainsString("<PesoNetto>7.00</PesoNetto>", $xml);
         $this->assertStringContainsString("<PesoLordo>8.00</PesoLordo>", $xml);
+        $this->assertStringContainsString("<Indirizzo>Località Test</Indirizzo>", $xml);
+
+        $eDocument = DigitalDocument::parseFrom($document->serialize());
+        $this->assertEquals("Località Test", $eDocument->getCustomer()->getAddress()->getStreet());
     }
 
     private function generatePerson(BillablePersonInterface $person)
@@ -180,7 +184,7 @@ class CustomWriteDigitalDocumentTest extends TestCase
     private function generateAddress(): \FatturaElettronicaPhp\FatturaElettronica\Contracts\AddressInterface
     {
         return (new Address())
-            ->setStreet("Via Test")
+            ->setStreet("Località Test")
             ->setZip("36100")
             ->setCity("Vicenza")
             ->setStreetNumber("123")
