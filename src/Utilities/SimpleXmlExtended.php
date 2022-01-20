@@ -46,7 +46,7 @@ class SimpleXmlExtended extends SimpleXMLElement
         // https://stackoverflow.com/questions/53043409/php-string-validation-for-basiclatin-and-1supplement
         // Se non rientra nel range, converte i caratteri in UTF8 non supportati nella loro versione
         // ASCII più simile al carattere specificato.
-        if (!preg_match('~^[\x00-\xFF]{1,' . $limit . '}$~u', $text)) {
+        if (! preg_match('~^[\x00-\xFF]{1,' . $limit . '}$~u', $text)) {
             $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
         }
 
