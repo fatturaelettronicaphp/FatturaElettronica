@@ -205,7 +205,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     protected function addShippingLabelsData(SimpleXMLElement $generalData, ShippingLabel $documentDdt): void
     {
         $ddtData = $generalData->addChild('DatiDDT');
-        $ddtData->addChild('NumeroDDT', SimpleXmlExtended::sanitizeText($documentDdt->getDocumentNumber()));
+        $ddtData->addChild('NumeroDDT', $documentDdt->getDocumentNumber());
 
         if ($documentDdt->getDocumentDate()) {
             $ddtData->addChild('DataDDT', $documentDdt->getDocumentDate()->format('Y-m-d'));
