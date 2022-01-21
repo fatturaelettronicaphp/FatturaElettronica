@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.2
+- Fix `DataDDT` e `NumeroDDT`
+
 ## 2.6.1
 - Fix Typo in `DatiContratto`
 
