@@ -22,10 +22,10 @@ class ShippingLabelsParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
         $instance->setLineNumberReference($value);
 
-        $value = $this->extractValueFromXmlElement($order, 'IdDocumento');
+        $value = $this->extractValueFromXmlElement($order, 'NumeroDDT');
         $instance->setDocumentNumber($value);
 
-        $value = $this->extractValueFromXmlElement($order, 'Data');
+        $value = $this->extractValueFromXmlElement($order, 'DataDDT');
         $instance->setDocumentDate($value);
 
         return $instance;
