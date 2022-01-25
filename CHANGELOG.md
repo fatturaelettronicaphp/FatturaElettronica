@@ -2,6 +2,12 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.4
+- Fix xml per l'invio allo SDI
+
+## 2.6.3
+- Fix `DataDDT` e `NumeroDDT`
+
 ## 2.6.1
 - Fix Typo in `DatiContratto`
 

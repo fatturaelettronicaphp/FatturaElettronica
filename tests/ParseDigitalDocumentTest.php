@@ -15,6 +15,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use PHPUnit\Framework\TestCase;
+use SimpleXMLElement;
 
 class ParseDigitalDocumentTest extends TestCase
 {
@@ -37,6 +38,19 @@ class ParseDigitalDocumentTest extends TestCase
         $eDocument = DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT01234567890_11002.xml');
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
         $this->assertTrue($eDocument->isValid());
+    }
+
+    /**
+     * @test
+     */
+    public function reads_slashes_correctly()
+    {
+        $eDocument = DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT01234567890_11001_slash.xml');
+        $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
+        $this->assertTrue($eDocument->isValid());
+        $this->assertInstanceOf(SimpleXMLElement::class, $eDocument->serialize());
+
+        $this->assertEquals("20/20/21G", $eDocument->getDocumentInstances()[0]->getDocumentNumber());
     }
 
     /** @test */
@@ -461,6 +475,7 @@ class ParseDigitalDocumentTest extends TestCase
         return array_merge([
             ['IT01234567890_11001.xml' => __DIR__ . '/fixtures/IT01234567890_11001.xml'],
             ['IT01234567890_11001_spazi.xml' => __DIR__ . '/fixtures/IT01234567890_11001_spazi.xml'],
+            ['IT01234567890_11001_slash.xml' => __DIR__ . '/fixtures/IT01234567890_11001_slash.xml'],
             ['IT01234567890_11001_reso.xml' => __DIR__ . '/fixtures/IT01234567890_11001_reso.xml'],
             ['IT01234567890_11002.xml' => __DIR__ . '/fixtures/IT01234567890_11002.xml'],
             ['IT01234567890_FPR02.xml' => __DIR__ . '/fixtures/IT01234567890_FPR02.xml'],

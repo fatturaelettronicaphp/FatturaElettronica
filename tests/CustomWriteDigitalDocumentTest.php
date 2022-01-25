@@ -120,7 +120,7 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->addShippingLabel(
                 (new ShippingLabel())
                     ->setDocumentDate(new DateTime())
-                    ->setDocumentNumber(13)
+                    ->setDocumentNumber("20/2021/G")
             )
             ->addPaymentInformations(
                 (new PaymentInfo())
@@ -163,6 +163,7 @@ class CustomWriteDigitalDocumentTest extends TestCase
         $this->assertStringContainsString("<PesoNetto>7.00</PesoNetto>", $xml);
         $this->assertStringContainsString("<PesoLordo>8.00</PesoLordo>", $xml);
         $this->assertStringContainsString("<Indirizzo>Località Test</Indirizzo>", $xml);
+        $this->assertStringContainsString("<NumeroDDT>20/2021/G</NumeroDDT>", $xml);
 
         $eDocument = DigitalDocument::parseFrom($document->serialize());
         $this->assertEquals("Località Test", $eDocument->getCustomer()->getAddress()->getStreet());
