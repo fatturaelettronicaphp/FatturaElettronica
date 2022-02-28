@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.5
+- Fix decimali con 8 cifre
+
 ## 2.6.4
 - Fix xml per l'invio allo SDI
 
