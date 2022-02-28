@@ -120,7 +120,7 @@ class ProductsWriter extends AbstractBodyWriter
             $quantita = 1;
         }
 
-        $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita));
+        $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita, 8));
 
         if ($line->getUnit() !== null) {
             $dettaglioLinee->addChild('UnitaMisura', $line->getUnit());
@@ -134,15 +134,7 @@ class ProductsWriter extends AbstractBodyWriter
             $dettaglioLinee->addChild('DataFinePeriodo', $line->getEndDate()->format('Y-m-d'));
         }
 
-        $precision = 2;
-        $maxPrecision = 10;
-        $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
-        while ($precision <= $maxPrecision && $difference > 0) {
-            $precision++;
-            $difference = abs($line->getUnitPrice() - round($line->getUnitPrice(), $precision));
-        }
-
-        $dettaglioLinee->addChild('PrezzoUnitario', number_format($line->getUnitPrice(), $precision, '.', ''));
+        $dettaglioLinee->addChild('PrezzoUnitario', SimpleXmlExtended::sanitizeFloat($line->getUnitPrice(), 8));
 
         $discounts = $line->getDiscounts();
         if (count($discounts) > 0) {
@@ -152,7 +144,7 @@ class ProductsWriter extends AbstractBodyWriter
             }
         }
 
-        $dettaglioLinee->addChild('PrezzoTotale', SimpleXmlExtended::sanitizeFloat($line->getTotal()));
+        $dettaglioLinee->addChild('PrezzoTotale', SimpleXmlExtended::sanitizeFloat($line->getTotal(), 8));
 
         $dettaglioLinee->addChild('AliquotaIVA', SimpleXmlExtended::sanitizeFloat($line->getTaxPercentage()));
 
@@ -199,7 +191,7 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         if ($summary->getRounding() !== null) {
-            $datiRiepilogo->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($summary->getRounding()));
+            $datiRiepilogo->addChild('Arrotondamento', SimpleXmlExtended::sanitizeFloat($summary->getRounding(), 8));
         }
 
         $imponibileImporto = $summary->getTotal();
