@@ -20,6 +20,7 @@ class CMSDecoder implements DigitalDocumentDecodeInterface
             openssl_cms_verify($p7mFilePath, OPENSSL_CMS_NOVERIFY + OPENSSL_CMS_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)
         ) {
             dump('with cms');
+
             return (new XMLDecoder())->decode($xmlPath);
         }
 
