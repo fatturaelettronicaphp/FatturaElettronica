@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        php: [ 7.3, 7.4, 8.0 ]
+        php: [ 7.3, 7.4, 8.0, 8.1 ]
         dependency-version: [ prefer-stable ]
 
     name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
@@ -34,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, openssl
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
