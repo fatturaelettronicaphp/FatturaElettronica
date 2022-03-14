@@ -468,7 +468,7 @@ class ParseDigitalDocumentTest extends TestCase
             });
 
             foreach ($privateFiles as $privateFile) {
-                $privateFileTests[basename($privateFile)] =  [$privateDir . '/' . $privateFile];
+                $privateFileTests[basename($privateFile)] = [$privateDir . '/' . $privateFile];
             }
         }
 
