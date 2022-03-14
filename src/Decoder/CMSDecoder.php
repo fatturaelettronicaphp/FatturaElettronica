@@ -19,9 +19,12 @@ class CMSDecoder implements DigitalDocumentDecodeInterface
             function_exists('openssl_cms_verify') &&
             openssl_cms_verify($p7mFilePath, OPENSSL_CMS_NOVERIFY + OPENSSL_CMS_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)
         ) {
+            dump('with cms');
             return (new XMLDecoder())->decode($xmlPath);
         }
 
+
+        dump('without cms');
         $exitCode = 0;
         $output = [];
         exec(sprintf('openssl cms -verify -noverify -nosigs -in %s --inform DER  -out %s 2> /dev/null', $pemPath, $xmlPath), $output, $exitCode);
