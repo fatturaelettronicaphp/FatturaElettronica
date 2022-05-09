@@ -26,7 +26,7 @@ jobs:
 
       - name: Install openssl&libssl-dev
         run: |
-          sudo apt-get install -y openssl=1.1.1o
+          sudo apt-get install -y openssl libssl
 
       - name: Display openssl&libssl-dev versions
         run: dpkg -l openssl libssl-dev
