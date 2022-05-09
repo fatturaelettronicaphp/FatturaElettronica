@@ -20,11 +20,11 @@ abstract class AbstractBodyParser
     protected $xml;
 
     /** @var DigitalDocumentInstanceInterface */
-    protected $digitalDocymentInstance;
+    protected $digitalDocumentInstance;
 
     public function __construct(DigitalDocumentInstanceInterface $digitalDocumentInstance)
     {
-        $this->digitalDocymentInstance = $digitalDocumentInstance;
+        $this->digitalDocumentInstance = $digitalDocumentInstance;
     }
 
     public function xml(): SimpleXMLElement
@@ -38,7 +38,7 @@ abstract class AbstractBodyParser
 
         $this->performParsing();
 
-        return $this->digitalDocymentInstance;
+        return $this->digitalDocumentInstance;
     }
 
     abstract protected function performParsing();
