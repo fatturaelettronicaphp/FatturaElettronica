@@ -13,7 +13,7 @@ class PaymentInfoParser extends AbstractBodyParser
         $infos = (array)$this->extractValueFromXml('DatiPagamento', false);
         foreach ($infos as $info) {
             $instanceInfo = $this->extractPaymentInfoFrom($info);
-            $this->digitalDocymentInstance->addPaymentInformations($instanceInfo);
+            $this->digitalDocumentInstance->addPaymentInformations($instanceInfo);
         }
     }
 
