@@ -27,7 +27,7 @@ class GeneralDataParser extends AbstractBodyParser
             throw new InvalidXmlFile('<Divisa> not found');
         }
 
-        $this->digitalDocymentInstance->setCurrency($value);
+        $this->digitalDocumentInstance->setCurrency($value);
 
         $number = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Numero');
         if ($number === null) {
@@ -36,14 +36,14 @@ class GeneralDataParser extends AbstractBodyParser
 
         $descriptions = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Causale', false);
         foreach ($descriptions as $description) {
-            $this->digitalDocymentInstance->addDescription($description);
+            $this->digitalDocumentInstance->addDescription($description);
         }
 
         $documentTotal = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/ImportoTotaleDocumento');
         $rounding = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Arrotondamento');
         $art73 = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Art73');
 
-        $this->digitalDocymentInstance
+        $this->digitalDocumentInstance
             ->setDocumentType($type)
             ->setDocumentDate($data)
             ->setDocumentNumber($number)
