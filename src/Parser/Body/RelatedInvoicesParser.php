@@ -9,7 +9,7 @@ class RelatedInvoicesParser extends RelatedDocumentParser
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiFattureCollegate', false);
         foreach ($value as $v) {
             $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $this->digitalDocymentInstance->addRelatedInvoice($instance);
+            $this->digitalDocumentInstance->addRelatedInvoice($instance);
         }
     }
 }
