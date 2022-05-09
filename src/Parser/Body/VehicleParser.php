@@ -7,9 +7,9 @@ class VehicleParser extends RelatedDocumentParser
     protected function performParsing()
     {
         $value = $this->extractValueFromXml('DatiVeicoli/Data');
-        $this->digitalDocymentInstance->setVehicleRegistrationDate($value);
+        $this->digitalDocumentInstance->setVehicleRegistrationDate($value);
 
         $value = $this->extractValueFromXml('DatiVeicoli/TotalePercorso');
-        $this->digitalDocymentInstance->setVehicleTotalKm($value);
+        $this->digitalDocumentInstance->setVehicleTotalKm($value);
     }
 }

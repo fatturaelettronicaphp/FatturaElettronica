@@ -13,7 +13,7 @@ class FundParser extends AbstractBodyParser
 
         foreach ($funds as $fund) {
             $fundInstance = $this->extractFundInformationsFrom($fund);
-            $this->digitalDocymentInstance->addFund($fundInstance);
+            $this->digitalDocumentInstance->addFund($fundInstance);
         }
     }
 

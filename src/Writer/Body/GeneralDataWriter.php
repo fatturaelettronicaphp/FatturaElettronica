@@ -144,7 +144,10 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         $datiBollo = $documentGeneralData->addChild('DatiBollo');
         $datiBollo->addChild('BolloVirtuale', 'SI');
-        $datiBollo->addChild('ImportoBollo', SimpleXmlExtended::sanitizeFloat($this->body->getVirtualDutyAmount()));
+        $importoBollo = $this->body->getVirtualDutyAmount();
+		if ( $importoBollo !== null ) {
+			$datiBollo->addChild('ImportoBollo', SimpleXmlExtended::sanitizeFloat($importoBollo));
+		}
     }
 
     /**

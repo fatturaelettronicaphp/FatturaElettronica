@@ -11,7 +11,7 @@ class ShippingLabelsParser extends AbstractBodyParser
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiDDT', false);
         foreach ($value as $v) {
             $instance = $this->extractShippingLabelInformationsFrom($v);
-            $this->digitalDocymentInstance->addShippingLabel($instance);
+            $this->digitalDocumentInstance->addShippingLabel($instance);
         }
     }
 

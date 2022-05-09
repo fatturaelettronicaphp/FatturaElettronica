@@ -12,7 +12,7 @@ class AttachmentParser extends AbstractBodyParser
         $attachments = (array)$this->extractValueFromXml('Allegati', false);
         foreach ($attachments as $attachment) {
             $instance = $this->extractAttachmentFrom($attachment);
-            $this->digitalDocymentInstance->addAttachment($instance);
+            $this->digitalDocumentInstance->addAttachment($instance);
         }
     }
 

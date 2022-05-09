@@ -9,7 +9,7 @@ class RecepitsParser extends RelatedDocumentParser
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiRicezione', false);
         foreach ($value as $v) {
             $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $this->digitalDocymentInstance->addReceipt($instance);
+            $this->digitalDocumentInstance->addReceipt($instance);
         }
     }
 }

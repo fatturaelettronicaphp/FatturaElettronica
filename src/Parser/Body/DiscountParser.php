@@ -12,7 +12,7 @@ class DiscountParser extends AbstractBodyParser
         $discounts = (array)$this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/ScontoMaggiorazione', false);
         foreach ($discounts as $discount) {
             $discountInstance = $this->extractDiscountInformationsFrom($discount);
-            $this->digitalDocymentInstance->addDiscount($discountInstance);
+            $this->digitalDocumentInstance->addDiscount($discountInstance);
         }
     }
 

@@ -8,7 +8,7 @@ class SalParser extends AbstractBodyParser
     {
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiSal', false);
         foreach ($value as $v) {
-            $this->digitalDocymentInstance->addSal($v);
+            $this->digitalDocumentInstance->addSal($v);
         }
     }
 }
