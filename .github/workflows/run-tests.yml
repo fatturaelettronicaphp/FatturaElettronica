@@ -35,10 +35,14 @@ jobs:
           ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
           make
           make test
+          sudo make install
+          sudo mv /usr/bin/openssl /usr/bin/openssl-1.1.1f
+          sudo ln -s /usr/local/bin/openssl /usr/bin/openssl
+          sudo ldconfig
 
       - name: Display openssl&libssl-dev versions
         if: startsWith(${{ matrix.os }}, 'ubuntu')
-        run: dpkg -l openssl libssl-dev | grep '^ii' | cut -c5-
+        run: openssl version
 
       - name: Cache dependencies
         uses: actions/cache@v2
