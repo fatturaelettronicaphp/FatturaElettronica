@@ -13,7 +13,7 @@ class DeductionParser extends AbstractBodyParser
 
         foreach ($deductions as $deduction) {
             $deductionInstance = $this->extractFundInformationsFrom($deduction);
-            $this->digitalDocymentInstance->addDeduction($deductionInstance);
+            $this->digitalDocumentInstance->addDeduction($deductionInstance);
         }
     }
 
