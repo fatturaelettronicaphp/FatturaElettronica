@@ -39,7 +39,7 @@ class SimplifiedProductsParser extends AbstractBodyParser
                 $line->setReference($value);
             }
 
-            $this->digitalDocymentInstance->addSimplifiedLine($line);
+            $this->digitalDocumentInstance->addSimplifiedLine($line);
         }
     }
 }
