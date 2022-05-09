@@ -24,9 +24,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install openssl&libssl-dev
+      - name: Install openssl latest version
         run: |
-          sudo apt-get install -y openssl libssl-dev
+          sudo apt-get update && sudo apt-get upgrade
+          sudo apt install build-essential checkinstall zlib1g-dev -y
+          wget https://www.openssl.org/source/openssl-1.1.1o.tar.gz
+          tar -xf openssl-1.1.1o.tar.gz
+          cd openssl-1.1.1o.tar.gz
+          ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+          make
+          make test
 
       - name: Display openssl&libssl-dev versions
         run: dpkg -l openssl libssl-dev | grep '^ii' | cut -c5-
