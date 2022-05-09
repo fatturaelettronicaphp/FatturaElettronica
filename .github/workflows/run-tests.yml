@@ -15,17 +15,17 @@ jobs:
       fail-fast: true
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        php: [ 7.3, 7.4, 8.0 ]
+        php: [ 7.3, 7.4, 8.0, 8.1 ]
         dependency-version: [ prefer-stable ]
 
     name: P${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.composer/cache/files
           key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
@@ -34,7 +34,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, openssl
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,6 +42,14 @@ jobs:
       - name: Install dependencies
         run: |
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Write Secret Test Invoices
+        run: |
+          mkdir tests/fixtures/private/
+          echo $ENEL_INVOICE >> tests/fixtures/private/IT12345678910_0Efs6.xml.p7m
+        shell: bash
+        env:
+          ENEL_INVOICE : ${{secrets.ENEL_INVOICE}}
 
       - name: Execute tests
         run: composer test
