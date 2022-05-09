@@ -26,10 +26,10 @@ jobs:
 
       - name: Install openssl&libssl-dev
         run: |
-          sudo apt-get install -y openssl libssl
+          sudo apt-get install -y openssl libssl-dev
 
       - name: Display openssl&libssl-dev versions
-        run: dpkg -l openssl libssl-dev
+        run: dpkg -l openssl libssl-dev | grep '^ii' | cut -c5-
 
       - name: Cache dependencies
         uses: actions/cache@v2
