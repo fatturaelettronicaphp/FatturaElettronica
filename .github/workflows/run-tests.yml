@@ -32,11 +32,11 @@ jobs:
           wget https://www.openssl.org/source/openssl-1.1.1o.tar.gz
           tar -xf openssl-1.1.1o.tar.gz
           cd openssl-1.1.1o.tar.gz
-          ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+          ./config
           make
           make test
           sudo make install
-          sudo mv /usr/bin/openssl /usr/bin/openssl-1.1.1f
+          sudo mv /usr/bin/openssl /usr/bin/openssl-1.1.1o
           sudo ln -s /usr/local/bin/openssl /usr/bin/openssl
           sudo ldconfig
 
