@@ -16,7 +16,7 @@ class SummaryParser extends AbstractBodyParser
 
         foreach ($totals as $totalValue) {
             $total = $this->extractTotalFrom($totalValue);
-            $this->digitalDocymentInstance->addTotal($total);
+            $this->digitalDocumentInstance->addTotal($total);
         }
     }
 
