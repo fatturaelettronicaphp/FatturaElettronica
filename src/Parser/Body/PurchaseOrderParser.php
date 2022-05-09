@@ -9,7 +9,7 @@ class PurchaseOrderParser extends RelatedDocumentParser
         $value = (array)$this->extractValueFromXml('DatiGenerali/DatiOrdineAcquisto', false);
         foreach ($value as $v) {
             $instance = $this->extractRelatedDocumentInformationsFrom($v);
-            $this->digitalDocymentInstance->addPurchaseOrder($instance);
+            $this->digitalDocumentInstance->addPurchaseOrder($instance);
         }
     }
 }
