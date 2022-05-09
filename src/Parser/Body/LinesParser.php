@@ -18,7 +18,7 @@ class LinesParser extends AbstractBodyParser
         $rows = (array) $this->extractValueFromXml('DatiBeniServizi/DettaglioLinee', false);
         foreach ($rows as $row) {
             $line = $this->extractProductInformationsFrom($row);
-            $this->digitalDocymentInstance->addLine($line);
+            $this->digitalDocumentInstance->addLine($line);
         }
     }
 
