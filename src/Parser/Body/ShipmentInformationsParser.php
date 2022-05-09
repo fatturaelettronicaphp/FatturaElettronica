@@ -17,7 +17,7 @@ class ShipmentInformationsParser extends AbstractBodyParser
             $instance = $this->extractShipmentInformationsFrom($value);
 
             if ($instance !== null) {
-                $this->digitalDocymentInstance->setShipment($instance);
+                $this->digitalDocumentInstance->setShipment($instance);
             }
         }
     }
