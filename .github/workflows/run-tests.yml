@@ -24,6 +24,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install openssl&libssl-dev
+        run: |
+          sudo apt-get install -y openssl=1.1.1o
+
+      - name: Display openssl&libssl-dev versions
+        run: dpkg -l openssl libssl-dev
+
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
