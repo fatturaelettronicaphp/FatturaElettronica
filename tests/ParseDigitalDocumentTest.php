@@ -13,6 +13,8 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
@@ -149,6 +151,53 @@ class ParseDigitalDocumentTest extends TestCase
         $eDocument = DigitalDocument::parseFrom($xml);
 
         $this->validateComplexDocument($eDocument);
+    }
+
+    /** @test */
+    public function reads_all_payment_details()
+    {
+        $file = __DIR__ . '/fixtures/IT01234567890_11001_payment_details.xml';
+        $xml = simplexml_load_file($file);
+        $eDocument = DigitalDocument::parseFrom($xml);
+
+        /** @var DigitalDocumentInstanceInterface $document */
+        $document = $eDocument->getDocumentInstances()[0];
+        $infos = $document->getPaymentInformations();
+
+        $this->assertCount(1, $infos);
+
+        /** @var PaymentInfoInterface $info */
+        $info = $infos[0];
+        $this->assertEquals(PaymentTerm::TP01(), $info->getTerms());
+
+        /** @var PaymentDetailsInterface $details */
+        $details = $info->getDetails();
+        $this->assertCount(1, $details);
+
+        /** @var PaymentDetailsInterface $detail */
+        $detail = $details[0];
+
+        $this->assertEquals('Mario Rossi', $detail->getPayee());
+        $this->assertEquals(PaymentMethod::MP01(), $detail->getMethod());
+        $this->assertEquals('2015-01-30', $detail->getDueDate()->format('Y-m-d'));
+        $this->assertEquals(60, $detail->getDueDays());
+        $this->assertEquals('2014-01-30', $detail->getDueDateFrom()->format('Y-m-d'));
+        $this->assertEquals(6.1, $detail->getAmount());
+        $this->assertEquals('12345', $detail->getPostalOfficeCode());
+        $this->assertEquals('Rossi', $detail->getPayerSurname());
+        $this->assertEquals('Mario', $detail->getPayerName());
+        $this->assertEquals('RSSMRA77E01L840X', $detail->getPayerFiscalCode());
+        $this->assertEquals('Sign.', $detail->getPayerTitle());
+        $this->assertEquals('Nome Banca', $detail->getBankName());
+        $this->assertEquals('IT00000000000000000000000', $detail->getIban());
+        $this->assertEquals('ABC123', $detail->getAbi());
+        $this->assertEquals('12345', $detail->getCab());
+        $this->assertEquals('67891', $detail->getBic());
+        $this->assertEquals(10, $detail->getEarlyPaymentDiscount());
+        $this->assertEquals('2014-02-01', $detail->getEarlyPaymentDateLimit()->format('Y-m-d'));
+        $this->assertEquals(11, $detail->getLatePaymentFee());
+        $this->assertEquals('2016-02-01', $detail->getLatePaymentDateLimit()->format('Y-m-d'));
+        $this->assertEquals('ABC', $detail->getPaymentCode());
     }
 
     /**

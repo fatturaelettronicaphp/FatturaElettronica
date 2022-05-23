@@ -42,6 +42,9 @@ class PaymentInfoParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($detail, 'CodUfficioPostale');
         $instanceDetail->setPostalOfficeCode($value);
 
+        $value = $this->extractValueFromXmlElement($detail, 'TitoloQuietanzante');
+        $instanceDetail->setPayerTitle($value);
+
         $value = $this->extractValueFromXmlElement($detail, 'CognomeQuietanzante');
         $instanceDetail->setPayerSurname($value);
 
@@ -50,6 +53,9 @@ class PaymentInfoParser extends AbstractBodyParser
 
         $value = $this->extractValueFromXmlElement($detail, 'CFQuietanzante');
         $instanceDetail->setPayerFiscalCode($value);
+
+        $value = $this->extractValueFromXmlElement($detail, 'IstitutoFinanziario');
+        $instanceDetail->setBankName($value);
 
         $value = $this->extractValueFromXmlElement($detail, 'IBAN');
         $instanceDetail->setIban($value);
