@@ -2,6 +2,12 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.7
+- Aggiunto il parsing del riferimento amministrativo
+
+## 2.6.6
+- Aggiunte informazioni mancanti nel parsing dei dati di pagamento
+
 ## 2.6.5
 - Fix decimali con 8 cifre
 
