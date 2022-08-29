@@ -58,6 +58,9 @@ class LinesParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($xml, 'Natura');
         $instance->setVatNature($value);
 
+        $value = $this->extractValueFromXmlElement($xml, 'RiferimentoAmministrazione');
+        $instance->setAdministrativeContact($value);
+
         $products = (array) $this->extractValueFromXmlElement($xml, 'CodiceArticolo', false);
         foreach ($products as $product) {
             $value = $this->extractProductCodeInformationsFrom($product);

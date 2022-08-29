@@ -154,6 +154,21 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
+    public function reads_admin_contact()
+    {
+        $file = __DIR__ . '/fixtures/IT01234567890_11001.xml';
+        $xml = simplexml_load_file($file);
+        $eDocument = DigitalDocument::parseFrom($xml);
+
+        /** @var DigitalDocumentInstanceInterface $document */
+        $document = $eDocument->getDocumentInstances()[0];
+        /** @var LineInterface $line */
+        $line = $document->getLines()[0];
+
+        $this->assertEquals('Pinco Pallo', $line->getAdministrativeContact());
+    }
+
+    /** @test */
     public function reads_all_payment_details()
     {
         $file = __DIR__ . '/fixtures/IT01234567890_11001_payment_details.xml';

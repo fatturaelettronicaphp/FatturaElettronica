@@ -107,6 +107,7 @@
         <PrezzoUnitario>1.00</PrezzoUnitario>
         <PrezzoTotale>5.00</PrezzoTotale>
         <AliquotaIVA>22.00</AliquotaIVA>
+        <RiferimentoAmministrazione>Pinco Pallo</RiferimentoAmministrazione>
       </DettaglioLinee>
       <DatiRiepilogo>
         <AliquotaIVA>22.00</AliquotaIVA>
