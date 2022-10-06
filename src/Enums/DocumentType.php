@@ -24,6 +24,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
  * @method static self TD25()
  * @method static self TD26()
  * @method static self TD27()
+ * @method static self TD28()
  */
 class DocumentType extends Enum
 {
