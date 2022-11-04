@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.8
+- Aggiunto il tipo di documento TD28 (grazie @itajackass)
+
 ## 2.6.7
 - Aggiunto il parsing del riferimento amministrativo
 
