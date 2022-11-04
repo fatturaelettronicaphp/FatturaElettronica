@@ -21,7 +21,13 @@ class AttachmentWriter extends AbstractBodyWriter
                 throw new InvalidDocument('<NomeAttachment> is required');
             }
 
-            if (! $attachment->getFileData()) {
+            /* if (! $attachment->getFileData()) { */
+            /*
+            fix: da specifiche il campo Attachment è obbligatorio che sia presente, ma la sua dimensione
+            può essere nulla (le specifiche parlano solo di dim. max): in caso di allegato vuoto si avrà un tag selfclosed <Attachment/> valido
+            ad esempio Aruba accetta il transito di questo tipo di casistiche
+            */
+            if (! property_exists($attachment, "attachment") ) {
                 throw new InvalidDocument('<Attachment> is required');
             }
 
