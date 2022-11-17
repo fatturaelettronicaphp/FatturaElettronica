@@ -21,7 +21,7 @@ class AttachmentWriter extends AbstractBodyWriter
                 throw new InvalidDocument('<NomeAttachment> is required');
             }
 
-            if (! $attachment->getFileData()) {
+            if (! $attachment->getName()) {
                 throw new InvalidDocument('<Attachment> is required');
             }
 

@@ -2,7 +2,9 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
+use FatturaElettronicaPhp\FatturaElettronica\Attachment;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use PHPUnit\Framework\TestCase;
 
@@ -78,5 +80,25 @@ class WriteDigitalDocumentTest extends TestCase
         $eDocument->write($readFile);
 
         $this->assertTrue(file_exists($readFile . '/' . $eDocument->generatedFilename()));
+    }
+
+    /** @test */
+    public function can_write_document_with_empty_attachment()
+    {
+        $file = __DIR__ . '/fixtures/IT01234567890_Attachment.xml';
+        $eDocument = DigitalDocument::parseFrom($file);
+
+        /** @var DigitalDocumentInstance $instance */
+        $instance = $eDocument->getDocumentInstances()[0];
+        $instance->addAttachment(
+            (new Attachment())
+            ->setName('Test')
+        );
+
+        $readFile = dirname(tempnam(sys_get_temp_dir(), 'fattura_elettronica') . '.xml') . '/';
+        $eDocument->write($readFile);
+
+        $this->assertTrue(file_exists($readFile . '/' . $eDocument->generatedFilename()));
+        $this->assertStringContainsString("<Attachment/>", file_get_contents($readFile . '/' . $eDocument->generatedFilename()));
     }
 }

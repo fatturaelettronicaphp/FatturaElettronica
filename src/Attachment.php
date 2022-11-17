@@ -118,6 +118,10 @@ class Attachment implements ArrayableInterface, AttachmentInterface
 
     public function getFileData(): string
     {
+        if ($this->getAttachment() === null) {
+            return '';
+        }
+
         return base64_decode($this->getAttachment());
     }
 
