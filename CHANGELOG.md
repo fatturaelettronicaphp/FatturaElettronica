@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.10
+- Risolto problema nel parsing della ritenuta
+
 ## 2.6.9
 - Possibilità di aggiungere allegati senza file
 
