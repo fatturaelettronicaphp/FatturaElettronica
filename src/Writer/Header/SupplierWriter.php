@@ -118,7 +118,11 @@ class SupplierWriter extends AbstractHeaderWriter
                 $contatti->addChild('Email', SimpleXmlExtended::sanitizeText($supplier->getEmail()));
             }
         }
-
+        
+        if ($supplier->getAdministrativeContact() !== null) {
+            $cedentePrestatore->addChild('RiferimentoAmministrazione', SimpleXmlExtended::sanitizeText($supplier->getAdministrativeContact()));
+        }
+        
         return $this;
     }
 }
