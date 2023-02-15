@@ -80,7 +80,7 @@ class SupplierParser extends AbstractHeaderParser
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/Contatti/Fax');
         $supplier->setFax($value);
 
-        $value = $this->extractValueFromXml($prefix . 'RiferimentoAmministrazione');
+        $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/RiferimentoAmministrazione');
         $supplier->setAdministrativeContact($value);
 
         $value = $this->extractValueFromXml('//FatturaElettronicaHeader/CedentePrestatore/IscrizioneREA/Ufficio');
