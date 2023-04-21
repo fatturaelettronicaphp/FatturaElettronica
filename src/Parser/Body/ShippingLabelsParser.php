@@ -19,8 +19,10 @@ class ShippingLabelsParser extends AbstractBodyParser
     {
         $instance = new ShippingLabel();
 
-        $value = $this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea');
-        $instance->setLineNumberReference($value);
+        $value = (array)$this->extractValueFromXmlElement($order, 'RiferimentoNumeroLinea', false);
+        foreach ($value as $v) {
+            $instance->addLineNumberReference(trim($v[0]->__toString()));
+        }
 
         $value = $this->extractValueFromXmlElement($order, 'NumeroDDT');
         $instance->setDocumentNumber($value);
