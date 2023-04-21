@@ -16,6 +16,7 @@ use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
@@ -166,6 +167,23 @@ class ParseDigitalDocumentTest extends TestCase
         $line = $document->getLines()[0];
 
         $this->assertEquals('Pinco Pallo', $line->getAdministrativeContact());
+    }
+
+    /** @test */
+    public function reads_ddt_line_numbers()
+    {
+        $file = __DIR__ . '/fixtures/IT01234567890_21101.xml';
+        $xml = simplexml_load_file($file);
+        $eDocument = DigitalDocument::parseFrom($xml);
+
+        /** @var DigitalDocumentInstanceInterface $document */
+        $document = $eDocument->getDocumentInstances()[0];
+
+        /** @var ShippingLabel $shippingLabel */
+        $shippingLabel = $document->getShippingLabels()[0];
+
+        $this->assertCount(4, $shippingLabel->getLineNumberReferences());
+        $this->assertEquals(["10", "11", "12", "13"], $shippingLabel->getLineNumberReferences());
     }
 
     /** @test */
@@ -537,6 +555,7 @@ class ParseDigitalDocumentTest extends TestCase
         }
 
         return array_merge([
+            'IT01234567890_21101.xml' => [__DIR__ . '/fixtures/IT01234567890_21101.xml'],
             'IT01234567890_11001.xml' => [__DIR__ . '/fixtures/IT01234567890_11001.xml'],
             'IT01234567890_11001_spazi.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_spazi.xml'],
             'IT01234567890_11001_slash.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_slash.xml'],

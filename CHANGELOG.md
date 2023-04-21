@@ -2,6 +2,12 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.12
+- Risolto problema nel parsing del RiferimentoNumeroLinea nel DatiDDT
+
+## 2.6.11
+- Risolto problema nel parsing del RiferimentoAmministrazione nel CedentePrestatore
+
 ## 2.6.10
 - Risolto problema nel parsing della ritenuta
 
