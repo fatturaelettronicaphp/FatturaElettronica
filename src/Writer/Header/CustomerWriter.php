@@ -21,7 +21,7 @@ class CustomerWriter extends AbstractHeaderWriter
 
         $fiscalData = $this->calculateFiscalData($idPaese, $codiceFiscale, $vatNumber);
 
-        if (! empty($vatNumber)) {
+        if (! empty($fiscalData['idCodice'])) {
             $idFiscaleIva = $datiAnagrafici->addChild('IdFiscaleIVA');
             $idFiscaleIva->addChild('IdPaese', $idPaese);
             $idFiscaleIva->addChild('IdCodice', SimpleXmlExtended::sanitizeText($fiscalData['idCodice']));
