@@ -24,7 +24,7 @@ class Line implements ArrayableInterface, LineInterface
     protected $products = [];
     /** @var string */
     protected $description;
-    /** @var float */
+    /** @var float|null */
     protected $quantity;
     /** @var string */
     protected $unit;

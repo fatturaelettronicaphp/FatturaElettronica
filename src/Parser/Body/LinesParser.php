@@ -35,7 +35,9 @@ class LinesParser extends AbstractBodyParser
         $instance->setDescription($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Quantita');
-        $instance->setQuantity((float) $value);
+        if ($value !== null) {
+            $instance->setQuantity((float)$value);
+        }
 
         $value = $this->extractValueFromXmlElement($xml, 'UnitaMisura');
         $instance->setUnit($value);
