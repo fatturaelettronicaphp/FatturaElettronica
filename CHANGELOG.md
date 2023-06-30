@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.14
+- Risolto problema nella scrittura di documenti senza quantità prodotto
+
 ## 2.6.12
 - Risolto problema nel parsing del RiferimentoNumeroLinea nel DatiDDT
 
