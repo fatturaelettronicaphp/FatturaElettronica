@@ -57,14 +57,14 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
             $filePath = $filePath . '/' . $this->document->generatedFilename();
         }
 
-        if ($format) {
+       // if ($format) {
             /** @var DOMDocument $dom */
             $dom = dom_import_simplexml($this->generate()->xml())->ownerDocument;
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
 
             return $dom->save($filePath);
-        }
+       // }
 
         return $this->generate()->xml()->asXML($filePath);
     }
