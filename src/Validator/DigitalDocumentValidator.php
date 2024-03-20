@@ -88,7 +88,7 @@ class DigitalDocumentValidator
         $field = '';
         if (stripos($message, "Element ") === 0) {
             $message = substr($message, strlen("Element "));
-            $field = substr($message, 1, stripos($message, ':') - 1);
+            $field = substr($message, 1, stripos($message, ':') - 2);
             $message = substr($message, stripos($message, ':') + 2);
         }
 
