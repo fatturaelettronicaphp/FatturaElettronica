@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+## 2.6.15
+- Fixed unwanted single quote during error parsing
+
 ## 2.6.14
 - Risolto problema nella scrittura di documenti senza quantità prodotto
 
