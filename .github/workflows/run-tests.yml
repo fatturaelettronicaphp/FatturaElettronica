@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest ]
         php: [ 7.3, 7.4, 8.0, 8.1 ]
         dependency-version: [ prefer-stable ]
 
@@ -23,6 +23,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Install openssl latest version
+        if: startsWith(${{ matrix.os }}, 'ubuntu')
+        run: |
+          wget https://www.openssl.org/source/openssl-1.1.1o.tar.gz
+          tar -zxf openssl-1.1.1o.tar.gz
+          cd openssl-1.1.1o
+          ./config
+          make
+          make test
+          sudo make install
+          sudo mv /usr/bin/openssl /usr/bin/openssl-1.1.1f
+          sudo ln -s /usr/local/bin/openssl /usr/bin/openssl
+          sudo ldconfig
+
+      - name: Display openssl&libssl-dev versions
+        if: startsWith(${{ matrix.os }}, 'ubuntu')
+        run: openssl version
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -34,7 +52,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, openssl
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, openssl-1.1.1o
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
