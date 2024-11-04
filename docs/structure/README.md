@@ -1,6 +1,6 @@
 # Struttura del pacchetto Fattura Elettronica
 
-Il pacchetto contiene una struttura di classi costruita sulla base del tracciato XML Fattura Elettronica così come ufficialmente documentato dall'Agenzia delle Entrate: [Documentazione FatturaPA Agenzia delle Entrate](https://www.fatturapa.gov.it/export/fatturazione/it/normativa/f-2.htm) Il riferimento ufficiale utilizzato per la lettura e la scrittura di file XML è: `Rappresentazione tabellare del tracciato FatturaPA versione 1.2.1.xls`.
+Il pacchetto contiene una struttura di classi costruita sulla base del tracciato XML Fattura Elettronica così come ufficialmente documentato dall'Agenzia delle Entrate: [Documentazione FatturaPA Agenzia delle Entrate](https://www.fatturapa.gov.it/it/norme-e-regole/normativa/) Il riferimento ufficiale utilizzato per la lettura e la scrittura di file XML è: `Rappresentazione tabellare del tracciato FatturaPA versione 1.2.1.xls`.
 
 ## Dati enumerabili
 
