@@ -634,6 +634,7 @@ class ParseDigitalDocumentTest extends TestCase
             'IT01234567890_11001.xml' => [__DIR__ . '/fixtures/IT01234567890_11001.xml'],
             'IT01234567890_11001_spazi.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_spazi.xml'],
             'IT01234567890_11001_slash.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_slash.xml'],
+            'IT01234567890_11001_entity.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_entity.xml'],
             'IT01234567890_11001_reso.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_reso.xml'],
             'IT01234567890_11002.xml' => [__DIR__ . '/fixtures/IT01234567890_11002.xml'],
             'IT01234567890_FPR02.xml' => [__DIR__ . '/fixtures/IT01234567890_FPR02.xml'],
