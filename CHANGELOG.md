@@ -2,6 +2,10 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+# 2.7.0
+- Aggiornato il file xsd della fattura elettronica a 1.2.3
+- Aggiornato il file xsd della fattura semplificata a 1.0.2
+
 ## 2.6.15
 - Fixed unwanted single quote during error parsing
 
