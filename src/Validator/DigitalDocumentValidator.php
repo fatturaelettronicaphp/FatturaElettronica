@@ -53,7 +53,7 @@ class DigitalDocumentValidator
 
     protected function getSchema(): string
     {
-        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
+        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.xsd';
 
         return __DIR__ . '/xsd/' . $schemaFile;
     }

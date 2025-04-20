@@ -22,12 +22,12 @@ class EnumTest extends TestCase
         $this->assertCount(4, Enums\CancelType::values());
         $this->assertCount(6, Enums\DeductionType::values());
         $this->assertCount(2, Enums\DiscountType::values());
-        $this->assertCount(21, Enums\DocumentType::values());
+        $this->assertCount(23, Enums\DocumentType::values());
         $this->assertCount(2, Enums\EmittingSubject::values());
         $this->assertCount(22, Enums\FundType::values());
         $this->assertCount(23, Enums\PaymentMethod::values());
         $this->assertCount(3, Enums\PaymentTerm::values());
-        $this->assertCount(18, Enums\TaxRegime::values());
+        $this->assertCount(19, Enums\TaxRegime::values());
         $this->assertCount(3, Enums\TransmissionFormat::values());
         $this->assertCount(3, Enums\VatEligibility::values());
         $this->assertCount(2, Enums\WoundUpType::values());

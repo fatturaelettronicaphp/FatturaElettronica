@@ -67,7 +67,7 @@ abstract class XSDTypes
     protected static function getXDS(): array
     {
         return [
-            file_get_contents(dirname(__DIR__) . '/Validator/xsd/pa_1.2.1.xsd'),
+            file_get_contents(dirname(__DIR__) . '/Validator/xsd/pa_1.2.xsd'),
             file_get_contents(dirname(__DIR__) . '/Validator/xsd/semplificata_1.0.xsd'),
         ];
     }
