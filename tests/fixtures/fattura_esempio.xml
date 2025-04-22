@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:FatturaElettronica versione="FPR12" xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+    xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd">
+    <FatturaElettronicaHeader>
+        <DatiTrasmissione>
+            <IdTrasmittente>
+                <IdPaese>IT</IdPaese>
+                <IdCodice>WNSKTM73H55A444E</IdCodice>
+            </IdTrasmittente>
+            <ProgressivoInvio>1</ProgressivoInvio>
+            <FormatoTrasmissione>FPR12</FormatoTrasmissione>
+            <CodiceDestinatario>0000000</CodiceDestinatario>
+        </DatiTrasmissione>
+        <CedentePrestatore>
+            <DatiAnagrafici>
+                <IdFiscaleIVA>
+                    <IdPaese>IT</IdPaese>
+                    <IdCodice>49859390987</IdCodice>
+                </IdFiscaleIVA>
+                <CodiceFiscale>CVLLSN66M44L826J</CodiceFiscale>
+                <Anagrafica>
+                    <Denominazione>mia azienda</Denominazione>
+                </Anagrafica>
+                <RegimeFiscale>RF19</RegimeFiscale>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>Via abc</Indirizzo>
+                <NumeroCivico>10</NumeroCivico>
+                <CAP>20125</CAP>
+                <Comune>MILANO</Comune>
+                <Nazione>IT</Nazione>
+            </Sede>
+        </CedentePrestatore>
+        <CessionarioCommittente>
+            <DatiAnagrafici>
+                <Anagrafica>
+                    <Nome>Pietro</Nome>
+                    <Cognome>Lodi Rizzini</Cognome>
+                </Anagrafica>
+            </DatiAnagrafici>
+            <Sede>
+                <Indirizzo>Via def</Indirizzo>
+                <NumeroCivico>5</NumeroCivico>
+                <CAP>46100</CAP>
+                <Comune>MANTOVA</Comune>
+                <Nazione>IT</Nazione>
+            </Sede>
+        </CessionarioCommittente>
+    </FatturaElettronicaHeader>
+    <FatturaElettronicaBody>
+        <DatiGenerali>
+            <DatiGeneraliDocumento>
+                <TipoDocumento>TD01</TipoDocumento>
+                <Divisa>EUR</Divisa>
+                <Data>2025-04-20</Data>
+                <Numero>1</Numero>
+            </DatiGeneraliDocumento>
+        </DatiGenerali>
+        <DatiBeniServizi>
+            <DettaglioLinee>
+                <NumeroLinea>1</NumeroLinea>
+                <Descrizione>Servizio xyz</Descrizione>
+                <Quantita>1.00000000</Quantita>
+                <PrezzoUnitario>1.99000000</PrezzoUnitario>
+                <PrezzoTotale>1.99000000</PrezzoTotale>
+                <AliquotaIVA>0.00</AliquotaIVA>
+                <Natura>N2.2</Natura>
+            </DettaglioLinee>
+            <DatiRiepilogo>
+                <AliquotaIVA>0.00</AliquotaIVA>
+                <Natura>N2.2</Natura>
+                <ImponibileImporto>1.99</ImponibileImporto>
+                <Imposta>0.00</Imposta>
+            </DatiRiepilogo>
+        </DatiBeniServizi>
+    </FatturaElettronicaBody>
+</p:FatturaElettronica>

@@ -640,6 +640,7 @@ class ParseDigitalDocumentTest extends TestCase
             'IT01234567890_FPR02.xml' => [__DIR__ . '/fixtures/IT01234567890_FPR02.xml'],
             'IT01234567899_000sq.xml' => [__DIR__ . '/fixtures/IT01234567899_000sq.xml'],
             'IT00484960588_ERKHK.xml.p7m' => [__DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m'],
+            'fattura_esempio.xml' => [__DIR__ . '/fixtures/fattura_esempio.xml'],
             'ESEMPIO TD24.xml' => [__DIR__ . '/fixtures/ESEMPIO TD24.xml'],
         ], $privateFileTests);
     }

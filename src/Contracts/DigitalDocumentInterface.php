@@ -18,7 +18,7 @@ interface DigitalDocumentInterface
 
     public function isValid(): bool;
 
-    public function validate(): DigitalDocumentValidator;
+    public function validate(): DigitalDocumentValidatorInterface;
 
     public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance);
 

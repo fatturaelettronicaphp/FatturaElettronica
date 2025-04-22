@@ -5,28 +5,15 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 use DOMDocument;
 use Exception;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 
-class DigitalDocumentValidator
+class DigitalDocumentValidator extends BasicDigitalDocumentValidator implements DigitalDocumentValidatorInterface
 {
-    /** @var DigitalDocumentInterface */
-    protected $document;
-
-    protected $errors = [];
-
-    public function __construct(DigitalDocumentInterface $document)
+    public function validate(): DigitalDocumentValidator
     {
-        $this->document = $document;
         $this->performValidation();
-    }
 
-    public function isValid(): bool
-    {
-        return count($this->errors) <= 0;
-    }
-
-    public function errors(): array
-    {
-        return $this->errors;
+        return $this;
     }
 
     protected function performValidation(): self

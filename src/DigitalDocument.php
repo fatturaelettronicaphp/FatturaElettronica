@@ -6,6 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\CustomerInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
@@ -15,6 +16,8 @@ use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
+use FatturaElettronicaPhp\FatturaElettronica\Validator\MultipleDigitalDocumentValidator;
+use FatturaElettronicaPhp\FatturaElettronica\Validator\SdiValidator;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\SimplifiedDigitalDocumentWriter;
 use SimpleXMLElement;
@@ -71,9 +74,31 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string|null */
     protected $emittingSystem;
 
+    /** @var class-string<DigitalDocumentValidatorInterface>[]  */
+    protected array $validators = [
+        DigitalDocumentValidator::class,
+        SdiValidator::class,
+    ];
+
     public function __construct()
     {
         $this->customerSdiCode = RecipientCode::EMPTY;
+    }
+
+    /**
+     * @param class-string<DigitalDocumentValidatorInterface> $validator
+     * @return self
+     */
+    public function addValidator(string $validator): self
+    {
+        $this->validators[] = $validator;
+        return $this;
+    }
+
+    public function withoutValidators(): self
+    {
+        $this->validators = [];
+        return $this;
     }
 
     /**
@@ -108,9 +133,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->getCountryCode() . $this->getSenderVatId() . '_' . $this->getSendingId() . '.xml';
     }
 
-    public function validate(): DigitalDocumentValidator
+    public function validate(): DigitalDocumentValidatorInterface
     {
-        return (new DigitalDocumentValidator($this));
+        return (new MultipleDigitalDocumentValidator($this))
+            ->withValidators($this->validators)
+            ->validate();
     }
 
     public function isValid(): bool
