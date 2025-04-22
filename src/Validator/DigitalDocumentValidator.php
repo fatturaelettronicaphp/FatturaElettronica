@@ -4,7 +4,6 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 
 use DOMDocument;
 use Exception;
-use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 
 class DigitalDocumentValidator extends BasicDigitalDocumentValidator implements DigitalDocumentValidatorInterface

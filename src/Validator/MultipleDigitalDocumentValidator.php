@@ -24,6 +24,7 @@ class MultipleDigitalDocumentValidator extends BasicDigitalDocumentValidator
     public function withValidators(array $validators): self
     {
         $this->validators = $validators;
+
         return $this;
     }
 

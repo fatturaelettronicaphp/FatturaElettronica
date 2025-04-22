@@ -74,7 +74,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string|null */
     protected $emittingSystem;
 
-    /** @var class-string<DigitalDocumentValidatorInterface>[]  */
+    /** @var class-string<DigitalDocumentValidatorInterface>[] */
     protected array $validators = [
         DigitalDocumentValidator::class,
         SdiValidator::class,
@@ -92,12 +92,14 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     public function addValidator(string $validator): self
     {
         $this->validators[] = $validator;
+
         return $this;
     }
 
     public function withoutValidators(): self
     {
         $this->validators = [];
+
         return $this;
     }
 

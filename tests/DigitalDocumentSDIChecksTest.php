@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestCase;
 
 class DigitalDocumentSDIChecksTest extends TestCase
 {
-
     /**
      * @return void
      * @test

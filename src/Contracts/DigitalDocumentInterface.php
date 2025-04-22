@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
 use SimpleXMLElement;
 
 interface DigitalDocumentInterface

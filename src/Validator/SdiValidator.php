@@ -9,7 +9,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Validator\SdiCheck\VatNature;
 class SdiValidator extends MultipleDigitalDocumentValidator implements DigitalDocumentValidatorInterface
 {
     protected const SDI_CHECKS = [
-        VatNature::class
+        VatNature::class,
     ];
 
     public function __construct(DigitalDocumentInterface $document)

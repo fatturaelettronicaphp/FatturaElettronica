@@ -16,6 +16,7 @@ class VatNature extends BasicDigitalDocumentValidator
                 $key = implode(".", [$documentIndex, $lineIndex, 'Natura']);
                 if ($line->getTaxPercentage() <= 0 && $line->getVatNature() === null) {
                     $this->errors[$key] = "Errore 00400: 2.2.1.14 <Natura> non presente a fronte di 2.2.1.12 <AliquotaIVA> pari a zero";
+
                     continue;
                 }
 
