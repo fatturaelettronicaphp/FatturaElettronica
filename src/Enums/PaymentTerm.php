@@ -2,12 +2,20 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self TP01()
- * @method static self TP02()
- * @method static self TP03()
- */
-class PaymentTerm extends Enum
+enum PaymentTerm: string
 {
-    protected const TYPE = 'CondizioniPagamentoType';
+	case TP01 = 'TP01';
+	case TP02 = 'TP02';
+	case TP03 = 'TP03';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::TP01 => 'pagamento a rate',
+			self::TP02 => 'pagamento completo',
+			self::TP03 => 'anticipo',
+
+            default => null,
+        };
+    }
 }

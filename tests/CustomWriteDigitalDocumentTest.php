@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
 class CustomWriteDigitalDocumentTest extends TestCase
 {
     /** @test */
-    public function writes_shipment_address()
+    public function writes_shipment_address(): void
     {
         $supplier = $this
             ->generatePerson(new Supplier())
@@ -54,14 +54,14 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->setRepresentative($this->generatePerson(new Representative()))
             ->setCustomerPec("test@pec.it")
             ->setCustomerSdiCode("123456")
-            ->setEmittingSubject(EmittingSubject::CC())
+            ->setEmittingSubject(EmittingSubject::CC)
             ->setEmittingSystem("TEST")
-            ->setVersion(TransmissionFormat::FPA12())
+            ->setVersion(TransmissionFormat::FPA12)
             ->setIntermediary($this->generatePerson(new Intermediary()))
             ->setSenderEmail("test@example.com")
-            ->setSenderPhone("123456788")
+            ->setSenderPhone("123456")
             ->setSenderVatId("00000000000")
-            ->setTransmissionFormat(TransmissionFormat::FPA12());
+            ->setTransmissionFormat(TransmissionFormat::FPA12);
 
         $shipment = (new Shipment())
             ->setNetWeight(7)
@@ -85,11 +85,11 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->setQuantity(1)
             ->setStartDate(new DateTime())
             ->setTaxPercentage(0)
-            ->setTipoCessazionePrestazione(CancelType::AB())
+            ->setTipoCessazionePrestazione(CancelType::AB)
             ->setTotal(100)
             ->setUnit('P')
             ->setUnitPrice(100)
-            ->setVatNature(VatNature::N1())
+            ->setVatNature(VatNature::N1)
             ->addOtherData(
                 (new OtherData())
                     ->setDate(new DateTime())
@@ -103,13 +103,13 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->setDocumentNumber(1)
             ->setDocumentDate(new DateTime())
             ->setArt73(false)
-            ->setDocumentType(DocumentType::TD01())
+            ->setDocumentType(DocumentType::TD01)
             ->setCurrency("EUR")
             ->setDocumentTotal(100)
             ->setDeductionAmount(0)
-            ->setDeductionDescription(PaymentReason::A())
+            ->setDeductionDescription(PaymentReason::A)
             ->setDeductionPercentage(0)
-            ->setDeductionType(DeductionType::RT01())
+            ->setDeductionType(DeductionType::RT01)
             ->setMainInvoiceDate(new DateTime())
             ->setMainInvoiceNumber(1)
             ->setRounding(0)
@@ -125,12 +125,12 @@ class CustomWriteDigitalDocumentTest extends TestCase
             ->addPaymentInformations(
                 (new PaymentInfo())
                     ->setTerms(
-                        PaymentTerm::TP01()
+                        PaymentTerm::TP01
                     )
                     ->addDetails(
                         (new PaymentDetails())
                             ->setMethod(
-                                PaymentMethod::MP01()
+                                PaymentMethod::MP01
                             )
                             ->setLatePaymentFee(12)
                             ->setEarlyPaymentDiscount(10)
@@ -140,13 +140,13 @@ class CustomWriteDigitalDocumentTest extends TestCase
         $instance->addTotal(
             (new Total())
                 ->setRounding(0)
-                ->setVatNature(VatNature::N1())
+                ->setVatNature(VatNature::N1)
                 ->setTotal($instance->calculateDocumentTotal())
                 ->setTaxPercentage(0)
                 ->setOtherExpenses(0)
                 ->setReference("123")
                 ->setTaxAmount(0)
-                ->setTaxType(VatEligibility::D())
+                ->setTaxType(VatEligibility::D)
         );
 
         $document->addDigitalDocumentInstance($instance);

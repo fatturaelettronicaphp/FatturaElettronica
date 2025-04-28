@@ -65,7 +65,7 @@ class ProductsWriter extends AbstractBodyWriter
         DiscountInterface $discount
     ): void {
         $scontoMaggiorazione = $dettaglioLinee->addChild('ScontoMaggiorazione');
-        $scontoMaggiorazione->addChild('Tipo', (string)$discount->getType());
+        $scontoMaggiorazione->addChild('Tipo', $discount->getType()?->value);
 
         if ($discount->getPercentage() !== null) {
             $scontoMaggiorazione->addChild('Percentuale', SimpleXmlExtended::sanitizeFloat($discount->getPercentage()));
@@ -102,7 +102,7 @@ class ProductsWriter extends AbstractBodyWriter
         $dettaglioLinee->addChild('NumeroLinea', $line->getNumber());
 
         if ($line->getTipoCessazionePrestazione() !== null) {
-            $dettaglioLinee->addChild('TipoCessionePrestazione', (string)$line->getTipoCessazionePrestazione());
+            $dettaglioLinee->addChild('TipoCessionePrestazione', $line->getTipoCessazionePrestazione()->value);
         }
 
         $products = $line->getProducts();
@@ -152,7 +152,7 @@ class ProductsWriter extends AbstractBodyWriter
 
         $natura = $line->getVatNature();
         if ($natura !== null) {
-            $dettaglioLinee->addChild('Natura', (string)$natura);
+            $dettaglioLinee->addChild('Natura', $natura->value);
         }
 
         if ($line->getAdministrativeContact()) {
@@ -181,7 +181,7 @@ class ProductsWriter extends AbstractBodyWriter
 
         $taxType = $summary->getVatNature();
         if ($taxType !== null) {
-            $datiRiepilogo->addChild('Natura', (string)$taxType);
+            $datiRiepilogo->addChild('Natura', $taxType->value);
         }
 
         if ($summary->getOtherExpenses() !== null) {
@@ -206,7 +206,7 @@ class ProductsWriter extends AbstractBodyWriter
         $datiRiepilogo->addChild('Imposta', SimpleXmlExtended::sanitizeFloat($imposta));
 
         if ($summary->getTaxType() !== null) {
-            $datiRiepilogo->addChild('EsigibilitaIVA', (string)$summary->getTaxType());
+            $datiRiepilogo->addChild('EsigibilitaIVA', $summary->getTaxType()->value);
         }
 
         if ($summary->getReference() !== null) {

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 class WriteDigitalDocumentTest extends TestCase
 {
     /** @test */
-    public function can_generate_a_correct_filename()
+    public function can_generate_a_correct_filename(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $eDocument = DigitalDocument::parseFrom($file);
@@ -23,7 +23,7 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_write_xml_invoice_from_p7m_invoice()
+    public function can_write_xml_invoice_from_p7m_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
         $eDocument = DigitalDocument::parseFrom($file);
@@ -35,7 +35,7 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_write_xml_invoice_from_xml_invoice()
+    public function can_write_xml_invoice_from_xml_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $eDocument = DigitalDocument::parseFrom($file);
@@ -47,7 +47,7 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_write_xml_file_invoice_from_xml_invoice()
+    public function can_write_xml_file_invoice_from_xml_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $eDocument = DigitalDocument::parseFrom($file);
@@ -61,7 +61,7 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_write_xml_file_invoice_from_xml_invoice_using_generated_filename()
+    public function can_write_xml_file_invoice_from_xml_invoice_using_generated_filename(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $eDocument = DigitalDocument::parseFrom($file);
@@ -83,7 +83,7 @@ class WriteDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_write_document_with_empty_attachment()
+    public function can_write_document_with_empty_attachment(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_Attachment.xml';
         $eDocument = DigitalDocument::parseFrom($file);

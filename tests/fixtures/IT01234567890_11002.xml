@@ -8,7 +8,7 @@
       </IdTrasmittente>
       <ProgressivoInvio>00001</ProgressivoInvio>
       <FormatoTrasmissione>FPR12</FormatoTrasmissione>
-      <CodiceDestinatario>AAAAAA</CodiceDestinatario>
+      <CodiceDestinatario>AAAAAAA</CodiceDestinatario>
       <PECDestinatario>test-dashed-email@dashed-example.com</PECDestinatario>
       <ContattiTrasmittente/>
     </DatiTrasmissione>

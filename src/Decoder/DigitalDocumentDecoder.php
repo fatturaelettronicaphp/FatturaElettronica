@@ -21,9 +21,7 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
 
     public function __construct()
     {
-        $this->decoders = array_map(function (string $decoderClass) {
-            return new $decoderClass();
-        }, self::STANDARD_DECODERS);
+        $this->decoders = array_map(fn(string $decoderClass) => new $decoderClass(), self::STANDARD_DECODERS);
     }
 
     public function decode(string $filePath): ?SimpleXMLElement

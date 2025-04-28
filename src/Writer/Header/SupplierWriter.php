@@ -16,8 +16,12 @@ class SupplierWriter extends AbstractHeaderWriter
             $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
         }
 
-        /** @var Supplier $supplier */
+        /** @var Supplier|null $supplier */
         $supplier = $this->document->getSupplier();
+        if ($supplier === null) {
+            return $this;
+        }
+
         $idPaese = $supplier->getCountryCode();
         $codiceFiscale = $supplier->getFiscalCode();
         $vatNumber = $supplier->getVatNumber();
@@ -62,9 +66,9 @@ class SupplierWriter extends AbstractHeaderWriter
         }
 
         if ($supplier->getTaxRegime()) {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)$supplier->getTaxRegime());
+            $datiAnagrafici->addChild('RegimeFiscale', $supplier->getTaxRegime()->value);
         } else {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)TaxRegime::default());
+            $datiAnagrafici->addChild('RegimeFiscale', TaxRegime::RF01->value);
         }
 
         $sede = $cedentePrestatore->addChild('Sede');
@@ -76,8 +80,8 @@ class SupplierWriter extends AbstractHeaderWriter
             $sede->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
         }
 
-        $sanitizedCap = preg_replace("/[^0-9]/", '', $address->getZip());
-        $sanitizedCap = substr($sanitizedCap, 0, 5);
+        $sanitizedCap = preg_replace("/[^0-9]/", '', (string) $address->getZip());
+        $sanitizedCap = substr((string) $sanitizedCap, 0, 5);
         $sanitizedCap = str_pad($sanitizedCap, 5, '0', STR_PAD_LEFT);
 
         $sede->addChild('CAP', $sanitizedCap);
@@ -99,10 +103,10 @@ class SupplierWriter extends AbstractHeaderWriter
             }
 
             if (! empty($supplier->getAssociateType())) {
-                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText((string)$supplier->getAssociateType()));
+                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText($supplier->getAssociateType()?->value));
             }
 
-            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText((string)$supplier->getSettlementType()));
+            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText($supplier->getSettlementType()?->value));
         }
 
         if ($supplier->hasContacts()) {

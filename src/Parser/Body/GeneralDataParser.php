@@ -14,7 +14,7 @@ class GeneralDataParser extends AbstractBodyParser
         if ($types === null) {
             throw new InvalidXmlFile('<TipoDocumento> not found');
         }
-        $type = new DocumentType($types);
+        $type = DocumentType::from($types);
 
         $datas = $this->extractValueFromXml('DatiGenerali/DatiGeneraliDocumento/Data');
         if ($datas === null) {

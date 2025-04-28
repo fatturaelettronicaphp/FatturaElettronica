@@ -2,12 +2,20 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self FPA12()
- * @method static self FPR12()
- * @method static self FSM10()
- */
-class TransmissionFormat extends Enum
+enum TransmissionFormat: string
 {
-    protected const TYPE = 'FormatoTrasmissioneType';
+	case FPA12 = 'FPA12';
+	case FPR12 = 'FPR12';
+	case FSM10 = 'FSM10';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::FPA12 => 'Fattura verso PA',
+			self::FPR12 => 'Fattura verso privati',
+			self::FSM10 => 'Fattura verso privati semplificata',
+
+            default => null,
+        };
+    }
 }

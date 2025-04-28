@@ -41,7 +41,7 @@ class Supplier extends BillablePerson implements SupplierInterface
 
     public function __construct()
     {
-        $this->taxRegime = TaxRegime::RF01();
+        $this->taxRegime = TaxRegime::RF01;
     }
 
     public function getReaOffice()
@@ -91,8 +91,8 @@ class Supplier extends BillablePerson implements SupplierInterface
             return $this;
         }
 
-        if (! $associateType instanceof AssociateType) {
-            $associateType = new AssociateType($associateType);
+        if (!$associateType instanceof AssociateType) {
+            $associateType = AssociateType::from($associateType);
         }
 
         $this->associateType = $associateType;
@@ -111,8 +111,8 @@ class Supplier extends BillablePerson implements SupplierInterface
             return $this;
         }
 
-        if (! $settlementType instanceof WoundUpType) {
-            $settlementType = new WoundUpType($settlementType);
+        if (!$settlementType instanceof WoundUpType) {
+            $settlementType = WoundUpType::from($settlementType);
         }
         $this->settlementType = $settlementType;
 
@@ -218,7 +218,7 @@ class Supplier extends BillablePerson implements SupplierInterface
             return $this;
         }
 
-        if (! $registerDate instanceof DateTime) {
+        if (!$registerDate instanceof DateTime) {
             if ($format) {
                 $registerDate = DateTime::createFromFormat($format, $registerDate);
             } else {
@@ -238,8 +238,8 @@ class Supplier extends BillablePerson implements SupplierInterface
 
     public function setTaxRegime($taxRegime): self
     {
-        if (! $taxRegime instanceof TaxRegime) {
-            $taxRegime = new TaxRegime($taxRegime);
+        if (!$taxRegime instanceof TaxRegime) {
+            $taxRegime = TaxRegime::from($taxRegime);
         }
 
         $this->taxRegime = $taxRegime;

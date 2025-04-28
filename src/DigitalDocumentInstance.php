@@ -218,7 +218,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         }
 
         if (! $deductionType instanceof DeductionType) {
-            $deductionType = new DeductionType($deductionType);
+            $deductionType = DeductionType::from($deductionType);
         }
 
         $this->deductionType = $deductionType;
@@ -264,7 +264,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
             return $this->getDeductions()[0]->getDescription();
         }
 
-        return $this->deductionDescription;
+        return $this->deductionDescription?->getLabel();
     }
 
     public function setDeductionDescription(?PaymentReason $deductionDescription): DigitalDocumentInstanceInterface
@@ -310,7 +310,7 @@ class DigitalDocumentInstance implements ArrayableInterface, DigitalDocumentInst
         }
 
         if (! $documentType instanceof DocumentType) {
-            $documentType = new DocumentType($documentType);
+            $documentType = DocumentType::from($documentType);
         }
 
         $this->documentType = $documentType;

@@ -39,7 +39,7 @@ class SimpleXmlExtended extends SimpleXMLElement
         $text = preg_replace('/(\r?\n){1,}/', ' ', $text);
 
         /* Limito il numero massimo di caratteri */
-        $text = mb_substr($text, 0, $limit, 'UTF-8');
+        $text = mb_substr((string) $text, 0, $limit, 'UTF-8');
 
         // Le stringhe sono tutte definite come {IsBasicLatin}
         // Questo check controlla se il testo fornito rientra in tale range

@@ -2,99 +2,39 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Validator;
 
-use DOMDocument;
-use Exception;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 
-class DigitalDocumentValidator
+class DigitalDocumentValidator extends BasicDigitalDocumentValidator
 {
-    /** @var DigitalDocumentInterface */
-    protected $document;
-
-    protected $errors = [];
+    /**
+     * @var class-string<DigitalDocumentValidatorInterface>[]
+     */
+    private array $validators = [];
 
     public function __construct(DigitalDocumentInterface $document)
     {
-        $this->document = $document;
-        $this->performValidation();
+        parent::__construct($document);
     }
 
-    public function isValid(): bool
+    /**
+     * @param class-string<DigitalDocumentValidatorInterface>[] $validators
+     * @return self
+     */
+    public function withValidators(array $validators): self
     {
-        return count($this->errors) <= 0;
-    }
-
-    public function errors(): array
-    {
-        return $this->errors;
-    }
-
-    protected function performValidation(): self
-    {
-        libxml_use_internal_errors(true);
-
-        $documentXml = $this->document->serialize();
-        $dom = new DOMDocument();
-        $dom->loadXML($documentXml->saveXML());
-        $xsd = $this->getSchema();
-
-        try {
-            $isValid = $dom->schemaValidate($xsd);
-        } catch (Exception $e) {
-            $isValid = false;
-        }
-
-        if (! $isValid) {
-            $this->manageErrors();
-        }
+        $this->validators = $validators;
 
         return $this;
     }
 
-    protected function getSchema(): string
+    public function validate(): DigitalDocumentValidatorInterface
     {
-        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.xsd';
-
-        return __DIR__ . '/xsd/' . $schemaFile;
-    }
-
-    protected function manageErrors(): self
-    {
-        $this->errors = [];
-
-        $errors = libxml_get_errors();
-
-        /**
-         * array [level, code, column, message, file, line]
-         */
-        foreach ($errors as $error) {
-            $errorMessage = $this->parseErrorMessage($error->message);
-            if ($errorMessage !== null) {
-                $this->errors[$errorMessage['field']] = $errorMessage['message'];
-            }
+        foreach ($this->validators as $validatorClass) {
+            $validator = (new $validatorClass($this->document))->validate();
+            $this->errors = array_merge_recursive($this->errors, $validator->errors());
         }
-
-        libxml_clear_errors();
 
         return $this;
-    }
-
-    protected function parseErrorMessage(string $message): ?array
-    {
-        if (stripos($message, "Namespace prefix") === 0) {
-            return null;
-        }
-
-        $field = '';
-        if (stripos($message, "Element ") === 0) {
-            $message = substr($message, strlen("Element "));
-            $field = substr($message, 1, stripos($message, ':') - 2);
-            $message = substr($message, stripos($message, ':') + 2);
-        }
-
-        return [
-            'field' => $field,
-            'message' => $message,
-        ];
     }
 }

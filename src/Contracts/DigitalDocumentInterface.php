@@ -3,7 +3,6 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Contracts;
 
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
 use SimpleXMLElement;
 
 interface DigitalDocumentInterface
@@ -18,7 +17,7 @@ interface DigitalDocumentInterface
 
     public function isValid(): bool;
 
-    public function validate(): DigitalDocumentValidator;
+    public function validate(): DigitalDocumentValidatorInterface;
 
     public function addDigitalDocumentInstance(DigitalDocumentInstanceInterface $instance);
 
@@ -79,7 +78,7 @@ interface DigitalDocumentInterface
 
     public function isSimplified(): bool;
 
-    public function setVersion(?string $version);
+    public function setVersion(?TransmissionFormat $version);
 
     public function getVersion();
 

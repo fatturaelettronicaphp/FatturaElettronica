@@ -16,7 +16,7 @@ class TransmissionDataWriter extends AbstractHeaderWriter
         $idTrasmittente->addChild('IdCodice', $this->document->getSenderVatId());
 
         $datiTrasmissione->addChild('ProgressivoInvio', $this->document->getSendingId());
-        $datiTrasmissione->addChild('FormatoTrasmissione', $this->document->getTransmissionFormat());
+        $datiTrasmissione->addChild('FormatoTrasmissione', $this->document->getTransmissionFormat()?->value);
 
         /**
          * Per la PA il CodiceDestinatario è obbligatorio quindi qui non dovrebbe mai essere vuoto
@@ -31,7 +31,11 @@ class TransmissionDataWriter extends AbstractHeaderWriter
             }
         }
 
-        $datiTrasmissione->addChild('CodiceDestinatario', SimpleXmlExtended::sanitizeText((string)$recipientCode));
+        if ($recipientCode instanceof \BackedEnum) {
+            $recipientCode = $recipientCode->value;
+        }
+
+        $datiTrasmissione->addChild('CodiceDestinatario', SimpleXmlExtended::sanitizeText($recipientCode));
 
         if ($this->document->getSenderPhone() !== null && $this->document->getSenderEmail() !== null) {
             $contacts = $datiTrasmissione->addChild('ContattiTrasmittente');
@@ -46,7 +50,7 @@ class TransmissionDataWriter extends AbstractHeaderWriter
         }
 
         /* La Casella PEC è da inserire solo se presente e solo se CodiceDestinatario è vuoto*/
-        if ($recipientCode === RecipientCode::EMPTY && $this->document->getCustomerPec() !== null) {
+        if ($recipientCode === RecipientCode::EMPTY->value && $this->document->getCustomerPec() !== null) {
             $datiTrasmissione->addChild('PECDestinatario', SimpleXmlExtended::sanitizeText($this->document->getCustomerPec()));
         }
 

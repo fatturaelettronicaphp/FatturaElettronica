@@ -6,6 +6,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\BillablePersonInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\CustomerInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\IntermediaryInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
@@ -71,9 +72,37 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
     /** @var string|null */
     protected $emittingSystem;
 
+    /** @var class-string<DigitalDocumentValidatorInterface>[] */
+    protected array $validators = [
+        // Basic XSD validation
+        Validator\Check\Xsd::class,
+        // More checks done by the SDI when the invoice is sent to it
+        Validator\Check\CustomerFiscalIds::class,
+        Validator\Check\SdiCodeLength::class,
+        Validator\Check\VatNature::class,
+    ];
+
     public function __construct()
     {
         $this->customerSdiCode = RecipientCode::EMPTY;
+    }
+
+    /**
+     * @param class-string<DigitalDocumentValidatorInterface> $validator
+     * @return self
+     */
+    public function addValidator(string $validator): self
+    {
+        $this->validators[] = $validator;
+
+        return $this;
+    }
+
+    public function withoutValidators(): self
+    {
+        $this->validators = [];
+
+        return $this;
     }
 
     /**
@@ -108,9 +137,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->getCountryCode() . $this->getSenderVatId() . '_' . $this->getSendingId() . '.xml';
     }
 
-    public function validate(): DigitalDocumentValidator
+    public function validate(): DigitalDocumentValidatorInterface
     {
-        return (new DigitalDocumentValidator($this));
+        return (new DigitalDocumentValidator($this))
+            ->withValidators($this->validators)
+            ->validate();
     }
 
     public function isValid(): bool
@@ -118,12 +149,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->validate()->isValid();
     }
 
-    public function getVersion(): ?string
+    public function getVersion(): ?TransmissionFormat
     {
         return $this->version;
     }
 
-    public function setVersion(?string $version): self
+    public function setVersion(?TransmissionFormat $version): self
     {
         $this->version = $version;
 
@@ -154,7 +185,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $emittingSubject instanceof EmittingSubject) {
-            $emittingSubject = new EmittingSubject($emittingSubject);
+            $emittingSubject = EmittingSubject::from($emittingSubject);
         }
 
         $this->emittingSubject = $emittingSubject;
@@ -318,7 +349,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $transmissionFormat instanceof TransmissionFormat) {
-            $transmissionFormat = new TransmissionFormat($transmissionFormat);
+            $transmissionFormat = TransmissionFormat::from($transmissionFormat);
         }
 
         $this->transmissionFormat = $transmissionFormat;
@@ -328,6 +359,6 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     public function isSimplified(): bool
     {
-        return $this->transmissionFormat->equals(TransmissionFormat::FSM10());
+        return $this->transmissionFormat === TransmissionFormat::FSM10;
     }
 }

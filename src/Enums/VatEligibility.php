@@ -2,12 +2,20 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self I()
- * @method static self D()
- * @method static self S()
- */
-class VatEligibility extends Enum
+enum VatEligibility: string
 {
-    protected const TYPE = 'EsigibilitaIVAType';
+	case D = 'D';
+	case I = 'I';
+	case S = 'S';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::D => 'esigibilità differita',
+			self::I => 'esigibilità immediata',
+			self::S => 'scissione dei pagamenti',
+
+            default => null,
+        };
+    }
 }

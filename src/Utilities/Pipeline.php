@@ -47,9 +47,7 @@ class Pipeline
 
     public function thenReturn()
     {
-        return $this->then(function ($passable) {
-            return $passable;
-        });
+        return $this->then(fn($passable) => $passable);
     }
 
     public function usingMethod(string $method): self
