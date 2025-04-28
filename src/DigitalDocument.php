@@ -12,12 +12,12 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Validator\Check\Xsd;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
-use FatturaElettronicaPhp\FatturaElettronica\Validator\MultipleDigitalDocumentValidator;
-use FatturaElettronicaPhp\FatturaElettronica\Validator\SdiValidator;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\SimplifiedDigitalDocumentWriter;
 use SimpleXMLElement;
@@ -76,8 +76,11 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     /** @var class-string<DigitalDocumentValidatorInterface>[] */
     protected array $validators = [
-        DigitalDocumentValidator::class,
-        SdiValidator::class,
+        // Basic XSD validation
+        Validator\Check\Xsd::class,
+        // More checks done by the SDI when the invoice is sent to it
+        Validator\Check\CustomerFiscalIds::class,
+        Validator\Check\VatNature::class,
     ];
 
     public function __construct()
@@ -137,7 +140,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     public function validate(): DigitalDocumentValidatorInterface
     {
-        return (new MultipleDigitalDocumentValidator($this))
+        return (new DigitalDocumentValidator($this))
             ->withValidators($this->validators)
             ->validate();
     }
@@ -182,7 +185,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
             return $this;
         }
 
-        if (! $emittingSubject instanceof EmittingSubject) {
+        if (!$emittingSubject instanceof EmittingSubject) {
             $emittingSubject = new EmittingSubject($emittingSubject);
         }
 
@@ -346,7 +349,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
             return $this;
         }
 
-        if (! $transmissionFormat instanceof TransmissionFormat) {
+        if (!$transmissionFormat instanceof TransmissionFormat) {
             $transmissionFormat = new TransmissionFormat($transmissionFormat);
         }
 

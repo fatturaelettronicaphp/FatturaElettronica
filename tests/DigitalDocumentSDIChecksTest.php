@@ -83,8 +83,9 @@ class DigitalDocumentSDIChecksTest extends TestCase
         $this->assertFalse($eDocument->isValid());
         $errors = $eDocument->validate()->errors();
 
-        $this->assertArrayHasKey("0.0.Natura", $errors);
-        $this->assertStringContainsString("Errore 00400", array_shift($errors));
+        $key = "0.0.Natura";
+        $this->assertArrayHasKey($key, $errors);
+        $this->assertStringContainsString("Errore 00400", $errors[$key]);
     }
 
     /**
@@ -155,7 +156,35 @@ class DigitalDocumentSDIChecksTest extends TestCase
         $this->assertFalse($eDocument->isValid());
         $errors = $eDocument->validate()->errors();
 
-        $this->assertArrayHasKey("0.0.Natura", $errors);
-        $this->assertStringContainsString("Errore 00401", array_shift($errors));
+        $key = "0.0.Natura";
+        $this->assertArrayHasKey($key, $errors);
+        $this->assertStringContainsString("Errore 00401", $errors[$key]);
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function validates_customer_vat_id_fiscal_code(): void
+    {
+        $eDocument = new DigitalDocument();
+        $eDocument->setTransmissionFormat('FPR12');
+        $eDocument->setCountryCode('IT');
+        $eDocument->setSenderVatId('012345678910');
+        $eDocument->setSendingId('123');
+
+        $customer = new Customer();
+        $customer->setCountryCode("IT")
+            ->setName("Nome")
+            ->setSurname("Cognome");
+
+        $eDocument->setCustomer($customer);
+
+        $this->assertFalse($eDocument->isValid());
+        $errors = $eDocument->validate()->errors();
+
+        $key = "FatturaElettronicaHeader.DatiAnagrafici.IdFiscaleIVA";
+        $this->assertArrayHasKey($key, $errors);
+        $this->assertStringContainsString("Errore 00417", $errors[$key]);
     }
 }

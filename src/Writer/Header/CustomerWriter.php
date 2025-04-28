@@ -12,8 +12,11 @@ class CustomerWriter extends AbstractHeaderWriter
         $cessionarioCommittente = $this->xml->addChild('CessionarioCommittente');
         $datiAnagrafici = $cessionarioCommittente->addChild('DatiAnagrafici');
 
-        /** @var Customer $customer */
+        /** @var Customer|null $customer */
         $customer = $this->document->getCustomer();
+        if ($customer === null) {
+            return $this;
+        }
 
         $idPaese = $customer->getCountryCode();
         $codiceFiscale = $customer->getFiscalCode();

@@ -16,8 +16,12 @@ class SupplierWriter extends AbstractHeaderWriter
             $datiAnagrafici = $cedentePrestatore->addChild('DatiAnagrafici');
         }
 
-        /** @var Supplier $supplier */
+        /** @var Supplier|null $supplier */
         $supplier = $this->document->getSupplier();
+        if ($supplier === null) {
+            return $this;
+        }
+
         $idPaese = $supplier->getCountryCode();
         $codiceFiscale = $supplier->getFiscalCode();
         $vatNumber = $supplier->getVatNumber();

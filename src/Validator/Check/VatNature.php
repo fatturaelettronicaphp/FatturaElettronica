@@ -1,6 +1,6 @@
 <?php
 
-namespace FatturaElettronicaPhp\FatturaElettronica\Validator\SdiCheck;
+namespace FatturaElettronicaPhp\FatturaElettronica\Validator\Check;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\BasicDigitalDocumentValidator;
