@@ -79,6 +79,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         Validator\Check\Xsd::class,
         // More checks done by the SDI when the invoice is sent to it
         Validator\Check\CustomerFiscalIds::class,
+        Validator\Check\SdiCodeLength::class,
         Validator\Check\VatNature::class,
     ];
 

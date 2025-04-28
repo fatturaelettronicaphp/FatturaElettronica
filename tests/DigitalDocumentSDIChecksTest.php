@@ -187,4 +187,32 @@ class DigitalDocumentSDIChecksTest extends TestCase
         $this->assertArrayHasKey($key, $errors);
         $this->assertStringContainsString("Errore 00417", $errors[$key]);
     }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function validates_customer_sdi_code(): void
+    {
+        $eDocument = new DigitalDocument();
+        $eDocument->setTransmissionFormat('FPR12');
+        $eDocument->setCountryCode('IT');
+        $eDocument->setSenderVatId('012345678910');
+        $eDocument->setSendingId('123');
+        $eDocument->setCustomerSdiCode('123');
+
+        $customer = new Customer();
+        $customer->setCountryCode("IT")
+            ->setName("Nome")
+            ->setSurname("Cognome");
+
+        $eDocument->setCustomer($customer);
+
+        $this->assertFalse($eDocument->isValid());
+        $errors = $eDocument->validate()->errors();
+
+        $key = "FatturaElettronicaHeader.DatiTrasmissione.CodiceDestinatario";
+        $this->assertArrayHasKey($key, $errors);
+        $this->assertStringContainsString("Errore 00427", $errors[$key]);
+    }
 }
