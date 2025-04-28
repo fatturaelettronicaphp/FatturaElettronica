@@ -73,7 +73,7 @@ class ParseDigitalDocumentTest extends TestCase
         $eDocument = DigitalDocument::parseFrom($file);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
         $this->assertFalse($eDocument->isSimplified());
-        $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
+        $this->assertTrue($eDocument->getTransmissionFormat() === \FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat::FPR12);
 
         $this->assertEquals('03579410246', $eDocument->getCustomer()->getVatNumber());
         $this->assertEquals('WEBLE S.R.L.', $eDocument->getCustomer()->getOrganization());
@@ -208,7 +208,7 @@ class ParseDigitalDocumentTest extends TestCase
 
         /** @var PaymentInfoInterface $info */
         $info = $infos[0];
-        $this->assertEquals(PaymentTerm::TP01(), $info->getTerms());
+        $this->assertEquals(PaymentTerm::TP01, $info->getTerms());
 
         /** @var PaymentDetailsInterface $details */
         $details = $info->getDetails();
@@ -218,7 +218,7 @@ class ParseDigitalDocumentTest extends TestCase
         $detail = $details[0];
 
         $this->assertEquals('Mario Rossi', $detail->getPayee());
-        $this->assertEquals(PaymentMethod::MP01(), $detail->getMethod());
+        $this->assertEquals(PaymentMethod::MP01, $detail->getMethod());
         $this->assertEquals('2015-01-30', $detail->getDueDate()->format('Y-m-d'));
         $this->assertEquals(60, $detail->getDueDays());
         $this->assertEquals('2014-01-30', $detail->getDueDateFrom()->format('Y-m-d'));
@@ -254,7 +254,7 @@ class ParseDigitalDocumentTest extends TestCase
         if ($eDocument->getEmittingSystem()) {
             $this->assertEquals("TEST", $eDocument->getEmittingSystem());
         }
-        $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
+        $this->assertTrue($eDocument->getTransmissionFormat() === TransmissionFormat::FPR12);
         $this->assertEquals('IT', $eDocument->getCountryCode());
         $this->assertEquals('betagamma@pec.it', $eDocument->getCustomerPec());
         $this->assertEquals('0000000', $eDocument->getCustomerSdiCode());
@@ -262,7 +262,7 @@ class ParseDigitalDocumentTest extends TestCase
         // Fornitore
         $this->assertEquals('IT', $eDocument->getSupplier()->getCountryCode());
         $this->assertEquals(null, $eDocument->getSupplier()->getFiscalCode());
-        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('RF01', $eDocument->getSupplier()->getTaxRegime()->value);
         $this->assertEquals('01234567890', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('SOCIETA\' ALPHA SRL', $eDocument->getSupplier()->getOrganization());
 
@@ -289,7 +289,7 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
-        $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
+        $this->assertEquals('TD01', $firstRow->getDocumentType()->value);
         $this->assertEquals('EUR', $firstRow->getCurrency());
         $this->assertEquals(new DateTime('2014-12-18'), $firstRow->getDocumentDate());
         $this->assertEquals('123', $firstRow->getDocumentNumber());
@@ -322,12 +322,12 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var PaymentInfoInterface $info */
         $info = array_shift($paymentInfos);
 
-        $this->assertEquals('TP01', $info->getTerms());
+        $this->assertEquals('TP01', $info->getTerms()->value);
 
         $details = $info->getDetails();
         /** @var PaymentDetailsInterface $detail */
         $detail = array_shift($details);
-        $this->assertEquals('MP01', $detail->getMethod());
+        $this->assertEquals('MP01', $detail->getMethod()->value);
         $this->assertEquals(new DateTime('2015-01-30'), $detail->getDueDate());
         $this->assertEquals(30.50, $detail->getAmount());
 
@@ -345,7 +345,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
 
         // Trasmissione
-        $this->assertTrue($eDocument->getTransmissionFormat()->equals(TransmissionFormat::FPR12()));
+        $this->assertTrue($eDocument->getTransmissionFormat() === TransmissionFormat::FPR12);
         $this->assertEquals('IT', $eDocument->getCountryCode());
         $this->assertNull($eDocument->getCustomerPec());
         $this->assertEquals('C3UCNRB', $eDocument->getCustomerSdiCode());
@@ -353,10 +353,10 @@ class ParseDigitalDocumentTest extends TestCase
         // Fornitore
         $this->assertEquals('IT', $eDocument->getSupplier()->getCountryCode());
         $this->assertEquals('01234567899', $eDocument->getSupplier()->getFiscalCode());
-        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('RF01', $eDocument->getSupplier()->getTaxRegime()->value);
         $this->assertEquals('01234567899', $eDocument->getSupplier()->getVatNumber());
         $this->assertEquals('ACME SPA', $eDocument->getSupplier()->getOrganization());
-        $this->assertEquals('RF01', (string)$eDocument->getSupplier()->getTaxRegime());
+        $this->assertEquals('RF01', $eDocument->getSupplier()->getTaxRegime()->value);
 
         $this->assertEquals('VIA ALFREDO BIANCHI', $eDocument->getSupplier()->getAddress()->getStreet());
         $this->assertEquals('111', $eDocument->getSupplier()->getAddress()->getStreetNumber());
@@ -383,7 +383,7 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var DigitalDocumentInstanceInterface $firstRow */
         $firstRow = array_shift($rows);
 
-        $this->assertEquals('TD01', (string)$firstRow->getDocumentType());
+        $this->assertEquals('TD01', $firstRow->getDocumentType()->value);
         $this->assertEquals('EUR', $firstRow->getCurrency());
         $this->assertEquals(new DateTime('2019-03-19'), $firstRow->getDocumentDate());
         $this->assertEquals('1', $firstRow->getDocumentNumber());
@@ -393,7 +393,7 @@ class ParseDigitalDocumentTest extends TestCase
         );
 
         // Ritenuta
-        $this->assertEquals('RT02', (string)$firstRow->getDeductionType());
+        $this->assertEquals('RT02', $firstRow->getDeductionType()->value);
         $this->assertEquals(4.41, $firstRow->getDeductionAmount());
         $this->assertEquals(11.50, $firstRow->getDeductionPercentage());
         $this->assertEquals('U', $firstRow->getDeductionDescription());
@@ -402,14 +402,14 @@ class ParseDigitalDocumentTest extends TestCase
         $funds = $firstRow->getFunds();
 
         $firstFund = array_shift($funds);
-        $this->assertEquals('TC03', (string)$firstFund->getType());
+        $this->assertEquals('TC03', $firstFund->getType()->value);
         $this->assertEquals(4, $firstFund->getPercentage());
         $this->assertEquals(36.88, $firstFund->getAmount());
         $this->assertEquals(922.00, $firstFund->getSubtotal());
         $this->assertEquals(22, $firstFund->getTaxPercentage());
 
         $firstFund = array_shift($funds);
-        $this->assertEquals('TC22', (string)$firstFund->getType());
+        $this->assertEquals('TC22', $firstFund->getType()->value);
         $this->assertEquals(4, $firstFund->getPercentage());
         $this->assertEquals(38.36, $firstFund->getAmount());
         $this->assertEquals(958.88, $firstFund->getSubtotal());
@@ -454,7 +454,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(452, $firstProduct->getUnitPrice());
         $this->assertEquals(452, $firstProduct->getTotal());
         $this->assertEquals(0, $firstProduct->getTaxPercentage());
-        $this->assertEquals('N2', (string)$firstProduct->getVatNature());
+        $this->assertEquals('N2', $firstProduct->getVatNature()->value);
 
         /** @var LineInterface $firstProduct */
         $firstProduct = array_shift($products);
@@ -472,7 +472,7 @@ class ParseDigitalDocumentTest extends TestCase
         $discounts = $firstProduct->getDiscounts();
         /** @var DiscountInterface $discount */
         $discount = array_shift($discounts);
-        $this->assertEquals('SC', (string)$discount->getType());
+        $this->assertEquals('SC', $discount->getType()->value);
         $this->assertEquals(10, $discount->getPercentage());
 
         /** @var LineInterface $firstProduct */
@@ -508,7 +508,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(705.20, $total->getTotal());
         $this->assertEquals(149.41, $total->getTaxAmount());
-        $this->assertEquals('I', (string)$total->getTaxType());
+        $this->assertEquals('I', $total->getTaxType()->value);
 
         /** @var TotalInterface $total */
         $total = array_shift($totals);
@@ -516,8 +516,8 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(452, $total->getTotal());
         $this->assertEquals(0, $total->getTaxAmount());
-        $this->assertEquals('I', (string)$total->getTaxType());
-        $this->assertEquals('N2', (string)$total->getVatNature());
+        $this->assertEquals('I', $total->getTaxType()->value);
+        $this->assertEquals('N2', $total->getVatNature()->value);
         $this->assertEquals('ESCLUSI ART.3 C.4 DPR 633/72', $total->getReference());
 
         /** @var TotalInterface $total */
@@ -526,7 +526,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(292.03, $total->getTotal());
         $this->assertEquals(61.87, $total->getTaxAmount());
-        $this->assertEquals('D', (string)$total->getTaxType());
+        $this->assertEquals('D', $total->getTaxType()->value);
 
         /** @var TotalInterface $total */
         $total = array_shift($totals);
@@ -534,7 +534,7 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertEquals(0, $total->getOtherExpenses());
         $this->assertEquals(670.00, $total->getTotal());
         $this->assertEquals(147.40, $total->getTaxAmount());
-        $this->assertEquals('S', (string)$total->getTaxType());
+        $this->assertEquals('S', $total->getTaxType()->value);
 
         // Payment Info
         $paymentInfos = $firstRow->getPaymentInformations();
@@ -572,6 +572,7 @@ class ParseDigitalDocumentTest extends TestCase
         $customer = new Customer();
         $customer->setCountryCode("IT")
             ->setName("Nome")
+            ->setVatNumber('12345678910')
             ->setSurname("Cognome");
 
         $customer->setAddress((new Address())
@@ -596,19 +597,19 @@ class ParseDigitalDocumentTest extends TestCase
         $line->setUnitPrice(100);
         $line->setTaxPercentage(0);
         $line->setTotal(100);
-        $line->setVatNature(VatNature::N2_2());
+        $line->setVatNature(VatNature::N2_2);
         $instance->addLine($line);
 
         $total = new Total();
         $total->setTaxPercentage(0);
-        $total->setVatNature(VatNature::N2_2());
+        $total->setVatNature(VatNature::N2_2);
         $total->setTotal(100);
         $total->setTaxAmount(0);
         $instance->addTotal($total);
 
         $eDocument->addDigitalDocumentInstance($instance);
 
-        $this->assertTrue($eDocument->isValid());
+        $this->assertTrue($eDocument->isValid(), json_encode($eDocument->validate()->errors()));
     }
 
     public function listOfInvoices(): array

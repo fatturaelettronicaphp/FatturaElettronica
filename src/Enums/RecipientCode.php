@@ -2,8 +2,8 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-class RecipientCode
+enum RecipientCode: string
 {
-    public const EMPTY = '0000000';
-    public const FOREIGN = 'XXXXXXX';
+    case EMPTY = '0000000';
+    case FOREIGN = 'XXXXXXX';
 }

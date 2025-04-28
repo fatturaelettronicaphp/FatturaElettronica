@@ -2,14 +2,22 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self SC()
- * @method static self PR()
- * @method static self AB()
- * @method static self AC()
- *
- */
-class CancelType extends Enum
+enum CancelType: string
 {
-    protected const TYPE = 'TipoCessionePrestazioneType';
+	case SC = 'SC';
+	case PR = 'PR';
+	case AB = 'AB';
+	case AC = 'AC';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::SC => 'Sconto',
+			self::PR => 'Premio',
+			self::AB => 'Abbuono',
+			self::AC => 'Spesa accessoria',
+
+            default => null,
+        };
+    }
 }

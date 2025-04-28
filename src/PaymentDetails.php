@@ -93,7 +93,7 @@ class PaymentDetails implements ArrayableInterface, PaymentDetailsInterface
         }
 
         if (! $method instanceof PaymentMethod) {
-            $method = new PaymentMethod($method);
+            $method = PaymentMethod::from($method);
         }
 
         $this->method = $method;

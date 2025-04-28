@@ -2,17 +2,13 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-enum AssociateType: string
+enum __ENUM_NAME__: string
 {
-	case SU = 'SU';
-	case SM = 'SM';
-
+__ENUM_VALUES__
     public function getLabel(): string
     {
         return match($this) {
-			self::SU => 'socio unico',
-			self::SM => 'più soci',
-
+__ENUM_LABELS__
             default => null,
         };
     }

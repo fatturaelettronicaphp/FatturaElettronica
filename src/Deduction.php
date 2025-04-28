@@ -35,7 +35,7 @@ class Deduction implements ArrayableInterface, DeductionInterface
         }
 
         if (! $type instanceof DeductionType) {
-            $type = new DeductionType($type);
+            $type = DeductionType::from($type);
         }
 
         $this->type = $type;

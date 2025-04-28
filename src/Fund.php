@@ -48,7 +48,7 @@ class Fund implements ArrayableInterface, FundInterface
         }
 
         if (! $type instanceof FundType) {
-            $type = new FundType($type);
+            $type = FundType::from($type);
         }
 
         $this->type = $type;
@@ -128,7 +128,7 @@ class Fund implements ArrayableInterface, FundInterface
         }
 
         if (! $vatNature instanceof VatNature) {
-            $vatNature = new VatNature($vatNature);
+            $vatNature = VatNature::from($vatNature);
         }
 
         $this->vatNature = $vatNature;

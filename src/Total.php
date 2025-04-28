@@ -111,7 +111,7 @@ class Total implements ArrayableInterface, TotalInterface
         }
 
         if (! $vatNature instanceof VatNature) {
-            $vatNature = new VatNature($vatNature);
+            $vatNature = VatNature::from($vatNature);
         }
 
         $this->vatNature = $vatNature;
@@ -174,7 +174,7 @@ class Total implements ArrayableInterface, TotalInterface
         }
 
         if (! $taxType instanceof VatEligibility) {
-            $taxType = new VatEligibility($taxType);
+            $taxType = VatEligibility::from($taxType);
         }
 
         $this->taxType = $taxType;

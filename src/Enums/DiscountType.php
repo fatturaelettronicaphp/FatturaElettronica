@@ -2,11 +2,18 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self SC()
- * @method static self MG()
- */
-class DiscountType extends Enum
+enum DiscountType: string
 {
-    protected const TYPE = 'TipoScontoMaggiorazioneType';
+	case SC = 'SC';
+	case MG = 'MG';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::SC => 'SC = Sconto',
+			self::MG => 'MG = Maggiorazione',
+
+            default => null,
+        };
+    }
 }

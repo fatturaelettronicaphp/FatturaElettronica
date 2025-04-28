@@ -81,7 +81,7 @@ class Line implements ArrayableInterface, LineInterface
         }
 
         if (! $tipoCessazionePrestazione instanceof CancelType) {
-            $tipoCessazionePrestazione = new CancelType($tipoCessazionePrestazione);
+            $tipoCessazionePrestazione = CancelType::from($tipoCessazionePrestazione);
         }
 
         $this->tipoCessazionePrestazione = $tipoCessazionePrestazione;
@@ -337,8 +337,8 @@ class Line implements ArrayableInterface, LineInterface
             return $this;
         }
 
-        if (! $vatNature instanceof CancelType) {
-            $vatNature = new VatNature($vatNature);
+        if (! $vatNature instanceof VatNature) {
+            $vatNature = VatNature::from($vatNature);
         }
 
         $this->vatNature = $vatNature;

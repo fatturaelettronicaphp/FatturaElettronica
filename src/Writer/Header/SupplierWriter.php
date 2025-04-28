@@ -66,9 +66,9 @@ class SupplierWriter extends AbstractHeaderWriter
         }
 
         if ($supplier->getTaxRegime()) {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)$supplier->getTaxRegime());
+            $datiAnagrafici->addChild('RegimeFiscale', $supplier->getTaxRegime()->value);
         } else {
-            $datiAnagrafici->addChild('RegimeFiscale', (string)TaxRegime::default());
+            $datiAnagrafici->addChild('RegimeFiscale', TaxRegime::RF01->value);
         }
 
         $sede = $cedentePrestatore->addChild('Sede');
@@ -103,10 +103,10 @@ class SupplierWriter extends AbstractHeaderWriter
             }
 
             if (! empty($supplier->getAssociateType())) {
-                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText((string)$supplier->getAssociateType()));
+                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText($supplier->getAssociateType()?->value));
             }
 
-            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText((string)$supplier->getSettlementType()));
+            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText($supplier->getSettlementType()?->value));
         }
 
         if ($supplier->hasContacts()) {

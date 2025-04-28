@@ -68,12 +68,12 @@ class DigitalDocumentSDIChecksTest extends TestCase
         $line->setUnitPrice(100);
         $line->setTaxPercentage(0);
         $line->setTotal(100);
-        //$line->setVatNature(VatNature::N2_2());
+        //$line->setVatNature(VatNature::N2_2);
         $instance->addLine($line);
 
         $total = new Total();
         $total->setTaxPercentage(0);
-        $total->setVatNature(VatNature::N2_2());
+        $total->setVatNature(VatNature::N2_2);
         $total->setTotal(100);
         $total->setTaxAmount(0);
         $instance->addTotal($total);
@@ -141,12 +141,12 @@ class DigitalDocumentSDIChecksTest extends TestCase
         $line->setUnitPrice(100);
         $line->setTaxPercentage(10);
         $line->setTotal(100);
-        $line->setVatNature(VatNature::N2_2());
+        $line->setVatNature(VatNature::N2_2);
         $instance->addLine($line);
 
         $total = new Total();
         $total->setTaxPercentage(0);
-        $total->setVatNature(VatNature::N2_2());
+        $total->setVatNature(VatNature::N2_2);
         $total->setTotal(100);
         $total->setTaxAmount(0);
         $instance->addTotal($total);

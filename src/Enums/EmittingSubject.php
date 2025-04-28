@@ -2,11 +2,18 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self CC()
- * @method static self TZ()
- */
-class EmittingSubject extends Enum
+enum EmittingSubject: string
 {
-    protected const TYPE = 'SoggettoEmittenteType';
+	case CC = 'CC';
+	case TZ = 'TZ';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::CC => 'Cessionario / Committente',
+			self::TZ => 'Terzo',
+
+            default => null,
+        };
+    }
 }

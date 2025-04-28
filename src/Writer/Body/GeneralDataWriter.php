@@ -71,7 +71,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     protected function addGeneralData(SimpleXMLElement $generalData)
     {
         $documentGeneralData = $generalData->addChild('DatiGeneraliDocumento');
-        $documentGeneralData->addChild('TipoDocumento', (string)$this->body->getDocumentType());
+        $documentGeneralData->addChild('TipoDocumento',$this->body->getDocumentType()?->value);
         $documentGeneralData->addChild('Divisa', $this->body->getCurrency());
         $documentGeneralData->addChild('Data', $this->body->getDocumentDate()->format('Y-m-d'));
         $documentGeneralData->addChild('Numero', $this->body->getDocumentNumber());
@@ -124,13 +124,13 @@ class GeneralDataWriter extends AbstractBodyWriter
     {
         if ($deduction instanceof Deduction) {
             $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
-            $datiRitenuta->addChild('TipoRitenuta', $deduction->getType());
+            $datiRitenuta->addChild('TipoRitenuta', $deduction->getType()?->value);
             $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getAmount()));
             $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($deduction->getPercentage()));
             $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($deduction->getDescription()));
         } else {
             $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');
-            $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType());
+            $datiRitenuta->addChild('TipoRitenuta', $this->body->getDeductionType()?->value);
             $datiRitenuta->addChild('ImportoRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionAmount()));
             $datiRitenuta->addChild('AliquotaRitenuta', SimpleXmlExtended::sanitizeFloat($this->body->getDeductionPercentage()));
             $datiRitenuta->addChild('CausalePagamento', SimpleXmlExtended::sanitizeText($this->body->getDeductionDescription()));
@@ -157,7 +157,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     protected function addFundData(SimpleXMLElement $documentGeneralData, Fund $documentCassa): void
     {
         $datiCassa = $documentGeneralData->addChild('DatiCassaPrevidenziale');
-        $datiCassa->addChild('TipoCassa', $documentCassa->getType());
+        $datiCassa->addChild('TipoCassa', $documentCassa->getType()?->value);
         $datiCassa->addChild('AlCassa', SimpleXmlExtended::sanitizeFloat($documentCassa->getPercentage()));
         $datiCassa->addChild('ImportoContributoCassa', SimpleXmlExtended::sanitizeFloat($documentCassa->getAmount()));
 
@@ -173,7 +173,7 @@ class GeneralDataWriter extends AbstractBodyWriter
         }
 
         if ($documentCassa->getVatNature()) {
-            $datiCassa->addChild('Natura', $documentCassa->getVatNature());
+            $datiCassa->addChild('Natura', $documentCassa->getVatNature()->value);
         }
 
         if (! empty($documentCassa->getRepresentative())) {

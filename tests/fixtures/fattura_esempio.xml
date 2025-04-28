@@ -35,6 +35,7 @@
         </CedentePrestatore>
         <CessionarioCommittente>
             <DatiAnagrafici>
+                <CodiceFiscale>09876543210</CodiceFiscale>
                 <Anagrafica>
                     <Nome>Pietro</Nome>
                     <Cognome>Lodi Rizzini</Cognome>

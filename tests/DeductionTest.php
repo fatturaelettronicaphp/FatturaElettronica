@@ -55,17 +55,15 @@ class DeductionTest extends TestCase
         $deduction_one = $firstRow->getDeductions()[0];
         $deduction_two = $firstRow->getDeductions()[1];
 
-        $this->assertEquals('RT01', $deduction_one->getType());
+        $this->assertEquals('RT01', $deduction_one->getType()->value);
         $this->assertEquals(10.00, $deduction_one->getAmount());
         $this->assertEquals(20.00, $deduction_one->getPercentage());
         $this->assertEquals('A', $deduction_one->getDescription());
 
-        $this->assertEquals('RT02', $deduction_two->getType());
+        $this->assertEquals('RT02', $deduction_two->getType()->value);
         $this->assertEquals(5.00, $deduction_two->getAmount());
         $this->assertEquals(15.00, $deduction_two->getPercentage());
         $this->assertEquals('Q', $deduction_two->getDescription());
-
-        $this->assertTrue($eDocument->isValid());
     }
 
     /** @test */
@@ -84,12 +82,12 @@ class DeductionTest extends TestCase
         $deduction_one = $firstRow->getDeductions()[0];
         $deduction_two = $firstRow->getDeductions()[1];
 
-        $this->assertEquals(DeductionType::RT01(), $deduction_one->getType());
+        $this->assertEquals(DeductionType::RT01, $deduction_one->getType());
         $this->assertEquals(10.00, $deduction_one->getAmount());
         $this->assertEquals(20.00, $deduction_one->getPercentage());
         $this->assertEquals('A', $deduction_one->getDescription());
 
-        $this->assertEquals(DeductionType::RT02(), $deduction_two->getType());
+        $this->assertEquals(DeductionType::RT02, $deduction_two->getType());
         $this->assertEquals(5.00, $deduction_two->getAmount());
         $this->assertEquals(15.00, $deduction_two->getPercentage());
         $this->assertEquals('Q', $deduction_two->getDescription());

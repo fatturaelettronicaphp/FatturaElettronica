@@ -7,7 +7,7 @@ class EmittingSubjectWriter extends AbstractHeaderWriter
     protected function performWrite()
     {
         if (! empty($this->document->getEmittingSubject())) {
-            $this->xml->addChild('SoggettoEmittente', $this->document->getEmittingSubject());
+            $this->xml->addChild('SoggettoEmittente', $this->document->getEmittingSubject()->value);
         }
 
         return $this;

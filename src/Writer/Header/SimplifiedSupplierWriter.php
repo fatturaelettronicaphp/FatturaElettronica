@@ -88,16 +88,16 @@ class SimplifiedSupplierWriter extends AbstractHeaderWriter
             }
 
             if (! empty($supplier->getAssociateType())) {
-                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText((string)$supplier->getAssociateType()));
+                $iscrizioneRea->addChild('SocioUnico', SimpleXmlExtended::sanitizeText($supplier->getAssociateType()->value));
             }
 
-            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText((string)$supplier->getSettlementType()));
+            $iscrizioneRea->addChild('StatoLiquidazione', SimpleXmlExtended::sanitizeText($supplier->getSettlementType()?->value));
         }
 
         if ($supplier->getTaxRegime()) {
-            $cedentePrestatore->addChild('RegimeFiscale', (string)$supplier->getTaxRegime());
+            $cedentePrestatore->addChild('RegimeFiscale', $supplier->getTaxRegime()->value);
         } else {
-            $cedentePrestatore->addChild('RegimeFiscale', (string)TaxRegime::RF01());
+            $cedentePrestatore->addChild('RegimeFiscale', TaxRegime::RF01->value);
         }
 
         if ($supplier->hasContacts()) {

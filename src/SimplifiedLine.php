@@ -124,7 +124,7 @@ class SimplifiedLine implements ArrayableInterface, SimplifiedLineInterface
         }
 
         if (! $vatNature instanceof VatNature) {
-            $vatNature = new VatNature($vatNature);
+            $vatNature = VatNature::from($vatNature);
         }
 
         $this->vatNature = $vatNature;

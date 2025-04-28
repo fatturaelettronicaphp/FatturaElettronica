@@ -136,7 +136,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
         );
 
         $namespaces = [
-            'versione' => (string)$this->document->getTransmissionFormat(),
+            'versione' => $this->document->getTransmissionFormat()?->value,
             'xmlns:xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
             'xmlns:xmlns:p' => 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2',
             'xmlns:xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',

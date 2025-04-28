@@ -15,7 +15,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
-use FatturaElettronicaPhp\FatturaElettronica\Validator\Check\Xsd;
 use FatturaElettronicaPhp\FatturaElettronica\Validator\DigitalDocumentValidator;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\DigitalDocumentWriter;
 use FatturaElettronicaPhp\FatturaElettronica\Writer\SimplifiedDigitalDocumentWriter;
@@ -150,12 +149,12 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         return $this->validate()->isValid();
     }
 
-    public function getVersion(): ?string
+    public function getVersion(): ?TransmissionFormat
     {
         return $this->version;
     }
 
-    public function setVersion(?string $version): self
+    public function setVersion(?TransmissionFormat $version): self
     {
         $this->version = $version;
 
@@ -186,7 +185,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $emittingSubject instanceof EmittingSubject) {
-            $emittingSubject = new EmittingSubject($emittingSubject);
+            $emittingSubject = EmittingSubject::from($emittingSubject);
         }
 
         $this->emittingSubject = $emittingSubject;
@@ -350,7 +349,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
         }
 
         if (! $transmissionFormat instanceof TransmissionFormat) {
-            $transmissionFormat = new TransmissionFormat($transmissionFormat);
+            $transmissionFormat = TransmissionFormat::from($transmissionFormat);
         }
 
         $this->transmissionFormat = $transmissionFormat;
@@ -360,6 +359,6 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
 
     public function isSimplified(): bool
     {
-        return $this->transmissionFormat->equals(TransmissionFormat::FSM10());
+        return $this->transmissionFormat === TransmissionFormat::FSM10;
     }
 }

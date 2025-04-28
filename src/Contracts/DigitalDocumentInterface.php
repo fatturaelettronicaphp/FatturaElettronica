@@ -78,7 +78,7 @@ interface DigitalDocumentInterface
 
     public function isSimplified(): bool;
 
-    public function setVersion(?string $version);
+    public function setVersion(?TransmissionFormat $version);
 
     public function getVersion();
 

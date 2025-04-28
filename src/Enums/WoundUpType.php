@@ -2,11 +2,18 @@
 
 namespace FatturaElettronicaPhp\FatturaElettronica\Enums;
 
-/**
- * @method static self LS()
- * @method static self LN()
- */
-class WoundUpType extends Enum
+enum WoundUpType: string
 {
-    protected const TYPE = 'StatoLiquidazioneType';
+	case LS = 'LS';
+	case LN = 'LN';
+
+    public function getLabel(): string
+    {
+        return match($this) {
+			self::LS => 'in liquidazione',
+			self::LN => 'non in liquidazione',
+
+            default => null,
+        };
+    }
 }

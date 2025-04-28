@@ -13,7 +13,7 @@ class PaymentsWriter extends AbstractBodyWriter
         /** @var PaymentInfoInterface $payment */
         foreach ($this->body->getPaymentInformations() as $payment) {
             $datiPagamento = $this->xml->addChild('DatiPagamento');
-            $datiPagamento->addChild('CondizioniPagamento', (string) $payment->getTerms());
+            $datiPagamento->addChild('CondizioniPagamento', $payment->getTerms()?->value);
 
             /** @var PaymentDetailsInterface $details */
             foreach ($payment->getDetails() as $details) {
@@ -23,7 +23,7 @@ class PaymentsWriter extends AbstractBodyWriter
                     $dettalioPagamento->addChild('Beneficiario', SimpleXmlExtended::sanitizeText($details->getPayee()));
                 }
 
-                $dettalioPagamento->addChild('ModalitaPagamento', $details->getMethod());
+                $dettalioPagamento->addChild('ModalitaPagamento', $details->getMethod()?->value);
 
                 if ($details->getDueDateFrom() !== null) {
                     $dettalioPagamento->addChild('DataRiferimentoTerminiPagamento', $details->getDueDateFrom()->format('Y-m-d'));
