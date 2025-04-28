@@ -153,7 +153,7 @@ class DigitalDocumentWriter implements DigitalDocumentWriterInterface
     protected function writeAttributes(): self
     {
         if ($this->document->getEmittingSystem()) {
-            $this->xml->addAttribute('SistemaEmittente', substr($this->document->getEmittingSystem(), 0, 10));
+            $this->xml->addAttribute('SistemaEmittente', substr((string) $this->document->getEmittingSystem(), 0, 10));
         }
 
         return $this;

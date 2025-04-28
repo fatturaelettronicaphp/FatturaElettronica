@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 class SameXmlTest extends TestCase
 {
     /** @test */
-    public function can_read_xml_invoice()
+    public function can_read_xml_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $xml = simplexml_load_file($file);

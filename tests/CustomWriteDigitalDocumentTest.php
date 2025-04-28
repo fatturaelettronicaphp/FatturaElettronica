@@ -33,7 +33,7 @@ use PHPUnit\Framework\TestCase;
 class CustomWriteDigitalDocumentTest extends TestCase
 {
     /** @test */
-    public function writes_shipment_address()
+    public function writes_shipment_address(): void
     {
         $supplier = $this
             ->generatePerson(new Supplier())

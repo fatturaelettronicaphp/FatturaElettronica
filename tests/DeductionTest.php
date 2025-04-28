@@ -19,9 +19,9 @@ use PHPUnit\Framework\TestCase;
 class DeductionTest extends TestCase
 {
     /** @test */
-    public function can_insert_multiple_deduction_nodes()
+    public function can_insert_multiple_deduction_nodes(): void
     {
-        $file = dirname(__FILE__) . '/fixtures/IT01234567890_11001.xml';
+        $file = __DIR__ . '/fixtures/IT01234567890_11001.xml';
         $eDocument = DigitalDocument::parseFrom($file);
 
         $rows = $eDocument->getDocumentInstances();
@@ -67,9 +67,9 @@ class DeductionTest extends TestCase
     }
 
     /** @test */
-    public function can_parse_a_document_with_multiple_deduction_nodes()
+    public function can_parse_a_document_with_multiple_deduction_nodes(): void
     {
-        $file = dirname(__FILE__) . '/fixtures/IT01234567890_11001_multi_ritenute.xml';
+        $file = __DIR__ . '/fixtures/IT01234567890_11001_multi_ritenute.xml';
         $eDocument = DigitalDocument::parseFrom($file);
 
         $rows = $eDocument->getDocumentInstances();

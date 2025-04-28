@@ -7,13 +7,10 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentValidatorI
 
 abstract class BasicDigitalDocumentValidator implements DigitalDocumentValidatorInterface
 {
-    protected DigitalDocumentInterface $document;
-
     protected array $errors = [];
 
-    public function __construct(DigitalDocumentInterface $document)
+    public function __construct(protected DigitalDocumentInterface $document)
     {
-        $this->document = $document;
     }
 
     public function isValid(): bool

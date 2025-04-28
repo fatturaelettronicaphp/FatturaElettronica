@@ -92,10 +92,10 @@ class LinesParser extends AbstractBodyParser
         $instance = new Product();
 
         $value = $this->extractValueFromXmlElement($xml, 'CodiceTipo');
-        $instance->setCodeType(trim($value));
+        $instance->setCodeType(trim((string) $value));
 
         $value = $this->extractValueFromXmlElement($xml, 'CodiceValore');
-        $instance->setCode(trim($value));
+        $instance->setCode(trim((string) $value));
 
         return $instance;
     }

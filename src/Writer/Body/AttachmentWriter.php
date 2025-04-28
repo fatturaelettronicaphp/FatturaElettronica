@@ -39,7 +39,7 @@ class AttachmentWriter extends AbstractBodyWriter
                 $xml->addChild('DescrizioneAttachment', $attachment->getDescription());
             }
 
-            $xml->addChild('Attachment', base64_encode($attachment->getFileData()));
+            $xml->addChild('Attachment', base64_encode((string) $attachment->getFileData()));
         }
     }
 }

@@ -12,7 +12,7 @@ class ParseSimplifiedDigitalDocumentTest extends TestCase
      * @test
      * @dataProvider listOfInvoices
      */
-    public function can_read_simplified_invoices(string $filePath)
+    public function can_read_simplified_invoices(string $filePath): void
     {
         $eDocument = DigitalDocument::parseFrom($filePath);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -22,16 +22,12 @@ class ParseSimplifiedDigitalDocumentTest extends TestCase
 
     public function listOfInvoices(): array
     {
-        $files = array_map(function ($file) {
-            return __DIR__ . '/fixtures/semplificata/' . $file;
-        }, array_diff(scandir(__DIR__ . '/fixtures/semplificata'), [
+        $files = array_map(fn($file) => __DIR__ . '/fixtures/semplificata/' . $file, array_diff(scandir(__DIR__ . '/fixtures/semplificata'), [
             '.',
             '..',
         ]));
 
-        $keys = array_map(function ($file) {
-            return basename($file);
-        }, $files);
+        $keys = array_map(fn($file) => basename((string) $file), $files);
 
         $data = [];
         foreach ($keys as $index => $key) {

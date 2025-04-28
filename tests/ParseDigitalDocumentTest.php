@@ -33,7 +33,7 @@ class ParseDigitalDocumentTest extends TestCase
      * @test
      * @dataProvider listOfInvoices
      */
-    public function can_read_p7m_invoices(string $filePath)
+    public function can_read_p7m_invoices(string $filePath): void
     {
         $eDocument = DigitalDocument::parseFrom($filePath);
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -45,7 +45,7 @@ class ParseDigitalDocumentTest extends TestCase
     /**
      * @test
      */
-    public function validates_dashed_emails_domains()
+    public function validates_dashed_emails_domains(): void
     {
         $eDocument = DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT01234567890_11002.xml');
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -55,7 +55,7 @@ class ParseDigitalDocumentTest extends TestCase
     /**
      * @test
      */
-    public function reads_slashes_correctly()
+    public function reads_slashes_correctly(): void
     {
         $eDocument = DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT01234567890_11001_slash.xml');
         $this->assertTrue($eDocument instanceof DigitalDocumentInterface);
@@ -66,7 +66,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_p7m_invoice()
+    public function can_read_p7m_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
@@ -86,7 +86,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_attachments()
+    public function can_read_attachments(): void
     {
         $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
@@ -113,7 +113,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_encode_decode_attachment()
+    public function can_encode_decode_attachment(): void
     {
         $file = __DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m';
 
@@ -127,12 +127,12 @@ class ParseDigitalDocumentTest extends TestCase
         /** @var AttachmentInterface $attachment */
         $attachment = array_shift($attachments);
 
-        $this->assertEquals(base64_decode($attachment->getAttachment()), $attachment->getFileData());
-        $this->assertEquals($attachment->getAttachment(), base64_encode($attachment->getFileData()));
+        $this->assertEquals(base64_decode((string) $attachment->getAttachment()), $attachment->getFileData());
+        $this->assertEquals($attachment->getAttachment(), base64_encode((string) $attachment->getFileData()));
     }
 
     /** @test */
-    public function can_read_xml_invoice_file()
+    public function can_read_xml_invoice_file(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
 
@@ -142,7 +142,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_xml_invoice()
+    public function can_read_xml_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_FPR02.xml';
         $xml = simplexml_load_file($file);
@@ -152,7 +152,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function can_read_complex_xml_invoice()
+    public function can_read_complex_xml_invoice(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567899_000sq.xml';
         $xml = simplexml_load_file($file);
@@ -162,7 +162,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function reads_admin_contact()
+    public function reads_admin_contact(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_11001.xml';
         $xml = simplexml_load_file($file);
@@ -177,7 +177,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function reads_ddt_line_numbers()
+    public function reads_ddt_line_numbers(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_21101.xml';
         $xml = simplexml_load_file($file);
@@ -194,7 +194,7 @@ class ParseDigitalDocumentTest extends TestCase
     }
 
     /** @test */
-    public function reads_all_payment_details()
+    public function reads_all_payment_details(): void
     {
         $file = __DIR__ . '/fixtures/IT01234567890_11001_payment_details.xml';
         $xml = simplexml_load_file($file);
@@ -621,9 +621,7 @@ class ParseDigitalDocumentTest extends TestCase
         $privateFileTests = [];
         if (is_dir($privateDir)) {
             $files = scandir($privateDir);
-            $privateFiles = array_filter($files, function ($file) use ($privateDir) {
-                return in_array(pathinfo($file, PATHINFO_EXTENSION), ['xml', 'p7m']);
-            });
+            $privateFiles = array_filter($files, fn($file) => in_array(pathinfo((string) $file, PATHINFO_EXTENSION), ['xml', 'p7m']));
 
             foreach ($privateFiles as $privateFile) {
                 $privateFileTests[basename($privateFile)] = [$privateDir . '/' . $privateFile];

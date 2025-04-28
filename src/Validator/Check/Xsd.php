@@ -27,7 +27,7 @@ class Xsd extends BasicDigitalDocumentValidator implements DigitalDocumentValida
 
         try {
             $isValid = $dom->schemaValidate($xsd);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $isValid = false;
         }
 

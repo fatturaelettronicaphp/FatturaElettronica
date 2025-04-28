@@ -58,8 +58,8 @@ class CustomerWriter extends AbstractHeaderWriter
                 $sede->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
             }
 
-            $sanitizedCap = preg_replace("/[^0-9]/", '', $address->getZip());
-            $sanitizedCap = substr($sanitizedCap, 0, 5);
+            $sanitizedCap = preg_replace("/[^0-9]/", '', (string) $address->getZip());
+            $sanitizedCap = substr((string) $sanitizedCap, 0, 5);
             $sanitizedCap = str_pad($sanitizedCap, 5, '0', STR_PAD_LEFT);
 
             $sede->addChild('CAP', $sanitizedCap);
@@ -81,8 +81,8 @@ class CustomerWriter extends AbstractHeaderWriter
                 $stabileOrganizzazione->addChild('NumeroCivico', SimpleXmlExtended::sanitizeText($address->getStreetNumber()));
             }
 
-            $sanitizedCap = preg_replace("/[^0-9]/", '', $address->getZip());
-            $sanitizedCap = substr($sanitizedCap, 0, 5);
+            $sanitizedCap = preg_replace("/[^0-9]/", '', (string) $address->getZip());
+            $sanitizedCap = substr((string) $sanitizedCap, 0, 5);
             $sanitizedCap = str_pad($sanitizedCap, 5, '0', STR_PAD_LEFT);
 
             $stabileOrganizzazione->addChild('CAP', $sanitizedCap);
