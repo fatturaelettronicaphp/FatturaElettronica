@@ -12,7 +12,6 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\SupplierInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\EmittingSubject;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\RecipientCode;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
-use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
 use FatturaElettronicaPhp\FatturaElettronica\Parser\DigitalDocumentParser;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\Arrayable;
 use FatturaElettronicaPhp\FatturaElettronica\Utilities\ArrayableInterface;
@@ -185,7 +184,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
             return $this;
         }
 
-        if (!$emittingSubject instanceof EmittingSubject) {
+        if (! $emittingSubject instanceof EmittingSubject) {
             $emittingSubject = new EmittingSubject($emittingSubject);
         }
 
@@ -349,7 +348,7 @@ class DigitalDocument implements ArrayableInterface, DigitalDocumentInterface
             return $this;
         }
 
-        if (!$transmissionFormat instanceof TransmissionFormat) {
+        if (! $transmissionFormat instanceof TransmissionFormat) {
             $transmissionFormat = new TransmissionFormat($transmissionFormat);
         }
 

@@ -11,7 +11,7 @@ class CustomerFiscalIds extends BasicDigitalDocumentValidator
 
     public function validate(): DigitalDocumentValidatorInterface
     {
-        if (!$this->hasVatIdOrFiscaleCode($this->document->getCustomer())) {
+        if (! $this->hasVatIdOrFiscaleCode($this->document->getCustomer())) {
             $this->errors['FatturaElettronicaHeader.DatiAnagrafici.IdFiscaleIVA'] = "Errore 00417:1.4.1.1 <IdFiscaleIVA> e 1.4.1.2 <CodiceFiscale> non valorizzati (almeno uno dei due deve essere valorizzato)";
         }
 
