@@ -20,6 +20,10 @@ class CMSDecoder implements DigitalDocumentDecodeInterface
             openssl_cms_verify($p7mFilePath, OPENSSL_CMS_NOVERIFY + OPENSSL_CMS_NOSIGS, $pemPath, [__DIR__ . '/ca.pem'], __DIR__ . '/ca.pem', $xmlPath)
         ) {
             return (new XMLDecoder())->decode($xmlPath);
+            
+            //remove created temporery files from directory
+            $tempdir =  sys_get_temp_dir();
+            array_map('unlink', array_filter((array) glob($tempdir ."/*.p7m*")));
         }
 
         $exitCode = 0;
