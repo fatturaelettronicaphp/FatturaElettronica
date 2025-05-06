@@ -15,6 +15,9 @@ class XMLDecoder implements DigitalDocumentDecodeInterface
             return null;
         }
 
+        $tempdir =  sys_get_temp_dir();
+        array_map('unlink', array_filter((array) glob($tempdir ."/*.p7m*")));
+
         return $simpleXml;
     }
 }
