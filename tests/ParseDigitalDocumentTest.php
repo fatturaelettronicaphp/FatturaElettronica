@@ -25,7 +25,6 @@ use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Total;
 use FilesystemIterator;
-use finfo;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
