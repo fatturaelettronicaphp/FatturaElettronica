@@ -24,6 +24,7 @@ use FatturaElettronicaPhp\FatturaElettronica\Line;
 use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
 use FatturaElettronicaPhp\FatturaElettronica\Supplier;
 use FatturaElettronicaPhp\FatturaElettronica\Total;
+use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
@@ -40,6 +41,33 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertFalse($eDocument->isSimplified());
 
         $this->assertTrue($eDocument->isValid(), json_encode($eDocument->validate()->errors()));
+    }
+
+    /**
+     * @test
+     */
+    public function cleans_up_tmp_files_when_extracting_p7m()
+    {
+        // Cleanup first
+        $iterator = new FilesystemIterator(sys_get_temp_dir(), FilesystemIterator::SKIP_DOTS);
+        /** @var \SplFileInfo $fileinfo */
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), 'IT00484960588_ERKHK') === 0) {
+                @unlink($fileinfo->getRealPath());
+            }
+        }
+
+        DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m');
+
+        $fileCount = 0;
+        /** @var \SplFileInfo $fileinfo */
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), 'IT00484960588_ERKHK') === 0) {
+                $fileCount++;
+            }
+        }
+
+        $this->assertEquals(0, $fileCount);
     }
 
     /**

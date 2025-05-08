@@ -2,6 +2,9 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+# 2.8.0
+- La libreria ora pulisce eventuali file temporanei generati durante il decoding
+
 # 2.7.0
 - Aggiornato il file xsd della fattura elettronica a 1.2.3
 - Aggiornato il file xsd della fattura semplificata a 1.0.2

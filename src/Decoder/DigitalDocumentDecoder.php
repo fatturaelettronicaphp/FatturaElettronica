@@ -3,6 +3,7 @@
 namespace FatturaElettronicaPhp\FatturaElettronica\Decoder;
 
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentDecodeInterface;
+use FilesystemIterator;
 use SimpleXMLElement;
 
 class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
@@ -30,6 +31,16 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
     {
         foreach ($this->decoders as $decoder) {
             $file = (new $decoder())->decode($filePath);
+
+            // cleanup temporary files
+            $iterator = new FilesystemIterator(sys_get_temp_dir(), FilesystemIterator::SKIP_DOTS);
+            /** @var \SplFileInfo $fileinfo */
+            foreach ($iterator as $fileinfo) {
+                if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), basename($filePath)) === 0) {
+                    @unlink($fileinfo->getRealPath());
+                }
+            }
+
             if ($file) {
                 return $file;
             }
