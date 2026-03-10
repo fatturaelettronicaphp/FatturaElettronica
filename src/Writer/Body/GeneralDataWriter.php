@@ -197,7 +197,7 @@ class GeneralDataWriter extends AbstractBodyWriter
 
         $importoSconto = $documentDiscount->getAmount();
         if ($importoSconto !== null) {
-            $datiScontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($importoSconto));
+            $datiScontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($importoSconto, 8));
         }
     }
 
