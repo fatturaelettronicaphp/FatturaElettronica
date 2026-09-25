@@ -222,7 +222,7 @@ class Supplier extends BillablePerson implements SupplierInterface
             if ($format) {
                 $registerDate = DateTime::createFromFormat($format, $registerDate);
             } else {
-                $registerDate = new DateTime();
+                $registerDate = new DateTime($registerDate);
             }
         }
 
