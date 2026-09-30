@@ -214,15 +214,19 @@ class Supplier extends BillablePerson implements SupplierInterface
             return $this;
         }
 
-        if ($registerDate === null) {
-            return $this;
-        }
-
         if (! $registerDate instanceof DateTime) {
-            if ($format) {
-                $registerDate = DateTime::createFromFormat($format, $registerDate);
-            } else {
-                $registerDate = new DateTime($registerDate);
+            try {
+                if ($format) {
+                    $parsed = DateTime::createFromFormat($format, $registerDate);
+                    if ($parsed === false) {
+                        throw new \Exception('Invalid register date');
+                    }
+                    $registerDate = $parsed;
+                } else {
+                    $registerDate = new DateTime($registerDate);
+                }
+            } catch (\Exception $exception) {
+                $registerDate = new DateTime();
             }
         }
 
