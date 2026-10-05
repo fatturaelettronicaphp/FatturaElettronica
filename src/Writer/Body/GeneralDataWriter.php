@@ -120,7 +120,7 @@ class GeneralDataWriter extends AbstractBodyWriter
     /**
      * @param SimpleXMLElement $documentGeneralData
      */
-    protected function addDeductionData(SimpleXMLElement $documentGeneralData, Deduction $deduction = null): void
+    protected function addDeductionData(SimpleXMLElement $documentGeneralData, ?Deduction $deduction = null): void
     {
         if ($deduction instanceof Deduction) {
             $datiRitenuta = $documentGeneralData->addChild('DatiRitenuta');

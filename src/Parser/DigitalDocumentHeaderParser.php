@@ -30,7 +30,7 @@ class DigitalDocumentHeaderParser implements DigitalDocumentParserInterface
         $this->xml = $xml;
     }
 
-    public function parse(DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
+    public function parse(?DigitalDocumentInterface $digitalDocument = null): DigitalDocumentInterface
     {
         $digitalDocument = $this->detectTransmissionFormat($digitalDocument);
 

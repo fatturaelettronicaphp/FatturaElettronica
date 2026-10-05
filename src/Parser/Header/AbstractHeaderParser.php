@@ -43,7 +43,7 @@ abstract class AbstractHeaderParser
 
     abstract protected function performParsing();
 
-    protected function extractBillableInformationsFrom(SimpleXMLElement $xml, BillableInterface $billable = null): BillableInterface
+    protected function extractBillableInformationsFrom(SimpleXMLElement $xml, ?BillableInterface $billable = null): BillableInterface
     {
         if ($billable === null) {
             $billable = new BillablePerson();
