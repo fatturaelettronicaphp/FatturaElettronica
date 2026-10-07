@@ -72,7 +72,7 @@ class ProductsWriter extends AbstractBodyWriter
         }
 
         if ($discount->getAmount() !== null) {
-            $scontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($discount->getAmount()));
+            $scontoMaggiorazione->addChild('Importo', SimpleXmlExtended::sanitizeFloat($discount->getAmount(), 8));
         }
     }
 
