@@ -53,7 +53,7 @@ class DigitalDocumentValidator
 
     protected function getSchema(): string
     {
-        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.1.xsd';
+        $schemaFile = $this->document->isSimplified() ? 'semplificata_1.0.xsd' : 'pa_1.2.xsd';
 
         return __DIR__ . '/xsd/' . $schemaFile;
     }
@@ -88,7 +88,7 @@ class DigitalDocumentValidator
         $field = '';
         if (stripos($message, "Element ") === 0) {
             $message = substr($message, strlen("Element "));
-            $field = substr($message, 1, stripos($message, ':') - 1);
+            $field = substr($message, 1, stripos($message, ':') - 2);
             $message = substr($message, stripos($message, ':') + 2);
         }
 

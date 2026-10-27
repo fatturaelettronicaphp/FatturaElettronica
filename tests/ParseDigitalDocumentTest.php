@@ -4,6 +4,7 @@ namespace FatturaElettronicaPhp\FatturaElettronica\Tests;
 
 use DateTime;
 use Exception;
+use FatturaElettronicaPhp\FatturaElettronica\Address;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\AttachmentInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInstanceInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\DigitalDocumentInterface;
@@ -12,10 +13,18 @@ use FatturaElettronicaPhp\FatturaElettronica\Contracts\LineInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentDetailsInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\PaymentInfoInterface;
 use FatturaElettronicaPhp\FatturaElettronica\Contracts\TotalInterface;
+use FatturaElettronicaPhp\FatturaElettronica\Customer;
 use FatturaElettronicaPhp\FatturaElettronica\DigitalDocument;
+use FatturaElettronicaPhp\FatturaElettronica\DigitalDocumentInstance;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentMethod;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\PaymentTerm;
 use FatturaElettronicaPhp\FatturaElettronica\Enums\TransmissionFormat;
+use FatturaElettronicaPhp\FatturaElettronica\Enums\VatNature;
+use FatturaElettronicaPhp\FatturaElettronica\Line;
+use FatturaElettronicaPhp\FatturaElettronica\ShippingLabel;
+use FatturaElettronicaPhp\FatturaElettronica\Supplier;
+use FatturaElettronicaPhp\FatturaElettronica\Total;
+use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
 use SimpleXMLElement;
 
@@ -32,6 +41,33 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertFalse($eDocument->isSimplified());
 
         $this->assertTrue($eDocument->isValid(), json_encode($eDocument->validate()->errors()));
+    }
+
+    /**
+     * @test
+     */
+    public function cleans_up_tmp_files_when_extracting_p7m()
+    {
+        // Cleanup first
+        $iterator = new FilesystemIterator(sys_get_temp_dir(), FilesystemIterator::SKIP_DOTS);
+        /** @var \SplFileInfo $fileinfo */
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), 'IT00484960588_ERKHK') === 0) {
+                @unlink($fileinfo->getRealPath());
+            }
+        }
+
+        DigitalDocument::parseFrom(__DIR__ . '/fixtures/IT00484960588_ERKHK.xml.p7m');
+
+        $fileCount = 0;
+        /** @var \SplFileInfo $fileinfo */
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), 'IT00484960588_ERKHK') === 0) {
+                $fileCount++;
+            }
+        }
+
+        $this->assertEquals(0, $fileCount);
     }
 
     /**
@@ -166,6 +202,23 @@ class ParseDigitalDocumentTest extends TestCase
         $line = $document->getLines()[0];
 
         $this->assertEquals('Pinco Pallo', $line->getAdministrativeContact());
+    }
+
+    /** @test */
+    public function reads_ddt_line_numbers()
+    {
+        $file = __DIR__ . '/fixtures/IT01234567890_21101.xml';
+        $xml = simplexml_load_file($file);
+        $eDocument = DigitalDocument::parseFrom($xml);
+
+        /** @var DigitalDocumentInstanceInterface $document */
+        $document = $eDocument->getDocumentInstances()[0];
+
+        /** @var ShippingLabel $shippingLabel */
+        $shippingLabel = $document->getShippingLabels()[0];
+
+        $this->assertCount(4, $shippingLabel->getLineNumberReferences());
+        $this->assertEquals(["10", "11", "12", "13"], $shippingLabel->getLineNumberReferences());
     }
 
     /** @test */
@@ -518,6 +571,74 @@ class ParseDigitalDocumentTest extends TestCase
         $this->assertTrue($eDocument->isValid(), json_encode($eDocument->validate()->errors()));
     }
 
+    /**
+     * @return void
+     * @test
+     */
+    public function validatesMissingVatIdTaxId(): void
+    {
+        $eDocument = new DigitalDocument();
+        $eDocument->setTransmissionFormat('FPR12');
+        $eDocument->setCountryCode('IT');
+        $eDocument->setSenderVatId('012345678910');
+        $eDocument->setSendingId('123');
+
+        $supplier = new Supplier();
+        $supplier
+            ->setCountryCode("IT")
+            ->setVatNumber('123123123')
+            ->setAddress((new Address())
+                ->setCountryCode('IT')
+                ->setCity("Milano")
+                ->setZip("20125")
+                ->setStreet("Piazza Duca d'Aosta")
+                ->setStreetNumber("1"))
+            ->setName("Nome")
+            ->setSurname("Cognome");
+        $eDocument->setSupplier($supplier);
+
+        $customer = new Customer();
+        $customer->setCountryCode("IT")
+            ->setName("Nome")
+            ->setSurname("Cognome");
+
+        $customer->setAddress((new Address())
+            ->setCountryCode('IT')
+            ->setCity("Milano")
+            ->setZip("20125")
+            ->setStreet("Piazza Duca d'Aosta")
+            ->setStreetNumber("1"));
+
+        $eDocument->setCustomer($customer);
+
+        $instance = new DigitalDocumentInstance();
+        $instance->setDocumentType('TD01');
+        $instance->setCurrency('EUR');
+        $instance->setDocumentDate((new DateTime())->format('Y-m-d'));
+        $instance->setDocumentNumber("1");
+
+        $line = new Line();
+        $line->setNumber(1);
+        $line->setDescription("Servizio xyz");
+        $line->setQuantity(1);
+        $line->setUnitPrice(100);
+        $line->setTaxPercentage(0);
+        $line->setTotal(100);
+        $line->setVatNature(VatNature::N2_2());
+        $instance->addLine($line);
+
+        $total = new Total();
+        $total->setTaxPercentage(0);
+        $total->setVatNature(VatNature::N2_2());
+        $total->setTotal(100);
+        $total->setTaxAmount(0);
+        $instance->addTotal($total);
+
+        $eDocument->addDigitalDocumentInstance($instance);
+
+        $this->assertTrue($eDocument->isValid());
+    }
+
     public function listOfInvoices(): array
     {
         // List of files that cannot be shared on GIT due to privacy reasons
@@ -537,9 +658,11 @@ class ParseDigitalDocumentTest extends TestCase
         }
 
         return array_merge([
+            'IT01234567890_21101.xml' => [__DIR__ . '/fixtures/IT01234567890_21101.xml'],
             'IT01234567890_11001.xml' => [__DIR__ . '/fixtures/IT01234567890_11001.xml'],
             'IT01234567890_11001_spazi.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_spazi.xml'],
             'IT01234567890_11001_slash.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_slash.xml'],
+            'IT01234567890_11001_entity.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_entity.xml'],
             'IT01234567890_11001_reso.xml' => [__DIR__ . '/fixtures/IT01234567890_11001_reso.xml'],
             'IT01234567890_11002.xml' => [__DIR__ . '/fixtures/IT01234567890_11002.xml'],
             'IT01234567890_FPR02.xml' => [__DIR__ . '/fixtures/IT01234567890_FPR02.xml'],

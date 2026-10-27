@@ -35,7 +35,9 @@ class LinesParser extends AbstractBodyParser
         $instance->setDescription($value);
 
         $value = $this->extractValueFromXmlElement($xml, 'Quantita');
-        $instance->setQuantity((float) $value);
+        if ($value !== null) {
+            $instance->setQuantity((float)$value);
+        }
 
         $value = $this->extractValueFromXmlElement($xml, 'UnitaMisura');
         $instance->setUnit($value);
@@ -55,6 +57,9 @@ class LinesParser extends AbstractBodyParser
         $value = $this->extractValueFromXmlElement($xml, 'AliquotaIVA');
         $instance->setTaxPercentage($value);
         
+        $value = $this->extractValueFromXmlElement($xml, 'Ritenuta');
+        $instance->setDeduction($value);
+
         $value = $this->extractValueFromXmlElement($xml, 'Ritenuta');
         $instance->setDeduction($value);
 

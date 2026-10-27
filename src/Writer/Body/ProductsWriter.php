@@ -116,11 +116,9 @@ class ProductsWriter extends AbstractBodyWriter
         $dettaglioLinee->addChild('Descrizione', SimpleXmlExtended::sanitizeText($line->getDescription()));
 
         $quantita = $line->getQuantity();
-        if ($quantita === null) {
-            $quantita = 1;
+        if ($quantita !== null) {
+            $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita, 8));
         }
-
-        $dettaglioLinee->addChild('Quantita', SimpleXmlExtended::sanitizeFloat($quantita, 8));
 
         if ($line->getUnit() !== null) {
             $dettaglioLinee->addChild('UnitaMisura', $line->getUnit());

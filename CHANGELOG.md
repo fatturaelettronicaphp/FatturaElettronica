@@ -2,6 +2,28 @@
 
 I cambiamenti essenziali a `FatturaElettronica` verranno documentati qui
 
+# 2.8.0
+- La libreria ora pulisce eventuali file temporanei generati durante il decoding
+
+# 2.7.0
+- Aggiornato il file xsd della fattura elettronica a 1.2.3
+- Aggiornato il file xsd della fattura semplificata a 1.0.2
+
+## 2.6.15
+- Fixed unwanted single quote during error parsing
+
+## 2.6.14
+- Risolto problema nella scrittura di documenti senza quantità prodotto
+
+## 2.6.12
+- Risolto problema nel parsing del RiferimentoNumeroLinea nel DatiDDT
+
+## 2.6.11
+- Risolto problema nel parsing del RiferimentoAmministrazione nel CedentePrestatore
+
+## 2.6.10
+- Risolto problema nel parsing della ritenuta
+
 ## 2.6.9
 - Possibilità di aggiungere allegati senza file
 

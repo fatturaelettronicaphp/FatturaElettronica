@@ -1,6 +1,6 @@
 # Validazione
 
-La libreria valida il file XML usando lo [Schema Ufficiale dell'Agenzia delle Entrate](https://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2.1/Schema_del_file_xml_FatturaPA_versione_1.2.1.xsd).
+La libreria valida il file XML usando lo [Schema Ufficiale dell'Agenzia delle Entrate](https://www.fatturapa.gov.it/it/norme-e-regole/documentazione-fattura-elettronica/formato-fatturapa/).
 
 ## Controllare la validità del documento
 ``` php
