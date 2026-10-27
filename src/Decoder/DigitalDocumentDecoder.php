@@ -31,24 +31,24 @@ class DigitalDocumentDecoder implements DigitalDocumentDecodeInterface
     {
         foreach ($this->decoders as $decoder) {
             $file = (new $decoder())->decode($filePath);
-    
-            if (!$file) {
+
+            if (! $file) {
                 continue;
             }
-    
+
             // cleanup temporary files
             $iterator = new FilesystemIterator(sys_get_temp_dir(), FilesystemIterator::SKIP_DOTS);
-    
+
             /** @var \SplFileInfo $fileinfo */
             foreach ($iterator as $fileinfo) {
                 if ($fileinfo->isFile() && stripos($fileinfo->getBasename(), basename($filePath)) === 0) {
                     @unlink($fileinfo->getRealPath());
                 }
             }
-    
+
             return $file;
         }
-    
+
         return null;
     }
 
